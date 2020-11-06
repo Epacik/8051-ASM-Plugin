@@ -1,0 +1,12 @@
+		{
+			"name": "keyword.other",
+			"match": "(?<=DJNZ\\s{0,}R[1-7],).*?(?=\\s)[^;]"
+		},
+		{
+			"name": "keyword.other",
+			"match": "(?<=CJNE\\sR{0,}[1-7],.*,).*?(?=\\s)[^;]"
+		},
+		{
+			"name": "keyword.other",
+			"match": "(?<=LCALL|ACALL|CALL|LJMP|SJMP\\s).*?(?=\\s)[^;]"
+		},

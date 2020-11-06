@@ -1,0 +1,12 @@
+{
+    "Add Accumulator": {
+        "prefix": ["ad", "add"],
+        "body": ["ADD A, ${1|#data,address,@R0,@R1,R0,R1,R2,R3,R4,R5,R6,R7|}"],
+        "description": "Add a value to Accumulator and save value to it"
+    },
+    "Add Accumulator With Carry": {
+        "prefix": ["adc", "addc"],
+        "body": ["ADDC A, ${1|#data,address,@R0,@R1,R0,R1,R2,R3,R4,R5,R6,R7|}"],
+        "description": "Add a value to Accumulator with carry and save value to it"
+    }
+}

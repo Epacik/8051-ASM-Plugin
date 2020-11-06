@@ -14,7 +14,9 @@ import {
 	CompletionItemKind,
 	TextDocumentPositionParams,
 	TextDocumentSyncKind,
-	InitializeResult
+	InitializeResult,
+	Hover,
+	MarkedString
 } from 'vscode-languageserver';
 
 import {
@@ -55,7 +57,8 @@ connection.onInitialize((params: InitializeParams) => {
 			// Tell the client that this server supports code completion.
 			completionProvider: {
 				resolveProvider: true
-			}
+			},
+			hoverProvider: true,
 		}
 	};
 	if (hasWorkspaceFolderCapability) {
@@ -146,35 +149,36 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	let problems = 0;
 	let diagnostics: Diagnostic[] = [];
 	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
-		problems++;
-		let diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Warning,
-			range: {
-				start: textDocument.positionAt(m.index),
-				end: textDocument.positionAt(m.index + m[0].length)
-			},
-			message: `${m[0]} is all uppercase.`,
-			source: 'ex'
-		};
-		if (hasDiagnosticRelatedInformationCapability) {
-			diagnostic.relatedInformation = [
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range)
-					},
-					message: 'Spelling matters'
-				},
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range)
-					},
-					message: 'Particularly for names'
-				}
-			];
-		}
-		diagnostics.push(diagnostic);
+		
+		// problems++;
+		// let diagnostic: Diagnostic = {
+		// 	severity: DiagnosticSeverity.Warning,
+		// 	range: {
+		// 		start: textDocument.positionAt(m.index),
+		// 		end: textDocument.positionAt(m.index + m[0].length)
+		// 	},
+		// 	message: `${m[0]} is all uppercase.`,
+		// 	source: 'ex'
+		// };
+		// if (hasDiagnosticRelatedInformationCapability) {
+		// 	diagnostic.relatedInformation = [
+		// 		{
+		// 			location: {
+		// 				uri: textDocument.uri,
+		// 				range: Object.assign({}, diagnostic.range)
+		// 			},
+		// 			message: 'Spelling matters'
+		// 		},
+		// 		{
+		// 			location: {
+		// 				uri: textDocument.uri,
+		// 				range: Object.assign({}, diagnostic.range)
+		// 			},
+		// 			message: 'Particularly for names'
+		// 		}
+		// 	];
+		// }
+		// diagnostics.push(diagnostic);
 	}
 
 	// Send the computed diagnostics to VSCode.
@@ -194,12 +198,12 @@ connection.onCompletion(
 		// info and always provide the same completion items.
 		return [
 			{
-				label: 'TypeScript',
+				label: 'ADD',
 				kind: CompletionItemKind.Text,
 				data: 1
 			},
 			{
-				label: 'JavaScript',
+				label: 'ADDC',
 				kind: CompletionItemKind.Text,
 				data: 2
 			}
@@ -221,6 +225,60 @@ connection.onCompletionResolve(
 		return item;
 	}
 );
+
+connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
+	// let doc : MarkedString[] = ["# Title","### description", JSON.stringify(params, null, " ")]
+	// return {
+	//   contents: doc
+	// }
+
+	const document = documents.get(params.textDocument.uri);
+	if(document == undefined) return undefined;
+
+    const start = {
+      line: params.position.line,
+      character: 0,
+    };
+    const end = {
+      line: params.position.line + 1,
+      character: 0,
+    };
+    const text = document.getText({ start, end });
+    const index = document.offsetAt(params.position) - document.offsetAt(start);
+  const word = getWord(text, index);
+
+    if (word !== '') {
+		let doc : MarkedString[] = ["# Title",`### ${word}`, `#### ${text}`]
+		return {
+			contents: doc,
+		};
+    }
+
+    return undefined;
+
+  });
+
+
+  function getWord(text: string, index: number) {
+    var startIndex = (function _this (pos) :number {
+        if (!text.substring(pos, pos + 1).match(/[\p{L}\p{N}_]/u)) {
+            return pos + 1;
+        } else if (pos === 0) {
+            return 0;
+        } else {
+            return _this(pos - 1);
+        }
+    })(index - 1);
+    var endIndex = (function _this (pos):number {
+        if (!text.substring(pos, pos + 1).match(/[\p{L}\p{N}_]/u) || pos === text.length) {
+            return pos;
+        } else {
+            return _this(pos + 1);
+        }
+    })(index + 1);
+
+    return text.substring(startIndex, endIndex);
+}
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events

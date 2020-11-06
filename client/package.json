@@ -1,13 +1,27 @@
 {
-	"name": "lsp-sample-client",
+	"name": "8051-asm-plugin-client",
 	"description": "VSCode part of a language server",
-	"author": "Microsoft Corporation",
+	"author": "Epat",
 	"license": "MIT",
 	"version": "0.0.1",
 	"publisher": "vscode",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": ""
+	},
+	"contributes": {
+		
+		"languages": [{
+			"id": "asm8051",
+			"extensions": [ ".asm", ".h51", ".a51" ],
+			"aliases": [ "8051 Assembly", "8051" ]
+		}],
+		"grammars": [{
+			"language": "asm8051",
+			"scopeName": "source.asm8051",
+			"path": "./syntaxes/asm.tmLanguage.json"
+		}]
+
 	},
 	"engines": {
 		"vscode": "^1.43.0"
