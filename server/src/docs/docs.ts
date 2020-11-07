@@ -13,16 +13,16 @@ export namespace docs {
 	export const getItems  = () : CompletionItem[] => {
 
 		if(List == undefined){
-			let list : CompletionItem[] = [];
+			let List : CompletionItem[] = [];
 
-			list = list.concat(arthmetic);
-			list = list.concat(boolean);
-			list = list.concat(dataTransfer);
-			list = list.concat(logical);
-			list = list.concat(programControl);
-			List = list;
+			List = List.concat(arthmetic);
+			List = List.concat(boolean);
+			List = List.concat(dataTransfer);
+			List = List.concat(logical);
+			List = List.concat(programControl);
+			
 		}
 		
-		return List;;	
+		return <CompletionItem[]>List;
 	}
 }
