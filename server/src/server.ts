@@ -1,7 +1,3 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
 import {
 	createConnection,
 	TextDocuments,
@@ -16,16 +12,21 @@ import {
 	TextDocumentSyncKind,
 	InitializeResult,
 	Hover,
-	MarkedString
+	MarkedString,
+	MarkupContent
 } from 'vscode-languageserver';
 
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
+import {docs} from './docs/docs'
+import {List} from 'linq-typescript'
+
+
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
-let connection = createConnection(ProposedFeatures.all);
+let connection = createConnection(ProposedFeatures.all );
 
 // Create a simple text document manager. 
 let documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
@@ -190,48 +191,36 @@ connection.onDidChangeWatchedFiles(_change => {
 	connection.console.log('We received an file change event');
 });
 
+
+
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
 	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-		// The pass parameter contains the position of the text document in
-		// which code complete got requested. For the example we ignore this
-		// info and always provide the same completion items.
-		return [
-			{
-				label: 'ADD',
-				kind: CompletionItemKind.Text,
-				data: 1
-			},
-			{
-				label: 'ADDC',
-				kind: CompletionItemKind.Text,
-				data: 2
-			}
-		];
+		
+		return docs.getItems();
+		// [
+		// 	{
+		// 		label: 'ADD',
+		// 		kind: CompletionItemKind.Text,
+		// 		data: 1
+		// 	},
+		// 	{
+		// 		label: 'ADDC',
+		// 		kind: CompletionItemKind.Text,
+		// 		data: 2
+		// 	}
+		// ];
 	}
 );
 
 // This handler resolves additional information for the item selected in
 // the completion list.
 connection.onCompletionResolve(
-	(item: CompletionItem): CompletionItem => {
-		if (item.data === 1) {
-			item.detail = 'TypeScript details';
-			item.documentation = 'TypeScript documentation';
-		} else if (item.data === 2) {
-			item.detail = 'JavaScript details';
-			item.documentation = 'JavaScript documentation';
-		}
-		return item;
-	}
+	(item: CompletionItem): CompletionItem => item
 );
 
 connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
-	// let doc : MarkedString[] = ["# Title","### description", JSON.stringify(params, null, " ")]
-	// return {
-	//   contents: doc
-	// }
-
+	
 	const document = documents.get(params.textDocument.uri);
 	if(document == undefined) return undefined;
 
@@ -245,10 +234,21 @@ connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
     };
     const text = document.getText({ start, end });
     const index = document.offsetAt(params.position) - document.offsetAt(start);
-  const word = getWord(text, index);
+	const word = getWord(text, index);
+
+	 
+
 
     if (word !== '') {
-		let doc : MarkedString[] = ["# Title",`### ${word}`, `#### ${text}`]
+		const item = new List<CompletionItem>(docs.getItems()).firstOrDefault(x => x.label.trim() === word.trim()); 
+		//console.log(item);
+
+		if(item === undefined) return undefined;
+		var det = item.detail !== undefined ? `\n#### ${item.detail}` : '';
+		var dc = item.documentation !== undefined ? `\n${(<MarkupContent>item.documentation).value}` : '';
+		//console.log(dc)
+
+		let doc : MarkedString[] = [`### ${item.label}${det}${dc}`]
 		return {
 			contents: doc,
 		};

@@ -58,11 +58,23 @@
 		"snippets": [
             {
                 "language": "asm8051",
-                "path": "./snippets/snippets.code-snippets"
+                "path": "./snippets/arthmetic.code-snippets"
             },
             {
                 "language": "asm8051",
-                "path": "./snippets/initsAndProcedures.code-snippets"
+                "path": "./snippets/boolean.code-snippets"
+			},
+			{
+                "language": "asm8051",
+                "path": "./snippets/dataTransfer.code-snippets"
+			},
+			{
+                "language": "asm8051",
+                "path": "./snippets/initsAndProgramControl.code-snippets"
+			},
+			{
+                "language": "asm8051",
+                "path": "./snippets/logical.code-snippets"
             }
         ]
 	},
