@@ -18,8 +18,6 @@ Clearing the Accumulator sets the Accumulator's value to 0.
 \`\`\`asm8051
 ADDC A, operand
 \`\`\`
-
-__Additional info__
 `.trim(),
 	},
 },

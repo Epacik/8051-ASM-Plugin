@@ -196,8 +196,9 @@ connection.onDidChangeWatchedFiles(_change => {
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
 	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-		
-		return docs.getItems();
+		var items = docs.getItems();
+		//console.log(items);
+		return items;
 		// [
 		// 	{
 		// 		label: 'ADD',
@@ -259,7 +260,7 @@ connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
   });
 
 
-  function getWord(text: string, index: number) {
+function getWord(text: string, index: number) {
     var startIndex = (function _this (pos) :number {
         if (!text.substring(pos, pos + 1).match(/[\p{L}\p{N}_]/u)) {
             return pos + 1;

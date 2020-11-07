@@ -56,13 +56,17 @@ Valid operands:
 			kind: MarkupKind.Markdown,
 			value: 
 `
-The SUBB instruction subtract the value of operand and the Carry Flag from the value of the Accumulator, leaving the resulting value in the Accumulator. The value operand is not affected.
+The SUBB instruction subtract the value of operand and the Carry Flag from the value of the Accumulator, leaving the resulting value in the Accumulator.
+The value operand is not affected.
 
-The Carry Bit (C) is set if a borrow was required for bit 7, otherwise it is cleared. In other words, if the unsigned value being subtracted is greater than the Accumulator the Carry Flag is set.
+The Carry Bit (C) is set if a borrow was required for bit 7, otherwise it is cleared.
+In other words, if the unsigned value being subtracted is greater than the Accumulator the Carry Flag is set.
 
-The Auxillary Carry (AC) bit is set if a borrow was required for bit 3, otherwise it is cleared. In other words, the bit is set if the low nibble of the value being subtracted was greater than the low nibble of the Accumulator.
+The Auxillary Carry (AC) bit is set if a borrow was required for bit 3, otherwise it is cleared.
+In other words, the bit is set if the low nibble of the value being subtracted was greater than the low nibble of the Accumulator.
 
-The Overflow (OV) bit is set if a borrow was required for bit 6 or for bit 7, but not both. In other words, the subtraction of two signed bytes resulted in a value outside the range of a signed byte (-128 to 127). Otherwise it is cleared.
+The Overflow (OV) bit is set if a borrow was required for bit 6 or for bit 7, but not both.
+In other words, the subtraction of two signed bytes resulted in a value outside the range of a signed byte (-128 to 127). Otherwise it is cleared.
 \nSyntax:\n
 
 \`\`\`asm8051
