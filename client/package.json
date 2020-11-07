@@ -10,18 +10,27 @@
 		"url": ""
 	},
 	"contributes": {
-		
-		"languages": [{
-			"id": "asm8051",
-			"extensions": [ ".asm", ".h51", ".a51" ],
-			"aliases": [ "8051 Assembly", "8051" ]
-		}],
-		"grammars": [{
-			"language": "asm8051",
-			"scopeName": "source.asm8051",
-			"path": "./syntaxes/asm.tmLanguage.json"
-		}]
-
+		"languages": [
+			{
+				"id": "asm8051",
+				"extensions": [
+					".asm",
+					".h51",
+					".a51"
+				],
+				"aliases": [
+					"8051 Assembly",
+					"8051"
+				]
+			}
+		],
+		"grammars": [
+			{
+				"language": "asm8051",
+				"scopeName": "source.asm8051",
+				"path": "./syntaxes/asm.tmLanguage.json"
+			}
+		]
 	},
 	"engines": {
 		"vscode": "^1.43.0"
