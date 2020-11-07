@@ -27,4 +27,5 @@ Syntax highlighting, snippets and documentation for 8051 Assembly language
 - If you want to debug the server as well use the launch configuration `Attach to Server`
 - In the [Extension Development Host] instance of VSCode, open a document in '8051 Assembly' language mode.
 
-#### This extention is based on LSP Extention example by Microsoft (https://github.com/microsoft/vscode-extension-samples/tree/master/lsp-sample)
+#### This extention is based on LSP Extention example by Microsoft which you can find here:
+https://github.com/microsoft/vscode-extension-samples/tree/master/lsp-sample
