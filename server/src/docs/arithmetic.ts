@@ -16,8 +16,8 @@ The ADD instruction adds a byte value to the accumulator and stores the results 
 ADD A, operand
 \`\`\`
 
-Possible operands:
-#number (e.g. #41h), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
+Valid operands:
+#number (e.g. #41H), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
 `.trim(),
 			
 		},
@@ -42,8 +42,8 @@ The **Overflow (OV)** bit is set if there is a carry-out of bit 6 or out of bit 
 ADDC A, operand
 \`\`\`
 
-Possible operands:
-#number (e.g. #41h), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
+Valid operands:
+#number (e.g. #41H), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
 `.trim(),
 			
 		},
