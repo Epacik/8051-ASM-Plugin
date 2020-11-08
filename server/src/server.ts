@@ -21,6 +21,7 @@ import {
 } from 'vscode-languageserver-textdocument';
 import {docs} from './docs/docs'
 import {List} from 'linq-typescript'
+import { diagnostics } from './diagnostics/diagnostics';
 
 
 
@@ -85,25 +86,25 @@ connection.onInitialized(() => {
 });
 
 // The example settings
-interface ExampleSettings {
+export interface DocSettings {
 	maxNumberOfProblems: number;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000 };
-let globalSettings: ExampleSettings = defaultSettings;
+const defaultSettings: DocSettings = { maxNumberOfProblems: 1000 };
+let globalSettings: DocSettings = defaultSettings;
 
 // Cache the settings of all open documents
-let documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
+let documentSettings: Map<string, Thenable<DocSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <ExampleSettings>(
+		globalSettings = <DocSettings>(
 			(change.settings.languageServerExample || defaultSettings)
 		);
 	}
@@ -112,7 +113,7 @@ connection.onDidChangeConfiguration(change => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
+function getDocumentSettings(resource: string): Thenable<DocSettings> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
@@ -142,48 +143,43 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	// In this simple example we get the settings for every validate run.
 	let settings = await getDocumentSettings(textDocument.uri);
 
-	// The validator creates diagnostics for all uppercase words length 2 and more
-	let text = textDocument.getText();
-	let pattern = /\b[A-Z]{2,}\b/g;
-	let m: RegExpExecArray | null;
-
-	let problems = 0;
-	let diagnostics: Diagnostic[] = [];
-	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
+	
+	let diags: Diagnostic[] = diagnostics.getDisgnostics(textDocument, settings);
+	// while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
 		
-		// problems++;
-		// let diagnostic: Diagnostic = {
-		// 	severity: DiagnosticSeverity.Warning,
-		// 	range: {
-		// 		start: textDocument.positionAt(m.index),
-		// 		end: textDocument.positionAt(m.index + m[0].length)
-		// 	},
-		// 	message: `${m[0]} is all uppercase.`,
-		// 	source: 'ex'
-		// };
-		// if (hasDiagnosticRelatedInformationCapability) {
-		// 	diagnostic.relatedInformation = [
-		// 		{
-		// 			location: {
-		// 				uri: textDocument.uri,
-		// 				range: Object.assign({}, diagnostic.range)
-		// 			},
-		// 			message: 'Spelling matters'
-		// 		},
-		// 		{
-		// 			location: {
-		// 				uri: textDocument.uri,
-		// 				range: Object.assign({}, diagnostic.range)
-		// 			},
-		// 			message: 'Particularly for names'
-		// 		}
-		// 	];
-		// }
-		// diagnostics.push(diagnostic);
-	}
+	// 	// problems++;
+	// 	// let diagnostic: Diagnostic = {
+	// 	// 	severity: DiagnosticSeverity.Warning,
+	// 	// 	range: {
+	// 	// 		start: textDocument.positionAt(m.index),
+	// 	// 		end: textDocument.positionAt(m.index + m[0].length)
+	// 	// 	},
+	// 	// 	message: `${m[0]} is all uppercase.`,
+	// 	// 	source: 'ex'
+	// 	// };
+	// 	// if (hasDiagnosticRelatedInformationCapability) {
+	// 	// 	diagnostic.relatedInformation = [
+	// 	// 		{
+	// 	// 			location: {
+	// 	// 				uri: textDocument.uri,
+	// 	// 				range: Object.assign({}, diagnostic.range)
+	// 	// 			},
+	// 	// 			message: 'Spelling matters'
+	// 	// 		},
+	// 	// 		{
+	// 	// 			location: {
+	// 	// 				uri: textDocument.uri,
+	// 	// 				range: Object.assign({}, diagnostic.range)
+	// 	// 			},
+	// 	// 			message: 'Particularly for names'
+	// 	// 		}
+	// 	// 	];
+	// 	// }
+	// 	// diagnostics.push(diagnostic);
+	// }
 
 	// Send the computed diagnostics to VSCode.
-	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: diags });
 }
 
 connection.onDidChangeWatchedFiles(_change => {
