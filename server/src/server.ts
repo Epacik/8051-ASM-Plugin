@@ -22,6 +22,7 @@ import {
 import {docs} from './docs/docs'
 import {List} from 'linq-typescript'
 import { diagnostics } from './diagnostics/diagnostics';
+import { debug } from './debug';
 
 
 
@@ -37,6 +38,10 @@ let hasWorkspaceFolderCapability: boolean = false;
 let hasDiagnosticRelatedInformationCapability: boolean = false;
 
 connection.onInitialize((params: InitializeParams) => {
+
+	debug.setOptions(new debug.DebugOptions({logLevel: debug.LogLevel.All}))
+
+
 	let capabilities = params.capabilities;
 
 	// Does the client support the `workspace/configuration` request?
@@ -145,38 +150,6 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
 	
 	let diags: Diagnostic[] = diagnostics.getDisgnostics(textDocument, settings);
-	// while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
-		
-	// 	// problems++;
-	// 	// let diagnostic: Diagnostic = {
-	// 	// 	severity: DiagnosticSeverity.Warning,
-	// 	// 	range: {
-	// 	// 		start: textDocument.positionAt(m.index),
-	// 	// 		end: textDocument.positionAt(m.index + m[0].length)
-	// 	// 	},
-	// 	// 	message: `${m[0]} is all uppercase.`,
-	// 	// 	source: 'ex'
-	// 	// };
-	// 	// if (hasDiagnosticRelatedInformationCapability) {
-	// 	// 	diagnostic.relatedInformation = [
-	// 	// 		{
-	// 	// 			location: {
-	// 	// 				uri: textDocument.uri,
-	// 	// 				range: Object.assign({}, diagnostic.range)
-	// 	// 			},
-	// 	// 			message: 'Spelling matters'
-	// 	// 		},
-	// 	// 		{
-	// 	// 			location: {
-	// 	// 				uri: textDocument.uri,
-	// 	// 				range: Object.assign({}, diagnostic.range)
-	// 	// 			},
-	// 	// 			message: 'Particularly for names'
-	// 	// 		}
-	// 	// 	];
-	// 	// }
-	// 	// diagnostics.push(diagnostic);
-	// }
 
 	// Send the computed diagnostics to VSCode.
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: diags });
@@ -193,20 +166,7 @@ connection.onDidChangeWatchedFiles(_change => {
 connection.onCompletion(
 	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
 		var items = docs.getItems();
-		//console.log(items);
 		return items;
-		// [
-		// 	{
-		// 		label: 'ADD',
-		// 		kind: CompletionItemKind.Text,
-		// 		data: 1
-		// 	},
-		// 	{
-		// 		label: 'ADDC',
-		// 		kind: CompletionItemKind.Text,
-		// 		data: 2
-		// 	}
-		// ];
 	}
 );
 
@@ -232,7 +192,7 @@ connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
     const text = document.getText({ start, end });
     const index = document.offsetAt(params.position) - document.offsetAt(start);
 	const word = getWord(text, index);
-
+	console.log(`word: ${word}`)
 	 
 
 
@@ -258,7 +218,7 @@ connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
 
 function getWord(text: string, index: number) {
     var startIndex = (function _this (pos) :number {
-        if (!text.substring(pos, pos + 1).match(/[\p{L}\p{N}_]/u)) {
+        if (!text.substring(pos, pos + 1).match(/[\p{L}\p{N}_.]/u)) {
             return pos + 1;
         } else if (pos === 0) {
             return 0;
@@ -267,7 +227,7 @@ function getWord(text: string, index: number) {
         }
     })(index - 1);
     var endIndex = (function _this (pos):number {
-        if (!text.substring(pos, pos + 1).match(/[\p{L}\p{N}_]/u) || pos === text.length) {
+        if (!text.substring(pos, pos + 1).match(/[\p{L}\p{N}_.]/u) || pos === text.length) {
             return pos;
         } else {
             return _this(pos + 1);

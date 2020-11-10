@@ -1,6 +1,8 @@
 import { CompletionItem, CompletionItemKind, MarkedString, MarkupContent, MarkupKind } from 'vscode-languageserver';
 
-
+/**
+ * List of documentation popups for arthmetic operations
+ */
 export const arthmetic : CompletionItem[]  = [
 	{
 		label: "ADD",

@@ -8,9 +8,19 @@ import { logical } from './logical';
 import { programControl } from './programControl';
 import { registers } from './registers';
 
+/**
+ * test
+ */
 export namespace docs {
+	/**
+	 * Array of CompletionItems used to store documentation popups 
+	 */
 	let List : CompletionItem[] | undefined = undefined;
 
+	
+	/**
+	 * @returns An array of CompletionItem
+	 */
 	export const getItems  = () : CompletionItem[] => {
 		if(List === undefined){
 			List = [];

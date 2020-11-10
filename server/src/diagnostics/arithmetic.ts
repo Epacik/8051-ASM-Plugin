@@ -43,8 +43,9 @@ export const arithmetic : Diag[] = [
 				x = x.substring(0, id.lastIndexOf(";")).trim();
 			}
 			
-
-			x = x.substring(0, id.lastIndexOf(",")).trim();
+			if(x.includes(",")){
+				x = x.substring(0, id.lastIndexOf(",")).trim();
+			}
 
 			let res = !x.endsWith("A");
 			

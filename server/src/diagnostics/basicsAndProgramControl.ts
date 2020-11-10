@@ -21,7 +21,7 @@ export const basicsAndProgramControl : Diag[] = [
 		DiagnosticSeverity.Error),
 	
 	new Diag(
-		/^\s{1,}(CALL|ACALL|LCALL)[\s\	]{1,}[A-Za-z_]{1,}/gm,
+		/^\s{1,}(CALL|ACALL|LCALL)[\s\	]{1,}[A-Za-z0-9_]{1,}/gm,
 		errors.missingLabel,
 		DiagnosticSeverity.Error,
 		(id:string, text:string) => {

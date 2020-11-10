@@ -4,6 +4,7 @@ import { boolean } from '../docs/boolean';
 type AdditionalTest = (id: string,text:string) => boolean;
 
 export class Diag {
+	
 	constructor(_pattern : RegExp, _message : string, _severity : DiagnosticSeverity, _additionalTest?:AdditionalTest, _relatedInformation?: DiagnosticRelatedInformation[]) {
 		this.severity = _severity;
 		this.message = _message;
