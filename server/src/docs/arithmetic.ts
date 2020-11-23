@@ -24,6 +24,8 @@ Valid operands:
 			
 		},
 	},
+
+	
 	{
 		label: "ADDC",
 		kind: CompletionItemKind.Keyword,
@@ -75,11 +77,104 @@ In other words, the subtraction of two signed bytes resulted in a value outside 
 SUBB A,operand
 \`\`\`
 
-Possible operands:
+Valid operands:
 #number (e.g. #41h), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
 `.trim(),
 			
 		},
-	}
+	},
+	{
+		label: "INC",
+		kind: CompletionItemKind.Keyword,
+		detail: "Increment Register",
+		documentation: {
+			kind: MarkupKind.Markdown,
+			value: 
+`
+INC increments the value of register by 1. If the initial value of register is 255 (0xFF Hex), incrementing the value will cause it to reset to 0. Note: The Carry Flag is NOT set when the value "rolls over" from 255 to 0.
+
+In the case of "INC DPTR", the value two-byte unsigned integer value of DPTR is incremented. If the initial value of DPTR is 65535 (0xFFFF Hex), incrementing the value will cause it to reset to 0. Again, the Carry Flag is NOT set when the value of DPTR "rolls over" from 65535 to 0
+\nSyntax:\n
+
+\`\`\`asm8051
+INC operand
+\`\`\`
+
+Valid operands:
+A, ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7, DPTR
+`.trim(),
+			
+		},
+	},
+	{
+		label: "DEC",
+		kind: CompletionItemKind.Keyword,
+		detail: "Decrement Register",
+		documentation: {
+			kind: MarkupKind.Markdown,
+			value: 
+`
+DEC decrements the value of register by 1. If the initial value of register is 0, decrementing the value will cause it to reset to 255 (0xFF Hex). Note: The Carry Flag is NOT set when the value "rolls over" from 0 to 255.
+
+\nSyntax:\n
+
+\`\`\`asm8051
+DEC operand
+\`\`\`
+
+Valid operands:
+A, ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7, DPTR
+`.trim(),
+			
+		},
+	},
+
+	{
+		label: "MUL",
+		kind: CompletionItemKind.Keyword,
+		detail: "Multiply Accumulator by B",
+		documentation: {
+			kind: MarkupKind.Markdown,
+			value: 
+`
+Multiples the unsigned value of the Accumulator by the unsigned value of the "B" register. The least significant byte of the result is placed in the Accumulator and the most-significant-byte is placed in the "B" register.
+
+The Carry Flag (C) is always cleared.
+
+The Overflow Flag (OV) is set if the result is greater than 255 (if the most-significant byte is not zero), otherwise it is cleared.
+
+\nSyntax:\n
+
+\`\`\`asm8051
+MUL AB
+\`\`\`
+`.trim(),
+			
+		},
+	},
+
+	{
+		label: "DIV",
+		kind: CompletionItemKind.Keyword,
+		detail: "Divide Accumulator by B",
+		documentation: {
+			kind: MarkupKind.Markdown,
+			value: 
+`
+Divides the unsigned value of the Accumulator by the unsigned value of the "B" register. The resulting quotient is placed in the Accumulator and the remainder is placed in the "B" register.
+
+The Carry flag (C) is always cleared.
+
+The Overflow flag (OV) is set if division by 0 was attempted, otherwise it is cleared.
+
+\nSyntax:\n
+
+\`\`\`asm8051
+DIV AB
+\`\`\`
+`.trim(),
+			
+		},
+	},
 
 ]

@@ -1,6 +1,6 @@
 {
 	"name": "8051-asm-plugin",
-	"description": "A language server example",
+	"description": "Language server with 8051 Assembly support",
 	"author": "Epat",
 	"license": "MIT",
 	"version": "1.0.0",
@@ -11,27 +11,29 @@
 	"publisher": "vscode-samples",
 	"categories": [],
 	"keywords": [
-		"multi-root ready"
 	],
+	"stopOnEntry": true,
 	"engines": {
 		"vscode": "^1.43.0"
 	},
 	"activationEvents": [
+		"*",
 		"onLanguage:asm8051"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
+		
 		"configuration": {
 			"type": "object",
-			"title": "Example configuration",
+			"title": "8051-asm-plugin",
 			"properties": {
-				"languageServerExample.maxNumberOfProblems": {
+				"asm8051.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"languageServerExample.trace.server": {
+				"asm8051.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [
@@ -41,6 +43,20 @@
 					],
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
+				},
+				"asm8051.kit": {
+					"scope": "window",
+					"type":"string",
+					"enum": [
+						"generic",
+						"DSM-51"
+					],
+					"enumDescriptions": [
+						"desc1",
+						"desc2"
+					],
+					"default": "generic",
+					"description": ""
 				}
 			}
 		},

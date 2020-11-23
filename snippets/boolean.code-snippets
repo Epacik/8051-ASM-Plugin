@@ -1,3 +1,32 @@
 {
-	
+    "Clear Register": {
+        "prefix": ["clr"],
+        "body": ["CLR ${1|A,C,address|}","$0"],
+        "description": "Clear Register"
+	},
+	"Set Bit": {
+        "prefix": ["setb"],
+        "body": ["SETB ${1|C,address|}","$0"],
+        "description": "Set Bit"
+    },
+    "Complement Register": {
+        "prefix": ["cpl"],
+        "body": ["CPL ${1|A,C,address|}","$0"],
+        "description": "Complement Register"
+    },
+    "Bitwise AND": {
+        "prefix": ["anl"],
+        "body": ["ANL ${1|address,A,C|}, ${2|#data,address,@R0,@R1,R0,R1,R2,R3,R4,R5,R6,R7,A|}","$0"],
+        "description": "Bitwise AND"
+    },
+    "Bitwise OR": {
+        "prefix": ["orl"],
+        "body": ["ORL ${1|address,A,C|}, ${2|#data,address,@R0,@R1,R0,R1,R2,R3,R4,R5,R6,R7,A|}","$0"],
+        "description": "Bitwise OR"
+    },
+    "Bitwise XOR": {
+        "prefix": ["xrl"],
+        "body": ["XRL ${1|address,A,C|}, ${2|#data,address,@R0,@R1,R0,R1,R2,R3,R4,R5,R6,R7,A|}","$0"],
+        "description": "Bitwise XOR"
+    },
 }

@@ -20,7 +20,12 @@
 			"name": "Attach to Server",
 			"port": 6969,
 			"restart": true,
-			"outFiles": ["${workspaceRoot}/server/out/**/*.js"]
+			"outFiles": ["${workspaceRoot}/server/out/**/*.js"],
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "watch"
+			}
+			
 		},
 		{
 			"name": "Language Server E2E Test",

@@ -5,7 +5,7 @@ import { errors } from './errors';
 export const arithmetic : Diag[] = [
 
 	new Diag(
-		/(ADD|ADDC|SUBB)\s{0,}A(.*)/gm,
+		/(ADD|ADDC|SUBB)\s{0,}A(.*)/gm, //TODO: sprawdź czy zmiana {0,} na * sprawi że będzie działać dokładnie tak samo
 		errors.missingComa,
 		DiagnosticSeverity.Error,
 		(id:string, text:string) => {
@@ -14,7 +14,7 @@ export const arithmetic : Diag[] = [
 	),
 
 	new Diag(
-		/(ADD|ADDC|SUBB)\s{0,}(.*)/gm,
+		/(ADD|ADDC|SUBB)\s{0,}(.*)/gm, //TODO: sprawdź czy zmiana {0,} na * sprawi że będzie działać dokładnie tak samo
 		errors.missingOprand,
 		DiagnosticSeverity.Error, 
 		(id:string, text:string) => {
@@ -33,7 +33,7 @@ export const arithmetic : Diag[] = [
 	),
 	
 	new Diag(
-		/(ADD|ADDC|SUBB)\s{0,}(.*)/gm,
+		/(ADD|ADDC|SUBB)\s{0,}(.*)/gm, //TODO: sprawdź czy zmiana {0,} na * sprawi że będzie działać dokładnie tak samo
 		`${errors.wrongOperand}, 'A' was expected`,
 		DiagnosticSeverity.Error, 
 		(id:string, text:string) => {

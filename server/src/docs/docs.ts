@@ -36,4 +36,9 @@ export namespace docs {
 		
 		return <CompletionItem[]>List;
 	}
+
+	export const getSystemSpecificSubroutines = () : CompletionItem[] => {
+
+		return [];
+	}
 }

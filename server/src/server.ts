@@ -93,6 +93,7 @@ connection.onInitialized(() => {
 // The example settings
 export interface DocSettings {
 	maxNumberOfProblems: number;
+	
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
@@ -126,8 +127,9 @@ function getDocumentSettings(resource: string): Thenable<DocSettings> {
 	if (!result) {
 		result = connection.workspace.getConfiguration({
 			scopeUri: resource,
-			section: 'languageServerExample'
+			section: 'asm8051'
 		});
+		console.log(result);
 		documentSettings.set(resource, result);
 	}
 	return result;
