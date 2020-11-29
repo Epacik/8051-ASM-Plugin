@@ -93,14 +93,16 @@ connection.onInitialized(() => {
 // The example settings
 export interface DocSettings {
 	maxNumberOfProblems: number;
-	
+	kit: string;
+
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: DocSettings = { maxNumberOfProblems: 1000 };
+const defaultSettings: DocSettings = { maxNumberOfProblems: 1000, kit: "generic",  };
 let globalSettings: DocSettings = defaultSettings;
+export const getGlobalSettings = () : DocSettings => { return globalSettings; }
 
 // Cache the settings of all open documents
 let documentSettings: Map<string, Thenable<DocSettings>> = new Map();
@@ -129,7 +131,7 @@ function getDocumentSettings(resource: string): Thenable<DocSettings> {
 			scopeUri: resource,
 			section: 'asm8051'
 		});
-		console.log(result);
+		debug.info(JSON.stringify(result, null, " "));
 		documentSettings.set(resource, result);
 	}
 	return result;
@@ -149,7 +151,9 @@ documents.onDidChangeContent(change => {
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	// In this simple example we get the settings for every validate run.
 	let settings = await getDocumentSettings(textDocument.uri);
-
+	globalSettings = settings;
+	debug.info("settings: ");
+	debug.info(settings);
 	
 	let diags: Diagnostic[] = diagnostics.getDisgnostics(textDocument, settings);
 

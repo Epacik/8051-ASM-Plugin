@@ -1,6 +1,6 @@
 import { DiagnosticSeverity } from 'vscode-languageserver';
 import { Diag } from './Diag';
-import { errors } from './errors';
+import { errors } from '../constants/errors';
 
 export const arithmetic : Diag[] = [
 

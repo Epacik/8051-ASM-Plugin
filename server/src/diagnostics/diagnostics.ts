@@ -1,22 +1,26 @@
 import { Diagnostic, DiagnosticRelatedInformation, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
+import { debug } from '../debug';
 import { DocSettings } from "../server";
 import { arithmetic } from './arithmetic';
 import { basicsAndProgramControl } from './basicsAndProgramControl';
 import { Diag } from './Diag';
 
 export namespace diagnostics{
+	let currentKit : string = "generic";
+
 	export const getDisgnostics = (textDocument: TextDocument ,_settings : DocSettings) : Diagnostic[] => {
 		let diag: Diagnostic[] = [];
 		let txt = textDocument.getText();
 
-		if(diags == undefined){
+		if(diags == undefined || _settings.kit != currentKit){
+			debug.info("getting new disgnostics")
+			currentKit = _settings.kit;
 			diags = [];
 			diags = diags.concat(basicsAndProgramControl);
 			diags = diags.concat(arithmetic);
 		}
 
 		diag = diag.concat(generateDiags(txt, _settings, textDocument));
-
 
 		return diag;
 	}

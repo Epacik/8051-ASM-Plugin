@@ -1,12 +1,10 @@
 import { Diagnostic, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
 import { DocSettings } from '../server';
 import { Diag } from './Diag';
-import { errors } from './errors';
-
-
-
-
-
+import { errors } from '../constants/errors';
+import { kits } from '../constants/kits';
+import { getKitLabels } from './kitSpecificDiags/kitSpecificLabels';
+import { debug } from '../debug';
 
 
 export const basicsAndProgramControl : Diag[] = [
@@ -37,12 +35,23 @@ export const basicsAndProgramControl : Diag[] = [
 
 			label = label.trim();
 
+			debug.info(`current label: ${label}`);
+
+			if(getKitLabels().includes(label)) {
+				debug.info("found label in predefined ones")
+				return false;
+			}
 			//check if label exists
-			let exists = text.includes(`${label}:`)
+			let exists = text.includes(`${label}:`);
+
+			//if()
+
 			//check is whitespaces exists between new line and label
 			let x = (new RegExp(`[^\\S\\r\\n](${label})+:`, "gm"));
 
 			let matches = x.exec(text);
+			debug.info(`exists: ${exists}`);
+			debug.info(`matches: ${matches}`);
 
 			return matches != null || !exists;
 		}
