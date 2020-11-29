@@ -83,9 +83,10 @@ export namespace debug {
 	 * Prints log in console
 	 * @param text Text to print in console
 	 */
-	export const log = (text : string)=>{
+	export const log = (text : string | object)=>{
 		//return if not configured or logLevel is not allowing to log
 		if (options == undefined || options == null || !Enum.hasFlag(options.logLevel, LogLevel.Logs)) return;
+		if(typeof text != "string") text = JSON.stringify(text, null, "\t");
 		console.log(`Log: ${text}`);
 	}
 
@@ -93,9 +94,10 @@ export namespace debug {
 	 * Prints warning in console
 	 * @param text Text to print in console
 	 */
-	export const warn = (text : string)=>{
+	export const warn = (text : string | object)=>{
 		//return if not configured or logLevel is not allowing to warn
 		if (options == undefined || options == null || !Enum.hasFlag(options.logLevel, LogLevel.Warns)) return;
+		if(typeof text != "string") text = JSON.stringify(text, null, "\t");
 		console.log(`!Warn!: ${text}`);
 	}
 
@@ -103,9 +105,10 @@ export namespace debug {
 	 * Prints error in console
 	 * @param text Text to print in console
 	 */
-	export const error = (text : string)=>{
+	export const error = (text : string | object)=>{
 		//return if not configured or logLevel is not allowing to error
 		if (options == undefined || options == null || !Enum.hasFlag(options.logLevel, LogLevel.Errors)) return;
+		if(typeof text != "string") text = JSON.stringify(text, null, "\t");
 		console.log(`!!!ERROR!!!: ${text}`);
 	}
 
@@ -113,9 +116,10 @@ export namespace debug {
 	 * Prints information in console
 	 * @param text Text to print in console
 	 */
-	export const info = (text : string)=>{
+	export const info = (text : string | object)=>{
 		//return if not configured or logLevel is not allowing to error
 		if (options == undefined || options == null || !Enum.hasFlag(options.logLevel, LogLevel.Info)) return;
+		if(typeof text != "string") text = JSON.stringify(text, null, "\t");
 		console.log(`Info: ${text}`);
 	}
 }
