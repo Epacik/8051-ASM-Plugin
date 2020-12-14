@@ -52,11 +52,21 @@
 						"DSM-51"
 					],
 					"enumDescriptions": [
-						"desc1",
-						"desc2"
+						"Turns on documentation and diagnostics for assembly instructions only",
+						"Turns on documentation and diagnostics for assembly instructions and subroutines available in DSM-51"
 					],
 					"default": "generic",
-					"description": ""
+					"description": "Changes available set of documentation and diagnostics"
+				},
+				"asm8051.language": {
+					"scope": "window",
+					"type":"string",
+					"enum": [
+						"english",
+						"polski"
+					],
+					"default": "english",
+					"description": "Changes language of showed documentation, diagnostics, errors and more"
 				}
 			}
 		},
