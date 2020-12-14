@@ -176,5 +176,25 @@ DIV AB
 			
 		},
 	},
+	{
+		label: "DA",
+		kind: CompletionItemKind.Keyword,
+		detail: "Decimal Adjust Accumulator",
+		documentation: {
+			kind: MarkupKind.Markdown,
+			value: 
+`
+DA adjusts the contents of the Accumulator to correspond to a BCD (Binary Coded Decimal) number after two BCD numbers have been added by the ADD or ADDC instruction. If the carry bit is set or if the value of bits 0-3 exceed 9, 0x06 is added to the accumulator. If the carry bit was set when the instruction began, or if 0x06 was added to the accumulator in the first step, 0x60 is added to the accumulator.
 
+The Carry bit (C) is set if the resulting value is greater than 0x99, otherwise it is cleared.
+
+\nSyntax:\n
+
+\`\`\`asm8051
+DA A
+\`\`\`
+`.trim(),
+			
+		},
+	},
 ]
