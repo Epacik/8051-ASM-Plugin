@@ -1,8 +1,6 @@
-import { Diagnostic, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
-import { DocSettings } from '../server';
+import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
 import { Diag } from './Diag';
 import { errors } from '../constants/errors';
-import { kits } from '../constants/kits';
 import { getKitLabels } from './kitSpecificDiags/kitSpecificLabels';
 import { debug } from '../debug';
 
