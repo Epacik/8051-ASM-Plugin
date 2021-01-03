@@ -14,18 +14,26 @@ export const basicsAndProgramControl : Diag[] = [
 		DiagnosticSeverity.Error),
 
 	new Diag(
-		/^\n\w+.*(?<!:)$/gm,
+		/^\w+.*(?<!:)$/gm,
 		errors.instructionNoWhitespace,
 		DiagnosticSeverity.Error),
 	
 	new Diag(
-		/^\s{1,}(CALL|ACALL|LCALL)[\s\	]{1,}[A-Za-z0-9_]{1,}/gm,
+		/\b(CALL|ACALL|LCALL|SJMP|JMP|AJMP|LJMP)\b[\s\	]{1,}[A-Za-z0-9_]{1,}/gm,
 		errors.missingLabel,
 		DiagnosticSeverity.Error,
 		(id:string, text:string) => {
 
 			//get name of the label
-			let label = id.substring(id.lastIndexOf(" "));
+			let label = id
+						.replace("LCALL", "")
+						.replace("ACALL", "")
+						.replace("CALL", "")
+						.replace("SJMP", "")
+						.replace("AJMP", "")
+						.replace("LJMP", "")
+						.replace("JMP", "")
+						.trim();
 			if(label.includes("CALL")){
 				label = id.substring(id.lastIndexOf("\t"));
 			}

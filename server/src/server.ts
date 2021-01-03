@@ -23,6 +23,7 @@ import {docs} from './docs/docs'
 import {List} from 'linq-typescript'
 import { diagnostics } from './diagnostics/diagnostics';
 import { debug } from './debug';
+import { errors } from './constants/errors';
 
 
 
@@ -94,13 +95,13 @@ connection.onInitialized(() => {
 export interface DocSettings {
 	maxNumberOfProblems: number;
 	kit: string;
-
+	language:string;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: DocSettings = { maxNumberOfProblems: 1000, kit: "generic",  };
+const defaultSettings: DocSettings = { maxNumberOfProblems: 1000, kit: "generic", language: "english"  };
 let globalSettings: DocSettings = defaultSettings;
 export const getGlobalSettings = () : DocSettings => { return globalSettings; }
 
@@ -155,6 +156,8 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	debug.info("settings: ");
 	debug.info(settings);
 	
+	errors.setLang(settings.language);
+
 	let diags: Diagnostic[] = diagnostics.getDisgnostics(textDocument, settings);
 
 	// Send the computed diagnostics to VSCode.
