@@ -1,0 +1,52 @@
+     1  0000: 02 01 00        LJMP  START
+     2  0100:                 ORG  100H
+     3  0100:           START:
+     4  0100: 12 81 0C        CALL  LCD_CLR
+     5  0103: 74 00           MOV A, #0
+     6  0105:           LOOP:
+     7  0105: FA            MOV R2, A ; zapisanie heksadecymalnej wartości w R2, żeby przeliczenie na BCD nie zniszczyło jej
+     8  0106: 12 01 1F      CALL HTB 
+     9  0109: 12 81 04      CALL  WRITE_HEX
+    10                  
+    11  010C: EA            MOV A, R2 ; przywróć wartość do A i inkrementuj ją
+    12  010D: 04            INC A 
+    13                  
+    14  010E: B4 64 02      CJNE A, #64H, AFTER_RESET ; Jeśli dotrzemy do 99/64H to zresetuj A, jeśli nie skocz do AFTER_RESET
+    15  0111: 74 00         MOV A, #0
+    16                  
+    17  0113:           AFTER_RESET:
+    18                  
+    19  0113: FA            MOV R2, A
+    20  0114: 74 05         MOV  A, #5 ;poczekaj 500ms
+    21  0116: 12 81 12      CALL DELAY_100MS
+    22                  
+    23  0119: 12 81 0C      CALL  LCD_CLR ;wyczyść ekran
+    24  011C: EA            MOV  A, R2
+    25                  
+    26  011D: 80 E6         SJMP  LOOP
+    27                  
+    28                  
+    29  011F:           HTB:
+    30                  	
+    31  011F: 78 00         MOV R0,#00h 	
+    32  0121: 79 00         MOV R1,#00h 	
+    33  0123: B4 00 01      CJNE A,#00h,CALC_HTB 	
+    34  0126: 22            RET 	
+    35                  	
+    36                  
+    37  0127:           CALC_HTB:
+    38                  	
+    39                      ;DIV C 	
+    40  0127: 75 F0 64      MOV B,#100 	; dzielenie przez 100
+    41  012A: 84            DIV AB 	
+    42  012B: F8            MOV R0,A 	; zapisz Akumulator do R0
+    43                      ;DIV C 	
+    44  012C: E5 F0         MOV A,B 	
+    45  012E: 75 F0 0A      MOV B,#10 	; podziel przez 10
+    46  0131: 84            DIV AB 	
+    47  0132: C4            SWAP A 	
+    48  0133: F9            MOV R1,A 	; zapisz dziesiątki do R1
+    49  0134: E5 F0         MOV A,B 	
+    50  0136: 49            ORL A,R1 	
+    51  0137: F9            MOV R1,A 	;zapisz jedności do R1
+    52  0138: 22            RET

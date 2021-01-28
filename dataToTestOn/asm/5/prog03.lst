@@ -1,0 +1,23 @@
+     1        0030      ZNAKI     EQU    30H
+     2  0000: 02 01 00        LJMP  START
+     3  0100:                 ORG  100H
+     4  0100:           START:
+     5  0100: 75 30 5B        MOV  ZNAKI, #01011011B
+     6  0103: 7B 15           MOV  R3, #010101B
+     7  0105:           START2:
+     8  0105: 7A 00           MOV  R2, #0
+     9  0107:           WYSW:
+    10  0107: D2 96           SETB  P1.6
+    11  0109: 78 30           MOV  R0, #CSDS
+    12  010B: EB              MOV  A, R3
+    13  010C: F2              MOVX  @R0, A
+    14  010D: 78 38           MOV  R0, #CSDB
+    15                        ;MOV  R1, #ZNAKI
+    16  010F: E5 30           MOV  A, ZNAKI
+    17  0111: F2              MOVX  @R0, A
+    18  0112: C2 96           CLR  P1.6
+    19  0114: 74 01           MOV  A, #1
+    20  0116: 12 81 10        CALL  DELAY_MS
+    21  0119: 0A              INC  R2
+    22  011A: BA 06 EA        CJNE  R2, #6, WYSW
+    23  011D: 80 E6           SJMP  START2

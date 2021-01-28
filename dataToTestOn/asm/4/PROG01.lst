@@ -1,0 +1,14 @@
+     1        0024      MRUG      EQU    00100100B
+     2  0000: 02 01 00        LJMP  START
+     3  0100:                 ORG  100H
+     4  0100:           START:
+     5  0100: 7A 24           MOV  R2, #MRUG
+     6  0102: D3              SETB C
+     7  0103:           DIODA:
+     8                        ;MOV  P1.7, C
+     9  0103: 74 05           MOV  A, #5
+    10  0105: 12 81 12        CALL  DELAY_100MS
+    11  0108: EA              MOV  A, R2
+    12  0109: 33              RLC  A
+    13  010A: FA              MOV  R2, A
+    14  010B: 80 F6           SJMP  DIODA

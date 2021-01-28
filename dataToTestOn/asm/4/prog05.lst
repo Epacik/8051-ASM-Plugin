@@ -1,0 +1,49 @@
+     1  0000: 02 01 00      LJMP  START
+     2  0100:               ORG  100H
+     3  0100:           START:
+     4  0100: 12 81 0C      CALL  LCD_CLR
+     5  0103:           KLAWISZ:
+     6  0103: 12 81 1C      CALL  WAIT_KEY
+     7  0106: FA            MOV R2, A
+     8  0107: 74 00         MOV A, #0
+     9  0109:           LOOP:
+    10                  
+    11  0109: BA 00 02      CJNE R2, #0H, CALC
+    12  010C: 80 04         SJMP END_LOOP
+    13                  
+    14  010E:           CALC:
+    15                      
+    16  010E: 2A            ADD A, R2
+    17                  
+    18  010F: 1A            DEC R2
+    19                  
+    20  0110: 80 F7         SJMP LOOP
+    21                  
+    22  0112:           END_LOOP:
+    23                  
+    24  0112: 12 01 1A      CALL HTB 
+    25  0115: 12 81 04      CALL WRITE_HEX
+    26                  
+    27  0118: 80 E9         SJMP  KLAWISZ
+    28                  
+    29                  
+    30  011A:           HTB:
+    31  011A: 78 00         MOV R0,#00h 	
+    32  011C: 79 00         MOV R1,#00h 	
+    33  011E: B4 00 01      CJNE A,#00h,CALC_HTB 	
+    34  0121: 22            RET
+    35                  	
+    36                  
+    37  0122:           CALC_HTB:
+    38  0122: 75 F0 64      MOV B,#100 	; dzielenie przez 100
+    39  0125: 84            DIV AB 	
+    40  0126: F8            MOV R0,A 	; zapisz Akumulator do R0
+    41  0127: E5 F0         MOV A,B 	
+    42  0129: 75 F0 0A      MOV B,#10 	; podziel przez 10
+    43  012C: 84            DIV AB 	
+    44  012D: C4            SWAP A 	
+    45  012E: F9            MOV R1,A 	; zapisz dziesiątki do R1
+    46  012F: E5 F0         MOV A,B 	
+    47  0131: 49            ORL A,R1 	
+    48  0132: F9            MOV R1,A 	;zapisz jedności do R1
+    49  0133: 22            RET

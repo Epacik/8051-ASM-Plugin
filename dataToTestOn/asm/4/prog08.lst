@@ -1,0 +1,79 @@
+     1                  
+     2  0000: 02 01 00      LJMP  START
+     3  0100:               ORG  100H
+     4  0100:           START:
+     5                  
+     6  0100: 74 00         MOV A, #0
+     7  0102: 12 81 1C      CALL  WAIT_KEY ; 'lewa' cyfra
+     8                  
+     9  0105: 75 F0 0A      MOV B, #10
+    10  0108: A4            MUL AB
+    11                      
+    12                  
+    13                      ;przenieś zawartość do R3
+    14  0109: FB            MOV  R3, A
+    15                  
+    16                      ; pobierz prawą cyfrę
+    17  010A: 12 81 1C      CALL  WAIT_KEY
+    18                      
+    19  010D: 2B            ADD A, R3
+    20                  
+    21  010E: FA            MOV  R2, A
+    22  010F: 12 81 0C      CALL  LCD_CLR
+    23  0112: EA            MOV  A, R2
+    24                  
+    25  0113: FD            MOV R5, A
+    26  0114: 74 00         MOV A, #0
+    27                  
+    28  0116: 12 81 1C      CALL  WAIT_KEY ; 'lewa' cyfra
+    29                  
+    30  0119: 75 F0 0A      MOV B, #10
+    31  011C: A4            MUL AB
+    32                      
+    33                  
+    34                      ;przenieś zawartość do R3
+    35  011D: FB            MOV  R3, A
+    36                  
+    37                      ; pobierz prawą cyfrę
+    38  011E: 12 81 1C      CALL  WAIT_KEY
+    39                      
+    40  0121: 2B            ADD A, R3
+    41                  
+    42  0122: FA            MOV  R2, A
+    43  0123: 12 81 0C      CALL  LCD_CLR
+    44  0126: EA            MOV  A, R2
+    45  0127: FE            MOV  R6, A
+    46  0128: ED            MOV A, R5
+    47  0129: 9E            SUBB A, R6
+    48  012A: 12 01 32      CALL HTB 
+    49  012D: 12 81 04      CALL  WRITE_HEX
+    50                  
+    51  0130:           KLAWISZ:
+    52  0130: 80 FE         SJMP  KLAWISZ
+    53                  
+    54                  
+    55  0132:           HTB:
+    56  0132: 78 00         MOV R0,#00h 	
+    57  0134: 79 00         MOV R1,#00h 	
+    58  0136: B4 00 01      CJNE A,#00h,CALC_HTB 	
+    59  0139: 22            RET
+    60                  	
+    61                  
+    62  013A:           CALC_HTB:
+    63  013A: 75 F0 64      MOV B,#100 	; dzielenie przez 100
+    64  013D: 84            DIV AB 	
+    65  013E: F8            MOV R0,A 	; zapisz Akumulator do R0
+    66  013F: E5 F0         MOV A,B 	
+    67  0141: 75 F0 0A      MOV B,#10 	; podziel przez 10
+    68  0144: 84            DIV AB 	
+    69  0145: C4            SWAP A 	
+    70  0146: F9            MOV R1,A 	; zapisz dziesiątki do R1
+    71  0147: E5 F0         MOV A,B 	
+    72  0149: 49            ORL A,R1 	
+    73  014A: F9            MOV R1,A 	;zapisz jedności do R1
+    74  014B: 22            RET
+    75                  
+    76                  
+    77  014C:           NUM_1:
+    78                      
+    79  014C: 22            RET

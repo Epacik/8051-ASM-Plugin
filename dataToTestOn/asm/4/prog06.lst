@@ -1,0 +1,55 @@
+     1        0030      ARR	EQU	30H
+     2  0000: 02 01 00      LJMP  START
+     3  0100:               ORG  100H
+     4  0100:           START:
+     5  0100: 75 30 01      MOV  ARR,#1
+     6  0103: 75 31 02  	MOV  ARR+1,#2
+     7  0106: 75 32 03  	MOV  ARR+2,#3
+     8  0109: 75 33 04      MOV  ARR+3,#4
+     9  010C: 75 34 05  	MOV  ARR+4,#5
+    10  010F: 75 35 06      MOV  ARR+5,#6
+    11  0112: 75 36 07      MOV  ARR+6,#7
+    12  0115: 75 37 08  	MOV  ARR+7,#8
+    13  0118: 75 38 09      MOV  ARR+8,#9
+    14  011B: 75 39 0A  	MOV  ARR+9,#10
+    15                  
+    16  011E: 78 30         MOV R0, #ARR
+    17  0120: 12 81 0C      CALL LCD_CLR
+    18  0123: 74 00         MOV A, #0
+    19                  
+    20  0125:           LOOP:
+    21  0125: B8 3A 02      CJNE R0, #ARR+10, CALC
+    22  0128: 80 04         SJMP END_LOOP
+    23  012A:           CALC:
+    24  012A: 26            ADD A, @R0
+    25  012B: 08            INC R0
+    26  012C: 80 F7         SJMP LOOP
+    27  012E:           END_LOOP:
+    28                  
+    29  012E: 12 01 36      CALL HTB 
+    30  0131: 12 81 04      CALL WRITE_HEX
+    31                  
+    32  0134:           KLAWISZ:
+    33  0134: 80 FE         SJMP  KLAWISZ
+    34                  
+    35                  
+    36  0136:           HTB:
+    37  0136: 78 00         MOV R0,#00h 	
+    38  0138: 79 00         MOV R1,#00h 	
+    39  013A: B4 00 01      CJNE A,#00h,CALC_HTB 	
+    40  013D: 22            RET
+    41                  	
+    42                  
+    43  013E:           CALC_HTB:
+    44  013E: 75 F0 64      MOV B,#100 	; dzielenie przez 100
+    45  0141: 84            DIV AB 	
+    46  0142: F8            MOV R0,A 	; zapisz Akumulator do R0
+    47  0143: E5 F0         MOV A,B 	
+    48  0145: 75 F0 0A      MOV B,#10 	; podziel przez 10
+    49  0148: 84            DIV AB 	
+    50  0149: C4            SWAP A 	
+    51  014A: F9            MOV R1,A 	; zapisz dziesiątki do R1
+    52  014B: E5 F0         MOV A,B 	
+    53  014D: 49            ORL A,R1 	
+    54  014E: F9            MOV R1,A 	;zapisz jedności do R1
+    55  014F: 22            RET

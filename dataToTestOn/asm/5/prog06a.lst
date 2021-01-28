@@ -1,0 +1,99 @@
+     1        0030      ZNAKI     EQU    30H
+     2  0000: 02 01 00      LJMP  START
+     3  0100:               ORG  100H
+     4  0100:           START:
+     5  0100: 75 30 5B      MOV  ZNAKI, #01011011B
+     6  0103: 7B 3F         MOV  R3, #111111B
+     7  0105:           START2:
+     8  0105: 7A 00         MOV  R2, #0
+     9  0107:           WYSW:
+    10  0107: D2 96         SETB  P1.6
+    11  0109: 78 30         MOV  R0, #CSDS
+    12  010B: EB            MOV  A, R3
+    13  010C: F2            MOVX  @R0, A
+    14  010D: 78 38         MOV  R0, #CSDB
+    15                      ;MOV  R1, #ZNAKI
+    16                      ;MOV  A, @R1
+    17  010F: 12 81 1C      CALL WAIT_KEY
+    18  0112: 12 01 23      CALL HEX_TO_7S
+    19  0115: F2            MOVX  @R0, A
+    20  0116: C2 96         CLR  P1.6
+    21  0118: 74 64         MOV  A, #100
+    22  011A: 12 81 10      CALL  DELAY_MS
+    23  011D: 0A            INC  R2
+    24  011E: BA 06 E6      CJNE  R2, #6, WYSW
+    25  0121: 80 E2         SJMP  START2
+    26                  
+    27  0123:           HEX_TO_7S:
+    28                      ; BRUTE FORCE TIME!
+    29                      ;czy to 0
+    30  0123: B4 00 03      CJNE A, #0H, CHECK1
+    31  0126: 74 3F         MOV A, #00111111B
+    32  0128: 22            RET
+    33                  
+    34                      ;czy to 1?
+    35  0129:           CHECK1:
+    36  0129: B4 01 03      CJNE A, #1, CHECK2
+    37  012C: 74 06         MOV A, #00000110B
+    38  012E: 22            RET
+    39                  
+    40  012F:           CHECK2:
+    41  012F: B4 02 03      CJNE A, #2, CHECK3
+    42  0132: 74 5B         MOV A, #01011011B
+    43  0134: 22            RET
+    44                  
+    45  0135:           CHECK3:
+    46  0135: B4 03 03      CJNE A, #3, CHECK4
+    47  0138: 74 4F         MOV A, #01001111B
+    48  013A: 22            RET
+    49                  
+    50  013B:           CHECK4:
+    51  013B: B4 04 03      CJNE A, #4, CHECK5
+    52  013E: 74 66         MOV A, #01100110B
+    53  0140: 22            RET
+    54                  
+    55  0141:           CHECK5:
+    56  0141: B4 05 03      CJNE A, #5, CHECK6
+    57  0144: 74 6D         MOV A, #01101101B
+    58  0146: 22            RET
+    59                  
+    60  0147:           CHECK6:
+    61  0147: B4 06 03      CJNE A, #6, CHECK7
+    62  014A: 74 7D         MOV A, #01111101B
+    63  014C: 22            RET
+    64                  
+    65  014D:           CHECK7:
+    66  014D: B4 07 03      CJNE A, #7, CHECK8
+    67  0150: 74 07         MOV A, #00000111B
+    68  0152: 22            RET
+    69  0153:           CHECK8:
+    70  0153: B4 08 03      CJNE A, #8, CHECK9
+    71  0156: 74 7F         MOV A, #01111111B
+    72  0158: 22            RET
+    73  0159:           CHECK9:
+    74  0159: B4 09 03      CJNE A, #9, CHECK10
+    75  015C: 74 6F         MOV A, #01101111B
+    76  015E: 22            RET
+    77  015F:           CHECK10:
+    78  015F: B4 0A 03      CJNE A, #10, CHECK11
+    79  0162: 74 77         MOV A, #01110111B
+    80  0164: 22            RET
+    81  0165:           CHECK11:
+    82  0165: B4 0B 03      CJNE A, #11, CHECK12
+    83  0168: 74 7C         MOV A, #01111100B
+    84  016A: 22            RET
+    85  016B:           CHECK12:
+    86  016B: B4 0C 03      CJNE A, #12, CHECK13
+    87  016E: 74 39         MOV A, #00111001B
+    88  0170: 22            RET
+    89  0171:           CHECK13:
+    90  0171: B4 0D 03      CJNE A, #13, CHECK14
+    91  0174: 74 5E         MOV A, #01011110B
+    92  0176: 22            RET
+    93  0177:           CHECK14:
+    94  0177: B4 0E 03      CJNE A, #14, CHECK15
+    95  017A: 74 79         MOV A, #01111001B
+    96  017C: 22            RET
+    97  017D:           CHECK15:
+    98  017D: 74 71         MOV A, #01110001B
+    99  017F: 22            RET

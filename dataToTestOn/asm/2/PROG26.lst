@@ -1,0 +1,32 @@
+     1  0000: 02 01 00        LJMP  START
+     2  0100:                 ORG  100H
+     3  0100:           START:
+     4  0100: 12 81 0C        CALL  LCD_CLR
+     5                        
+     6  0103:           KLAWISZ:
+     7  0103: 75 F0 02        MOV B, #2
+     8  0106: 12 81 1C        CALL  WAIT_KEY
+     9  0109: FA              MOV  R2, A
+    10  010A: 12 81 0C        CALL  LCD_CLR
+    11  010D: EA              MOV  A, R2
+    12  010E: 00              NOP
+    13  010F: 12 01 17        CALL  MRUGAJ
+    14  0112: 12 81 04        CALL  WRITE_HEX
+    15  0115: 80 EC           SJMP  KLAWISZ
+    16                  
+    17                  
+    18  0117:           MRUGAJ:
+    19                        ;Mnożenie wartości klawisza przez B, którego wartość to 2, żeby mieć poprawną ilość iteracji
+    20  0117: A4              MUL AB
+    21  0118: FA              MOV  R2, A
+    22                        
+    23                        ;ustaw wartość początkową R3 na 6, żeby mieć po 3 włączeń i wyłączeń diody
+    24  0119: EA              MOV  A, R2
+    25  011A: FB              MOV R3, A
+    26  011B:           MRUGAJ_LOOP:
+    27  011B: B2 97           CPL  P1.7
+    28  011D: 74 05           MOV  A,#5
+    29  011F: 12 81 12        CALL  DELAY_100MS
+    30  0122: DB F7           DJNZ R3, MRUGAJ_LOOP ;dekrementuj R3 i skocz do LOOP_A jeśli wartość R# nie jest równa 0
+    31                  
+    32  0124: 22              RET

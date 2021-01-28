@@ -1,0 +1,59 @@
+     1  0000: 02 01 00      LJMP  START
+     2  0100:               ORG  100H
+     3  0100:           START:
+     4  0100: 12 81 0C      CALL  LCD_CLR
+     5  0103:           KLAWISZ:
+     6                  
+     7  0103: 74 00         MOV A, #0
+     8  0105: 12 81 1C      CALL  WAIT_KEY ; 'lewa' cyfra
+     9                  
+    10                      ;Przesuń bity w akumulatorze w lewo
+    11  0108: 23            RL A
+    12  0109: 23            RL A
+    13  010A: 23            RL A
+    14  010B: 23            RL A
+    15                  
+    16                      ;przenieś zawartość do R3
+    17  010C: FB            MOV  R3, A
+    18                  
+    19                      ; pobierz prawą cyfrę
+    20  010D: 12 81 1C      CALL  WAIT_KEY
+    21                      
+    22                      ; bitwise or na A i R3 żeby połączyć 2 cyfry w liczbę 2 cyfrową
+    23  0110: 4B            ORL A, R3
+    24                  
+    25  0111: FA            MOV  R2, A
+    26  0112: 12 81 0C      CALL  LCD_CLR
+    27  0115: EA            MOV  A, R2
+    28                      
+    29  0116: 12 01 1E      CALL HTB 
+    30  0119: 12 81 04      CALL  WRITE_HEX
+    31                  
+    32  011C: 80 E5         SJMP  KLAWISZ
+    33                  
+    34                  
+    35  011E:           HTB:
+    36                  	
+    37  011E: 78 00         MOV R0,#00h 	
+    38  0120: 79 00         MOV R1,#00h 	
+    39  0122: B4 00 01      CJNE A,#00h,CALC_HTB 	
+    40  0125: 22            RET 	
+    41                  	
+    42                  
+    43  0126:           CALC_HTB:
+    44                  	
+    45                      ;DIV C 	
+    46  0126: 75 F0 64      MOV B,#100 	; dzielenie przez 100
+    47  0129: 84            DIV AB 	
+    48  012A: F8            MOV R0,A 	; zapisz Akumulator do R0
+    49                      ;DIV C 	
+    50  012B: E5 F0         MOV A,B 	
+    51  012D: 75 F0 0A      MOV B,#10 	; podziel przez 10
+    52  0130: 84            DIV AB 	
+    53  0131: C4            SWAP A 	
+    54  0132: F9            MOV R1,A 	; zapisz dziesiątki do R1
+    55  0133: E5 F0         MOV A,B 	
+    56  0135: 49            ORL A,R1 	
+    57  0136: F9            MOV R1,A 	;zapisz jedności do R1
+    58  0137: 22            RET
+    59                  

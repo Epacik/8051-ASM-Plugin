@@ -1,0 +1,30 @@
+     1  0000: 02 01 00  	LJMP  START
+     2  0100:               ORG  100H
+     3  0100:           START:
+     4  0100: 12 01 06      CALL PROC;
+     5  0103: 80 FB         SJMP  START
+     6  0105: 29            ADD A, R1
+     7  0106:           PROC:
+     8  0106: 12 81 00      CALL WRITE_TEXT
+     9  0109: 12 81 02      CALL WRITE_DATA
+    10  010C: 12 81 04      CALL WRITE_HEX 
+    11  010F: 12 81 06      CALL WRITE_INSTR
+    12  0112: 12 81 08      CALL LCD_INIT
+    13  0115: 12 81 0A      CALL LCD_OFF
+    14  0118: 12 81 0C      CALL LCD_CLR
+    15  011B: 12 81 0E      CALL DELAY_US
+    16  011E: 12 81 10      CALL DELAY_MS
+    17  0121: 12 81 12      CALL DELAY_100MS
+    18  0124: 12 81 14      CALL WAIT_ENTER
+    19  0127: 12 81 16      CALL WAIT_ENTER_NW
+    20  012A: 12 81 18      CALL TEST_ENTER
+    21  012D: 12 81 1A      CALL WAIT_ENT_ESC
+    22  0130: 12 81 1C      CALL WAIT_KEY
+    23  0133: 12 81 1E      CALL GET_NUM
+    24  0136: 12 81 20      CALL BCD_HEX
+    25  0139: 12 81 22      CALL HEX_BCD
+    26  013C: 12 81 24      CALL MUL_2_2
+    27  013F: 12 81 26      CALL MUL_3_1
+    28  0142: 12 81 28      CALL DIV_2_1
+    29  0145: 12 81 2A      LCALL DIV_4_2
+    30  0148: 22            RET

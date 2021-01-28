@@ -1,0 +1,45 @@
+ZNAKI     EQU    30H
+      LJMP  START
+      ORG  100H
+START:
+    MOV ZNAKI, #00111111B
+	MOV ZNAKI + 1, #00000110B
+	MOV ZNAKI + 2, #01011011B
+    MOV ZNAKI + 3, #01001111B
+	MOV ZNAKI + 4, #01100110B
+    MOV ZNAKI + 5, #01101101B
+    
+    ;MOV  R3, #00111111B
+
+    MOV  R1, #ZNAKI
+START2:
+    MOV  R2, #0
+WYSW:
+    SETB  P1.6
+    MOV  R0, #CSDS
+    MOV  A, R3
+    MOVX  @R0, A
+    MOV  R0, #CSDB
+    
+    ;MOV  A, @R1
+    MOVX  @R0, A
+    CLR  P1.6
+    MOV  A, #1
+    CALL  DELAY_MS
+    INC  R2
+    CJNE  R2, #6, WYSW
+
+    MOV A, #5
+    CALL DELAY_100MS
+
+    INC R1
+    CJNE R1, #ZNAKI+6, START2
+    ;Cofnij do 0
+    DEC R1
+    DEC R1
+    DEC R1
+    DEC R1
+    DEC R1
+    DEC R1
+
+    SJMP  START2

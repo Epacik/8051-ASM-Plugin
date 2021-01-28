@@ -1,0 +1,7 @@
+     1  0000: 02 01 00        LJMP  START
+     2  0100:                 ORG  100H
+     3  0100:           START:
+     4  0100: B2 97           CPL  P1.7
+     5  0102: 74 FA           MOV  A,#250
+     6  0104: 12 81 10        CALL  DELAY_MS
+     7  0107: 80 F7           SJMP  START

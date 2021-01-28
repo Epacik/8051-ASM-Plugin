@@ -1,0 +1,13 @@
+     1  0000: 02 01 00        LJMP  START
+     2  0100:                 ORG  100H
+     3  0100:           START:
+     4  0100: 7B 0A           MOV R3, #10
+     5                  
+     6  0102:           LOOP_A:
+     7  0102: B2 97           CPL  P1.7
+     8  0104: 74 02           MOV  A,#2
+     9  0106: 12 81 12        CALL  DELAY_100MS
+    10  0109: DB F7           DJNZ R3, LOOP_A
+    11                  
+    12  010B:           LOOP_B:
+    13  010B: 80 FE         SJMP LOOP_B

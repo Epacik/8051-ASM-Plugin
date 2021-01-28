@@ -1,0 +1,45 @@
+     1        0030      ZNAKI     EQU    30H
+     2  0000: 02 01 00        LJMP  START
+     3  0100:                 ORG  100H
+     4  0100:           START:
+     5  0100: 75 30 3F      MOV ZNAKI, #00111111B
+     6  0103: 75 31 06  	MOV ZNAKI + 1,#00000110B
+     7  0106: 75 32 5B  	MOV ZNAKI + 2,#01011011B
+     8  0109: 75 33 4F      MOV ZNAKI + 3,#01001111B
+     9  010C: 75 34 66  	MOV ZNAKI + 4,#01100110B
+    10  010F: 75 35 6D      MOV ZNAKI + 5,#01101101B
+    11                      
+    12  0112: 7B 3F         MOV  R3, #00111111B
+    13                  
+    14  0114: 79 30         MOV  R1, #ZNAKI
+    15  0116:           START2:
+    16  0116: 7A 00         MOV  R2, #0
+    17  0118:           WYSW:
+    18  0118: D2 96         SETB  P1.6
+    19  011A: 78 30         MOV  R0, #CSDS
+    20  011C: EB            MOV  A, R3
+    21  011D: F2            MOVX  @R0, A
+    22  011E: 78 38         MOV  R0, #CSDB
+    23                      
+    24  0120: E7            MOV  A, @R1
+    25  0121: F2            MOVX  @R0, A
+    26  0122: C2 96         CLR  P1.6
+    27  0124: 74 01         MOV  A, #1
+    28  0126: 12 81 10      CALL  DELAY_MS
+    29  0129: 0A            INC  R2
+    30  012A: BA 06 EB      CJNE  R2, #6, WYSW
+    31                  
+    32  012D: 74 05         MOV A, #5
+    33  012F: 12 81 12      CALL DELAY_100MS
+    34                  
+    35  0132: 09            INC R1
+    36  0133: B9 36 E0      CJNE R1, #ZNAKI+6, START2
+    37                      ;Cofnij do 0
+    38  0136: 19            DEC R1
+    39  0137: 19            DEC R1
+    40  0138: 19            DEC R1
+    41  0139: 19            DEC R1
+    42  013A: 19            DEC R1
+    43  013B: 19            DEC R1
+    44                  
+    45  013C: 80 D8         SJMP  START2

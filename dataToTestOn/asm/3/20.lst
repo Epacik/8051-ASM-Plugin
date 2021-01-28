@@ -1,0 +1,55 @@
+     1        0030      TAB    EQU    30H
+     2  0000: 02 01 00      LJMP  START
+     3  0100:               ORG  100H
+     4  0100:           START:
+     5  0100: 75 30 01      MOV  TAB,#1
+     6  0103: 75 31 02      MOV  TAB+1,#2
+     7  0106: 75 32 03      MOV  TAB+2,#3
+     8  0109: 75 33 05      MOV  TAB+3,#5
+     9  010C: 75 34 07      MOV  TAB+4,#7
+    10  010F: 75 35 0B      MOV  TAB+5,#11
+    11  0112: 75 36 0D      MOV  TAB+6,#13
+    12  0115: 75 37 11      MOV  TAB+7,#17
+    13  0118: 75 38 13      MOV  TAB+8,#19
+    14  011B: 75 39 17      MOV  TAB+9,#23
+    15  011E: 75 3A 1D      MOV  TAB+10,#29
+    16  0121: 75 3B 1F      MOV  TAB+11,#31
+    17  0124: 75 3C 25      MOV  TAB+12,#37
+    18  0127: 75 3D 29      MOV  TAB+13,#41
+    19  012A: 75 3E 2B      MOV  TAB+14,#43
+    20  012D: 75 3F 2F      MOV  TAB+15,#47
+    21  0130: 75 40 35      MOV  TAB+16,#53
+    22  0133: 78 30          MOV  R0,#TAB
+    23  0135: 12 81 0C       CALL  LCD_CLR
+    24  0138:           ABCD:
+    25  0138: E6             MOV  A,@R0
+    26  0139: 12 01 4F       CALL HTB
+    27  013C: 12 81 04       CALL  WRITE_HEX
+    28  013F: 74 05          MOV  A,#5
+    29  0141: 12 81 12       CALL  DELAY_100MS
+    30  0144: 12 81 0C       CALL  LCD_CLR
+    31  0147: 08             INC  R0
+    32  0148: B8 41 ED       CJNE  R0,#TAB+17,ABCD
+    33  014B: 78 30         MOV  R0,#TAB
+    34  014D: 80 E9          SJMP  ABCD
+    35                  
+    36  014F:           HTB:
+    37                  	
+    38  014F: 79 00         MOV R1,#00h 	
+    39  0151: 7A 00         MOV R2,#00h 	
+    40  0153: B4 00 01      CJNE A,#00h,CALC_HTB 	
+    41  0156: 22            RET 
+    42                  
+    43  0157:           CALC_HTB:
+    44  0157: 75 F0 64      MOV B,#100     ; dzielenie przez 100
+    45  015A: 84            DIV AB     
+    46  015B: F9            MOV R1,A     ; zapisz Akumulator do R0
+    47  015C: E5 F0         MOV A,B     
+    48  015E: 75 F0 0A      MOV B,#10     ; podziel przez 10
+    49  0161: 84            DIV AB     
+    50  0162: C4            SWAP A     
+    51  0163: FA            MOV R2,A     ; zapisz dziesiątki do R1
+    52  0164: E5 F0         MOV A,B     
+    53  0166: 4A            ORL A,R2     
+    54  0167: FA            MOV R2,A     ;zapisz jedności do R1
+    55  0168: 22            RET

@@ -1,0 +1,69 @@
+     1        0030      ZNAKI     EQU    30H
+     2  0000: 02 01 00        LJMP  START
+     3  0100:                 ORG  100H
+     4  0100:           START:
+     5  0100: 75 30 66      MOV ZNAKI, #01100110B
+     6  0103: 75 31 06  	MOV ZNAKI + 1, #00000110B
+     7  0106: 75 32 7D  	MOV ZNAKI + 2, #01111101B
+     8  0109: 75 33 40      MOV ZNAKI + 3, #01000000B
+     9  010C: 75 34 06  	MOV ZNAKI + 4, #00000110B
+    10  010F: 75 35 7D      MOV ZNAKI + 5, #01111101B
+    11                      
+    12  0112: 7B 01         MOV  R3, #00000001B
+    13                  
+    14  0114: 79 30         MOV  R1, #ZNAKI
+    15  0116:           START2:
+    16  0116: 7A 00         MOV  R2, #0
+    17  0118:           WYSW:
+    18  0118: D2 96         SETB  P1.6
+    19  011A: 12 01 4C      CALL CLEAR
+    20                  
+    21  011D: 78 30         MOV  R0, #CSDS
+    22  011F: EB            MOV  A, R3
+    23  0120: F2            MOVX  @R0, A
+    24  0121: 78 38         MOV  R0, #CSDB
+    25                      
+    26  0123: E7            MOV  A, @R1
+    27  0124: F2            MOVX  @R0, A
+    28  0125: C2 96         CLR  P1.6
+    29  0127: 74 01         MOV  A, #1
+    30  0129: 12 81 10      CALL  DELAY_MS
+    31  012C: 0A            INC  R2
+    32  012D: BA 06 E8      CJNE  R2, #6, WYSW
+    33                  
+    34  0130: 74 01         MOV A, #1
+    35  0132: 12 81 10      CALL DELAY_MS
+    36                  
+    37  0135: 09            INC R1
+    38                      
+    39  0136: EB            MOV A, R3
+    40  0137: 23            RL A
+    41  0138: FB            MOV R3, A
+    42  0139: B9 36 DA      CJNE R1, #ZNAKI+6, START2
+    43                      ;Cofnij do 0
+    44  013C: 19            DEC R1
+    45  013D: 19            DEC R1
+    46  013E: 19            DEC R1
+    47  013F: 19            DEC R1
+    48  0140: 19            DEC R1
+    49  0141: 19            DEC R1
+    50                  
+    51  0142: EB            MOV A, R3
+    52  0143: 03            RR A
+    53  0144: 03            RR A
+    54  0145: 03            RR A
+    55  0146: 03            RR A
+    56  0147: 03            RR A
+    57  0148: 03            RR A
+    58  0149: FB            MOV R3, A
+    59                  
+    60  014A: 80 CA         SJMP  START2
+    61                  
+    62  014C:           CLEAR:
+    63  014C: 78 30         MOV  R0, #CSDS
+    64  014E: EB            MOV  A, R3
+    65  014F: F2            MOVX  @R0, A
+    66  0150: 78 38         MOV  R0, #CSDB
+    67  0152: 74 00         MOV A,  #00000000B
+    68  0154: F2            MOVX  @R0, A
+    69  0155: 22            RET

@@ -1,0 +1,22 @@
+     1        0030      TAB	EQU	30H
+     2  0000: 02 01 00  	LJMP  START
+     3  0100:           	ORG  100H
+     4  0100:           START:
+     5  0100: 75 30 00  	MOV  TAB,#0
+     6  0103: 75 31 02  	MOV  TAB+1,#2
+     7  0106: 75 32 04  	MOV  TAB+2,#4
+     8  0109: 75 33 06      MOV  TAB+3,#6
+     9  010C: 75 34 08  	MOV  TAB+4,#8
+    10  010F: 75 35 10      MOV  TAB+5,#10h
+    11  0112: 78 30      	MOV  R0,#TAB
+    12  0114: 12 81 0C   	CALL  LCD_CLR
+    13  0117:           ABCD:
+    14  0117: E6         	MOV  A,@R0
+    15  0118: 12 81 04   	CALL  WRITE_HEX
+    16  011B: 74 05      	MOV  A,#5
+    17  011D: 12 81 12   	CALL  DELAY_100MS
+    18  0120: 12 81 0C   	CALL  LCD_CLR
+    19  0123: 08         	INC  R0
+    20  0124: B8 36 F0   	CJNE  R0,#TAB+6,ABCD
+    21  0127: 78 30     	MOV  R0,#TAB
+    22  0129: 80 EC      	SJMP  ABCD
