@@ -19,7 +19,7 @@
 			"type": "node",
 			"request": "attach",
 			"name": "Attach to Server",
-			"port": 6969,
+			"port": 6420,
 			"restart": true,
 			"outFiles": ["${workspaceRoot}/server/out/**/*.js"],
 			"preLaunchTask": {

@@ -1,4 +1,4 @@
-    LJMP       START              
+    LJMP       START             
     ORG       100H
 START:
     MOV    R0,#30H             ;adres bufora wyboru wskaźnika        
