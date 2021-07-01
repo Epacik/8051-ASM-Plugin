@@ -1,35 +1,22 @@
-import {
-	createConnection,
-	TextDocuments,
-	Diagnostic,
-	DiagnosticSeverity,
-	ProposedFeatures,
-	InitializeParams,
-	DidChangeConfigurationNotification,
-	CompletionItem,
-	CompletionItemKind,
-	TextDocumentPositionParams,
-	TextDocumentSyncKind,
-	InitializeResult,
-	Hover,
-	MarkedString,
-	MarkupContent
+import { 
+	createConnection, TextDocuments, Diagnostic, DiagnosticSeverity, ProposedFeatures, InitializeParams, DidChangeConfigurationNotification, CompletionItem, CompletionItemKind, TextDocumentPositionParams, TextDocumentSyncKind, InitializeResult, Hover, MarkedString, MarkupContent
 } from 'vscode-languageserver';
 
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
-import {docs} from './docs/docs'
-import {List} from 'linq-typescript'
+import { docs } from './docs/docs'
+import { List } from 'linq-typescript'
 import { diagnostics } from './diagnostics/diagnostics';
 import { debug } from './debug';
 import { errors } from './constants/errors';
+import { string } from "./tools/string";
 
 
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
-let connection = createConnection(ProposedFeatures.all );
+let connection = createConnection( ProposedFeatures.all );
 
 // Create a simple text document manager. 
 let documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
@@ -174,7 +161,7 @@ connection.onDidChangeWatchedFiles(_change => {
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
 	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-		var items = docs.getItems();
+		var items = Array.from(docs.getItems(globalSettings.language).values());
 		return items;
 	}
 );
@@ -200,16 +187,18 @@ connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
     };
     const text = document.getText({ start, end });
     const index = document.offsetAt(params.position) - document.offsetAt(start);
-	const word = getWord(text, index);
+	const word = getWord(text, index).toUpperCase();
 	console.log(`word: ${word}`)
-	 
+	const items = docs.getItems(globalSettings.language);
 
 
-    if (word !== '') {
-		const item = new List<CompletionItem>(docs.getItems()).firstOrDefault(x => x.label.trim() === word.trim()); 
-		//console.log(item);
+    if (!string.isEmptyOrWhitespace(word) && items.has(word.toUpperCase())) {
+		
+		const item = items.get(word);
+		if(item === undefined)
+			return undefined;
+		
 
-		if(item === undefined) return undefined;
 		var det = item.detail !== undefined ? `\n#### ${item.detail}` : '';
 		var dc = item.documentation !== undefined ? `\n${(<MarkupContent>item.documentation).value}` : '';
 		//console.log(dc)

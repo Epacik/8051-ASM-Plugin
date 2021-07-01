@@ -14,29 +14,29 @@ export interface errLang{
 }
 
 export class errors {
-	public static  missingLabel() :string {
+	public static missingLabel() :string {
 		return errors.getLabel("missingLabel")
 	};
 
-	public static  instructionNoWhitespace():string {
+	public static instructionNoWhitespace():string {
 		return errors.getLabel("instructionNoWhitespace");
 	};
 
-	public static  labelWithWhitespace():string {
+	public static labelWithWhitespace():string {
 		return errors.getLabel("labelWithWhitespace");
 	};
 
-	public static  missingOprand():string {
+	public static missingOprand():string {
 		return errors.getLabel("missingOprand");
 	};
 
-	public static  missingComa():string {
+	public static missingComa():string {
 		return errors.getLabel("missingComa");
 	};
 
 	
 
-	public static  wrongOperand():string {
+	public static wrongOperand():string {
 		return errors.getLabel("wrongOperand");
 	};
 

@@ -1,5 +1,5 @@
 import { Diagnostic, DiagnosticRelatedInformation, DiagnosticSeverity } from 'vscode-languageserver';
-import { boolean } from '../docs/boolean';
+import { boolean } from '../docs/eng/boolean';
 
 type AdditionalTest = (id: string,text:string) => boolean;
 
