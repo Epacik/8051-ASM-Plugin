@@ -10,13 +10,14 @@ export namespace docs {
 	/**
 	 * Array of CompletionItems used to store documentation popups 
 	 */
-	let Pol : Map<string,CompletionItem> | undefined = undefined;
+	let Pol : (Map<string, CompletionItem> | undefined) = undefined;
 
 	
 	/**
 	 * @returns An array of CompletionItem
 	 */
-	export const getItems  = (language :string) : Map<string,CompletionItem> => {
+	export const getItems  = (language : (string | undefined) ) : Map<string,CompletionItem> => {
+		language ??= "english";
 		if(Pol === undefined){
 			Pol = new Map([
 				...eng,

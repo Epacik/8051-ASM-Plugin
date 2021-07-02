@@ -14,14 +14,33 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value:
 	`
-	The ADD instruction adds a byte value to the accumulator and stores the results back in the accumulator. Several of the flag registers are affected.\n
-	\nSyntax:\n
-	\`\`\`asm8051
-	ADD A, operand
-	\`\`\`
-	
-	Valid operands:
-	#number (e.g. #41H), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
+Adds a byte value to the accumulator, and stores the results in the accumulator.
+
+---
+Syntax:
+> \`\`\`asm8051
+> ADD A,  [operand] 
+> ADD A,  #41H
+> ADD A,  05H
+> MOV R0, 05H
+> ADD A,  @R0
+> ADD A,  R2
+> \`\`\`
+---
+
+Valid operands:
+
+- #number (e.g. #41H)
+- Internal ram address (e.g. 05H),
+- Register with a data address @R0, @R1
+- Register R0 trough R7
+
+---
+
+Affected flags:
+- **Carry** set if result exceedes 255, cleared otherwise 
+- **Auxillary Carry** set if result exceedes 15, cleared otherwise
+- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared otherwise
 	`.trim(),
 				
 			},
@@ -37,20 +56,34 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value: 
 	`
-	The ADDC instruction adds a byte value and the value of the carry flag to the accumulator. The results of the addition are stored back in the accumulator. Several of the flag registers are affected.\n
-	The **Carry bit (C)** is set if there is a carry-out of bit 7. In other words, if the unsigned summed value of the Accumulator, operand and (in the case of ADDC) the Carry flag exceeds 255 Carry is set. Otherwise, the Carry bit is cleared.
-	
-	The **Auxillary Carry (AC)** bit is set if there is a carry-out of bit 3. In other words, if the unsigned summed value of the low nibble of the Accumulator, operand and (in the case of ADDC) the Carry flag exceeds 15 the Auxillary Carry flag is set. Otherwise, the Auxillary Carry flag is cleared.
-	
-	The **Overflow (OV)** bit is set if there is a carry-out of bit 6 or out of bit 7, but not both. In other words, if the addition of the Accumulator, operand and (in the case of ADDC) the Carry flag treated as signed values results in a value that is out of the range of a signed byte (-128 through +127) the Overflow flag is set. Otherwise, the Overflow flag is cleared.
-	\nSyntax:\n
-	
-	\`\`\`asm8051
-	ADDC A, operand
-	\`\`\`
-	
-	Valid operands:
-	#number (e.g. #41H), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
+Adds a byte value and a carry flag to the accumulator, and stores the results in the accumulator.
+
+---
+
+Syntax:
+> \`\`\`asm8051
+> ADDC A, [operand]
+> ADDC A, #41H
+> ADDC A, 05H
+> ADDC A, @R0
+> ADDC A, R2
+> \`\`\`
+
+---
+
+Valid operands:
+
+- #number (e.g. #41H)
+- Internal ram address (e.g. 05H),
+- Register with a data address @R0, @R1
+- Register R0 trough R7
+
+---
+
+Affected flags:
+- **Carry** set if result exceedes 255, cleared otherwise 
+- **Auxillary Carry** set if result exceedes 15, cleared otherwise
+- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared otherwise
 	`.trim(),
 				
 			},
@@ -66,25 +99,34 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value: 
 	`
-	The SUBB instruction subtract the value of operand and the Carry Flag from the value of the Accumulator, leaving the resulting value in the Accumulator.
-	The value operand is not affected.
-	
-	The Carry Bit (C) is set if a borrow was required for bit 7, otherwise it is cleared.
-	In other words, if the unsigned value being subtracted is greater than the Accumulator the Carry Flag is set.
-	
-	The Auxillary Carry (AC) bit is set if a borrow was required for bit 3, otherwise it is cleared.
-	In other words, the bit is set if the low nibble of the value being subtracted was greater than the low nibble of the Accumulator.
-	
-	The Overflow (OV) bit is set if a borrow was required for bit 6 or for bit 7, but not both.
-	In other words, the subtraction of two signed bytes resulted in a value outside the range of a signed byte (-128 to 127). Otherwise it is cleared.
-	\nSyntax:\n
-	
-	\`\`\`asm8051
-	SUBB A,operand
-	\`\`\`
-	
-	Valid operands:
-	#number (e.g. #41h), ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7
+Subtract the value of operand and the Carry Flag from the value of the Accumulator, and stores the results in the accumulator.
+
+---
+
+Syntax:
+> \`\`\`asm8051
+> SUBB A, [operand] 
+> SUBB A, #41H
+> SUBB A, 05H
+> SUBB A, @R0
+> SUBB A, R2
+> \`\`\`
+
+---
+
+Valid operands:
+
+- #number (e.g. #41H)
+- Internal ram address (e.g. 05H),
+- Register with a data address @R0, @R1
+- Register R0 trough R7
+
+---
+
+Affected flags:
+- **Carry** set if operand value was greater than Accumulator value, cleared otherwise 
+- **Auxillary Carry** set if lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of an Accumulator, cleared otherwise
+- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared otherwise
 	`.trim(),
 				
 			},
@@ -100,17 +142,33 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value: 
 	`
-	INC increments the value of register by 1. If the initial value of register is 255 (0xFF Hex), incrementing the value will cause it to reset to 0. Note: The Carry Flag is NOT set when the value "rolls over" from 255 to 0.
+Increases the value of the operand by 1.
 
-	In the case of "INC DPTR", the value two-byte unsigned integer value of DPTR is incremented. If the initial value of DPTR is 65535 (0xFFFF Hex), incrementing the value will cause it to reset to 0. Again, the Carry Flag is NOT set when the value of DPTR "rolls over" from 65535 to 0
-	\nSyntax:\n
+If value of the operand was set to 255 (or 65535 in case of DPTR), the result will be set to 0
 
-	\`\`\`asm8051
-	INC operand
-	\`\`\`
+**When that happens the carry flag WILL NOT be set**
 
-	Valid operands:
-	A, ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7, DPTR
+---
+
+Syntax:
+> \`\`\`asm8051
+> INC [operand]
+> INC A
+> INC 05H
+> INC @R1
+> INC R5
+> INC DPTR
+> \`\`\`
+
+---
+
+Valid operands:
+
+- A (Accumulator)
+- Internal ram address (e.g. 05H),
+- Register with a data address @R0, @R1
+- Register R0 trough R7
+- Register DPTR
 	`.trim(),
 				
 			},
@@ -126,16 +184,31 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value: 
 	`
-	DEC decrements the value of register by 1. If the initial value of register is 0, decrementing the value will cause it to reset to 255 (0xFF Hex). Note: The Carry Flag is NOT set when the value "rolls over" from 0 to 255.
-	
-	\nSyntax:\n
-	
-	\`\`\`asm8051
-	DEC operand
-	\`\`\`
-	
-	Valid operands:
-	A, ram_address (e.g. 05H), @R0, @R1, R0, R1, R2, R3, R4, R5, R6, R7, DPTR
+Decreases the value of the operand by 1.
+
+If value of the operand was set to 0, the result will be set to 255
+
+**When that happens the carry flag WILL NOT be set**
+
+---
+
+Syntax:
+> \`\`\`asm8051
+> DEC [operand]
+> DEC A
+> DEC 05H
+> DEC @R1
+> DEC R5
+> \`\`\`
+
+---
+
+Valid operands:
+
+- A (Accumulator)
+- Internal ram address (e.g. 05H),
+- Register with a data address @R0, @R1
+- Register R0 trough R7
 	`.trim(),
 				
 			},
@@ -151,17 +224,22 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value: 
 	`
-	Multiples the unsigned value of the Accumulator by the unsigned value of the "B" register. The least significant byte of the result is placed in the Accumulator and the most-significant-byte is placed in the "B" register.
-	
-	The Carry Flag (C) is always cleared.
-	
-	The Overflow Flag (OV) is set if the result is greater than 255 (if the most-significant byte is not zero), otherwise it is cleared.
-	
-	\nSyntax:\n
-	
-	\`\`\`asm8051
-	MUL AB
-	\`\`\`
+Multiplies the unsigned values of the accumulator and the register B.
+
+The result is a 16 bit unsigned number, lower half of which will be stored in the Accumulator, and the higher half in the B register.
+
+---
+
+Syntax:
+> \`\`\`asm8051
+> MUL AB
+> \`\`\`
+
+---
+
+Affected flags:
+- **Carry** cleared
+- **Overflow** set if result is greater than 255, cleared otherwise
 	`.trim(),
 				
 			},
@@ -177,17 +255,23 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value: 
 	`
-	Divides the unsigned value of the Accumulator by the unsigned value of the "B" register. The resulting quotient is placed in the Accumulator and the remainder is placed in the "B" register.
-	
-	The Carry flag (C) is always cleared.
-	
-	The Overflow flag (OV) is set if division by 0 was attempted, otherwise it is cleared.
-	
-	\nSyntax:\n
-	
-	\`\`\`asm8051
-	DIV AB
-	\`\`\`
+
+Divides the unsigned values of the accumulator and the register B.
+
+Resulting quotient is stored in the Accumulator, and the reminder in the B register
+
+---
+
+Syntax:
+> \`\`\`asm8051
+> DIV AB
+> \`\`\`
+
+---
+
+Affected flags:
+- **Carry** cleared
+- **Overflow** set if division by 0 was attempted, cleared otherwise
 	`.trim(),
 				
 			},
@@ -203,15 +287,29 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value: 
 	`
-	DA adjusts the contents of the Accumulator to correspond to a BCD (Binary Coded Decimal) number after two BCD numbers have been added by the ADD or ADDC instruction. If the carry bit is set or if the value of bits 0-3 exceed 9, 0x06 is added to the accumulator. If the carry bit was set when the instruction began, or if 0x06 was added to the accumulator in the first step, 0x60 is added to the accumulator.
+Adjusts the result of adding two BCD formatted numbers to a BCD format.
+
+---
+
+Steps:
+1. 06H is added if lower nibble (bits 0 trough 3) is greater than 9 or if the Auxillary Carry flag is set
+2. 60H is added if higher nibble (bits 4 trough 7) is greater than 9 or if Carry flag is set
+
+---
+
+**DA cannot convert a hexadecimal number in the accumulator to a BCD format**
 	
-	The Carry bit (C) is set if the resulting value is greater than 0x99, otherwise it is cleared.
-	
-	\nSyntax:\n
-	
-	\`\`\`asm8051
-	DA A
-	\`\`\`
+---
+
+Syntax:	
+> \`\`\`asm8051
+> DA A
+> \`\`\`
+
+---
+
+Affected flags:
+- **Carry** set if result is greater than 99H (or if the initial value was greater than 63H), cleared otherwise
 	`.trim(),
 				
 			},

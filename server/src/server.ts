@@ -1,5 +1,5 @@
 import { 
-	createConnection, TextDocuments, Diagnostic, DiagnosticSeverity, ProposedFeatures, InitializeParams, DidChangeConfigurationNotification, CompletionItem, CompletionItemKind, TextDocumentPositionParams, TextDocumentSyncKind, InitializeResult, Hover, MarkedString, MarkupContent
+	createConnection, TextDocuments, Diagnostic, DiagnosticSeverity, ProposedFeatures, InitializeParams, DidChangeConfigurationNotification, CompletionItem, CompletionItemKind, TextDocumentPositionParams, TextDocumentSyncKind, InitializeResult, Hover, MarkedString, MarkupContent, MarkupKind
 } from 'vscode-languageserver';
 
 import {
@@ -11,6 +11,7 @@ import { diagnostics } from './diagnostics/diagnostics';
 import { debug } from './debug';
 import { errors } from './constants/errors';
 import { string } from "./tools/string";
+import { MarkdownString } from 'vscode';
 
 
 
@@ -199,13 +200,15 @@ connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
 			return undefined;
 		
 
-		var det = item.detail !== undefined ? `\n#### ${item.detail}` : '';
-		var dc = item.documentation !== undefined ? `\n${(<MarkupContent>item.documentation).value}` : '';
-		//console.log(dc)
-
-		let doc : MarkedString[] = [`### ${item.label}${det}${dc}`]
 		return {
-			contents: doc,
+			contents: {
+				kind: MarkupKind.Markdown,
+				value: [
+					// `### ${item.label}`,
+					item.detail !== undefined ? `#### ${item.detail}` : '',
+					(item.documentation !== undefined ? ((<MarkupContent>item.documentation).value) : '')
+				].join('\n').trim()
+			},
 		};
     }
 
