@@ -8,10 +8,10 @@ import {
 import { docs } from './docs/docs'
 import { List } from 'linq-typescript'
 import { diagnostics } from './diagnostics/diagnostics';
-import { debug } from './debug';
 import { errors } from './constants/errors';
 import { string } from "./tools/string";
 import { MarkdownString } from 'vscode';
+import * as log from 'loglevel'
 
 
 
@@ -28,9 +28,7 @@ let hasDiagnosticRelatedInformationCapability: boolean = false;
 
 connection.onInitialize((params: InitializeParams) => {
 
-	debug.setOptions(new debug.DebugOptions({logLevel: debug.LogLevel.All}))
-
-
+	log.setLevel(log.levels.TRACE);
 	let capabilities = params.capabilities;
 
 	// Does the client support the `workspace/configuration` request?
@@ -120,7 +118,7 @@ function getDocumentSettings(resource: string): Thenable<DocSettings> {
 			scopeUri: resource,
 			section: 'asm8051'
 		});
-		debug.info(JSON.stringify(result, null, " "));
+		log.info(JSON.stringify(result, null, " "));
 		documentSettings.set(resource, result);
 	}
 	return result;
@@ -141,8 +139,8 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	// In this simple example we get the settings for every validate run.
 	let settings = await getDocumentSettings(textDocument.uri);
 	globalSettings = settings;
-	debug.info("settings: ");
-	debug.info(settings);
+	log.info("settings: ");
+	log.info(settings);
 	
 	errors.setLang(settings.language);
 

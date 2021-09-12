@@ -2,7 +2,7 @@ import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
 import { Diag } from './Diag';
 import { errors } from '../constants/errors';
 import { getKitLabels } from './kitSpecificDiags/kitSpecificLabels';
-import { debug } from '../debug';
+import * as log from 'loglevel'
 
 
 export const basicsAndProgramControl : Diag[] = [
@@ -41,10 +41,10 @@ export const basicsAndProgramControl : Diag[] = [
 
 			label = label.trim();
 
-			debug.info(`current label: ${label}`);
+			log.trace(`current label: ${label}`);
 
 			if(getKitLabels().includes(label)) {
-				debug.info("found label in predefined ones")
+				log.trace("found label in predefined ones")
 				return false;
 			}
 			//check if label exists
@@ -56,8 +56,8 @@ export const basicsAndProgramControl : Diag[] = [
 			let x = (new RegExp(`[^\\S\\r\\n](${label})+:`, "gm"));
 
 			let matches = x.exec(text);
-			debug.info(`exists: ${exists}`);
-			debug.info(`matches: ${matches}`);
+			log.trace(`exists: ${exists}`);
+			log.trace(`matches: ${matches}`);
 
 			return matches != null || !exists;
 		}

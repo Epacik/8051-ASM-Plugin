@@ -1,4 +1,4 @@
-import { debug } from '../debug';
+import * as log from 'loglevel'
 import * as en from "./errors/en";
 import * as pl from "./errors/pl";
 import { Langs } from './langs';
@@ -47,7 +47,7 @@ export class errors {
 
 
 	public static readonly setLang = (lang:string) => {
-		debug.info(`setting language to ${lang}`)
+		log.info(`setting language to ${lang}`)
 		errors.Lang = lang;
 	}
 
@@ -60,7 +60,7 @@ export class errors {
 	private static Err : errLang = new en.errors();
 
 	private static readonly  getLabel = (id: string) : string => {
-		debug.info(`Lang is ${errors.Lang}, getting ${id}`);
+		log.info(`Lang is ${errors.Lang}, getting ${id}`);
 		if(errors.Lang == Langs.pl && !(errors.Err instanceof pl.errors)){
 			errors.Err = new pl.errors();	
 		}

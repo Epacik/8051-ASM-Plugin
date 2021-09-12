@@ -24,6 +24,10 @@
 			"match": ";.*$"
 		},
 		{
+			"name": "keyword.other",
+			"match": "(?<=(LCALL|ACALL|CALL|LJMP|SJMP)\\s*)\\w+"
+		},
+		{
 			"name": "keyword.control.asm",
 			"match": "\\b(NOP|AJMP|LJMP|RR|INC|JBC|ACALL|LCALL|RRC|DEC|JB|RL|ADD|JNB|ACALL|RLC|ADDC|JC|ORL|JNC|ANL|JZ|XRL|JNZ|XRL|JMP|MOV|SJMP|MOVC|DIV|SUBB|MUL|CPL|CJNE|PUSH|CLR|SWAP|XCH|POP|SETB|DA|DJNZ|XCHD|MOVX|ORG|CALL)\\b"
 		},
@@ -38,7 +42,7 @@
 		},
 		{
 			"name": "entity.name.class",
-			"match": "\\bR[0-7]\\b"
+			"match": "@?R[0-7]"
 		},
 		{
 			"name": "entity.name.tag",
@@ -46,7 +50,7 @@
 		},
 		{
 			"name":  "entity.name.function",
-			"match": "#[0-9A-Fa-f]{1,}\\b"
+			"match": "#[0-9A-Fa-f]+[HB]?"
 		}
 	],
 	"repository": {

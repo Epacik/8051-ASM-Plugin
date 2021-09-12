@@ -1,5 +1,5 @@
 import { Diagnostic, DiagnosticRelatedInformation, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
-import { debug } from '../debug';
+import * as log from 'loglevel'
 import { DocSettings } from "../server";
 import { arithmetic } from './arithmetic';
 import { basicsAndProgramControl } from './basicsAndProgramControl';
@@ -13,7 +13,7 @@ export namespace diagnostics{
 		let txt = textDocument.getText();
 
 		if(diags == undefined || _settings.kit != currentKit){
-			debug.info("getting new disgnostics")
+			log.info("getting new disgnostics")
 			currentKit = _settings.kit;
 			diags = [];
 			diags = diags.concat(basicsAndProgramControl);

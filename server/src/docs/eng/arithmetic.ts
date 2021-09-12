@@ -14,7 +14,7 @@ export const arithmetic : Map<string,CompletionItem>  = new Map([
 				kind: MarkupKind.Markdown,
 				value:
 	`
-Adds a byte value to the accumulator, and stores the results in the accumulator.
+Adds a byte value to a value stored in the accumulator, and stores the results back in the accumulator.
 
 ---
 Syntax:
@@ -22,7 +22,6 @@ Syntax:
 > ADD A,  [operand] 
 > ADD A,  #41H
 > ADD A,  05H
-> MOV R0, 05H
 > ADD A,  @R0
 > ADD A,  R2
 > \`\`\`
@@ -30,17 +29,17 @@ Syntax:
 
 Valid operands:
 
-- #number (e.g. #41H)
+- #number (e.g. #41H, #100101B)
 - Internal ram address (e.g. 05H),
-- Register with a data address @R0, @R1
+- Address stored in register @R0 or @R1
 - Register R0 trough R7
 
 ---
 
 Affected flags:
-- **Carry** set if result exceedes 255, cleared otherwise 
-- **Auxillary Carry** set if result exceedes 15, cleared otherwise
-- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared otherwise
+- **Carry** set if result exceedes 255, cleared if it does not
+- **Auxillary Carry** set if result exceedes 15, cleared if it does not
+- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not
 	`.trim(),
 				
 			},
@@ -81,9 +80,9 @@ Valid operands:
 ---
 
 Affected flags:
-- **Carry** set if result exceedes 255, cleared otherwise 
-- **Auxillary Carry** set if result exceedes 15, cleared otherwise
-- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared otherwise
+- **Carry** set if result exceedes 255, cleared if it does not
+- **Auxillary Carry** set if result exceedes 15, cleared if it does not
+- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not
 	`.trim(),
 				
 			},
@@ -124,9 +123,9 @@ Valid operands:
 ---
 
 Affected flags:
-- **Carry** set if operand value was greater than Accumulator value, cleared otherwise 
-- **Auxillary Carry** set if lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of an Accumulator, cleared otherwise
-- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared otherwise
+- **Carry** set if operand value was greater than Accumulator value, cleared if it was not
+- **Auxillary Carry** set if lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of an Accumulator, cleared if it was not
+- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not
 	`.trim(),
 				
 			},

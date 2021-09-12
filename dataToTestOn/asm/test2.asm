@@ -8,4 +8,5 @@ LOOP:
     CALL WRITE_HEX
     SJMP LOOP
     DEC R7
+    RET 
 
