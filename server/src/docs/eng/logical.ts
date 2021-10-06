@@ -228,7 +228,8 @@ Value after
 			{
 				kind: MarkupKind.Markdown,
 				value:
-`All of the bits contained in a operands will be shifted to the left, and the bit stored in the most significant bit (bit 7) will be moved to least significant bit (bit 0)
+`All of the bits contained in a operands will be shifted to the left
+The bit stored in the most significant bit (bit 7) will be moved to least significant bit (bit 0)
 
 ---
 
@@ -279,6 +280,73 @@ C = 0
 
 Value after
 01011000
+C = 1`
+
+			}
+		}
+	],
+	[
+		"RR",
+		{
+			label: "RR",
+			kind: CompletionItemKind.Keyword,
+			detail: "Rotate accumulator to the right",
+			documentation:
+			{
+				kind: MarkupKind.Markdown,
+				value:
+`All of the bits contained in a operands will be shifted to the right
+The bit stored in the least significant bit (bit 0) will be moved to most significant bit (bit 7)
+
+---
+
+Syntax:
+> \`\`\`asm8051
+> RR A
+> \`\`\`
+
+---
+
+Value before
+10101100
+
+Value after
+01010110`
+			}
+		}
+	],
+	[
+		"RLC",
+		{
+			label: "RLC",
+			kind: CompletionItemKind.Keyword,
+			detail: "Rotate accumulator to the left trough Carry flag",
+			documentation:
+			{
+				kind: MarkupKind.Markdown,
+				value:
+`All of the bits contained in a operands will be shifted to the right
+The bit stored in the Carry flag will be moved to the most significant bit (bit 7)
+The least significant bit (bit 0) will be moved to the Carry flag
+
+---
+
+Syntax:
+> \`\`\`asm8051
+> RL A
+> \`\`\`
+
+---
+
+Affected flags:
+- Carry flag (*C*)
+
+Value before
+10100011
+C = 0
+
+Value after
+01010001
 C = 1`
 
 			}

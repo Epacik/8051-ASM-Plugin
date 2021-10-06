@@ -204,7 +204,10 @@ connection.onHover((params: TextDocumentPositionParams): Hover|undefined => {
 				value: [
 					// `### ${item.label}`,
 					item.detail !== undefined ? `#### ${item.detail}` : '',
-					(item.documentation !== undefined ? ((<MarkupContent>item.documentation).value) : '')
+					(item.documentation !== undefined ? ((<MarkupContent>item.documentation).value) : ''),
+					"\n\n---\n\nThe documentation provided here is based on",
+					"\n[https://www.win.tue.nl/~aeb/comp/8051/set8051.html](https://www.win.tue.nl/~aeb/comp/8051/set8051.html#51clr)"
+					
 				].join('\n').trim()
 			},
 		};
