@@ -7,4 +7,10 @@ edition = "2021"
 
 [dependencies]
 tokio = { version = "*", features = ["full"] }
-tower-lsp = "0.14.1"
+lspower = "1.4.0"
+serde_json = "*"
+rand = "*"
+
+bitflags = "*"
+lazy_static = "1.4.0"
+once_cell = "1.8.0"

@@ -15,7 +15,7 @@ import {
 import * as net from 'net';
 //#endregion
 
-const DEBUGMODE: boolean = true;
+const DEBUG: boolean = true;
 
 let client: LanguageClient;
 
@@ -27,7 +27,7 @@ export function activate(context: ExtensionContext) {
 
 	let serverOptions: ServerOptions;
 
-	if (DEBUGMODE) {
+	if (DEBUG) {
 		let connectionInfo = {
 			port: 8050
 		};
