@@ -35,6 +35,9 @@ pub struct ClientConfiguration {
 
     /// Which locale user selected for the plugin itself
     pub(crate) locale: Locale,
+
+    /// locale of ui of the editor
+    pub(crate) ui_locale: Locale,
 }
 
 impl ClientConfiguration {
@@ -50,28 +53,24 @@ impl ClientConfiguration {
         // getting default configuration to edit
         let mut config = ClientConfiguration::default();
 
-        const KEY_KIT: &String = &String::from("kit");
-        const KEY_LANGUAGE: &String = &String::from("language");
-        const KEY_MAX_NUMBER_OF_PROBLEMS: &String = &String::from("maxNumberOfProblems");
-
         // check every key value pair within a map resembling a JSON object in order to update default configuration
         for kv in map {
             print!("{}", kv.0);
 
-            if kv.0 == KEY_KIT && kv.1.is_string() && kv.1.as_str().is_some() {
+            if kv.0 == &String::from("kit") && kv.1.is_string() && kv.1.as_str().is_some() {
                 config.kit = match kv.1.as_str().unwrap() {
                     "DSM-51" => Kits::DSM51,
                     &_ => Kits::GENERIC_8051,
                 }
             }
-            else if kv.0 == KEY_LANGUAGE && kv.1.is_string() && kv.1.as_str().is_some() {
+            else if kv.0 == &String::from("language") && kv.1.is_string() && kv.1.as_str().is_some() {
                 config.locale = match kv.1.as_str().unwrap() {
                     "english" => Locale::ENGLISH,
                     "polski" => Locale::POLISH,
                     &_ => Locale::DEFAULT,
                 }
             }
-            else if kv.0 == KEY_MAX_NUMBER_OF_PROBLEMS && kv.1.is_i64() && kv.1.as_i64().is_some() {
+            else if kv.0 == &String::from("maxNumberOfProblems") && kv.1.is_i64() && kv.1.as_i64().is_some() {
                 config.max_number_of_problems = kv.1.as_i64().unwrap() as i32;
             }
         }
@@ -85,9 +84,21 @@ impl ClientConfiguration {
             max_number_of_problems: 100,
             kit: Kits::GENERIC_8051,
             locale: Locale::DEFAULT,
+            ui_locale: Locale::ENGLISH,
         }
     }
 }
+
+pub struct Documentation {
+    pub title: &'static str,
+    pub detail: &'static str,
+    pub description: &'static str,
+    pub syntax: &'static str,
+    pub affected_flags: &'static str,
+    pub valid_operands: &'static str,
+}
+
+
 
 bitflags! {
     pub struct Kits: u32 {

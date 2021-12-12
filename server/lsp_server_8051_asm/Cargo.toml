@@ -10,6 +10,8 @@ tokio = { version = "*", features = ["full"] }
 lspower = "1.4.0"
 serde_json = "*"
 rand = "*"
+unicode-segmentation = "1.8.0"
+regex = "1.5.4"
 
 bitflags = "*"
 lazy_static = "1.4.0"

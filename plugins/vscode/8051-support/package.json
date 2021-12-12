@@ -82,7 +82,7 @@
 			{
 				"language": "asm8051",
 				"scopeName": "source.asm8051",
-				"path": "./syntaxes/asm.tmLanguage.json"
+				"path": "./syntax/asm.tmLanguage.json"
 			}
 		],
 		"snippets": [
