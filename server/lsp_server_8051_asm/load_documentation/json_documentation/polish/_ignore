@@ -1,0 +1,53 @@
+pub const ADD: Documentation = Documentation {
+        title: "ADD",
+        detail: "Dodaj do Akumulatora",
+        description: "Dodaje bajt do wartości przechowywanej w Akumulatorze po czym zapisuje wynik tego działania w Akumulatorze",
+        syntax: r#" ADD A,  [operand]
+ ADD A,  #41H
+ ADD A,  05H
+ ADD A,  @R0
+ ADD A,  R2"#,
+        affected_flags: r#"- **Przeniesienie** ustawiona jeśli wynik przekroczył 255, w przeciwnym wypadku wyczyszczona
+- **Przeniesienie Pomocnicze** ustawiona jeśli wynik przekroczył 15, w przeciwnym wypadku wyczyszczona
+- **Przepełnienie** ustawiona jeśli wynik interpretowany jako bajt ze znakiem przekroczy jego zakres (od -128 do 127), w przeciwnym wypadku wyczyszczona"#,
+        valid_operands: r#"- #liczba (e.g. #41H, #100101B)
+- Wewnętrzny adres RAM (e.g. 05H),
+- Adres przechowywany w rejestrze @R0 lub @R1
+- Rejestry od R0 do R7"#
+    };
+
+    pub const ADDC: Documentation = Documentation {
+        title: "ADDC",
+        detail: "Dodaj do Akumulatora używając flagi przeniesienia",
+        description: "Dodaje bajt oraz wartość flagi Przeniesienia do wartości przechowywanej w Akumulatorze po czym zapisuje wynik tego działania w Akumulatorze",
+        syntax: r#" ADDC A,  [operand]
+ ADDC A,  #41H
+ ADDC A,  05H
+ ADDC A,  @R0
+ ADDC A,  R2"#,
+        affected_flags: r#"- **Przeniesienie** ustawiona jeśli wynik przekroczył 255, w przeciwnym wypadku wyczyszczona
+- **Przeniesienie Pomocnicze** ustawiona jeśli wynik przekroczył 15, w przeciwnym wypadku wyczyszczona
+- **Przepełnienie** ustawiona jeśli wynik interpretowany jako bajt ze znakiem przekroczy jego zakres (od -128 do 127), w przeciwnym wypadku wyczyszczona"#,
+        valid_operands: r#"- #liczba (e.g. #41H, #100101B)
+- Wewnętrzny adres RAM (e.g. 05H),
+- Adres przechowywany w rejestrze @R0 lub @R1
+- Rejestry od R0 do R7"#
+    };
+
+    pub const SUBB: Documentation = Documentation {
+        title: "SUBB",
+        detail: "Odejmij od Akumulatora używając flagi pożyczenia",
+        description: "Odejmij bajt oraz flagę pożyczenia (przeniesienia) od wartości Akumulatora po czym zapisz wynik w Akumulatorze",
+        syntax: r#" SUBB A, [operand]
+ SUBB A, #41H
+ SUBB A, 05H
+ SUBB A, @R0
+ SUBB A, R2"#,
+        affected_flags: "- **Przeniesienia** ustawiona jeśli odejmowana wartość była wyższa niż wartość Akumulatora, w przeciwnym wypadku wyczyszczona
+- **Przeniesienie Pomocnicze** ustawiona jeśli wartość dolnego półbajtu odejmowanej wartości (bity od 0 do 3) była większa niż wartość dolnego półbajtu Akumulatora, w przeciwnym wypadku wyczyszczona
+- **Przepełnienie** ustawiona jeśli wynik interpretowany jako bajt ze znakiem przekroczy jego zakres (od -128 do 127), w przeciwnym wypadku wyczyszczona",
+        valid_operands: r#"- #liczba (e.g. #41H, #100101B)
+- Wewnętrzny adres RAM (e.g. 05H),
+- Adres przechowywany w rejestrze @R0 lub @R1
+- Rejestry od R0 do R7"#
+    };

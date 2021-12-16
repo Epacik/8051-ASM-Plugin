@@ -4,32 +4,36 @@ use unicode_segmentation::UnicodeSegmentation;
 mod arithmetic;
 
 use std::borrow::Borrow;
-use std::sync::{MutexGuard};
-use lspower::lsp::{MarkedString, Position, TextDocumentItem};
-use crate::{LanguageString, Locale};
-use crate::types::{ClientConfiguration, Documentation};
+use lspower::lsp::{LanguageString, MarkedString, Position, TextDocumentItem};
+use crate::{ClientConfiguration};
+use crate::types::{Documentation};
 use lazy_static::lazy_static;
 use regex::Regex;
+use crate::flags::Locale;
+
 
 #[allow(dead_code)]
 /// Finds what user is hovering their cursor over and then tries to match documentation for specified locale
-pub(crate) fn get_documentation(position: Position, document: &TextDocumentItem, configuration: &MutexGuard<ClientConfiguration>) -> Vec<MarkedString> {
+pub(crate) fn get_documentation(position: Position, document: &TextDocumentItem, configuration: &ClientConfiguration) -> Vec<MarkedString> {
+
+    //let _doc = load_documentation!();
 
     let symbol = get_symbol(document, position);
     
     let locale: Locale;
 
-    if configuration.locale == Locale::DEFAULT {
-        locale = configuration.ui_locale;
+    if configuration.locale() == Locale::DEFAULT {
+        locale = configuration.ui_locale();
     }
     else {
-        locale = configuration.locale;
+        locale = configuration.locale();
     }
 
     let documentation = match locale {
         Locale::POLISH => get_pol_documentation(symbol),
         Locale { .. }  => get_eng_documentation(symbol),
     };
+
 
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
 
@@ -75,9 +79,9 @@ pub(crate) fn get_documentation(position: Position, document: &TextDocumentItem,
 
 fn get_pol_documentation(symbol: String) -> Documentation {
     match symbol.to_uppercase().as_str() {
-        "ADD"  => arithmetic::Pol::ADD,
-        "ADDC" => arithmetic::Pol::ADDC,
-        "SUBB" => arithmetic::Pol::SUBB,
+        // "ADD"  => arithmetic::Pol::ADD,
+        // "ADDC" => arithmetic::Pol::ADDC,
+        // "SUBB" => arithmetic::Pol::SUBB,
 
         &_     => Documentation { title: "", detail: "", description: "", syntax: "", affected_flags: "", valid_operands: "" }
     }
@@ -85,9 +89,9 @@ fn get_pol_documentation(symbol: String) -> Documentation {
 
 fn get_eng_documentation(symbol: String) -> Documentation {
     match symbol.to_uppercase().as_str() {
-        "ADD"  => arithmetic::Eng::ADD,
-        "ADDC" => arithmetic::Eng::ADDC,
-        "SUBB" => arithmetic::Eng::SUBB,
+        // "ADD"  => arithmetic::Eng::ADD,
+        // "ADDC" => arithmetic::Eng::ADDC,
+        // "SUBB" => arithmetic::Eng::SUBB,
 
         &_     => Documentation { title: "", detail: "", description: "", syntax: "", affected_flags: "", valid_operands: "" }
     }
