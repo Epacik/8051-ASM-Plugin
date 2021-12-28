@@ -5,12 +5,11 @@ mod client_configuration;
 mod diagnostics;
 mod flags;
 mod hover_documentation;
-mod types;
 
 use crate::client_configuration::ClientConfiguration;
 use lspower::{LspService, Server};
-use std::collections::HashMap;
 use std::sync::Mutex;
+use std::collections::HashMap;
 
 #[tokio::main]
 async fn main() {
@@ -35,16 +34,16 @@ async fn main() {
 }
 
 mod tests {
-    use std::collections::HashMap;
-    use crate::flags::Locale;
-
     #[test]    
     fn test_doc_loading() {
-        let _flag = crate::flags::Locale::ENGLISH.bits();
-        let _docs = HashMap::from([
+        let _docs: std::collections::HashMap<crate::flags::Locale, std::collections::HashMap<String, crate::hover_documentation::documentation::Documentation>> = std::collections::HashMap::from([
             (Locale::ENGLISH, load_documentation::load_documentation!(english)),
             (Locale::POLISH, load_documentation::load_documentation!(polish)),
         ]);
+        let locale = crate::flags::Locale::ENGLISH;
+        assert_eq!(_docs.contains_key(&locale), true);
+        let _key = String::from("ADD");
+        let _eng = _docs.get(&locale).unwrap().keys();
         assert_eq!(true, true);
     }
 }

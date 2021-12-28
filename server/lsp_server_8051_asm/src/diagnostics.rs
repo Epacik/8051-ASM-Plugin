@@ -2,7 +2,7 @@ use lspower::lsp::{Diagnostic, DiagnosticSeverity, Position, Range, TextDocument
 use rand::Rng;
 
 ///IGNORE THIS FOR NOW
-/// For now it's just returning random amount of meaningless errors
+/// For now it's just returning random amount of meaningless informations
 pub(crate) fn get_diagnostics(text_document: &TextDocumentItem) -> Vec<Diagnostic> {
     let mut rng = rand::thread_rng();
     let number_of_problems: u8 = 0;//rng.gen();

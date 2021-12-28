@@ -1,16 +1,16 @@
 extern crate unicode_segmentation;
 
 use unicode_segmentation::UnicodeSegmentation;
-mod arithmetic;
+pub mod documentation;
 
+use documentation::Documentation;
 use std::borrow::Borrow;
 use lspower::lsp::{LanguageString, MarkedString, Position, TextDocumentItem};
 use crate::{ClientConfiguration};
-use crate::types::{Documentation};
 use lazy_static::lazy_static;
 use regex::Regex;
 use crate::flags::Locale;
-
+use std::collections::HashMap;
 
 #[allow(dead_code)]
 /// Finds what user is hovering their cursor over and then tries to match documentation for specified locale
@@ -29,25 +29,24 @@ pub(crate) fn get_documentation(position: Position, document: &TextDocumentItem,
         locale = configuration.locale();
     }
 
-    let documentation = match locale {
-        Locale::POLISH => get_pol_documentation(symbol),
-        Locale { .. }  => get_eng_documentation(symbol),
-    };
+
+    let documentation = Documentation::default();
+    get_documentation_data(locale, symbol);
 
 
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
 
     let mut tmp: String;
     
-    if documentation.title != "" {
-        tmp = String::from("### ");
-        tmp.push_str(documentation.title);
-        documentation_vector.push(MarkedString::String(tmp));
-    }
+    // if documentation.title != "" {
+    //     tmp = String::from("### ");
+    //     tmp.push_str(documentation.title);
+    //     documentation_vector.push(MarkedString::String(tmp));
+    // }
 
     if documentation.detail != "" {
         tmp = String::from("**");
-        tmp.push_str(documentation.detail);
+        tmp.push_str(documentation.detail.as_str());
         tmp.push_str("**");
         documentation_vector.push(MarkedString::String(tmp));
     }
@@ -58,43 +57,23 @@ pub(crate) fn get_documentation(position: Position, document: &TextDocumentItem,
     }
 
     if documentation.syntax != "" {
-        tmp = String::from(documentation.syntax);
+        tmp = String::from(documentation.syntax.as_str());
         documentation_vector.push(MarkedString::LanguageString(LanguageString{ language: "asm8051".to_string(), value: tmp.to_string() }));
     }
     
     if documentation.valid_operands != "" {
         tmp = String::from(match locale { Locale::POLISH => "Poprawne operandy:\n\n", Locale { .. } => "Valid operands:\n\n" });
-        tmp.push_str(documentation.valid_operands);
+        tmp.push_str(documentation.valid_operands.as_str());
         documentation_vector.push(MarkedString::String(tmp));
     }
 
     if documentation.affected_flags != "" {
         tmp = String::from(match locale { Locale::POLISH => "Zmodyfikowane flagi:\n\n", Locale { .. } => "Affected flags:\n\n" });
-        tmp.push_str(documentation.affected_flags);
+        tmp.push_str(documentation.affected_flags.as_str());
         documentation_vector.push(MarkedString::String(tmp));
     }
 
     documentation_vector
-}
-
-fn get_pol_documentation(symbol: String) -> Documentation {
-    match symbol.to_uppercase().as_str() {
-        // "ADD"  => arithmetic::Pol::ADD,
-        // "ADDC" => arithmetic::Pol::ADDC,
-        // "SUBB" => arithmetic::Pol::SUBB,
-
-        &_     => Documentation { title: "", detail: "", description: "", syntax: "", affected_flags: "", valid_operands: "" }
-    }
-}
-
-fn get_eng_documentation(symbol: String) -> Documentation {
-    match symbol.to_uppercase().as_str() {
-        // "ADD"  => arithmetic::Eng::ADD,
-        // "ADDC" => arithmetic::Eng::ADDC,
-        // "SUBB" => arithmetic::Eng::SUBB,
-
-        &_     => Documentation { title: "", detail: "", description: "", syntax: "", affected_flags: "", valid_operands: "" }
-    }
 }
 
 /// Get the symbol/mnemonic/word over which user is hovering
@@ -148,11 +127,22 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
     sym
 }
 
-lazy_static! {
-    /// I don't want to create regex each time I want to use it
-    static ref IS_VALID_CHARACTER_REGEX: Regex = Regex::new(r"[a-zA-Z0-9_.#@]").unwrap();//[\p{L}\p{N}_.#@]
-}
-
 fn is_valid_character(character: &str) -> bool {
     IS_VALID_CHARACTER_REGEX.is_match(character)
 }
+
+fn get_documentation_data(_locale: Locale, _mnemonic: String) {
+    
+}
+
+lazy_static! {
+    /// I don't want to create regex each time I want to use it
+    static ref IS_VALID_CHARACTER_REGEX: Regex = Regex::new(r"[a-zA-Z0-9_.#@]").unwrap();//[\p{L}\p{N}_.#@]
+
+    static ref DOCUMENTATION: HashMap<Locale, HashMap<String, Documentation>> = HashMap::from([
+        (Locale::ENGLISH, load_documentation::load_documentation!(english)),
+        (Locale::POLISH, load_documentation::load_documentation!(polish)),
+    ]);
+}
+
+
