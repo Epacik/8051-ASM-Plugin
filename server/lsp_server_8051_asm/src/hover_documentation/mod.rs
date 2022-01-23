@@ -110,10 +110,11 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
         return String::from("");
     }
 
-    // get individual Unicode characters as Vec<&str>
+    // get individual Unicode graphemes as Vec<&str>
     let graphemes =
-        UnicodeSegmentation::graphemes(line_option.unwrap(), true).collect::<Vec<&str>>();
-    let _indicies = UnicodeSegmentation::grapheme_indices(line_option.unwrap(), true);
+        UnicodeSegmentation::graphemes(line_option.unwrap(), true)
+        .collect::<Vec<&str>>();
+    let _chars = line_option.unwrap().chars().collect::<Vec<char>>();
 
     let mut symbol_start_position = 0;
     let mut symbol_end_position = graphemes.len() as u32;
@@ -121,7 +122,7 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
     if position.character != 0 {
         // find beginning of the symbol user is hovering over
         for i in (0..=position.character).rev() {
-            if !is_valid_character(graphemes[i as usize]) {
+            if !is_valid_character(_chars[i as usize]) {
                 symbol_start_position = i + 1;
                 break;
             }
@@ -130,7 +131,7 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
     if position.character + 1 < graphemes.len() as u32 {
         // find end of the symbol user is hovering over
         for i in position.character..=(graphemes.len() - 1).try_into().unwrap() {
-            if !is_valid_character(graphemes[i as usize]) {
+            if !is_valid_character(_chars[i as usize]) {
                 symbol_end_position = i;
                 break;
             }
@@ -140,14 +141,14 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
     // using locations of beginning and end of the symbol create a String containing it
     let mut sym: String = String::from("");
     for i in symbol_start_position..symbol_end_position {
-        sym.push_str(graphemes[i as usize]);
+        sym.push_str(_chars[i as usize].to_string().as_str());
     }
 
     sym
 }
 
-fn is_valid_character(character: &str) -> bool {
-    IS_VALID_CHARACTER_REGEX.is_match(character)
+fn is_valid_character(character: char) -> bool {
+    IS_VALID_CHARACTER_REGEX.is_match(character.to_string().as_str())
 }
 
 fn get_documentation_data(_locale: Locale, _mnemonic: String) -> Option<Documentation> {
