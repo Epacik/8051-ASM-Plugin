@@ -1,5 +1,5 @@
 //#region imports
-import { ExtensionContext, workspace } from 'vscode';
+import { ExtensionContext, workspace, commands, window } from 'vscode';
 
 import { Trace } from 'vscode-jsonrpc';
 
@@ -13,6 +13,7 @@ import {
 } from 'vscode-languageclient/node';
 
 import * as net from 'net';
+import { DocumentationPanel } from './views/testPanel';
 //#endregion
 
 const DEBUG: boolean = true;
@@ -60,8 +61,15 @@ export function activate(context: ExtensionContext) {
 	client = new LanguageClient("8051-support", "8051 support", serverOptions, clientOptions, true);
 	client.trace = Trace.Verbose;
 
-	context.subscriptions.push(client.start());
+	
+
+	const showPane = commands.registerCommand("8051-support.openDocs", () => {
+		DocumentationPanel.render(context.extensionUri);
+	});
+
+	context.subscriptions.push(client.start(), showPane);
 }
+	
 
 // this method is called when your extension is deactivated
 export function deactivate() {

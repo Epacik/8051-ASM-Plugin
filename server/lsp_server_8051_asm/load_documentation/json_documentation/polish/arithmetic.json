@@ -1,0 +1,18 @@
+{
+    "ADD": {
+        "detail": "Dodaj to Akumulatora",
+        "description": "Dodaje wartość bajtową do wartości przechowywanej w akumulatorze i przechowuje wynik w akumulatorze.",
+        "syntax": " ADD A,  [operand]\n ADD A,  #41H\n ADD A,  05H\n ADD A,  @R0\n ADD A,  R2",
+        "affected_flags": "- **Przeniesienie** (**Carry**) jeśli wynik jest większy niż 255 flaga zostaje ustawiona, w przeciwnym wypadku zostaje wyczyszczona\n- **Przeniesienie Pomocnicze** (**Auxilliary Carry**) jeśli wartość jest większa niż 15 flaga zostanie ustawiona, jeśli nie, zostanie wyczyszczona\n- **Nadmiar** (**Overflow**) jeśli wartość przekracza wartość bajta ze znakiem (-128 do 127) flaga zostaje ustawiona, jeśli nie zostaje wyczyszczona ",
+        "valid_operands": "- #liczba (e.g. #41H, #100101B)\n- Adres wewnętrznej pamięci RAM (e.g. 05H)\n- Adres przechowywany w rejestrze @R0 lub @R1\n- Rejestry od R0 do R7"
+    },
+    "ADDC": {
+        "detail": "Add to Accumulator with Carry flag",
+        "description": "Adds a byte value and a carry flag to the accumulator, and stores the results in the accumulator.",
+        "syntax": " ADDC A,  [operand]\n ADDC A,  #41H\n ADDC A,  05H\n ADDC A,  @R0\n ADDC A,  R2",
+        "affected_flags": "- **Carry** set if result exceedes 255, cleared if it does not\n- **Auxillary Carry** set if result exceedes 15, cleared if it does not\n- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not",
+        "valid_operands": "- #numer (e.g. #41H, #100101B)\n- Internal ram address (e.g. 05H)\n- Address stored in register @R0 or @R1\n- Register R0 trough R7"
+    }
+    
+
+}

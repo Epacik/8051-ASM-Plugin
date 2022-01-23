@@ -33,17 +33,17 @@ async fn main() {
         .await;
 }
 
-mod tests {
-    #[test]    
-    fn test_doc_loading() {
-        let _docs: std::collections::HashMap<crate::flags::Locale, std::collections::HashMap<String, crate::hover_documentation::documentation::Documentation>> = std::collections::HashMap::from([
-            (Locale::ENGLISH, load_documentation::load_documentation!(english)),
-            (Locale::POLISH, load_documentation::load_documentation!(polish)),
-        ]);
-        let locale = crate::flags::Locale::ENGLISH;
-        assert_eq!(_docs.contains_key(&locale), true);
-        let _key = String::from("ADD");
-        let _eng = _docs.get(&locale).unwrap().keys();
-        assert_eq!(true, true);
-    }
-}
+// mod tests {
+//     #[test]    
+//     fn test_doc_loading() {
+//         let _docs: std::collections::HashMap<crate::flags::Locale, std::collections::HashMap<String, crate::hover_documentation::documentation::Documentation>> = std::collections::HashMap::from([
+//             (Locale::ENGLISH, load_documentation::load_documentation!(english)),
+//             (Locale::POLISH, load_documentation::load_documentation!(polish)),
+//         ]);
+//         let locale = crate::flags::Locale::ENGLISH;
+//         assert_eq!(_docs.contains_key(&locale), true);
+//         let _key = String::from("ADD");
+//         let _eng = _docs.get(&locale).unwrap().keys();
+//         assert_eq!(true, true);
+//     }
+// }

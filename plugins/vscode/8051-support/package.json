@@ -10,12 +10,17 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:8051-suppport.helloWorld",
-		"onLanguage:plaintext"
+		"onCommand:8051-support.openDocs",
+		"onLanguage:asm8051"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [],
+		"commands": [
+			{
+				"command": "8051-support.openDocs",
+				"title": "Open documentation"
+			}
+		],
 		"languages": [
 			{
 				"id": "asm8051",
@@ -130,6 +135,7 @@
 	},
 	"dependencies": {
 		"@types/vscode": "^1.62.0",
+		"@vscode/webview-ui-toolkit": "^0.8.5",
 		"net": "^1.0.2",
 		"vscode-languageclient": "^7.0.0"
 	}

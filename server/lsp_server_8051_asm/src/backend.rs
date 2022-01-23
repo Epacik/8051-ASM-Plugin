@@ -8,10 +8,6 @@ use lspower::lsp::{ClientCapabilities, CompletionItem, CompletionOptions, Comple
 use std::option::Option;
 use std::string::String;
 use crate::client_configuration::ClientConfiguration;
-
-
- 
-
 /// Connection with a client and additional configutation
 #[derive(Debug)]
 pub(crate) struct Backend {
@@ -45,8 +41,8 @@ impl LanguageServer for Backend {
 
         // time to set some capabilities, so the client knows what server can do
         let mut result = InitializeResult::default();
-        result.capabilities.text_document_sync = Some(TextDocumentSyncCapability::from(TextDocumentSyncKind::INCREMENTAL));
-        result.capabilities.completion_provider = Some(CompletionOptions{
+        result.capabilities.text_document_sync  = Some( TextDocumentSyncCapability::from(TextDocumentSyncKind::INCREMENTAL) );
+        result.capabilities.completion_provider = Some( CompletionOptions{
             resolve_provider: Option::from(true),
             trigger_characters: None,
             all_commit_characters: None,
@@ -63,7 +59,9 @@ impl LanguageServer for Backend {
         let capabilities = self.client_capabilities.lock().unwrap().as_ref().unwrap().clone();
 
         // add custom event in case user changes configuration in editor that supports it
-        if capabilities.workspace.is_some() && capabilities.workspace.as_ref().unwrap().configuration.is_some() && capabilities.workspace.as_ref().unwrap().configuration.unwrap() {
+        if capabilities.workspace.is_some() &&
+           capabilities.workspace.as_ref().unwrap().configuration.is_some() &&
+           capabilities.workspace.as_ref().unwrap().configuration.unwrap() {
             let _register_result = self.client.register_capability(vec![ Registration {
                 id: "workspace/didChangeConfiguration".to_string(),
                 method: "workspace/didChangeConfiguration".to_string(),

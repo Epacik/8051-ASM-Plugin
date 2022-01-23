@@ -3,7 +3,7 @@
         "detail": "Add to Accumulator",
         "description": "Adds a byte value to a value stored in the accumulator, and stores the results back in the accumulator.",
         "syntax": " ADD A,  [operand]\n ADD A,  #41H\n ADD A,  05H\n ADD A,  @R0\n ADD A,  R2",
-        "affected_flags": "- **Carry** set if result exceedes 255, cleared if it does not\n- **Auxillary Carry** set if result exceedes 15, cleared if it does not\n- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not",
+        "affected_flags": "- **Carry** set if result exceedes 255, cleared if it does not\n- **Auxilliary Carry** set if result exceedes 15, cleared if it does not\n- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not",
         "valid_operands": "- #number (e.g. #41H, #100101B)\n- Internal ram address (e.g. 05H)\n- Address stored in register @R0 or @R1\n- Register R0 trough R7"
     },
     "ADDC": {

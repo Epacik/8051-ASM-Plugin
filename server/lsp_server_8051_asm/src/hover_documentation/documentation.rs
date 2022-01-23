@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
 #[allow(dead_code)]
-#[derive(Deserialize, Default)]
+#[derive(Deserialize, Default, Clone)]
 pub struct Documentation {
     pub detail: String,
     pub description: String,
@@ -9,4 +9,3 @@ pub struct Documentation {
     pub affected_flags: String,
     pub valid_operands: String,
 }
-

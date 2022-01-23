@@ -3,46 +3,56 @@ extern crate unicode_segmentation;
 use unicode_segmentation::UnicodeSegmentation;
 pub mod documentation;
 
-use documentation::Documentation;
-use std::borrow::Borrow;
-use lspower::lsp::{LanguageString, MarkedString, Position, TextDocumentItem};
-use crate::{ClientConfiguration};
-use lazy_static::lazy_static;
-use regex::Regex;
 use crate::flags::Locale;
+use crate::ClientConfiguration;
+use documentation::Documentation;
+use lazy_static::lazy_static;
+use lspower::lsp::{LanguageString, MarkedString, Position, TextDocumentItem};
+use regex::Regex;
+use std::borrow::Borrow;
 use std::collections::HashMap;
 
 #[allow(dead_code)]
 /// Finds what user is hovering their cursor over and then tries to match documentation for specified locale
-pub(crate) fn get_documentation(position: Position, document: &TextDocumentItem, configuration: &ClientConfiguration) -> Vec<MarkedString> {
-
+pub(crate) fn get_documentation(
+    position: Position,
+    document: &TextDocumentItem,
+    configuration: &ClientConfiguration,
+) -> Vec<MarkedString> {
     //let _doc = load_documentation!();
 
-    let symbol = get_symbol(document, position);
-    
+    let mnemonic = get_symbol(document, position);
+
     let locale: Locale;
 
     if configuration.locale() == Locale::DEFAULT {
         locale = configuration.ui_locale();
-    }
-    else {
+    } else {
         locale = configuration.locale();
     }
 
+    let mut documentation_option = get_documentation_data(locale, mnemonic.clone());
 
-    let documentation = Documentation::default();
-    get_documentation_data(locale, symbol);
+    if documentation_option.is_none() && locale != Locale::ENGLISH {
+        documentation_option = get_documentation_data(Locale::ENGLISH, mnemonic.clone());
+    }
 
+    if documentation_option.is_none() {
+        return <Vec<MarkedString>>::new();
+    }
+
+    let documentation = match documentation_option {
+        None => Documentation::default(),
+        Some(d) => d,
+    };
 
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
-
     let mut tmp: String;
-    
-    // if documentation.title != "" {
-    //     tmp = String::from("### ");
-    //     tmp.push_str(documentation.title);
-    //     documentation_vector.push(MarkedString::String(tmp));
-    // }
+
+    tmp = String::from("**");
+    tmp.push_str(mnemonic.as_str());
+    tmp.push_str("**");
+    documentation_vector.push(MarkedString::String(tmp));
 
     if documentation.detail != "" {
         tmp = String::from("**");
@@ -58,17 +68,26 @@ pub(crate) fn get_documentation(position: Position, document: &TextDocumentItem,
 
     if documentation.syntax != "" {
         tmp = String::from(documentation.syntax.as_str());
-        documentation_vector.push(MarkedString::LanguageString(LanguageString{ language: "asm8051".to_string(), value: tmp.to_string() }));
+        documentation_vector.push(MarkedString::LanguageString(LanguageString {
+            language: "asm8051".to_string(),
+            value: tmp.to_string(),
+        }));
     }
-    
+
     if documentation.valid_operands != "" {
-        tmp = String::from(match locale { Locale::POLISH => "Poprawne operandy:\n\n", Locale { .. } => "Valid operands:\n\n" });
+        tmp = String::from(match locale {
+            Locale::POLISH => "Poprawne operandy:\n\n",
+            Locale { .. } => "Valid operands:\n\n",
+        });
         tmp.push_str(documentation.valid_operands.as_str());
         documentation_vector.push(MarkedString::String(tmp));
     }
 
     if documentation.affected_flags != "" {
-        tmp = String::from(match locale { Locale::POLISH => "Zmodyfikowane flagi:\n\n", Locale { .. } => "Affected flags:\n\n" });
+        tmp = String::from(match locale {
+            Locale::POLISH => "Zmodyfikowane flagi:\n\n",
+            Locale { .. } => "Affected flags:\n\n",
+        });
         tmp.push_str(documentation.affected_flags.as_str());
         documentation_vector.push(MarkedString::String(tmp));
     }
@@ -83,7 +102,7 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
 
     // go to the line over which user is hovering
     let mut line_option: Option<&str> = Option::None;
-    for _i in 0 .. position.line + 1 {
+    for _i in 0..position.line + 1 {
         line_option = lines.next();
     }
 
@@ -92,13 +111,14 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
     }
 
     // get individual Unicode characters as Vec<&str>
-    let graphemes = UnicodeSegmentation::graphemes(line_option.unwrap(), true).collect::<Vec<&str>>();
+    let graphemes =
+        UnicodeSegmentation::graphemes(line_option.unwrap(), true).collect::<Vec<&str>>();
+    let _indicies = UnicodeSegmentation::grapheme_indices(line_option.unwrap(), true);
 
     let mut symbol_start_position = 0;
     let mut symbol_end_position = graphemes.len() as u32;
 
     if position.character != 0 {
-
         // find beginning of the symbol user is hovering over
         for i in (0..=position.character).rev() {
             if !is_valid_character(graphemes[i as usize]) {
@@ -108,9 +128,8 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
         }
     }
     if position.character + 1 < graphemes.len() as u32 {
-
         // find end of the symbol user is hovering over
-        for i in position.character ..= (graphemes.len() - 1).try_into().unwrap() {
+        for i in position.character..=(graphemes.len() - 1).try_into().unwrap() {
             if !is_valid_character(graphemes[i as usize]) {
                 symbol_end_position = i;
                 break;
@@ -119,7 +138,7 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
     }
 
     // using locations of beginning and end of the symbol create a String containing it
-    let mut sym :String = String::from("");
+    let mut sym: String = String::from("");
     for i in symbol_start_position..symbol_end_position {
         sym.push_str(graphemes[i as usize]);
     }
@@ -131,8 +150,19 @@ fn is_valid_character(character: &str) -> bool {
     IS_VALID_CHARACTER_REGEX.is_match(character)
 }
 
-fn get_documentation_data(_locale: Locale, _mnemonic: String) {
-    
+fn get_documentation_data(_locale: Locale, _mnemonic: String) -> Option<Documentation> {
+    let docs = DOCUMENTATION.get(_locale.borrow());
+    if docs.is_none() {
+        return Option::None;
+    }
+
+    let doc = docs.unwrap().get(&String::from(_mnemonic));
+
+    if doc.is_none() {
+        return Option::None;
+    }
+
+    Option::Some(doc.unwrap().clone())
 }
 
 lazy_static! {
@@ -144,5 +174,3 @@ lazy_static! {
         (Locale::POLISH, load_documentation::load_documentation!(polish)),
     ]);
 }
-
-
