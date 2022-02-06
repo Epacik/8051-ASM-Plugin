@@ -1,5 +1,5 @@
 //#region imports
-import { ExtensionContext, workspace, commands, window } from 'vscode';
+import { ExtensionContext, workspace, commands, window, MarkdownString } from 'vscode';
 
 import { Trace } from 'vscode-jsonrpc';
 
@@ -13,12 +13,15 @@ import {
 } from 'vscode-languageclient/node';
 
 import * as net from 'net';
-import { DocumentationPanel } from './views/testPanel';
+import { DocumentationPanel } from './views/documentationPanel';
+import GetAllDocumentationFeature from './features/getAllDocumentationFeature';
+import IDocumentation from './documentation';
 //#endregion
 
 const DEBUG: boolean = true;
 
 let client: LanguageClient;
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -30,7 +33,8 @@ export function activate(context: ExtensionContext) {
 
 	if (DEBUG) {
 		let connectionInfo = {
-			port: 8050
+			port: 8050,
+			
 		};
 		serverOptions = () => {
 			let socket = net.connect(connectionInfo);
@@ -59,15 +63,21 @@ export function activate(context: ExtensionContext) {
 	};
 
 	client = new LanguageClient("8051-support", "8051 support", serverOptions, clientOptions, true);
+	//client.registerFeature(new GetAllDocumentationFeature());
+	
 	client.trace = Trace.Verbose;
 
 	
 
-	const showPane = commands.registerCommand("8051-support.openDocs", () => {
-		DocumentationPanel.render(context.extensionUri);
-	});
+	const showPane = commands.registerCommand("8051-support.openDocs", () => openDocsCommand(context));
 
 	context.subscriptions.push(client.start(), showPane);
+}
+
+async function openDocsCommand(context: ExtensionContext) {
+	//client.sendNotification("test.command");
+	let docs: Map<string, IDocumentation> = await client.sendRequest("documentation/getAll");
+	DocumentationPanel.render(context.extensionUri, docs);
 }
 	
 
@@ -80,5 +90,3 @@ export function deactivate() {
 
 	return undefined;
 }
-
-

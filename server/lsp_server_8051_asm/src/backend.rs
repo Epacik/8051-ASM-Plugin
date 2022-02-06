@@ -4,7 +4,8 @@ use crate::{diagnostics, hover_documentation};
 use std::borrow::{Borrow};
 use lspower::jsonrpc::{Error, ErrorCode, Result};
 use lspower::{Client, LanguageServer};
-use lspower::lsp::{ClientCapabilities, CompletionItem, CompletionOptions, CompletionParams, CompletionResponse, ConfigurationItem, DidChangeConfigurationParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, Hover, HoverContents, HoverParams, HoverProviderCapability, InitializedParams, InitializeParams, InitializeResult, MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind};
+use lspower::lsp::{ClientCapabilities, CompletionItem, CompletionOptions, CompletionParams, CompletionResponse, ConfigurationItem, DidChangeConfigurationParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, Hover, HoverContents, HoverParams, HoverProviderCapability, InitializedParams, InitializeParams, InitializeResult, MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind, ExecuteCommandParams, ExecuteCommandOptions};
+use serde_json::Value;
 use std::option::Option;
 use std::string::String;
 use crate::client_configuration::ClientConfiguration;
@@ -41,6 +42,10 @@ impl LanguageServer for Backend {
 
         // time to set some capabilities, so the client knows what server can do
         let mut result = InitializeResult::default();
+        result.capabilities.execute_command_provider = Some(ExecuteCommandOptions{
+            commands: vec!["test.command".to_string()],
+            work_done_progress_options: Default::default(),
+        });
         result.capabilities.text_document_sync  = Some( TextDocumentSyncCapability::from(TextDocumentSyncKind::INCREMENTAL) );
         result.capabilities.completion_provider = Some( CompletionOptions{
             resolve_provider: Option::from(true),
@@ -154,9 +159,32 @@ impl LanguageServer for Backend {
 
         self.documents.lock().unwrap().remove(file_url);
     }
+
+    async fn execute_command(&self, params: ExecuteCommandParams) -> Result<Option<Value>> {
+        self.client
+            .log_message(MessageType::INFO, format!("received {}", params.command) )
+            .await;
+        Ok(Option::None)
+    }
+
+    async fn request_else(&self, method: &str, _params: Option<Value>) -> Result<Option<Value>>{
+        println!("received request: {}", method);
+        
+        // self.client
+        //     .log_message(MessageType::INFO, format!("received {}", method) )
+        //     .await;
+        match method {
+            "documentation/getAll" => self.get_all_documentation(),
+            &_ => Err(lspower::jsonrpc::Error {
+                code: ErrorCode::MethodNotFound,
+                data: Option::None,
+                message: String::from("Method not found")
+            }),
+        }
+    }
 }
 
-impl Backend{
+impl Backend {
     async fn validate_all_documents(&self) {
         let documents = self.documents.lock().unwrap().clone();
 
@@ -213,7 +241,7 @@ impl Backend{
 
 
         // update local copy of clients configuration
-        self.set_client_configuration( ClientConfiguration{
+        self.set_client_configuration( ClientConfiguration {
             max_number_of_problems: newconfig.max_number_of_problems,
             kit: newconfig.kit,
             locale: newconfig.locale,
@@ -234,6 +262,17 @@ impl Backend{
     fn set_client_configuration(&self, new_config: ClientConfiguration ){
         let mut config = self.client_configuration.lock().unwrap();
         *config = new_config;
+    }
+
+    fn get_all_documentation(&self) -> Result<Option<Value>> {
+        let _locale = self.client_configuration.lock().unwrap().display_locale();
+        let docs_option = hover_documentation::get_all_documentation(_locale);
+        if docs_option.is_none(){
+            return Ok(Option::None);
+        }
+        let _docs = docs_option.unwrap();
+
+        Ok(Option::Some(serde_json::to_value(_docs).unwrap()))
     }
 
 }

@@ -12,6 +12,17 @@ use regex::Regex;
 use std::borrow::Borrow;
 use std::collections::HashMap;
 
+
+pub(crate) fn get_all_documentation(locale: Locale) -> Option<HashMap<String, Documentation>> {
+    let docs = DOCUMENTATION.get(locale.borrow());
+
+    match docs {
+        Some(some_docs) => Option::Some(some_docs.clone()),
+        None => Option::None,
+    }
+    
+}
+
 #[allow(dead_code)]
 /// Finds what user is hovering their cursor over and then tries to match documentation for specified locale
 pub(crate) fn get_documentation(
@@ -115,6 +126,7 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
         UnicodeSegmentation::graphemes(line_option.unwrap(), true)
         .collect::<Vec<&str>>();
     let _chars = line_option.unwrap().chars().collect::<Vec<char>>();
+    let chars_length = _chars.len();
 
     let mut symbol_start_position = 0;
     let mut symbol_end_position = graphemes.len() as u32;
@@ -122,7 +134,8 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
     if position.character != 0 {
         // find beginning of the symbol user is hovering over
         for i in (0..=position.character).rev() {
-            if !is_valid_character(_chars[i as usize]) {
+            let index = i as usize;
+            if index < chars_length && !is_valid_character(_chars[index]) {
                 symbol_start_position = i + 1;
                 break;
             }

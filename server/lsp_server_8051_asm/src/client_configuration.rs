@@ -29,6 +29,17 @@ impl ClientConfiguration {
         }
     }
 
+    #[allow(dead_code)]
+    pub fn display_locale(&self) -> Locale {
+        let locale: Locale;
+        if self.locale() == Locale::DEFAULT {
+            locale = self.ui_locale();
+        } else {
+            locale = self.locale();
+        }
+        locale
+    }
+
     pub fn locale(&self) -> Locale {
         match self.locale.as_str() {
             "english" => Locale::ENGLISH,
