@@ -10,7 +10,7 @@ pub fn load_documentation(_stream: proc_macro::TokenStream) -> proc_macro::Token
 
 fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
     let lang = _stream.to_string();
-    println!("load docs from {}", lang.clone());
+    //println!("load docs from {}", lang.clone());
 
     //checking if directory with documentation is present
 
@@ -62,7 +62,7 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
             continue;
         }
 
-        println!("loading {}", file_ref.unwrap().file_name().into_string().unwrap());
+        //println!("loading {}", filename);
 
         let content = std::fs::read_to_string(file_ref.unwrap().path());
 
