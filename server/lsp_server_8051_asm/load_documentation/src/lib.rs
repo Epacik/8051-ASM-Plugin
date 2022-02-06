@@ -22,13 +22,11 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
 
     let project_path = project_path_result.unwrap();
 
-
-    
-
-
     let mut path = project_path;
 
     if path.ends_with("lsp_server_8051_asm") {
+        // rust analyzer sometimes dies because of this macro
+        // return quote::quote!{ std::collections::HashMap::new() };
         path.push_str("/");
         path.push_str("load_documentation");
     }
@@ -43,8 +41,6 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
 
     // check if requested language is available
     if folders_result.is_err() {
-        
-
         panic!("{} was not found in {}", folders_result.unwrap_err(), &path);
     }
 
@@ -61,6 +57,8 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
             eprintln!("ERROR");
             continue;
         }
+
+        let filename = file_ref.unwrap().file_name().into_string().unwrap();
 
         //println!("loading {}", filename);
 
@@ -102,12 +100,19 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
             let affected_flags = item.affected_flags;
             let valid_operands = item.valid_operands;
 
+            let category_split = filename.split(".").collect::<Vec<&str>>();
+            let mut v: Vec<char> = category_split[0].chars().collect();
+            v[0] = v[0].to_uppercase().nth(0).unwrap();
+            let category: String = v.into_iter().collect();
+
+
             items.push(quote::quote!{ ( std::string::String::from(#key), crate::hover_documentation::documentation::Documentation {
                 detail: std::string::String::from(#detail),
                 description: std::string::String::from(#description),
                 syntax: std::string::String::from(#syntax),
                 affected_flags: std::string::String::from(#affected_flags),
                 valid_operands: std::string::String::from(#valid_operands),
+                category: std::string::String::from(#category),
              })});
         }
     }
