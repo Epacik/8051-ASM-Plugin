@@ -7,10 +7,12 @@ use crate::flags::Locale;
 use crate::ClientConfiguration;
 use documentation::Documentation;
 use lazy_static::lazy_static;
-use lspower::lsp::{LanguageString, MarkedString, Position, TextDocumentItem};
+use lspower::lsp::{ MarkedString, Position, TextDocumentItem};
 use regex::Regex;
 use std::borrow::Borrow;
 use std::collections::HashMap;
+
+use self::documentation::{ValidOperand, PossibleOperand};
 
 
 pub(crate) fn get_all_documentation(locale: Locale) -> Option<HashMap<String, Documentation>> {
@@ -21,6 +23,150 @@ pub(crate) fn get_all_documentation(locale: Locale) -> Option<HashMap<String, Do
         None => Option::None,
     }
     
+}
+
+pub(crate) fn generate_syntax(key_docs: (String, Documentation)) -> String {
+
+    let operands = key_docs.1.valid_operands.clone();
+
+    match key_docs.1.valid_operands.len() {
+        0 => generate_syntax_for_no_operand(key_docs.0),
+        1 => generate_syntax_for_one_operand(key_docs.0, operands[0].clone()),
+        2 => generate_syntax_for_two_operands(key_docs.0, operands[0].clone(), operands[1].clone()),
+        3 => generate_syntax_for_three_operands(key_docs.0, operands[0].clone(), operands[1].clone(), operands[2].clone()),
+        _ => "".to_string(),
+    }
+}
+
+fn generate_syntax_for_no_operand(key: String) -> String {
+    format!("{}", key)
+}
+
+fn generate_syntax_for_one_operand(key: String, operands: Vec<ValidOperand>) -> String {
+    let mut result = format!("{} [operand]\n\n", key);
+
+    for operand in operands {
+        result.push_str(format!("{} [{}]\n", key, operand.operand().label()).as_str());
+        result.push_str(format!("{} {}\n\n", key, operand.operand().example(None)).as_str());
+    }    
+
+    result
+}
+
+fn generate_syntax_for_two_operands(key: String, operands0: Vec<ValidOperand>, operands1: Vec<ValidOperand>) -> String {
+    let mut result = format!("{} [operand0], [operand1]\n\n", key);
+
+    for operand0 in operands0.clone() {
+        for operand1 in operands1.clone() {
+            result.push_str(format!("{} [{}], [{}]\n", key, operand0.operand().label(), operand1.operand().label()).as_str());
+            result.push_str(format!("{} {}, {}\n\n", key, operand0.operand().example(None), operand1.operand().example(None)).as_str());
+        }
+    }    
+
+    result
+}
+
+fn generate_syntax_for_three_operands(key: String, operands0: Vec<ValidOperand>, operands1: Vec<ValidOperand>, operands2: Vec<ValidOperand>) -> String {
+    let mut result = format!("{} [operand0], [operand1], [operand2]\n\n", key);
+
+    for operand0 in operands0.clone() {
+        for operand1 in operands1.clone() {
+            for operand2 in operands2.clone() {
+                result.push_str(
+                    format!(
+                        "{} [{}], [{}], [{}]\n",
+                        key,
+                        operand0.operand().label(), 
+                        operand1.operand().label(), 
+                        operand2.operand().label()
+                    ).as_str());
+
+                result.push_str(
+                    format!(
+                        "{} {}, {}, {}\n\n", 
+                        key, 
+                        operand0.operand().example(None), 
+                        operand1.operand().example(None),
+                        operand2.operand().example(None)
+                    ).as_str());
+            }
+        }
+    }    
+
+    result
+}
+
+pub(crate) fn generate_affected_flags(flags: Vec<documentation::Flag>) -> String {
+    let mut result = String::new();
+
+    for flag in flags {
+        result.push_str("- **");
+        result.push_str(flag.flag().label().as_str());
+        result.push_str("**: ");
+
+        if !flag.when_set.is_empty() {
+            result.push_str("set when ");
+            result.push_str(flag.when_set.as_str());
+        }
+
+        if !flag.when_set.is_empty() && !flag.when_unset.is_empty() {
+            result.push_str(", ");
+        }
+
+        if !flag.when_unset.is_empty() {
+            result.push_str("unset when ");
+            result.push_str(flag.when_set.as_str());
+        }
+
+        result.push_str("\n");
+    }
+
+    result
+}
+
+pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> String {
+    
+    if operands.len() == 0 {
+        return String::new();
+    }
+    let mut result = String::new();
+
+    if operands.len() == 1 {
+        for operand in operands[0].clone() {
+            result.push_str(" - ");
+            result.push_str(operand.operand().label().as_str());
+            result.push_str("\n");
+        }
+    }
+    else {
+        let mut filtered : Vec<Vec<PossibleOperand>> = Vec::new();
+        for i in 0..operands.len() {
+            let inner = &operands[i]; 
+            filtered.push(Vec::new());
+            for operand in inner {
+                if !filtered[i].contains(&operand.operand()) {
+                    filtered[i].push(operand.operand());
+                }
+            }
+        }
+
+        for i in 0..filtered.len() {
+
+            result.push_str("**Operand");
+            result.push_str(i.to_string().as_str());
+            result.push_str("**: \n");
+
+            for operand in filtered[i].clone() {
+                result.push_str(" - ");
+                result.push_str(operand.label().as_str());
+                result.push_str("\n");
+            }
+
+            result.push_str("\n\n");
+        }
+    }
+
+    result
 }
 
 #[allow(dead_code)]
@@ -65,43 +211,43 @@ pub(crate) fn get_documentation(
     tmp.push_str("**");
     documentation_vector.push(MarkedString::String(tmp));
 
-    if documentation.detail != "" {
-        tmp = String::from("**");
-        tmp.push_str(documentation.detail.as_str());
-        tmp.push_str("**");
-        documentation_vector.push(MarkedString::String(tmp));
-    }
+    // if documentation.detail != "" {
+    //     tmp = String::from("**");
+    //     tmp.push_str(documentation.detail.as_str());
+    //     tmp.push_str("**");
+    //     documentation_vector.push(MarkedString::String(tmp));
+    // }
 
     if documentation.description != "" {
         tmp = String::from(documentation.description);
         documentation_vector.push(MarkedString::String(tmp));
     }
 
-    if documentation.syntax != "" {
-        tmp = String::from(documentation.syntax.as_str());
-        documentation_vector.push(MarkedString::LanguageString(LanguageString {
-            language: "asm8051".to_string(),
-            value: tmp.to_string(),
-        }));
-    }
+    // if documentation.syntax != "" {
+    //     tmp = String::from(documentation.syntax.as_str());
+    //     documentation_vector.push(MarkedString::LanguageString(LanguageString {
+    //         language: "asm8051".to_string(),
+    //         value: tmp.to_string(),
+    //     }));
+    // }
 
-    if documentation.valid_operands != "" {
-        tmp = String::from(match locale {
-            Locale::POLISH => "Poprawne operandy:\n\n",
-            Locale { .. } => "Valid operands:\n\n",
-        });
-        tmp.push_str(documentation.valid_operands.as_str());
-        documentation_vector.push(MarkedString::String(tmp));
-    }
+    // if documentation.valid_operands != "" {
+    //     tmp = String::from(match locale {
+    //         Locale::POLISH => "Poprawne operandy:\n\n",
+    //         Locale { .. } => "Valid operands:\n\n",
+    //     });
+    //     tmp.push_str(documentation.valid_operands.as_str());
+    //     documentation_vector.push(MarkedString::String(tmp));
+    // }
 
-    if documentation.affected_flags != "" {
-        tmp = String::from(match locale {
-            Locale::POLISH => "Zmodyfikowane flagi:\n\n",
-            Locale { .. } => "Affected flags:\n\n",
-        });
-        tmp.push_str(documentation.affected_flags.as_str());
-        documentation_vector.push(MarkedString::String(tmp));
-    }
+    // if documentation.affected_flags != "" {
+    //     tmp = String::from(match locale {
+    //         Locale::POLISH => "Zmodyfikowane flagi:\n\n",
+    //         Locale { .. } => "Affected flags:\n\n",
+    //     });
+    //     tmp.push_str(documentation.affected_flags.as_str());
+    //     documentation_vector.push(MarkedString::String(tmp));
+    // }
 
     documentation_vector
 }

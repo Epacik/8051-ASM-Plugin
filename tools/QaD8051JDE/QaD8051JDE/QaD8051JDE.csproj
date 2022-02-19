@@ -17,4 +17,12 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
     <PackageReference Include="MessageBox.Avalonia" Version="1.7.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\DocumentationElementEditor.axaml.cs">
+      <DependentUpon>DocumentationElementEditor.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DocumentationElementEditorOld.axaml.cs">
+      <DependentUpon>DocumentationElementEditorOld.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

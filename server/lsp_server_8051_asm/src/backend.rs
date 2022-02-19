@@ -271,8 +271,31 @@ impl Backend {
             return Ok(Option::None);
         }
         let _docs = docs_option.unwrap();
+        //let dcs = serde_json::to_value(_docs).unwrap();
 
-        Ok(Option::Some(serde_json::to_value(_docs).unwrap()))
+        let mut map = serde_json::Map::new();
+
+        for kvp in _docs {
+            let obj = serde_json::json!({
+                "detail": kvp.1.detail,
+                "description": kvp.1.description,
+                "syntax": hover_documentation::generate_syntax(kvp.clone()),
+                "affected_flags": hover_documentation::generate_affected_flags(kvp.clone().1.affected_flags),
+                "valid_operands": hover_documentation::generate_valid_operands(kvp.clone().1.valid_operands),
+                "category": kvp.1.category
+            });
+            map.insert(kvp.0, obj);
+        }
+
+        Ok(Option::Some(serde_json::Value::Object(map)))
     }
 
 }
+
+// struct DocumentationToSend {
+//     pub detail: std::string::String,
+//     pub description: std::string::String,
+//     pub syntax: std::string::String,
+//     pub affected_flags: std::string::String,
+//     pub valid_operands: std::string::String,
+// }

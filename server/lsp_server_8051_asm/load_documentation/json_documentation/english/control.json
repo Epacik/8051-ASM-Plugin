@@ -1,9 +1,0 @@
-{
-  "CALL": {
-    "detail": "CALL",
-    "description": "CALL DESCRIPTION\t",
-    "syntax": "CALL X\t",
-    "affected_flags": "NONE",
-    "valid_operands": "NONE23"
-  }
-}

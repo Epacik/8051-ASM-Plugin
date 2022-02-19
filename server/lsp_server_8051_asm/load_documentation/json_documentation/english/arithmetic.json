@@ -2,22 +2,253 @@
   "ADD": {
     "detail": "Add to Accumulator",
     "description": "Adds a byte value to a value stored in the accumulator, and stores the results back in the accumulator.",
-    "syntax": " ADD A,  [operand]\n ADD A,  #41H\n ADD A,  05H\n ADD A,  @R0\n ADD A,  R2",
-    "affected_flags": "- **Carry** set if result exceedes 255, cleared if it does not\n- **Auxilliary Carry** set if result exceedes 15, cleared if it does not\n- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not",
-    "valid_operands": "- #number (e.g. #41H, #100101B)\n- Internal ram address (e.g. 05H)\n- Address stored in register @R0 or @R1\n- Register R0 trough R7"
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 3,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [
+      {
+        "flag": 2,
+        "when_set": "",
+        "when_unset": "result overflows signed byte value (-128 to 127)"
+      },
+      {
+        "flag": 6,
+        "when_set": "result exceedes 15",
+        "when_unset": ""
+      },
+      {
+        "flag": 7,
+        "when_set": "result exceedes 255",
+        "when_unset": ""
+      }
+    ],
+    "dont_generate_syntax": false
   },
   "ADDC": {
     "detail": "Add to Accumulator with Carry flag",
     "description": "Adds a byte value and a carry flag to the accumulator, and stores the results in the accumulator.",
-    "syntax": " ADDC A,  [operand]\n ADDC A,  #41H\n ADDC A,  05H\n ADDC A,  @R0\n ADDC A,  R2",
-    "affected_flags": "- **Carry** set if result exceedes 255, cleared if it does not\n- **Auxillary Carry** set if result exceedes 15, cleared if it does not\n- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not",
-    "valid_operands": "- #number (e.g. #41H, #100101B)\n- Internal ram address (e.g. 05H)\n- Address stored in register @R0 or @R1\n- Register R0 trough R7"
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 3,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [
+      {
+        "flag": 2,
+        "when_set": "",
+        "when_unset": "result overflows signed byte value (-128 to 127)"
+      },
+      {
+        "flag": 6,
+        "when_set": "result exceedes 15",
+        "when_unset": ""
+      },
+      {
+        "flag": 7,
+        "when_set": "result exceedes 255",
+        "when_unset": ""
+      }
+    ],
+    "dont_generate_syntax": false
   },
   "SUBB": {
     "detail": "Subtract from Accumulator With Borrow",
     "description": "Subtract the value of operand and the Carry Flag from the value of the Accumulator, and stores the results in the accumulator.",
-    "syntax": " SUBB A,  [operand]\n SUBB A,  #41H\n SUBB A,  05H\n SUBB A,  @R0\n SUBB A,  R2",
-    "affected_flags": "- **Carry** set if operand value was greater than Accumulator value, cleared if it was not\r\n- **Auxillary Carry** set if lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of an Accumulator, cleared if it was not\r\n- **Overflow** set if result is out of signed byte value (-128 trough 127), cleared if it does not",
-    "valid_operands": "- #number (e.g. #41H, #100101B)\n- Internal ram address (e.g. 05H)\n- Address stored in register @R0 or @R1\n- Register R0 trough R7"
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 3,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [
+      {
+        "flag": 2,
+        "when_set": "",
+        "when_unset": "result overflows signed byte value (-128 to 127)"
+      },
+      {
+        "flag": 6,
+        "when_set": "lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of the Accumulator",
+        "when_unset": ""
+      },
+      {
+        "flag": 7,
+        "when_set": "value stored in operand was greater than value stored in the Accumulator",
+        "when_unset": ""
+      }
+    ],
+    "dont_generate_syntax": false
+  },
+  "INC": {
+    "detail": "Increment register",
+    "description": "Increments register or data in internal RAM by 1,\r\nIf initial value equals 255 (0xFF), or 65535 in case of DPTR (0xFFFF), value is reset to 0.\r\nCarry flag is **not** set when that happens.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        },
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 15,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "DEC": {
+    "detail": "Decrement register",
+    "description": "Decrements register or data in internal RAM by 1,\r\nIf initial value equals 0 value is reset to 255 (0xFF).\r\nCarry flag is **not** set when that happens.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        },
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "MUL": {
+    "detail": "Multiply Accumulator by B",
+    "description": "Multiplies value stored in the Accumulator by a value stored in B register.\r\nResult is split into two bytes.\r\nThe most significant byte is stored in the B register.\r\nThe least significant byte is stored in the Accumulator.",
+    "valid_operands": [
+      [
+        {
+          "operand": 13,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [
+      {
+        "flag": 2,
+        "when_set": "result exceeds 255",
+        "when_unset": ""
+      },
+      {
+        "flag": 7,
+        "when_set": "",
+        "when_unset": "always"
+      }
+    ],
+    "dont_generate_syntax": false
+  },
+  "DIV": {
+    "detail": "Divide Accumulator by B register",
+    "description": "Devides value stored in the Accumulator by a value stored in B register.\r\nResult is split into two bytes.\r\nA quotient is stored in the Accumulator.\r\nA remainder is stored in the B register.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "DA": {
+    "detail": "Decimal adjust Accumulator",
+    "description": "Adjusts value stored in the Accumulator to a BCD encoded number, after two BCD number were added.\r\n - 6 is added if lower nibble of the Accumulator is greater than 9 or if Auxiliary Carry flag is set.\r\n - 60 is added if higher nibble is greater than 9 (or in other words, if initial value of accumulator was greater than 90H) or if the Carry flag is set after previous operation.\r\n\r\nIn short this operation adds 00H, 06H, 60H, or 66H, based of values of Accumulartor and PSW.\r\n\r\n**This instruction does not convert hexadecimal value to a BCD encoded value, and ot does not apply to BCD subtraction**",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [
+      {
+        "flag": 7,
+        "when_set": "resulting BCD number exceeds 100",
+        "when_unset": ""
+      }
+    ],
+    "dont_generate_syntax": false
   }
 }

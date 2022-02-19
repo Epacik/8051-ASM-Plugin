@@ -3,12 +3,13 @@
              xmlns:vm="using:QaD8051JDE.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:QaD8051JDE.Views;assembly=QaD8051JDE"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="QaD8051JDE.Views.DocumentationElementEditor">
 
-    <Design.DataContext>
+    <!--<Design.DataContext>
         <vm:DocumentationElementEditor/>
-    </Design.DataContext>
+    </Design.DataContext>-->
 
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
@@ -18,6 +19,7 @@
         <StackPanel Orientation="Horizontal" Margin="5, 0">
             <Button Click="SaveButtonClick">💾</Button>
             <Button Click="RefreshButtonClick">↩️</Button>
+            <ToggleSwitch Margin="20,0,0,0" OnContent="Don't generate syntax" OffContent="Generate syntax" x:Name="DontGenerateSyntax"/>
         </StackPanel>
         
         <ScrollViewer Grid.Row="1" Margin="5">
@@ -28,14 +30,34 @@
                 <TextBlock Text="Description"/>
                 <TextBox Text="{Binding Description}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>
 
-                <TextBlock Text="Syntax"/>
-                <TextBox Text="{Binding Syntax}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>
+                <!--<TextBox Text="{Binding AffectedFlags}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>-->
+                <Expander Header="Affected Flags" HorizontalContentAlignment="Stretch">
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Click="AddFlagButton_Click">➕</Button>
+                            <Button Click="RemoveFlagButton_Click" >➖</Button>
+                        </StackPanel>
+                        <StackPanel x:Name="AffectedFlagsPanel">
+                            
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
 
-                <TextBlock Text="Affected flags"/>
-                <TextBox Text="{Binding AffectedFlags}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>
 
-                <TextBlock Text="Valid operands"/>
-                <TextBox Text="{Binding ValidOperands}" AcceptsReturn="True" AcceptsTab="True" Height="100"/>
+                <Expander Header="Valid operands">
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Click="AddOperandButton_Click">➕</Button>
+                            <Button Click="RemoveOperandButton_Click" >➖</Button>
+                        </StackPanel>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="OperandsPanel" Orientation="Horizontal">
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Expander>
+                <!--<TextBox Text="{Binding ValidOperands}" AcceptsReturn="True" AcceptsTab="True" Height="100"/>-->
             </StackPanel>
         </ScrollViewer>
 

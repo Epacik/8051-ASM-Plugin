@@ -93,11 +93,11 @@ namespace QaD8051JDE.Views
 
                 Editor_SaveRequested(this, new SaveRequestedEventArgs(result.Message.ToUpperInvariant(), new DocumentationElement()
                 {
-                    AffectedFlags ="",
+                    AffectedFlags = new(),
                     Description = "",
                     Detail = "",
-                    Syntax = "",
-                    ValidOperands = "",
+                    //Syntax = "",
+                    ValidOperands = new(),
                 }));
 
             }
