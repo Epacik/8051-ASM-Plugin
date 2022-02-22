@@ -7,7 +7,7 @@ use crate::flags::Locale;
 use crate::ClientConfiguration;
 use documentation::Documentation;
 use lazy_static::lazy_static;
-use lspower::lsp::{ MarkedString, Position, TextDocumentItem};
+use lspower::lsp::{ MarkedString, Position, TextDocumentItem, LanguageString};
 use regex::Regex;
 use std::borrow::Borrow;
 use std::collections::HashMap;
@@ -30,7 +30,7 @@ pub(crate) fn generate_syntax(key_docs: (String, Documentation)) -> String {
     let operands = key_docs.1.valid_operands.clone();
 
     match key_docs.1.valid_operands.len() {
-        0 => generate_syntax_for_no_operand(key_docs.0),
+        0 => key_docs.0,
         1 => generate_syntax_for_one_operand(key_docs.0, operands[0].clone()),
         2 => generate_syntax_for_two_operands(key_docs.0, operands[0].clone(), operands[1].clone()),
         3 => generate_syntax_for_three_operands(key_docs.0, operands[0].clone(), operands[1].clone(), operands[2].clone()),
@@ -38,9 +38,6 @@ pub(crate) fn generate_syntax(key_docs: (String, Documentation)) -> String {
     }
 }
 
-fn generate_syntax_for_no_operand(key: String) -> String {
-    format!("{}", key)
-}
 
 fn generate_syntax_for_one_operand(key: String, operands: Vec<ValidOperand>) -> String {
     let mut result = format!("{} [operand]\n\n", key);
@@ -58,6 +55,9 @@ fn generate_syntax_for_two_operands(key: String, operands0: Vec<ValidOperand>, o
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
+            if operand1.when_first_is() != PossibleOperand::ANY && operand1.when_first_is() != operand0.operand() {
+                continue;
+            }
             result.push_str(format!("{} [{}], [{}]\n", key, operand0.operand().label(), operand1.operand().label()).as_str());
             result.push_str(format!("{} {}, {}\n\n", key, operand0.operand().example(None), operand1.operand().example(None)).as_str());
         }
@@ -71,7 +71,13 @@ fn generate_syntax_for_three_operands(key: String, operands0: Vec<ValidOperand>,
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
+            if operand1.when_first_is() != PossibleOperand::ANY && operand1.when_first_is() != operand0.operand() {
+                continue;
+            }
             for operand2 in operands2.clone() {
+                if operand2.when_first_is() != PossibleOperand::ANY && operand2.when_first_is() != operand0.operand() {
+                    continue;
+                }
                 result.push_str(
                     format!(
                         "{} [{}], [{}], [{}]\n",
@@ -139,13 +145,13 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
         }
     }
     else {
-        let mut filtered : Vec<Vec<PossibleOperand>> = Vec::new();
+        let mut filtered : Vec<Vec<i32>> = Vec::new();
         for i in 0..operands.len() {
             let inner = &operands[i]; 
             filtered.push(Vec::new());
             for operand in inner {
-                if !filtered[i].contains(&operand.operand()) {
-                    filtered[i].push(operand.operand());
+                if !filtered[i].contains(&operand.operand) {
+                    filtered[i].push(operand.operand);
                 }
             }
         }
@@ -158,7 +164,7 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
 
             for operand in filtered[i].clone() {
                 result.push_str(" - ");
-                result.push_str(operand.label().as_str());
+                result.push_str(documentation::PossibleOperand::from_bits_truncate(operand).label().as_str());
                 result.push_str("\n");
             }
 
@@ -179,6 +185,10 @@ pub(crate) fn get_documentation(
     //let _doc = load_documentation!();
 
     let mnemonic = get_symbol(document, position);
+
+    if mnemonic == "" {
+        return Vec::new();
+    }
 
     let locale: Locale;
 
@@ -219,35 +229,38 @@ pub(crate) fn get_documentation(
     // }
 
     if documentation.description != "" {
-        tmp = String::from(documentation.description);
+        tmp = String::from(documentation.description.clone());
         documentation_vector.push(MarkedString::String(tmp));
     }
 
-    // if documentation.syntax != "" {
-    //     tmp = String::from(documentation.syntax.as_str());
-    //     documentation_vector.push(MarkedString::LanguageString(LanguageString {
-    //         language: "asm8051".to_string(),
-    //         value: tmp.to_string(),
-    //     }));
-    // }
+    tmp = generate_syntax((mnemonic, documentation.clone()));
+    if tmp != "" {
+        documentation_vector.push(MarkedString::LanguageString(LanguageString {
+            language: "asm8051".to_string(),
+            value: tmp.to_string(),
+        }));
+    }
 
-    // if documentation.valid_operands != "" {
-    //     tmp = String::from(match locale {
-    //         Locale::POLISH => "Poprawne operandy:\n\n",
-    //         Locale { .. } => "Valid operands:\n\n",
-    //     });
-    //     tmp.push_str(documentation.valid_operands.as_str());
-    //     documentation_vector.push(MarkedString::String(tmp));
-    // }
+    tmp = generate_valid_operands(documentation.valid_operands.clone());
 
-    // if documentation.affected_flags != "" {
-    //     tmp = String::from(match locale {
-    //         Locale::POLISH => "Zmodyfikowane flagi:\n\n",
-    //         Locale { .. } => "Affected flags:\n\n",
-    //     });
-    //     tmp.push_str(documentation.affected_flags.as_str());
-    //     documentation_vector.push(MarkedString::String(tmp));
-    // }
+    if tmp != "" {
+        let header = String::from(match locale {
+            Locale::POLISH => "Poprawne operandy:\n\n",
+            Locale { .. } => "Valid operands:\n\n",
+        });
+
+        documentation_vector.push(MarkedString::String(format!("{}{}", header, tmp)));
+    }
+
+    tmp = generate_affected_flags(documentation.affected_flags.clone());
+    if tmp != "" {
+        let header = String::from(match locale {
+            Locale::POLISH => "Zmodyfikowane flagi:\n\n",
+            Locale { .. } => "Affected flags:\n\n",
+        });
+        
+        documentation_vector.push(MarkedString::String(format!("{}{}", header, tmp)));
+    }
 
     documentation_vector
 }

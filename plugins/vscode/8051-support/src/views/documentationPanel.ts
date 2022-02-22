@@ -67,27 +67,11 @@ export class DocumentationPanel {
     private async _getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, docs: Map<string, IDocumentation>) {
         // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
 
-        const toolkitUri = getUri(webview, extensionUri, [
-            "node_modules",
-            "@vscode",
-            "webview-ui-toolkit",
-            "dist",
-            "toolkit.js",
-        ]);
+        const toolkitUri = getUri(webview, extensionUri, [ "node_modules", "@vscode", "webview-ui-toolkit", "dist", "toolkit.js",]);
 
-        const scriptUri = getUri(webview, extensionUri, [
-            "out",
-            "views",
-            "scripts",
-            "documentationPanelScript.js"
-        ]);
+        const scriptUri = getUri(webview, extensionUri, [ "out", "views", "scripts", "documentationPanelScript.js" ]);
 
-        const cssUri = getUri(webview, extensionUri, [
-            "src",
-            "views",
-            "styles",
-            "documentationPanel.css"
-        ]);
+        const cssUri = getUri(webview, extensionUri, [ "src", "views", "styles", "documentationPanel.css" ]);
 
         let splitted = this.#splitDocsByCategory(docs);
 
@@ -102,7 +86,7 @@ export class DocumentationPanel {
               <script>window.exports = {};</script>
             </head>
             <body>
-              <h1 class="documentationHeader">Dokumentacja 8051</h1>
+              <h1 class="documentationHeader">8051 Documentation</h1>
               <section id="docs-list">
                 ${await this.#createDocsList(splitted)}
               </section>
@@ -132,11 +116,12 @@ export class DocumentationPanel {
     }
     async #createDocElement(key: string, doc: IDocumentation): Promise<string> {
         let result = `<h3 class="doc-mnemonic">${key}</h3>`;
-        if(!isNullishOrWhitespace(doc.detail)){
-            result += `<h4>${await this.#parseMarkdown(doc.detail)}</h4>`;
-        }
+        // if(!isNullishOrWhitespace(doc.detail)){
+        //     result += `<h4>${await this.#parseMarkdown(doc.detail)}</h4>`;
+        // }
         if(!isNullishOrWhitespace(doc.description)){
-            result += `<p>${await this.#parseMarkdown(doc.description)}</p>`;
+            result += `<p>${await this.#parseMarkdown(doc.description)}
+            </p>`;
         }
         if(!isNullishOrWhitespace(doc.syntax)){
             result += `<h5>Syntax</h5>`;

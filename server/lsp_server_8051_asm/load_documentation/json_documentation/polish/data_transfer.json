@@ -1,0 +1,178 @@
+{
+  "MOV": {
+    "detail": "Move ",
+    "description": "Move data from second operand to the first one.\r\nBoth operands have to be in the internal RAM.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        },
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 9,
+          "when_first_is": 0
+        },
+        {
+          "operand": 8,
+          "when_first_is": 0
+        },
+        {
+          "operand": 15,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 12,
+          "when_first_is": 6
+        },
+        {
+          "operand": 12,
+          "when_first_is": 7
+        },
+        {
+          "operand": 12,
+          "when_first_is": 5
+        },
+        {
+          "operand": 6,
+          "when_first_is": 12
+        },
+        {
+          "operand": 6,
+          "when_first_is": 5
+        },
+        {
+          "operand": 9,
+          "when_first_is": 8
+        },
+        {
+          "operand": 8,
+          "when_first_is": 9
+        },
+        {
+          "operand": 3,
+          "when_first_is": 6
+        },
+        {
+          "operand": 3,
+          "when_first_is": 12
+        },
+        {
+          "operand": 3,
+          "when_first_is": 7
+        },
+        {
+          "operand": 3,
+          "when_first_is": 5
+        },
+        {
+          "operand": 4,
+          "when_first_is": 15
+        },
+        {
+          "operand": 5,
+          "when_first_is": 6
+        },
+        {
+          "operand": 5,
+          "when_first_is": 12
+        },
+        {
+          "operand": 5,
+          "when_first_is": 7
+        },
+        {
+          "operand": 5,
+          "when_first_is": 5
+        },
+        {
+          "operand": 7,
+          "when_first_is": 12
+        },
+        {
+          "operand": 7,
+          "when_first_is": 5
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "MOVC": {
+    "detail": "Move from Code",
+    "description": "Move a byte from specified address into the Accumulator.\r\nAddress of code is calculated by adding value stored in the Accumulator and either DPTR or PC.\r\nPC is incremented before adding.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 14,
+          "when_first_is": 0
+        },
+        {
+          "operand": 17,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "MOVX": {
+    "detail": "",
+    "description": "Move data from operand1 to operand0.\r\n",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        },
+        {
+          "operand": 16,
+          "when_first_is": 0
+        },
+        {
+          "operand": 6,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 12,
+          "when_first_is": 16
+        },
+        {
+          "operand": 12,
+          "when_first_is": 6
+        },
+        {
+          "operand": 16,
+          "when_first_is": 12
+        },
+        {
+          "operand": 6,
+          "when_first_is": 12
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  }
+}

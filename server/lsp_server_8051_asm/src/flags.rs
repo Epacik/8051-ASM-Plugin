@@ -12,3 +12,14 @@ bitflags! {
         const POLISH  = 3;
     }
 }
+
+#[allow(dead_code)]
+impl Locale {
+    pub fn lang_name(&self) -> String {
+        (match self.bits {
+            2 => "en",
+            3 => "pl",
+            _ => "",
+        }).to_string()
+    } 
+}

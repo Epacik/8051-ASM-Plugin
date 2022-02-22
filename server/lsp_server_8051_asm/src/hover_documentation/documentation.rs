@@ -85,17 +85,17 @@ bitflags! {
 
 impl FlagType {
     pub fn label(&self) -> String {
-        (match self.bits {
-            0 => "Patity",
-            1 => "User defined",
-            2 => "Overflow",
-            3 => "Register Bank Select 0",
-            4 => "Register Bank Select 1",
-            5 => "Flag 0",
-            6 => "Auxiliary Carry",
-            7 => "Carry",
-            _ => "Unknown"
-        }).to_string()
+        match self.bits {
+            0 => "Patity".to_string(),
+            1 => "User defined".to_string(),
+            2 => "Overflow".to_string(),
+            3 => "Register Bank Select 0".to_string(),
+            4 => "Register Bank Select 1".to_string(),
+            5 => "Flag 0".to_string(),
+            6 => "Auxiliary Carry".to_string(),
+            7 => crate::localize!("flag-carry"),
+            _ => "Unknown".to_string()
+        }
     }
 }
 

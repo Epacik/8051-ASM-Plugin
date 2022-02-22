@@ -59,7 +59,7 @@ impl LanguageServer for Backend {
     }
 
     async fn initialized(&self, _params: InitializedParams) {
-        print!("server initialized!");
+        println!("{}", crate::localize!("server-initialized"));
         // get clients capabilities
         let capabilities = self.client_capabilities.lock().unwrap().as_ref().unwrap().clone();
 
@@ -80,12 +80,12 @@ impl LanguageServer for Backend {
     }
 
     async fn shutdown(&self) -> Result<()> {
-        print!("server shutdown!");
+        println!("server shutdown!");
         Ok(())
     }
 
     async fn did_change_configuration(&self, _params: DidChangeConfigurationParams) {
-        print!("Configuration has changed!");
+        println!("{}", crate::localize!("configuration-changed"));
         //let _result = self.client.configuration(vec![ConfigurationItem { scope_uri: Some(Url::try_from(".").unwrap()), section: Some("asm8051".to_string()) }]).await;
         let has_configuration_capability = self.client_capabilities.lock().unwrap().as_ref().unwrap().workspace.as_ref().unwrap().configuration.unwrap_or(false);
 
@@ -97,15 +97,24 @@ impl LanguageServer for Backend {
     }
 
     async fn completion(&self, _params: CompletionParams) -> Result<Option<CompletionResponse>> {
-        print!("completion!");
-        Ok(Some(CompletionResponse::Array(vec![
-            CompletionItem::new_simple("Hello".to_string(), "Some detail".to_string()),
-            CompletionItem::new_simple("Bye".to_string(), "More detail".to_string())
-        ])))
+        println!("completion!");
+        let _locale = self.client_configuration.lock().unwrap().display_locale();
+        let documentation = hover_documentation::get_all_documentation(_locale);
+
+        if documentation.is_none(){
+            return Ok(None);
+        }
+
+        let mut completion: Vec<CompletionItem> = Vec::new();
+        for kvp in documentation.unwrap() {
+            completion.push(CompletionItem::new_simple(kvp.0, kvp.1.detail));
+        }
+
+        Ok(Some(CompletionResponse::Array(completion)))
     }
 
     async fn hover(&self, _params: HoverParams) -> Result<Option<Hover>> {
-        print!("hover!");
+        println!("hover!");
 
         // get clients configuration
         let config = self.client_configuration.lock().unwrap();
@@ -232,21 +241,26 @@ impl Backend {
                 newconfig = cnf.unwrap();
             }
             else {
-                print!("{}", cnf.unwrap_err());
+                println!("{}", cnf.unwrap_err());
             }
         }
 
         let ui_locale = self.locale.lock().unwrap().as_ref()
             .unwrap_or(&String::from("english")).to_string();
 
-
-        // update local copy of clients configuration
-        self.set_client_configuration( ClientConfiguration {
+        let new_configuration = ClientConfiguration {
             max_number_of_problems: newconfig.max_number_of_problems,
             kit: newconfig.kit,
             locale: newconfig.locale,
             ui_locale: ui_locale,
-        });
+        };
+
+        let new_display_locale = new_configuration.display_locale().lang_name();
+        
+        crate::localizer().select(&[new_display_locale.parse().unwrap()]).unwrap();
+
+        // update local copy of clients configuration
+        self.set_client_configuration( new_configuration );
     }
 
     fn set_client_capabilities(&self, new_capabilities: Option<ClientCapabilities>){
