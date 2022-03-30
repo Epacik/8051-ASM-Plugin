@@ -136,8 +136,8 @@
     "dont_generate_syntax": false
   },
   "MOVX": {
-    "detail": "",
-    "description": "Move data from operand1 to operand0.\r\n",
+    "detail": "Move between external memory and the accumulator",
+    "description": "Move between external memory and the accumulator.\r\nUses either 8 bit or 16 bit address to external memory.\r\n",
     "valid_operands": [
       [
         {
@@ -169,6 +169,82 @@
         {
           "operand": 6,
           "when_first_is": 12
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "PUSH": {
+    "detail": "Push onto stack",
+    "description": "Increments the Stack Pointer and copies value stored under provided internal RAM address to memory pointed by the stack pointer.",
+    "valid_operands": [
+      [
+        {
+          "operand": 5,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "POP": {
+    "detail": "Pop from stack",
+    "description": "Stores value pointed to by the Stack Pointer in under the provided internal RAM address and then decrements the Stack Pointer.",
+    "valid_operands": [
+      [
+        {
+          "operand": 5,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "XCH": {
+    "detail": "Exchange bytes",
+    "description": "Stores a value of the Accumulator in a second operand and stores a value of the second operand in the Accumulator.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
+  },
+  "XCHD": {
+    "detail": "Exchange digit",
+    "description": "Stores a lower nibble (bits 0-3) of the Accumulator in a second operand and stores a lower nibble of the second operand in the Accumulator.\r\nOperation exchanges lower nibbles of both values (bits 0-3). \r\nIt does not affect higher nibbles (bit 4-7).",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 6,
+          "when_first_is": 0
         }
       ]
     ],

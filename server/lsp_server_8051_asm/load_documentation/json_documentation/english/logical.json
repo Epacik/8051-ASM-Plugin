@@ -280,5 +280,23 @@
     ],
     "affected_flags": [],
     "dont_generate_syntax": false
+  },
+  "SETB": {
+    "detail": "Set Bit",
+    "description": "Set a specified bit",
+    "valid_operands": [
+      [
+        {
+          "operand": 9,
+          "when_first_is": 0
+        },
+        {
+          "operand": 8,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false
   }
 }

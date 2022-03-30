@@ -127,8 +127,8 @@
     "affected_flags": [
       {
         "flag": 2,
-        "when_set": "",
-        "when_unset": "result overflows signed byte value (-128 to 127)"
+        "when_set": "result overflows signed byte value (-128 to 127)",
+        "when_unset": ""
       },
       {
         "flag": 6,
