@@ -120,8 +120,7 @@ export class DocumentationPanel {
         //     result += `<h4>${await this.#parseMarkdown(doc.detail)}</h4>`;
         // }
         if(!isNullishOrWhitespace(doc.description)){
-            result += `<p>${await this.#parseMarkdown(doc.description)}
-            </p>`;
+            result += `<p>${await this.#parseMarkdown(doc.description)}</p>`;
         }
         if(!isNullishOrWhitespace(doc.syntax)){
             result += `<h5>Syntax</h5>`;
