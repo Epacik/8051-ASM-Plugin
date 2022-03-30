@@ -1,7 +1,7 @@
 use crate::flags::{Kits, Locale};
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize, Default)]
+#[derive(Debug, Deserialize, Default, Clone)]
 pub struct ClientConfiguration {
     /// How many problems should we show at once
     #[serde(default, rename = "maxNumberOfProblems")]
@@ -19,6 +19,7 @@ pub struct ClientConfiguration {
     #[serde(default)]
     pub(crate) ui_locale: String,
 }
+
 
 impl ClientConfiguration {
     #[allow(dead_code)]

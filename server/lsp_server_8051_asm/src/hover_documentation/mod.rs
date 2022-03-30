@@ -15,31 +15,31 @@ use std::collections::HashMap;
 use self::documentation::{ValidOperand, PossibleOperand};
 
 
-pub(crate) fn get_all_documentation(locale: Locale) -> Option<HashMap<String, Documentation>> {
+pub(crate) fn all_documentation(locale: Locale) -> Option<HashMap<String, Documentation>> {
     let docs = DOCUMENTATION.get(locale.borrow());
 
     match docs {
         Some(some_docs) => Option::Some(some_docs.clone()),
         None => Option::None,
     }
-    
 }
 
-pub(crate) fn generate_syntax(key_docs: (String, Documentation)) -> String {
+
+pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
 
     let operands = key_docs.1.valid_operands.clone();
 
     match key_docs.1.valid_operands.len() {
         0 => key_docs.0,
-        1 => generate_syntax_for_one_operand(key_docs.0, operands[0].clone()),
-        2 => generate_syntax_for_two_operands(key_docs.0, operands[0].clone(), operands[1].clone()),
-        3 => generate_syntax_for_three_operands(key_docs.0, operands[0].clone(), operands[1].clone(), operands[2].clone()),
+        1 => syntax_for_one_operand(key_docs.0, operands[0].borrow()),
+        2 => syntax_for_two_operands(key_docs.0, operands[0].borrow(), operands[1].borrow()),
+        3 => syntax_for_three_operands(key_docs.0, operands[0].borrow(), operands[1].borrow(), operands[2].borrow()),
         _ => "".to_string(),
     }
 }
 
 
-fn generate_syntax_for_one_operand(key: String, operands: Vec<ValidOperand>) -> String {
+fn syntax_for_one_operand(key: String, operands: &Vec<ValidOperand>) -> String {
     let mut result = format!("{} [operand]\n\n", key);
 
     for operand in operands {
@@ -50,7 +50,7 @@ fn generate_syntax_for_one_operand(key: String, operands: Vec<ValidOperand>) -> 
     result
 }
 
-fn generate_syntax_for_two_operands(key: String, operands0: Vec<ValidOperand>, operands1: Vec<ValidOperand>) -> String {
+fn syntax_for_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>) -> String {
     let mut result = format!("{} [operand0], [operand1]\n\n", key);
 
     for operand0 in operands0.clone() {
@@ -66,7 +66,7 @@ fn generate_syntax_for_two_operands(key: String, operands0: Vec<ValidOperand>, o
     result
 }
 
-fn generate_syntax_for_three_operands(key: String, operands0: Vec<ValidOperand>, operands1: Vec<ValidOperand>, operands2: Vec<ValidOperand>) -> String {
+fn syntax_for_three_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, operands2: &Vec<ValidOperand>) -> String {
     let mut result = format!("{} [operand0], [operand1], [operand2]\n\n", key);
 
     for operand0 in operands0.clone() {
@@ -177,7 +177,7 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
 
 #[allow(dead_code)]
 /// Finds what user is hovering their cursor over and then tries to match documentation for specified locale
-pub(crate) fn get_documentation(
+pub(crate) fn documentation(
     position: Position,
     document: &TextDocumentItem,
     configuration: &ClientConfiguration,
@@ -233,7 +233,7 @@ pub(crate) fn get_documentation(
         documentation_vector.push(MarkedString::String(tmp));
     }
 
-    tmp = generate_syntax((mnemonic, documentation.clone()));
+    tmp = syntax((mnemonic, documentation.clone()));
     if tmp != "" {
         documentation_vector.push(MarkedString::LanguageString(LanguageString {
             language: "asm8051".to_string(),

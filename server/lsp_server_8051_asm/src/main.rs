@@ -9,10 +9,12 @@ mod hover_documentation;
 use crate::client_configuration::ClientConfiguration;
 use i18n_embed::{LanguageLoader, Localizer, DefaultLocalizer};
 use i18n_embed::fluent::{FluentLanguageLoader, fluent_language_loader};
+use lspower::lsp::ClientCapabilities;
 use lspower::{LspService, Server};
 use once_cell::sync::Lazy;
 use rust_embed::RustEmbed;
-use std::sync::Mutex;
+use tokio::sync::Mutex;
+use std::sync::{Arc};
 use std::collections::HashMap;
 
 //localization macro
@@ -41,10 +43,10 @@ async fn main() {
 
     let (service, messages) = LspService::new(|client| backend::Backend {
         client,
-        documents: Mutex::new(HashMap::new()),
-        locale: Mutex::new(None),
-        client_capabilities: Mutex::new(None),
-        client_configuration: Mutex::new(ClientConfiguration::default()),
+        documents: Arc::new(Mutex::new(HashMap::new())),
+        //locale: RefCell::new(None),
+        client_capabilities: Arc::new(Mutex::new(ClientCapabilities::default())),
+        client_configuration: Arc::new(Mutex::new(ClientConfiguration::default())),
     });
 
     Server::new(read, write)
