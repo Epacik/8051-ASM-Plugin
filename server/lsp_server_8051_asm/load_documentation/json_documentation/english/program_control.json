@@ -46,14 +46,14 @@
     "description": "Return from a subroutine called by LCALL or ACALL.\r\nPops two bytes off the stack and stores them in the Program Counter.\r\nLeast significant byte is popped first.",
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": true
   },
   "RETI": {
     "detail": "Return from interrupt",
     "description": "Return from a interrupt.\r\nEnables interrupts of lower or equal priority to the one the program is returning from, \r\nand then pops two bytes off the stack and stores them in the Program Counter.\r\nLeast significant byte is popped first.",
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": true
   },
   "AJMP": {
     "detail": "Absolute Jump",
@@ -304,6 +304,6 @@
     "description": "Does nothing for a single cycle",
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": true
   }
 }
