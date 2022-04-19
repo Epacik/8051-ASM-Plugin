@@ -17,7 +17,7 @@
             "\t$0",
             "\tRET",
             ],
-        "description": "Boilerplate for a program"
+        "description": "Boilerplate for a subroutine"
     },
 }
 
