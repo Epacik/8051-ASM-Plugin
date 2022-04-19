@@ -4,13 +4,13 @@ import IDocumentation from "../documentation";
 import { nullishableString } from "../miscellaneousTypeAliases";
 import { getUri } from "../utilities/getUri";
 
+
 export class DocumentationPanel {
     public static currentPanel: DocumentationPanel | undefined;
     private readonly _panel: vscode.WebviewPanel;
     private _disposables: vscode.Disposable[] = [];
     private _docs: Map<string, IDocumentation>;
-
-
+    
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, docs: Map<string, IDocumentation>) {
         console.log(localize('asm8051.views.documentationPanel.creatingView'));
         docs = this.#objectToMap(docs);
@@ -18,15 +18,10 @@ export class DocumentationPanel {
         this._panel = panel;
 
         this._panel.onDidDispose(this.dispose, null, this._disposables);
-        // this._panel.onDidChangeViewState(e => {
-        //     this._panel.webview.postMessage({docs: JSON.stringify(docs, null, " ")});
-        // })
 
         this._getWebviewContent(this._panel.webview, extensionUri, docs).then(value => {
             this._panel.webview.html = value;
         })
-        
-        //this._panel.webview.postMessage({docs: JSON.stringify(docs, null, " ")});
     }
 
     #objectToMap(docs: any): Map<string, IDocumentation> {
@@ -93,7 +88,7 @@ export class DocumentationPanel {
               <section id="docs-list">
                 ${await this.#createDocsList(splitted)}
               </section>
-              <script src="${scriptUri}"></script>
+              <!--<script src="${scriptUri}"></script>-->
             </body>
           </html>
         `;
@@ -101,45 +96,72 @@ export class DocumentationPanel {
 
     async #createDocsList(splitted: Map<string, Map<string, IDocumentation>>): Promise<string> {
         let output = "";
+        const keys: Array<[key: string, label: string]> = [];
 
-        for (const [key, value] of splitted) {
+        for (const key of splitted.keys()){
+            keys.push([key, localize('asm8051.views.documentationPanel.categories.' + key)]);
+        }
+        keys.sort((a, b): number => {
+            if(a[1] < b[1]) return -1;
+            else if (a[1] > b[1]) return 1;
+            return 0;
+        });
+        for (const kl of keys){
+            const value = splitted.get(kl[0]);
+            if(value === undefined) continue;
+
             output += `
             <h2 class="categoryHeader">
-                <span>${key}</span>
+                <span>${kl[1]}</span>
                 <vscode-divider role="separator"></vscode-divider>
             </h2>
             `;
             for (const [docsKey, doc] of value) {
                 output += await this.#createDocElement(docsKey, doc);
             }
-            //output += `<vscode-divider role="separator"></vscode-divider>`;
         }
+
 
         return output;
     }
     async #createDocElement(key: string, doc: IDocumentation): Promise<string> {
-        let result = `<h3 class="doc-mnemonic">${key}</h3>`;
-        // if(!isNullishOrWhitespace(doc.detail)){
-        //     result += `<h4>${await this.#parseMarkdown(doc.detail)}</h4>`;
-        // }
-        if(!isNullishOrWhitespace(doc.description)){
-            result += `<p>${await this.#parseMarkdown(doc.description)}</p>`;
-        }
-        if(!isNullishOrWhitespace(doc.syntax)){
-            result += `<h5>Syntax</h5>`;
-            result += `<p>${await this.#parseMarkdown(`\`\`\`asm8051\n${doc.syntax}\n\`\`\``)}</p>`;
-        }
-        if(!isNullishOrWhitespace(doc.valid_operands)){
-            result += `<h5>Valid operands</h5>`;
-            result += `<p>${await this.#parseMarkdown(doc.valid_operands)}</p>`;
-        }
-        if(!isNullishOrWhitespace(doc.affected_flags)){
-            result += `<h5>Affected flags</h5>`;
-            result += `<p>${await this.#parseMarkdown(doc.affected_flags)}</p>`;
-        }
-        result += `<div class="doc-spacer"></div>\n\n`
 
-        return result;
+        const insertSection = (header: nullishableString, value: nullishableString) => {
+            if(isNullishOrWhitespace(value)) return;
+            
+            if(!isNullishOrWhitespace(header)){
+                result += `<h5>${header?.trim()}</h5>`
+            }
+
+            result += `<p>${value?.trim()}</p>`;
+        };
+
+        const getSectionFromParsed = (section: string): nullishableString  => {
+            section = section.toUpperCase();
+            const borderChar = '▨';
+            if(isNullishOrWhitespace(parsed) || !parsed?.includes(borderChar + section)) return null;
+           
+            let startIndex = parsed.indexOf(borderChar + section);
+            let endIndex = parsed.lastIndexOf(section + borderChar);
+
+            let result = parsed.slice(startIndex, endIndex);
+            startIndex = result.indexOf('\n');
+            endIndex = result.lastIndexOf('\n');
+
+            return result.slice(startIndex, endIndex).replace("\n", "").trim();
+        }
+
+        let result = `<h3 class="doc-mnemonic">${key}</h3>`;
+        
+        let markdown = this.#prepareMarkdownToParse(doc);
+        let parsed = await this.#parseMarkdown(markdown);
+
+        insertSection(null, getSectionFromParsed("desc"));
+        insertSection("Syntax", getSectionFromParsed("syntax"));
+        insertSection("Valid operands", getSectionFromParsed("valid_operands"));
+        insertSection("Affected flags", getSectionFromParsed("affected_flags"));
+
+        return result + `<div class="doc-spacer"></div>\n\n`;
     }
     async #parseMarkdown(markdown: nullishableString): Promise<nullishableString> {
         return await vscode.commands.executeCommand('markdown.api.render', markdown);
@@ -156,6 +178,32 @@ export class DocumentationPanel {
         }
 
         return splittedDocs;
+    }
+
+    #prepareMarkdownToParse(doc: IDocumentation): string {
+        let result = "";
+
+        const separator = "\n\n";
+        const borderChar = '▨';
+
+        const insertSection = (section: string, value: nullishableString, valuePrefix: nullishableString = "", valueSuffix: nullishableString = "") => {
+            if(isNullishOrWhitespace(value)) return;
+            
+            section = section.toUpperCase();
+            result += 
+                borderChar + section +
+                separator +
+                valuePrefix + value?.trim() + valueSuffix +
+                separator + 
+                section + borderChar;
+        };
+
+        insertSection("desc", doc.description);
+        insertSection("syntax", doc.syntax, "```asm8051\n", "\n```");
+        insertSection("valid_operands", doc.valid_operands);
+        insertSection("affected_flags", doc.affected_flags);
+
+        return result;
     }
 }
 
