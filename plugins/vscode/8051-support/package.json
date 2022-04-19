@@ -1,6 +1,6 @@
 {
-	"name": "8051-support",
-	"displayName": "8051 support",
+	"name": "asm8051",
+	"displayName": "8051 Support",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -18,7 +18,7 @@
 		"commands": [
 			{
 				"command": "8051-support.openDocs",
-				"title": "Open documentation"
+				"title": "%asm8051.commands.openDocs%"
 			}
 		],
 		"languages": [
@@ -37,13 +37,13 @@
 		],
 		"configuration": {
 			"type": "object",
-			"title": "8051-asm-plugin",
+			"title": "8051 Support",
 			"properties": {
 				"asm8051.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
-					"description": "Controls the maximum number of problems produced by the server."
+					"description": "%asm8051.config.maxNumberOfProblems%"
 				},
 				"asm8051.trace.server": {
 					"scope": "window",
@@ -54,7 +54,7 @@
 						"verbose"
 					],
 					"default": "off",
-					"description": "Traces the communication between VS Code and the language server."
+					"description": "%asm8051.config.trace_server%"
 				},
 				"asm8051.kit": {
 					"scope": "window",
@@ -64,11 +64,11 @@
 						"DSM-51"
 					],
 					"enumDescriptions": [
-						"Turns on documentation and diagnostics for assembly instructions only",
-						"Turns on documentation and diagnostics for assembly instructions and subroutines available in DSM-51"
+						"%asm8051.config.kit.generic%",
+						"%asm8051.config.kit.dsm51%"
 					],
 					"default": "generic",
-					"description": "Changes available set of documentation and diagnostics"
+					"description": "%asm8051.config.kit.description%"
 				},
 				"asm8051.language": {
 					"scope": "window",
@@ -79,7 +79,7 @@
 						"polski"
 					],
 					"default": "default",
-					"description": "Changes language of showed documentation, diagnostics, errors and more"
+					"description": "%asm8051.config.language%"
 				}
 			}
 		},
@@ -131,12 +131,15 @@
 		"eslint": "^8.1.0",
 		"glob": "^7.1.7",
 		"mocha": "^9.1.3",
-		"typescript": "^4.4.4"
+		"typescript": "^4.4.4",
+		"vscode-nls-dev": "^4.0.0"
 	},
 	"dependencies": {
 		"@types/vscode": "^1.62.0",
 		"@vscode/webview-ui-toolkit": "^0.8.5",
 		"net": "^1.0.2",
-		"vscode-languageclient": "^7.0.0"
+		"vscode-languageclient": "^7.0.0",
+		"vscode-nls": "^5.0.0",
+		"vscode-nls-i18n": "^0.2.4"
 	}
 }
