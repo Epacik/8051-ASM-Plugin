@@ -233,7 +233,7 @@
   },
   "DA": {
     "detail": "Decimal adjust Accumulator",
-    "description": "Adjusts value stored in the Accumulator to a BCD encoded number, after two BCD number were added.\r\n - 6 is added if lower nibble of the Accumulator is greater than 9 or if Auxiliary Carry flag is set.\r\n - 60 is added if higher nibble is greater than 9 (or in other words, if initial value of accumulator was greater than 90H) or if the Carry flag is set after previous operation.\r\n\r\nIn short this operation adds 00H, 06H, 60H, or 66H, based of values of Accumulartor and PSW.\r\n\r\n**This instruction does not convert hexadecimal value to a BCD encoded value, and ot does not apply to BCD subtraction**",
+    "description": "Adjusts value stored in the Accumulator to a BCD encoded number, after two BCD number were added.\r\n - 6 is added if lower nibble of the Accumulator is greater than 9 or if Auxiliary Carry flag is set.\r\n - 60 is added if higher nibble is greater than 9 (or in other words, if initial value of accumulator was greater than 90H) or if the Carry flag is set after previous operation.\r\n\r\nIn short this operation adds 00H, 06H, 60H, or 66H, based of values of Accumulartor and PSW.\r\n\r\n**This instruction does not convert hexadecimal value to a BCD encoded value, and it does not apply to BCD subtraction**",
     "valid_operands": [
       [
         {
