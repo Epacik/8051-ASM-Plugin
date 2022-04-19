@@ -8,5 +8,29 @@
     },
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "i18n-ally.pathMatcher": "package.nls.{locale}.json",
+    "i18n-ally.keystyle": "flat",
+    "i18n-ally.displayLanguage": "",
+    "i18n-ally.localesPaths": [
+        "."
+    ],
+    "i18n-ally.annotationDelimiter": "",
+    "i18n-ally.dirStructure": "file",
+    "i18n-ally.editor.preferEditor": false,
+    "i18n-ally.enabledFrameworks": [
+        "vscode"
+    ],
+    "i18n-ally.extract.keyMaxLength": 200,
+    "i18n-ally.fullReloadOnChanged": true,
+    "i18n-ally.enabledParsers": [
+        "json"
+    ],
+    "i18n-ally.defaultNamespace": "",
+    "i18n-ally.refactor.templates": [
+        {
+            "source": "js-template",
+            "template": "localize('{key}')",
+        }
+    ]
 }
