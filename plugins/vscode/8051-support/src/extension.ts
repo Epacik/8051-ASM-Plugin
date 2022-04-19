@@ -15,6 +15,8 @@ import {
 import * as net from 'net';
 import { DocumentationPanel } from './views/documentationPanel';
 import IDocumentation from './documentation';
+import { localize, init as initLocalization }  from 'vscode-nls-i18n';
+
 //#endregion
 
 const DEBUG: boolean = true;
@@ -25,6 +27,9 @@ let client: LanguageClient;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
+	initLocalization(context.extensionPath);
+
+	console.log(localize("asm8051.messages.activateExtension"));
 
 	let serverOptions: ServerOptions = getServerOptions();
 

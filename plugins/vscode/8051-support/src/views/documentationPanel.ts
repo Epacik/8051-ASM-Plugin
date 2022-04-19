@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { localize } from "vscode-nls-i18n";
 import IDocumentation from "../documentation";
 import { nullishableString } from "../miscellaneousTypeAliases";
 import { getUri } from "../utilities/getUri";
@@ -11,7 +12,7 @@ export class DocumentationPanel {
 
 
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, docs: Map<string, IDocumentation>) {
-        console.log("creating webview");
+        console.log(localize('asm8051.views.documentationPanel.creatingView'));
         docs = this.#objectToMap(docs);
         this._docs = docs;
         this._panel = panel;
@@ -41,8 +42,9 @@ export class DocumentationPanel {
         if (DocumentationPanel.currentPanel) {
             DocumentationPanel.currentPanel._panel.reveal(vscode.ViewColumn.Active);
         }
-        else {
-            const panel = vscode.window.createWebviewPanel("8051-support", "8051 Documentation", vscode.ViewColumn.Active, {
+        else { 
+            const title = localize("asm8051.views.documentationPanel.title");
+            const panel = vscode.window.createWebviewPanel("8051-support", title, vscode.ViewColumn.Active, {
                 enableScripts: true,
             });
 
@@ -75,6 +77,7 @@ export class DocumentationPanel {
 
         let splitted = this.#splitDocsByCategory(docs);
 
+        const title = localize("asm8051.views.documentationPanel.title");
         return /*html*/ `
           <!DOCTYPE html>
           <html lang="en">
@@ -86,7 +89,7 @@ export class DocumentationPanel {
               <script>window.exports = {};</script>
             </head>
             <body>
-              <h1 class="documentationHeader">8051 Documentation</h1>
+              <h1 class="documentationHeader">${title}</h1>
               <section id="docs-list">
                 ${await this.#createDocsList(splitted)}
               </section>
