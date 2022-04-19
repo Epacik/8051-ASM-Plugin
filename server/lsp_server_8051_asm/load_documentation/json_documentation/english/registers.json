@@ -1,0 +1,30 @@
+{
+  "A": {
+    "detail": "The Accumulator",
+    "description": "8 bit accumulator used mostly for arithmetic, logical and data transfer operations.\r\nHolds a result of most of operations performed by ALU",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true
+  },
+  "B": {
+    "detail": "B register",
+    "description": "8 bit register used in conjunction with the Accumulator to multiply (MUL) or divide (DIV) value.\r\nWhile multiplying B stores one of the values to multiply, and after operation is completed, stores a higher byte of a result.\r\nWhile dividing B stores a divisor and after operation is done, stores a remainder of the result.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true
+  },
+  "PSW": {
+    "detail": "Program Status Word",
+    "description": "",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true
+  },
+  "R0;R1": {
+    "detail": "Register",
+    "description": "Helper register a",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true
+  }
+}
