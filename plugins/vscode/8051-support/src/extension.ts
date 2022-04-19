@@ -14,7 +14,6 @@ import {
 
 import * as net from 'net';
 import { DocumentationPanel } from './views/documentationPanel';
-import GetAllDocumentationFeature from './features/getAllDocumentationFeature';
 import IDocumentation from './documentation';
 //#endregion
 
@@ -26,37 +25,11 @@ let client: LanguageClient;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-	
-	console.log('Activating 8051 support plugin');
 
-	let serverOptions: ServerOptions;
-
-	if (DEBUG) {
-		let connectionInfo = {
-			port: 8050,
-			
-		};
-		serverOptions = () => {
-			let socket = net.connect(connectionInfo);
-			let result: StreamInfo = {
-				writer: socket,
-				reader: socket
-			};
-			return Promise.resolve(result);
-		};
-	}
-	else{
-		//TODO: Add options to start a "production" server
-		serverOptions = {
-			run: { command: "cmd" },
-			debug: { command: "cmd" },
-		};
-	}
+	let serverOptions: ServerOptions = getServerOptions();
 
 	let clientOptions: LanguageClientOptions = {
-		documentSelector: [
-			{ scheme: "file", language: "asm8051" }
-		],
+		documentSelector: [{ scheme: "file", language: "asm8051" }],
 		synchronize: {
 			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
 		}
@@ -67,11 +40,32 @@ export function activate(context: ExtensionContext) {
 	
 	client.trace = Trace.Verbose;
 
-	
-
 	const showPane = commands.registerCommand("8051-support.openDocs", () => openDocsCommand(context));
 
 	context.subscriptions.push(client.start(), showPane);
+}
+
+function getServerOptions() {
+	let serverOptions: ServerOptions;
+
+	if (DEBUG) {
+		serverOptions = () => {
+			let socket = net.connect({ port: 8050, });
+			let result: StreamInfo = {
+				writer: socket,
+				reader: socket
+			};
+			return Promise.resolve(result);
+		};
+	}
+	else {
+		//TODO: Add options to start a "production" server
+		serverOptions = {
+			run: { command: "cmd" },
+			debug: { command: "cmd" },
+		};
+	}
+	return serverOptions;
 }
 
 async function openDocsCommand(context: ExtensionContext) {
