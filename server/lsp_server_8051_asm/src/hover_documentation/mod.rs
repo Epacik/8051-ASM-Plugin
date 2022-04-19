@@ -26,7 +26,9 @@ pub(crate) fn all_documentation(locale: Locale) -> Option<HashMap<String, Docume
 
 
 pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
-
+    if key_docs.1.dont_generate_syntax {
+        return String::from("");
+    }
     let operands = key_docs.1.valid_operands.clone();
 
     match key_docs.1.valid_operands.len() {
