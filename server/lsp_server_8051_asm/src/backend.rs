@@ -1,24 +1,25 @@
 //#region imports hell
-use crate::client_configuration::ClientConfiguration;
-use crate::{diagnostics, hover_documentation};
+use crate::{diagnostics, hover_documentation, client_configuration::ClientConfiguration};
 use lazy_static::__Deref;
-use lspower::jsonrpc::{Error, ErrorCode, Result};
-use lspower::lsp::{
-    ClientCapabilities, CompletionItem, CompletionOptions, CompletionParams, CompletionResponse,
-    ConfigurationItem, DidChangeConfigurationParams, DidCloseTextDocumentParams,
-    DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
-    HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
-    MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
-    Url,
+use lspower::{
+    Client, LanguageServer,
+    jsonrpc::{ Error, ErrorCode, Result },
+    lsp::{ClientCapabilities, CompletionItem, CompletionOptions, CompletionParams, CompletionResponse,
+        ConfigurationItem, DidChangeConfigurationParams, DidCloseTextDocumentParams,
+        DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
+        HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
+        MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
+        Url,}
 };
-use lspower::{Client, LanguageServer};
 use serde_json::Value;
 use tokio::sync::Mutex;
-use std::borrow::Borrow;
-use std::collections::HashMap;
-use std::option::Option;
-use std::string::String;
-use std::sync::{Arc};
+use std::{
+    borrow::Borrow,
+    collections::HashMap,
+    option::Option,
+    string::String,
+    sync::Arc,
+};
 //#endregion imports
 
 /// Connection with a client and additional configutation
