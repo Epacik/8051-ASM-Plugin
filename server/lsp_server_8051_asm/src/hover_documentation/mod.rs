@@ -33,15 +33,15 @@ pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
 
     match key_docs.1.valid_operands.len() {
         0 => key_docs.0,
-        1 => syntax_for_one_operand(key_docs.0, operands[0].borrow()),
-        2 => syntax_for_two_operands(key_docs.0, operands[0].borrow(), operands[1].borrow()),
-        3 => syntax_for_three_operands(key_docs.0, operands[0].borrow(), operands[1].borrow(), operands[2].borrow()),
+        1 => syntax_one_operand(key_docs.0, operands[0].borrow()),
+        2 => syntax_two_operands(key_docs.0, operands[0].borrow(), operands[1].borrow()),
+        3 => syntax_three_operands(key_docs.0, operands[0].borrow(), operands[1].borrow(), operands[2].borrow()),
         _ => "".to_string(),
     }
 }
 
 
-fn syntax_for_one_operand(key: String, operands: &Vec<ValidOperand>) -> String {
+fn syntax_one_operand(key: String, operands: &Vec<ValidOperand>) -> String {
     let mut result = format!("{} [operand]\n\n", key);
 
     for operand in operands {
@@ -52,7 +52,7 @@ fn syntax_for_one_operand(key: String, operands: &Vec<ValidOperand>) -> String {
     result
 }
 
-fn syntax_for_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>) -> String {
+fn syntax_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>) -> String {
     let mut result = format!("{} [operand0], [operand1]\n\n", key);
 
     for operand0 in operands0.clone() {
@@ -68,7 +68,7 @@ fn syntax_for_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1
     result
 }
 
-fn syntax_for_three_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, operands2: &Vec<ValidOperand>) -> String {
+fn syntax_three_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, operands2: &Vec<ValidOperand>) -> String {
     let mut result = format!("{} [operand0], [operand1], [operand2]\n\n", key);
 
     for operand0 in operands0.clone() {
