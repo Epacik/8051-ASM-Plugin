@@ -145,7 +145,7 @@
   },
   "INC": {
     "detail": "Increment register",
-    "description": "Increments register or data in internal RAM by 1,\r\nIf initial value equals 255 (0xFF), or 65535 in case of DPTR (0xFFFF), value is reset to 0.\r\nCarry flag is **not** set when that happens.",
+    "description": "Increments register or data in internal RAM by 1,\r\n\r\nIf initial value equals 255 (0xFF), or 65535 in case of DPTR (0xFFFF), value is reset to 0.\r\n\r\nCarry flag is **not** set when that happens.",
     "valid_operands": [
       [
         {
@@ -175,7 +175,7 @@
   },
   "DEC": {
     "detail": "Decrement register",
-    "description": "Decrements register or data in internal RAM by 1,\r\nIf initial value equals 0 value is reset to 255 (0xFF).\r\nCarry flag is **not** set when that happens.",
+    "description": "Decrements register or data in internal RAM by 1,\r\n\r\nIf initial value equals 0 value is reset to 255 (0xFF).\r\n\r\nCarry flag is **not** set when that happens.",
     "valid_operands": [
       [
         {
@@ -201,7 +201,7 @@
   },
   "MUL": {
     "detail": "Multiply Accumulator by B",
-    "description": "Multiplies value stored in the Accumulator by a value stored in B register.\r\nResult is split into two bytes.\r\nThe most significant byte is stored in the B register.\r\nThe least significant byte is stored in the Accumulator.",
+    "description": "Multiplies value stored in the Accumulator by a value stored in B register.\r\n\r\nResult is split into two bytes.\r\n\r\nThe most significant byte is stored in the B register.\r\n\r\nThe least significant byte is stored in the Accumulator.",
     "valid_operands": [
       [
         {
@@ -226,7 +226,7 @@
   },
   "DIV": {
     "detail": "Divide Accumulator by B register",
-    "description": "Devides value stored in the Accumulator by a value stored in B register.\r\nResult is split into two bytes.\r\nA quotient is stored in the Accumulator.\r\nA remainder is stored in the B register.",
+    "description": "Devides value stored in the Accumulator by a value stored in B register.\r\n\r\nResult is split into two bytes.\r\n\r\nA quotient is stored in the Accumulator.\r\n\r\nA remainder is stored in the B register.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false

@@ -1,7 +1,7 @@
 {
   "MOV": {
     "detail": "Move ",
-    "description": "Move data from second operand to the first one.\r\nBoth operands have to be in the internal RAM.",
+    "description": "Move data from second operand to the first one.\r\n\r\nBoth operands have to be in the internal RAM.",
     "valid_operands": [
       [
         {
@@ -113,7 +113,7 @@
   },
   "MOVC": {
     "detail": "Move from Code",
-    "description": "Move a byte from specified address into the Accumulator.\r\nAddress of code is calculated by adding value stored in the Accumulator and either DPTR or PC.\r\nPC is incremented before adding.",
+    "description": "Move a byte from specified address into the Accumulator.\r\n\r\nAddress of code is calculated by adding value stored in the Accumulator and either DPTR or PC.\r\n\r\nPC is incremented before adding.",
     "valid_operands": [
       [
         {
@@ -137,7 +137,7 @@
   },
   "MOVX": {
     "detail": "Move between external memory and the accumulator",
-    "description": "Move between external memory and the accumulator.\r\nUses either 8 bit or 16 bit address to external memory.\r\n",
+    "description": "Move between external memory and the accumulator.\r\n\r\nUses either 8 bit or 16 bit address to external memory.\r\n",
     "valid_operands": [
       [
         {
@@ -233,7 +233,7 @@
   },
   "XCHD": {
     "detail": "Exchange digit",
-    "description": "Stores a lower nibble (bits 0-3) of the Accumulator in a second operand and stores a lower nibble of the second operand in the Accumulator.\r\nOperation exchanges lower nibbles of both values (bits 0-3). \r\nIt does not affect higher nibbles (bit 4-7).",
+    "description": "Stores a lower nibble (bits 0-3) of the Accumulator in a second operand and stores a lower nibble of the second operand in the Accumulator.\r\n\r\nOperation exchanges lower nibbles of both values (bits 0-3). \r\n\r\nIt does not affect higher nibbles (bit 4-7).",
     "valid_operands": [
       [
         {
