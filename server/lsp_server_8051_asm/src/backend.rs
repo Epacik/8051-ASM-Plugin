@@ -1,16 +1,17 @@
 //#region imports hell
 use crate::{diagnostics, hover_documentation, client_configuration::ClientConfiguration};
 use lazy_static::__Deref;
-use lspower::{
+use tower_lsp::{
     Client, LanguageServer,
     jsonrpc::{ Error, ErrorCode, Result },
-    lsp::{ClientCapabilities, CompletionItem, CompletionOptions, CompletionParams, CompletionResponse,
+    lsp_types::{ClientCapabilities, CompletionItem, CompletionOptions, CompletionParams, CompletionResponse,
         ConfigurationItem, DidChangeConfigurationParams, DidCloseTextDocumentParams,
         DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
         HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
         MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
         Url,}
 };
+
 use serde_json::Value;
 use tokio::sync::Mutex;
 use std::{
@@ -38,7 +39,7 @@ pub(crate) struct Backend {
     pub(crate) client_configuration: Arc<Mutex<ClientConfiguration>>,
 }
 
-#[lspower::async_trait]
+#[tower_lsp::async_trait]
 impl LanguageServer for Backend {
 
     async fn initialize(&self, params: InitializeParams) -> Result<InitializeResult> {
@@ -196,21 +197,21 @@ impl LanguageServer for Backend {
         Ok(Option::None)
     }
 
-    async fn request_else(&self, method: &str, _params: Option<Value>) -> Result<Option<Value>> {
-        println!("received request: {}", method);
+    // async fn request_else(&self, method: &str, _params: Option<Value>) -> Result<Option<Value>> {
+    //     println!("received request: {}", method);
 
-        // self.client
-        //     .log_message(MessageType::INFO, format!("received {}", method) )
-        //     .await;
-        match method {
-            "documentation/getAll" => self.get_all_documentation().await,
-            &_ => Err(lspower::jsonrpc::Error {
-                code: ErrorCode::MethodNotFound,
-                data: Option::None,
-                message: String::from("Method not found"),
-            }),
-        }
-    }
+    //     // self.client
+    //     //     .log_message(MessageType::INFO, format!("received {}", method) )
+    //     //     .await;
+    //     match method {
+    //         "documentation/getAll" => self.get_all_documentation().await,
+    //         &_ => Err(lspower::jsonrpc::Error {
+    //             code: ErrorCode::MethodNotFound,
+    //             data: Option::None,
+    //             message: String::from("Method not found"),
+    //         }),
+    //     }
+    // }
 }
 
 
@@ -302,7 +303,8 @@ impl Backend {
         new_configuration
     }
 
-    async fn get_all_documentation(&self) -> Result<Option<Value>> {
+    
+    pub async fn get_all_documentation(&self) -> Result<Option<Value>> {
         let _locale = self.client_configuration.lock().await.display_locale();
         let docs_option = hover_documentation::all_documentation(_locale);
         if docs_option.is_none() {
@@ -326,6 +328,15 @@ impl Backend {
         }
 
         Ok(Option::Some(serde_json::Value::Object(map)))
+    }
+
+    pub fn new(client: tower_lsp::Client) -> Backend {
+        Backend {
+            client,
+            documents: Arc::new(Mutex::new(HashMap::new())),
+            client_capabilities: Arc::new(Mutex::new(ClientCapabilities::default())),
+            client_configuration: Arc::new(Mutex::new(ClientConfiguration::default())),
+        }
     }
 }
 

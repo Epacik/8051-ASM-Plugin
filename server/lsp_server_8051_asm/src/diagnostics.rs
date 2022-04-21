@@ -1,4 +1,4 @@
-use lspower::lsp::{Diagnostic, DiagnosticSeverity, Position, Range, TextDocumentItem};
+use tower_lsp::lsp_types::{Diagnostic, DiagnosticSeverity, Position, Range, TextDocumentItem};
 use rand::Rng;
 
 ///IGNORE THIS FOR NOW

@@ -7,7 +7,7 @@ use crate::flags::Locale;
 use crate::ClientConfiguration;
 use documentation::Documentation;
 use lazy_static::lazy_static;
-use lspower::lsp::{ MarkedString, Position, TextDocumentItem, LanguageString};
+use tower_lsp::lsp_types::{ MarkedString, Position, TextDocumentItem, LanguageString};
 use regex::Regex;
 use std::borrow::Borrow;
 use std::collections::HashMap;

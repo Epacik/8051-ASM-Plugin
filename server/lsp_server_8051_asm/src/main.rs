@@ -7,15 +7,14 @@ mod flags;
 mod hover_documentation;
 
 use crate::client_configuration::ClientConfiguration;
-use i18n_embed::{LanguageLoader, Localizer, DefaultLocalizer};
-use i18n_embed::fluent::{FluentLanguageLoader, fluent_language_loader};
-use lspower::lsp::ClientCapabilities;
-use lspower::{LspService, Server};
+use i18n_embed::{
+    LanguageLoader, Localizer, DefaultLocalizer, fluent::{
+        FluentLanguageLoader, fluent_language_loader
+    }
+};
+use tower_lsp::{LspService, Server};
 use once_cell::sync::Lazy;
 use rust_embed::RustEmbed;
-use tokio::sync::Mutex;
-use std::sync::{Arc};
-use std::collections::HashMap;
 
 //localization macro
 #[allow(unused_macros)]
@@ -34,23 +33,21 @@ macro_rules! localize {
 async fn main() {
     localizer().select(&["en".parse().unwrap()]).unwrap();
 
-
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:8050")
-        .await
-        .unwrap();
+    //let stream = TcpStream::connect("127.0.0.1:8050").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:8050").await.unwrap();
     let (stream, _) = listener.accept().await.unwrap();
+    
     let (read, write) = tokio::io::split(stream);
+    #[cfg(feature = "runtime-agnostic")]
+    let (read, write) = (read.compat(), write.compat_write());
+    
 
-    let (service, messages) = LspService::new(|client| backend::Backend {
-        client,
-        documents: Arc::new(Mutex::new(HashMap::new())),
-        //locale: RefCell::new(None),
-        client_capabilities: Arc::new(Mutex::new(ClientCapabilities::default())),
-        client_configuration: Arc::new(Mutex::new(ClientConfiguration::default())),
-    });
+    let (service, messages) = 
+        LspService::build(|client| backend::Backend::new(client))
+        .custom_method("documentation/getAll", backend::Backend::get_all_documentation)
+        .finish();
 
-    Server::new(read, write)
-        .interleave(messages)
+    Server::new(read, write, messages)
         .serve(service)
         .await;
 }
