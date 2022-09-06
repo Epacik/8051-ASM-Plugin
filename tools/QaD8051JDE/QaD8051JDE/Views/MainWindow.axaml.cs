@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
@@ -21,15 +22,34 @@ namespace QaD8051JDE.Views
 #endif
 
             _ = SelectFolder();
+
+            KeyDown += MainWindow_KeyDown;
+        }
+
+        private void MainWindow_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
+        {
+            if(e.Key == Avalonia.Input.Key.S &&
+               e.Modifiers == Avalonia.Input.InputModifiers.Control)
+            {
+                viewModel?.FilesList?.Save();
+            }
         }
 
         private async Task SelectFolder()
         {
-            var dialog = new OpenFolderDialog()
+            string? path;
+            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime && lifetime.Args.Length > 0)
             {
-                Title = "Select folder containing documentation",
-            };
-            var path = await dialog.ShowAsync(this);
+                path = lifetime.Args[0];
+            }
+            else 
+            {
+                var dialog = new OpenFolderDialog()
+                {
+                    Title = "Select folder containing documentation",
+                };
+                path = await dialog.ShowAsync(this);
+            }
             if(path is null || !Directory.Exists(path))
             {
                 Environment.Exit(0);
@@ -46,9 +66,22 @@ namespace QaD8051JDE.Views
         {
             var lang = ((e.AddedItems[0] as TextBlock)?.Tag as string ?? "");
             var list = new FilesList(lang);
+
+            if(viewModel.FilesList is not null)
+            {
+                viewModel.FilesList.SelectedNameChanged -= List_SelectedNameChanged;
+            }
+
             viewModel.FilesList = list;
+
+            list.SelectedNameChanged += List_SelectedNameChanged;
+            viewModel.Title = (e.AddedItems[0] as TextBlock)?.Text ?? "";
         }
 
+        private void List_SelectedNameChanged(object? sender, string e)
+        {
+            viewModel.Title = (viewModel.SelectedLanguage?.Text ?? "") + " - " + e;
+        }
 
         private void InitializeComponent()
         {

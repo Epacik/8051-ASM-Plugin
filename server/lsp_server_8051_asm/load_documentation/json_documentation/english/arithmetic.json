@@ -45,7 +45,10 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "ADDC": {
     "detail": "Add to Accumulator with Carry flag",
@@ -93,7 +96,10 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "SUBB": {
     "detail": "Subtract from Accumulator With Borrow",
@@ -141,7 +147,10 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "INC": {
     "detail": "Increment register",
@@ -171,7 +180,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "DEC": {
     "detail": "Decrement register",
@@ -197,7 +209,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "MUL": {
     "detail": "Multiply Accumulator by B",
@@ -222,14 +237,27 @@
         "when_unset": "always"
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "DIV": {
     "detail": "Divide Accumulator by B register",
     "description": "Devides value stored in the Accumulator by a value stored in B register.\r\n\r\nResult is split into two bytes.\r\n\r\nA quotient is stored in the Accumulator.\r\n\r\nA remainder is stored in the B register.",
-    "valid_operands": [],
+    "valid_operands": [
+      [
+        {
+          "operand": 13,
+          "when_first_is": 0
+        }
+      ]
+    ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "DA": {
     "detail": "Decimal adjust Accumulator",
@@ -249,6 +277,9 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   }
 }

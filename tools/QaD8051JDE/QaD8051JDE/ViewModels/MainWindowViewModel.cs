@@ -25,4 +25,11 @@ public class MainWindowViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref filesList, value);
     }
 
+    private string? title;
+    public string? Title
+    {
+        get => "QaD8051JDE: " + title;
+        set => this.RaiseAndSetIfChanged(ref title, value);
+    }
+
 }

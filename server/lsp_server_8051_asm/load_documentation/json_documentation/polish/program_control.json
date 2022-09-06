@@ -11,7 +11,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "ACALL": {
     "detail": "Absolute Call",
@@ -25,7 +28,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "LCALL": {
     "detail": "Long Call",
@@ -39,21 +45,30 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RET": {
     "detail": "Return from subroutine",
     "description": "Return from a subroutine called by LCALL or ACALL.\r\nPops two bytes off the stack and stores them in the Program Counter.\r\nLeast significant byte is popped first.",
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": true
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RETI": {
     "detail": "Return from interrupt",
     "description": "Return from a interrupt.\r\nEnables interrupts of lower or equal priority to the one the program is returning from, \r\nand then pops two bytes off the stack and stores them in the Program Counter.\r\nLeast significant byte is popped first.",
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": true
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "AJMP": {
     "detail": "Absolute Jump",
@@ -67,7 +82,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "LJMP": {
     "detail": "Long Jump",
@@ -81,7 +99,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "SJMP": {
     "detail": "Short Jump",
@@ -95,7 +116,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JMP": {
     "detail": "Jump",
@@ -113,7 +137,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "CJNE": {
     "detail": "Compare and jump if not equal",
@@ -157,7 +184,10 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "DJNZ": {
     "detail": "Decrement and jump if not zero",
@@ -181,7 +211,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JB": {
     "detail": "Jump if bit set",
@@ -201,7 +234,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JBC": {
     "detail": "Jump if bit not set and clear it",
@@ -221,7 +257,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JC": {
     "detail": "Jump if Carry set",
@@ -235,7 +274,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JNC": {
     "detail": "Jump if Carry not set",
@@ -249,7 +291,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JNB": {
     "detail": "Jump if bit not set",
@@ -269,7 +314,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JZ": {
     "detail": "Jump if Accumulator is zero",
@@ -283,7 +331,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "JNZ": {
     "detail": "Jump if Accumulator is not zero",
@@ -297,13 +348,19 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "NOP": {
     "detail": "No Operation",
     "description": "Does nothing for a single cycle",
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": true
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   }
 }

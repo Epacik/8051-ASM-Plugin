@@ -49,7 +49,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "ORL": {
     "detail": "Bitwise OR",
@@ -101,7 +104,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "XRL": {
     "detail": "Bitwise XOR",
@@ -153,7 +159,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "CLR": {
     "detail": "Clear",
@@ -175,7 +184,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "CPL": {
     "detail": "Complement",
@@ -197,7 +209,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RL": {
     "detail": "Rotate left",
@@ -211,7 +226,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RLC": {
     "detail": "Rotate left trough Carry flag",
@@ -231,7 +249,10 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RR": {
     "detail": "Rotate right",
@@ -245,7 +266,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RRC": {
     "detail": "Rotate right trough Carry flag",
@@ -265,7 +289,10 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "SWAP": {
     "detail": "Swap nibbles of the Accumulator",
@@ -279,7 +306,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "SETB": {
     "detail": "Set Bit",
@@ -297,6 +327,9 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   }
 }

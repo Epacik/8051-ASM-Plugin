@@ -37,4 +37,19 @@ internal class DocumentationElementEditorViewModel : ReactiveObject
         get => validOperands;
         set => this.RaiseAndSetIfChanged(ref validOperands, value);
     }
+
+    private string? _prefix;
+    public string? Prefix
+    {
+        get => _prefix;
+        set => this.RaiseAndSetIfChanged(ref _prefix, value);
+    }
+
+    private bool _prefixRequired;
+    public bool PrefixRequired
+    {
+        get => _prefixRequired;
+        set => this.RaiseAndSetIfChanged(ref _prefixRequired, value);
+    }
+
 }

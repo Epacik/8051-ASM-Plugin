@@ -1,0 +1,112 @@
+{
+  "TF0;TF1": {
+    "detail": "Timer Overflow",
+    "description": " Set to 1 when timer has overflown (transition from all bits set to 1, to all bits set to 0). \r\nCleared after running associated interrupt vector (Timer 0: 000Bh, Timer 1: 001Bh)",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TR0;TR1": {
+    "detail": "Timer Run",
+    "description": "Set to 1 when timer is running, \r\nSet to 0 when timer is halted",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "IE0;IE1": {
+    "detail": "External interrupt",
+    "description": "Set to 1 when transition from high to low signal is received on port 3.3, \r\ncleared after running associated vector (Timer 0: 0003h, Timer 1: 0013h)",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "IT0;IT1": {
+    "detail": "Exterial interrupt type ",
+    "description": "When set to 1 interrupts will be generated on transition from high to low signal on port 3.3, \r\nWhen set to 0 interrupt will be generated on low signal on port 3.3",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "CY;PSW.7": {
+    "detail": "Carry flag",
+    "description": "Carry flag\r\nSet when the result of an addition exceeded 255, or when subtracting larger number from a smaller one.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "AC;PSW.6": {
+    "detail": "Auxiliary carry flag",
+    "description": "Used for BCD operations.\r\nSet when ADD or SUBB operations result in carry/borrow between bit 3 and 4.\r\nOtherwise it is cleared.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "F0;PSW.5": {
+    "detail": "General purpose flag",
+    "description": "General purpose flag.\r\nUser can decide what is it used for.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "RS1;PSW.4;RS0;PSW.3": {
+    "detail": "Register bank selector",
+    "description": "Bits RS0 and RS1 (PSW.3 and PSW.4 respectively) are used to select a bank of registers (where registers R0-R7 are in RAM).\r\n*By default the Stack Pointer points at 08h. This means that using the stack without changing it\u0027s default address *will* change values of registers R0-R7 in banks 1, 2, and 3*\r\n\r\nTo select a specific bank change values of R0 and R1 to values depicted below\r\n| RS1 | RS0 | Selected bank | Available at address |\r\n| --- | --- | ------------- | -------------------- |\r\n| 0   | 0   | Bank 0        | 00h - 07h            |\r\n| 0   | 1   | Bank 1        | 08h - 0Fh            |\r\n| 1   | 0   | Bank 2        | 10h - 17h            |\r\n| 1   | 1   | Bank 3        | 18h - 1Fh            |\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "OV;PSW.2": {
+    "detail": "Overflow flag",
+    "description": "Overflow flag\r\nIndicates overflow of a signed value.\r\nSet when a value of a signed addition or subtraction rolls over from -128 to 127 \r\nor the other way around.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "PSW.1": {
+    "detail": "User defined bit",
+    "description": "User defined bit\r\nUser can decide what is it used for",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "P;PSW.0": {
+    "detail": "Parity flag",
+    "description": "Parity flag\r\nIndicates odd or even number of set bits in accumulator. Updated on every cycle.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  }
+}

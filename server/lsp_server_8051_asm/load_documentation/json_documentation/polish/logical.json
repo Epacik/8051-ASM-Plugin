@@ -1,7 +1,7 @@
 {
   "ANL": {
     "detail": "Bitwise AND",
-    "description": "Performs a bitwise AND operation between operands.\r\nDoes not affect value of second operand.",
+    "description": "Performs a bitwise AND operation between operands.\r\n\r\nDoes not affect value of second operand.",
     "valid_operands": [
       [
         {
@@ -49,11 +49,14 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "ORL": {
     "detail": "Bitwise OR",
-    "description": "Performs a bitwise OR operation between operands.\r\nDoes not affect value of second operand.",
+    "description": "Performs a bitwise OR operation between operands.\r\n\r\nDoes not affect value of second operand.",
     "valid_operands": [
       [
         {
@@ -101,11 +104,14 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "XRL": {
     "detail": "Bitwise XOR",
-    "description": "Performs a bitwise XOR operation between operands.\r\nDoes not affect value of second operand.",
+    "description": "Performs a bitwise XOR operation between operands.\r\n\r\nDoes not affect value of second operand.",
     "valid_operands": [
       [
         {
@@ -153,7 +159,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "CLR": {
     "detail": "Clear",
@@ -175,7 +184,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "CPL": {
     "detail": "Complement",
@@ -197,11 +209,14 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RL": {
     "detail": "Rotate left",
-    "description": "Shifts bits of value stored in the Accumulator to the left.\r\nThe most significant bit is moved to the least significant bit.",
+    "description": "Shifts bits of value stored in the Accumulator to the left.\r\n\r\nThe most significant bit is moved to the least significant bit.",
     "valid_operands": [
       [
         {
@@ -211,11 +226,14 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RLC": {
     "detail": "Rotate left trough Carry flag",
-    "description": "Shifts bits of value stored in the Accumulator to the left trough the Carry flag.\r\nValue of the Carry flag is moved to the least significant bit of the Accumulator.\r\nThe most significant bit is moved to the Carry flag.\r\n\r\nCan be used to multiply number by 2",
+    "description": "Shifts bits of value stored in the Accumulator to the left trough the Carry flag.\r\n\r\nValue of the Carry flag is moved to the least significant bit of the Accumulator.\r\n\r\nThe most significant bit is moved to the Carry flag.\r\n\r\nCan be used to multiply number by 2",
     "valid_operands": [
       [
         {
@@ -231,11 +249,14 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RR": {
     "detail": "Rotate right",
-    "description": "Shifts bits of value stored in the Accumulator to the right.\r\nThe least significant bit is moved to the most significant bit.",
+    "description": "Shifts bits of value stored in the Accumulator to the right.\r\n\r\nThe least significant bit is moved to the most significant bit.",
     "valid_operands": [
       [
         {
@@ -245,11 +266,14 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "RRC": {
     "detail": "Rotate right trough Carry flag",
-    "description": "Shifts bits of value stored in the Accumulator to the right trough the Carry flag.\r\nValue of the Carry flag is moved to the most significant bit of the Accumulator.\r\nThe least significant bit is moved to the Carry flag.\r\n\r\nCan be used to divide number by 2",
+    "description": "Shifts bits of value stored in the Accumulator to the right trough the Carry flag.\r\n\r\nValue of the Carry flag is moved to the most significant bit of the Accumulator.\r\n\r\nThe least significant bit is moved to the Carry flag.\r\n\r\n\r\nCan be used to divide number by 2",
     "valid_operands": [
       [
         {
@@ -265,11 +289,14 @@
         "when_unset": ""
       }
     ],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "SWAP": {
     "detail": "Swap nibbles of the Accumulator",
-    "description": "Swap the most significant nibble of the Accumulator with the least significant nibble.\r\nEnd result will be the same as rotating Accumulator value 4 times.",
+    "description": "Swap the most significant nibble of the Accumulator with the least significant nibble.\r\n\r\nEnd result will be the same as rotating Accumulator value 4 times.",
     "valid_operands": [
       [
         {
@@ -279,7 +306,10 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   },
   "SETB": {
     "detail": "Set Bit",
@@ -297,6 +327,9 @@
       ]
     ],
     "affected_flags": [],
-    "dont_generate_syntax": false
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
   }
 }

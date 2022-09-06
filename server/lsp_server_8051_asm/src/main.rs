@@ -1,5 +1,5 @@
 #![deny(warnings)]
-
+//#region imports
 mod backend;
 mod client_configuration;
 mod diagnostics;
@@ -15,19 +15,7 @@ use i18n_embed::{
 use tower_lsp::{LspService, Server};
 use once_cell::sync::Lazy;
 use rust_embed::RustEmbed;
-
-//localization macro
-#[allow(unused_macros)]
-#[macro_export]
-macro_rules! localize {
-    ($message_id:literal) => {{
-        i18n_embed_fl::fl!($crate::LANGUAGE_LOADER, $message_id)
-    }};
-
-    ($message_id:literal, $($args:expr),*) => {{
-        i18n_embed_fl::fl!($crate::LANGUAGE_LOADER, $message_id, $($args), *)
-    }};
-}
+//#endregion imports
 
 #[tokio::main]
 async fn main() {
@@ -38,10 +26,10 @@ async fn main() {
     let (stream, _) = listener.accept().await.unwrap();
     
     let (read, write) = tokio::io::split(stream);
+
     #[cfg(feature = "runtime-agnostic")]
     let (read, write) = (read.compat(), write.compat_write());
     
-
     let (service, messages) = 
         LspService::build(|client| backend::Backend::new(client))
         .custom_method("documentation/getAll", backend::Backend::get_all_documentation)
@@ -52,7 +40,7 @@ async fn main() {
         .await;
 }
 
-
+//#region localization
 #[derive(RustEmbed)]
 #[folder = "i18n/"]
 struct Localizations;
@@ -74,3 +62,16 @@ pub fn localizer() -> Box<dyn Localizer> {
     Box::from(DefaultLocalizer::new(&*LANGUAGE_LOADER, &Localizations))
 }
 
+
+#[allow(unused_macros)]
+#[macro_export]
+macro_rules! localize {
+    ($message_id:literal) => {{
+        i18n_embed_fl::fl!($crate::LANGUAGE_LOADER, $message_id)
+    }};
+
+    ($message_id:literal, $($args:expr),*) => {{
+        i18n_embed_fl::fl!($crate::LANGUAGE_LOADER, $message_id, $($args), *)
+    }};
+}
+//#endregion localization

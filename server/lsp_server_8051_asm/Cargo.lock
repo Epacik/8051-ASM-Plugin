@@ -467,6 +467,7 @@ dependencies = [
  "rust-embed",
  "serde",
  "serde_json",
+ "test-case",
  "tokio",
  "tower-lsp",
  "unicode-segmentation",
@@ -909,6 +910,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-xid",
+]
+
+[[package]]
+name = "test-case"
+version = "2.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6344589a99d3971d6fa4e8314dbcbeca2df6273a6b642e46906971779159af1f"
+dependencies = [
+ "cfg-if",
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

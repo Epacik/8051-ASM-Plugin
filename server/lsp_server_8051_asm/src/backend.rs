@@ -310,12 +310,12 @@ impl Backend {
         if docs_option.is_none() {
             return Ok(Option::None);
         }
-        let _docs = docs_option.unwrap();
-        //let dcs = serde_json::to_value(_docs).unwrap();
+        let docs = docs_option.unwrap();
 
+        let mut already_added = Vec::<String>::new();
         let mut map = serde_json::Map::new();
 
-        for pair in _docs {
+        for pair in docs {
             let obj = serde_json::json!({
                 "detail": pair.1.detail,
                 "description": pair.1.description,
@@ -324,7 +324,14 @@ impl Backend {
                 "valid_operands": hover_documentation::generate_valid_operands(pair.clone().1.valid_operands),
                 "category": pair.1.category
             });
-            map.insert(pair.0, obj);
+            if !pair.1.dont_duplicate_in_all_docs {
+                map.insert(pair.0, obj);
+            }
+            else if pair.1.dont_duplicate_in_all_docs && !already_added.contains(&pair.1.full_key) {
+                map.insert(pair.1.full_key.clone(), obj);
+                already_added.push(pair.1.full_key);
+            }
+            
         }
 
         Ok(Option::Some(serde_json::Value::Object(map)))
@@ -356,6 +363,5 @@ fn has_configuration_capability(capabilities: ClientCapabilities) -> bool {
 async fn try_update_mutex_value<T>(current: &Mutex<T>, new: T) -> bool {    
     let mut current_lock = current.lock().await;
     *current_lock = new;
-    
     true
 }

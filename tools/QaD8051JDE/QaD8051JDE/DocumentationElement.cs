@@ -38,6 +38,21 @@ public class DocumentationElement
     [JsonPropertyName("dont_generate_syntax")]
     public bool DontGenerateSyntax { get; set; }
 
+    [JsonPropertyName("dont_duplicate_in_all_docs")]
+    public bool DontDuplicate { get; set; }
+
+    [JsonIgnore]
+    private string? _prefix;
+    [JsonPropertyName("prefix")]
+    public string? Prefix
+    {
+        get => _prefix ?? "";
+        set => _prefix = value ?? "";
+    }
+
+    [JsonPropertyName("prefix_required")]
+    public bool PrefixRequired { get; set; }
+
 }
 
 public class Flag
@@ -80,6 +95,11 @@ public class ValidOperand
         [PossibleOperands.DPTR]                         = "DPTR (Data Pointer)",
         [PossibleOperands.AddressInDPTR]                = "Address in DPTR",
         [PossibleOperands.AddressInAccumulatorPlusPC]   = "Address in Accumulator + Program Counter (@A+PC)",
+        [PossibleOperands.AbsoluteAddress]              = "Absolute Address",
+        [PossibleOperands.HexNumber]                    = "Hexadecimal number (01h)",
+        [PossibleOperands.BinaryNumber]                 = "Binary number",
+        [PossibleOperands.DecimalNumber]                = "Decimal number",
+        [PossibleOperands.AsciiCharacters]              = "ASCII Characters",
     };
 }
 
@@ -115,4 +135,21 @@ public enum PossibleOperands
     DPTR                         = 15,
     AddressInDPTR                = 16,
     AddressInAccumulatorPlusPC   = 17,
+
+    AbsoluteAddress              = 18,
+
+
+    HexNumber                    = 100,
+    BinaryNumber                 = 101,
+    DecimalNumber                = 102,
+    AsciiCharacters              = 103,
+
+}
+
+public enum Types
+{
+    Other    = 0,
+    Mnemonic = 1,
+    Flag     = 2,
+    Register = 3,
 }

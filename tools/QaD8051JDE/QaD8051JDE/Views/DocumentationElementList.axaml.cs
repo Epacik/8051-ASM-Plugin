@@ -39,6 +39,13 @@ namespace QaD8051JDE.Views
             viewModel.Elements = elements?.Select(x => new TextBlock { Text = x.Key, Tag = x })?.ToArray();
         }
 
+        internal void Save()
+        {
+            viewModel?.Editor?.Save();
+        }
+
+        public event EventHandler<string> SelectedNameChanged;
+
         private void ElementList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 0)
@@ -57,6 +64,8 @@ namespace QaD8051JDE.Views
             var editor = new DocumentationElementEditor(element);
             editor.SaveRequested += Editor_SaveRequested;
             viewModel.Editor = editor;
+
+            SelectedNameChanged?.Invoke(this, element.Key);
         }
 
         private void Editor_SaveRequested(object? sender, SaveRequestedEventArgs e)
@@ -67,6 +76,8 @@ namespace QaD8051JDE.Views
             var elements = Elements;
 
             elements[e.Mnemonic ?? "LOST"] = e.NewValue;
+
+
 
             var content = JsonSerializer.Serialize(elements, new JsonSerializerOptions { WriteIndented = true, });
             File.WriteAllText(DocumentationFilePath, content);

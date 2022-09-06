@@ -37,27 +37,34 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
         //turn every pair into from a map into something returnable
         for (key, value) in docs {
 
-            let item = match parse_to_documentation(value) {
+            let item = match parse_to_documentation(value, file_path.to_str().unwrap()) {
                 Some(value) => value,
                 None => continue,
             };
 
-            let detail = item.detail;
+            let detail = item.detail; 
             let description = item.description;
             let affected_flags = parse_affected_flags(item.affected_flags.borrow());
             let valid_operands = parse_valid_operands(item.valid_operands.borrow());
             let category = filename.strip_suffix(".json");
             let dont_generate_syntax = item.dont_generate_syntax;
+            let dont_duplicate_in_all_docs = item.dont_duplicate_in_all_docs;
+            let prefix = item.prefix;
+            let prefix_required = item.prefix_required;
 
             for partial_key in key.split(";") {
                 let pkey = partial_key.trim();
-                items.push(quote::quote!{ ( std::string::String::from(#pkey), crate::hover_documentation::documentation::Documentation {
+                items.push(quote::quote!{ ( std::string::String::from(#pkey), crate::hover_documentation::Documentation {
                     detail: std::string::String::from(#detail),
                     description: std::string::String::from(#description),
                     affected_flags: std::vec::Vec::from([#(#affected_flags),*]),
-                    valid_operands: std::vec::Vec::from([#(#valid_operands),*]),
+                    valid_operands: std::vec::Vec::from([#(#valid_operands),*]), 
                     category: std::string::String::from(#category),
                     dont_generate_syntax: #dont_generate_syntax,
+                    dont_duplicate_in_all_docs: #dont_duplicate_in_all_docs,
+                    full_key: std::string::String::from(#key),
+                    prefix: std::string::String::from(#prefix),
+                    prefix_required: #prefix_required,
                  })});
             }
 
@@ -140,12 +147,24 @@ fn load_map_from_json(content: String, file_path: &std::path::PathBuf) -> Option
 }
 
 #[inline(always)]
-fn parse_to_documentation(value: serde_json::Value) -> Option<Documentation> {
+fn parse_to_documentation(value: serde_json::Value, filepath: &str) -> Option<Documentation> {
     let item_res: Result<crate::Documentation, serde_json::Error> =
         serde_json::from_value(value);
     if item_res.is_err() {
         // find a way to display that error
-        eprintln!("Error parsing documentation item:"); //, item_res.unwrap_err());
+        let error =  item_res.unwrap_err();
+        let category = match error.classify() {
+            serde_json::error::Category::Io     => "IO",
+            serde_json::error::Category::Syntax => "Syntax",
+            serde_json::error::Category::Data   => "Data",
+            serde_json::error::Category::Eof    => "End of file",
+        };
+        let line = error.line();
+        let column = error.column();
+        let msg = error.to_string();
+
+        eprintln!("Error parsing documentation item:\nCategory: {}\nLine: {}, Column: {}\nMessage: {}\nFile {}\n\n",
+         category, line, column, msg, filepath);
         return None;
     }
     let item = item_res.unwrap();
@@ -162,7 +181,7 @@ fn parse_affected_flags(flags: &std::vec::Vec<Flag>) -> Vec<proc_macro2::TokenSt
         let when_unset = flag.when_unset.clone();
 
         affected_flags.push(quote::quote! {(
-            crate::hover_documentation::documentation::Flag {
+            crate::hover_documentation::Flag {
                 flag: #bit,
                 when_set: std::string::String::from(#when_set),
                 when_unset: std::string::String::from(#when_unset),
@@ -181,7 +200,7 @@ fn parse_valid_operands(vo: &Vec<Vec<ValidOperand>>) -> Vec<proc_macro2::TokenSt
             let o = operand.operand;
             let when = operand.when_first_is;
             op.push(quote::quote! {(
-                crate::hover_documentation::documentation::ValidOperand {
+                crate::hover_documentation::ValidOperand {
                     operand: #o,
                     when_first_is: #when,
                 }
@@ -194,17 +213,20 @@ fn parse_valid_operands(vo: &Vec<Vec<ValidOperand>>) -> Vec<proc_macro2::TokenSt
     valid_operands
 }
 #[allow(dead_code)]
-#[derive(serde::Deserialize, Default, Clone)]
+#[derive(serde::Deserialize, Default, Clone, Debug)]
 struct Documentation {
     pub detail: std::string::String,
     pub description: std::string::String,
     pub valid_operands: std::vec::Vec<std::vec::Vec<ValidOperand>>,
     pub affected_flags: std::vec::Vec<Flag>,
     pub dont_generate_syntax: bool,
+    pub dont_duplicate_in_all_docs: bool,
+    pub prefix: std::string::String,
+    pub prefix_required: bool,
 }
 
 #[allow(dead_code)]
-#[derive(serde::Deserialize, Default, Clone)]
+#[derive(serde::Deserialize, Default, Clone, Debug)]
 struct Flag {
     pub flag: i32,
     pub when_set: std::string::String,
@@ -212,7 +234,7 @@ struct Flag {
 }
 
 #[allow(dead_code)]
-#[derive(serde::Deserialize, Default, Clone)]
+#[derive(serde::Deserialize, Default, Clone, Debug)]
 struct ValidOperand {
     pub operand: i32,
     pub when_first_is: i32,

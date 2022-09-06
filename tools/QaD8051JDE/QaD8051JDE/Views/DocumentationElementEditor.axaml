@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:QaD8051JDE.Views;assembly=QaD8051JDE"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
              x:Class="QaD8051JDE.Views.DocumentationElementEditor">
 
     <!--<Design.DataContext>
@@ -20,15 +20,23 @@
             <Button Click="SaveButtonClick">💾</Button>
             <Button Click="RefreshButtonClick">↩️</Button>
             <ToggleSwitch Margin="20,0,0,0" OnContent="Don't generate syntax" OffContent="Generate syntax" x:Name="DontGenerateSyntax"/>
+            <ToggleSwitch Margin="20,0,0,0" OnContent="Don't duplicate in all documentation" OffContent="Duplicate in all documentation" x:Name="DontDuplicate"/>
         </StackPanel>
+      <TextBlock VerticalAlignment="Center"
+                 Margin="5,0"
+                 HorizontalAlignment="Right"
+                 IsVisible="False"
+                 x:Name="SavedText">
+        Saved
+      </TextBlock>
         
         <ScrollViewer Grid.Row="1" Margin="5">
             <StackPanel >
                 <TextBlock Text="Detail:"/>
-                <TextBox Text="{Binding Detail}" />
+                <TextBox Text="{Binding Detail}" FontFamily="Cascadia Code" />
 
                 <TextBlock Text="Description"/>
-                <TextBox Text="{Binding Description}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>
+                <TextBox Text="{Binding Description}" AcceptsReturn="True" AcceptsTab="True" Height="250" FontFamily="Cascadia Code"/>
 
                 <!--<TextBox Text="{Binding AffectedFlags}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>-->
                 <Expander Header="Affected Flags" HorizontalContentAlignment="Stretch">
@@ -57,7 +65,15 @@
                         </ScrollViewer>
                     </StackPanel>
                 </Expander>
-                <!--<TextBox Text="{Binding ValidOperands}" AcceptsReturn="True" AcceptsTab="True" Height="100"/>-->
+
+              <StackPanel Orientation="Horizontal"
+                          Spacing="5"
+                          Margin="0,20,0,0">
+                <TextBlock VerticalAlignment="Center" Text="Prefix:"/>
+                <CheckBox IsChecked="{Binding PrefixRequired}" Content="Required"/>
+              </StackPanel>
+              <TextBox Text="{Binding Prefix}" FontFamily="Cascadia Code" />
+              <!--<TextBox Text="{Binding ValidOperands}" AcceptsReturn="True" AcceptsTab="True" Height="100"/>-->
             </StackPanel>
         </ScrollViewer>
 

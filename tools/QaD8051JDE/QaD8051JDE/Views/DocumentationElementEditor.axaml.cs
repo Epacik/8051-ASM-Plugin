@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 using MessageBox.Avalonia.Enums;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ public partial class DocumentationElementEditor : UserControl
         InitializeComponent();
     }
 
+
     public DocumentationElementEditor(KeyValuePair<string, DocumentationElement> element) : this()
     {
         this.Element = element;
@@ -28,13 +30,13 @@ public partial class DocumentationElementEditor : UserControl
 
     private void LoadElement()
     {
-        viewModel.Detail = Element.Value.Detail;
-        viewModel.Description = Element.Value.Description;
-        //viewModel.Syntax = Element.Value.Syntax;
-        viewModel.AffectedFlags = Element.Value.AffectedFlags is not null ? new(Element.Value.AffectedFlags) : new();
-        //viewModel.ValidOperands = Element.Value.ValidOperands is not null ? new (Element.Value.ValidOperands) : new();
+        viewModel.Detail         = Element.Value.Detail;
+        viewModel.Description    = Element.Value.Description;
+        viewModel.AffectedFlags  = Element.Value.AffectedFlags is not null ? new(Element.Value.AffectedFlags) : new();
+        viewModel.Prefix         = Element.Value.Prefix;
+        viewModel.PrefixRequired = Element.Value.PrefixRequired;
 
-        foreach(Flag flag in Element.Value.AffectedFlags)
+        foreach(Flag flag in Element.Value.AffectedFlags ?? (IEnumerable<Flag>)Array.Empty<Flag>())
         {
             var editor = new FlagEditor();
             editor.Set(flag);
@@ -50,6 +52,12 @@ public partial class DocumentationElementEditor : UserControl
         }
 
         DontGenerateSyntax.IsChecked = Element.Value.DontGenerateSyntax;
+        DontDuplicate.IsChecked      = Element.Value.DontDuplicate;
+    }
+
+    internal void Save()
+    {
+        SaveButtonClick(null, null);
     }
 
     private async void RefreshButtonClick(object sender, RoutedEventArgs args)
@@ -68,7 +76,7 @@ public partial class DocumentationElementEditor : UserControl
 
     public event EventHandler<SaveRequestedEventArgs>? SaveRequested;
 
-    private void SaveButtonClick(object sender, RoutedEventArgs args)
+    private void SaveButtonClick(object? sender, RoutedEventArgs? args)
     {
         var affectedFlags = AffectedFlagsPanel.Children.Select(x => ((FlagEditor)x).Get())
             .OrderBy(x => x.FlagType).ToList();
@@ -83,13 +91,29 @@ public partial class DocumentationElementEditor : UserControl
 
         SaveRequested?.Invoke(this, new SaveRequestedEventArgs(Element.Key, new DocumentationElement
         {
-            Detail = viewModel.Detail,
-            Description = viewModel.Description,
-            //Syntax = viewModel.Syntax,
-            AffectedFlags = affectedFlags,
-            ValidOperands = operands,
+            Detail             = viewModel.Detail,
+            Description        = viewModel.Description,
+            AffectedFlags      = affectedFlags,
+            ValidOperands      = operands,
             DontGenerateSyntax = DontGenerateSyntax.IsChecked == true,
+            DontDuplicate      = DontDuplicate.IsChecked      == true,
+            Prefix             = viewModel.Prefix,
         }));
+
+        if (_timer is not null)
+            return;
+
+        SavedText.IsVisible = true;
+        _timer = new DispatcherTimer(
+            new TimeSpan(0, 0, 3),
+            DispatcherPriority.ApplicationIdle,
+            (s, e) =>
+        {
+            SavedText.IsVisible = false;
+            _timer?.Stop();
+            _timer = null;
+        });
+        _timer.Start();
     }
 
     private void AddFlagButton_Click(object sender, RoutedEventArgs args)
@@ -129,6 +153,9 @@ public partial class DocumentationElementEditor : UserControl
     private StackPanel AffectedFlagsPanel;
     private StackPanel OperandsPanel;
     private ToggleSwitch DontGenerateSyntax;
+    private ToggleSwitch DontDuplicate;
+    private TextBlock SavedText;
+    private DispatcherTimer? _timer;
 
     private void InitializeComponent()
     {
@@ -136,6 +163,9 @@ public partial class DocumentationElementEditor : UserControl
         AffectedFlagsPanel = this.FindControl<StackPanel>("AffectedFlagsPanel");
         OperandsPanel = this.FindControl<StackPanel>("OperandsPanel");
         DontGenerateSyntax = this.FindControl<ToggleSwitch>("DontGenerateSyntax");
+        DontDuplicate = this.FindControl<ToggleSwitch>("DontDuplicate");
+
+        SavedText = this.FindControl<TextBlock>("SavedText");
     }
 }
 

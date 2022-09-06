@@ -29,6 +29,8 @@ namespace QaD8051JDE.Views
             LoadFiles();
         }
 
+        public event EventHandler<string> SelectedNameChanged;
+
         private void LoadFiles()
         {
             if (viewModel.DocumentationElements is not null)
@@ -41,13 +43,32 @@ namespace QaD8051JDE.Views
                 .ToArray();
         }
 
+        internal void Save()
+        {
+            viewModel?.DocumentationElements?.Save();
+        }
+
         private void CategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 0)
                 return;
             var file = ((e.AddedItems[0] as TextBlock)?.Tag as string ?? "");
+
+            if(viewModel.DocumentationElements is not null)
+            {
+                viewModel.DocumentationElements.SelectedNameChanged -= List_SelectedNameChanged;
+            }
             var list = new DocumentationElementList(file);
             viewModel.DocumentationElements = list;
+            list.SelectedNameChanged += List_SelectedNameChanged;
+
+            SelectedNameChanged?.Invoke(this, (e.AddedItems[0] as TextBlock)?.Text ?? "");
+        }
+
+        private void List_SelectedNameChanged(object? sender, string e)
+        {
+            var categoryName = viewModel.SelectedCategory?.Text ?? "";
+            SelectedNameChanged?.Invoke(this, categoryName + " - " + e);
         }
 
         private async void AddFileButtonClick(object sender, RoutedEventArgs args)
