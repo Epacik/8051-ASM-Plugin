@@ -17,9 +17,7 @@ import { DocumentationPanel } from './views/documentationPanel';
 import IDocumentation from './documentation';
 import { localize, init as initLocalization }  from 'vscode-nls-i18n';
 
-//#endregion
-
-const DEBUG: boolean = true;
+const DEBUG: boolean = process.env.Debug8051Plugin?.trim()?.toLowerCase() == "true";
 
 let client: LanguageClient;
 
@@ -74,7 +72,6 @@ function getServerOptions() {
 }
 
 async function openDocsCommand(context: ExtensionContext) {
-	//client.sendNotification("test.command");
 	let docs: Map<string, IDocumentation> = await client.sendRequest("documentation/getAll");
 	DocumentationPanel.render(context.extensionUri, docs);
 }
