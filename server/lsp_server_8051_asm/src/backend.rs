@@ -1,6 +1,6 @@
 //#region imports hell
-use crate::{diagnostics, hover_documentation, client_configuration::ClientConfiguration};
-use lazy_static::__Deref;
+use crate::{diagnostics, hover, client_configuration::ClientConfiguration};
+use dashmap::DashMap;
 use tower_lsp::{
     Client, LanguageServer,
     jsonrpc::{ Error, ErrorCode, Result },
@@ -9,14 +9,13 @@ use tower_lsp::{
         DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
         HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
         MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
-        Url,}
+        Url, DidChangeTextDocumentParams,}
 };
 
 use serde_json::Value;
 use tokio::sync::Mutex;
 use std::{
     borrow::Borrow,
-    collections::HashMap,
     option::Option,
     string::String,
     sync::Arc,
@@ -30,7 +29,7 @@ pub(crate) struct Backend {
     pub(crate) client: Client,
 
     /// documents opened in editor indexed by uri to that document
-    pub(crate) documents: Arc<Mutex<HashMap<String, TextDocumentItem>>>,
+    pub(crate) documents: DashMap<String, TextDocumentItem>,
 
     /// things that client supports
     pub(crate) client_capabilities: Arc<Mutex<ClientCapabilities>>,
@@ -57,7 +56,7 @@ impl LanguageServer for Backend {
 
         // capability to synchronise documents
         result.capabilities.text_document_sync = Some(TextDocumentSyncCapability::from(
-            TextDocumentSyncKind::INCREMENTAL,
+            TextDocumentSyncKind::FULL,
         ));
 
         // capability to autocomplete
@@ -108,7 +107,7 @@ impl LanguageServer for Backend {
     async fn completion(&self, _params: CompletionParams) -> Result<Option<CompletionResponse>> {
         println!("completion!");
         let _locale = self.client_configuration.lock().await.display_locale();
-        let documentation = hover_documentation::all_documentation(_locale);
+        let documentation = hover::all_documentation(_locale);
 
         if documentation.is_none() {
             return Ok(None);
@@ -136,26 +135,20 @@ impl LanguageServer for Backend {
             .uri
             .as_ref();
 
-        let document: TextDocumentItem; 
+        let document = self.documents.get(uri); 
         
-        { // I don't want to hog that mutex for too long
-            let documents = self.documents.lock().await;
-            let doc = documents.get(uri);
-            if doc.is_none() {
-                return Err(Error {
-                    code: ErrorCode::ServerError(002),
-                    message: "An error occurred while reading document".to_string(),
-                    data: None,
-                });
-            }
-
-            document = doc.unwrap().clone();
+        if document.is_none() {
+            return Err(Error {
+                code: ErrorCode::ServerError(002),
+                message: "An error occurred while reading document".to_string(),
+                data: None,
+            });
         }
-        
-       
 
+        let document = document.unwrap();
+        
         //get documentation for whatever user is hovering over
-        let doc = hover_documentation::documentation(
+        let doc = hover::documentation(
             _params.text_document_position_params.position,
             document.borrow(),
             config.borrow(),
@@ -174,9 +167,7 @@ impl LanguageServer for Backend {
         let file_uri = _params.text_document.uri.as_str();
         let file = _params.text_document.clone();
 
-        self.documents
-            .lock().await
-            .insert(String::from(file_uri), file);
+        self.documents.insert(String::from(file_uri), file);
 
         self.validate_document(_params.text_document.borrow()).await;
     }
@@ -187,7 +178,26 @@ impl LanguageServer for Backend {
         println!("file closed");
         let file_url = _params.text_document.uri.as_str();
 
-        self.documents.lock().await.remove(file_url);
+        self.documents.remove(file_url);
+    }
+
+    async fn did_change(&self, mut params: DidChangeTextDocumentParams) {
+        self.client
+            .log_message(MessageType::INFO, "file changed!")
+            .await;
+        let file_uri = params.text_document.uri.to_string();
+
+        let document = TextDocumentItem {
+            uri:params.text_document.uri,
+            text: std::mem::take(&mut params.content_changes[0].text),
+            version:params.text_document.version, 
+            language_id: String::from("asm8051")
+        };
+        
+
+        self.documents.insert(file_uri, document.clone());
+
+        self.validate_document(document.borrow()).await;
     }
 
     async fn execute_command(&self, params: ExecuteCommandParams) -> Result<Option<Value>> {
@@ -196,45 +206,26 @@ impl LanguageServer for Backend {
             .await;
         Ok(Option::None)
     }
-
-    // async fn request_else(&self, method: &str, _params: Option<Value>) -> Result<Option<Value>> {
-    //     println!("received request: {}", method);
-
-    //     // self.client
-    //     //     .log_message(MessageType::INFO, format!("received {}", method) )
-    //     //     .await;
-    //     match method {
-    //         "documentation/getAll" => self.get_all_documentation().await,
-    //         &_ => Err(lspower::jsonrpc::Error {
-    //             code: ErrorCode::MethodNotFound,
-    //             data: Option::None,
-    //             message: String::from("Method not found"),
-    //         }),
-    //     }
-    // }
 }
 
 
 impl Backend {
     async fn validate_all_documents(&self) {
-        let documents_guard = self.documents.lock().await;
-        let documents = documents_guard.deref();
 
-        if documents.is_empty() {
+        if self.documents.is_empty() {
             return;
         }
         
         let mut config: bool = true;
-
-        for (_k, document) in documents {
+        for res in self.documents.iter() {
             if config {
                 try_update_mutex_value(
                     self.client_configuration.borrow(), 
-                    self.ask_for_configuration(document.uri.clone()).await).await;
+                    self.ask_for_configuration(res.uri.clone()).await).await;
 
                 config = false;
             }
-            self.validate_document(document.borrow()).await;
+            self.validate_document(res.pair().1.borrow()).await;
         }
     }
 
@@ -306,7 +297,7 @@ impl Backend {
     
     pub async fn get_all_documentation(&self) -> Result<Option<Value>> {
         let _locale = self.client_configuration.lock().await.display_locale();
-        let docs_option = hover_documentation::all_documentation(_locale);
+        let docs_option = hover::all_documentation(_locale);
         if docs_option.is_none() {
             return Ok(Option::None);
         }
@@ -319,9 +310,9 @@ impl Backend {
             let obj = serde_json::json!({
                 "detail": pair.1.detail,
                 "description": pair.1.description,
-                "syntax": hover_documentation::syntax(pair.clone()),
-                "affected_flags": hover_documentation::generate_affected_flags(pair.clone().1.affected_flags),
-                "valid_operands": hover_documentation::generate_valid_operands(pair.clone().1.valid_operands),
+                "syntax": hover::syntax(pair.clone()),
+                "affected_flags": hover::generate_affected_flags(pair.clone().1.affected_flags),
+                "valid_operands": hover::generate_valid_operands(pair.clone().1.valid_operands),
                 "category": pair.1.category
             });
             if !pair.1.dont_duplicate_in_all_docs {
@@ -340,7 +331,7 @@ impl Backend {
     pub fn new(client: tower_lsp::Client) -> Backend {
         Backend {
             client,
-            documents: Arc::new(Mutex::new(HashMap::new())),
+            documents: DashMap::new(),
             client_capabilities: Arc::new(Mutex::new(ClientCapabilities::default())),
             client_configuration: Arc::new(Mutex::new(ClientConfiguration::default())),
         }

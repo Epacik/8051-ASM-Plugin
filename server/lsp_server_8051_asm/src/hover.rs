@@ -1,10 +1,6 @@
 //#region imports
-extern crate unicode_segmentation;
-
-use unicode_segmentation::UnicodeSegmentation;
-
 use crate::flags::Locale;
-use crate::ClientConfiguration;
+use crate::client_configuration::ClientConfiguration;
 use lazy_static::lazy_static;
 use tower_lsp::lsp_types::{ MarkedString, Position, TextDocumentItem, LanguageString};
 use regex::Regex;
@@ -192,13 +188,6 @@ pub(crate) fn documentation(
     document: &TextDocumentItem,
     configuration: &ClientConfiguration,
 ) -> Vec<MarkedString> {
-    //let _doc = load_documentation!();
-
-    let mnemonic = get_symbol(document, position);
-
-    if mnemonic == "" {
-        return Vec::new();
-    }
 
     let locale: Locale;
 
@@ -208,10 +197,96 @@ pub(crate) fn documentation(
         locale = configuration.locale();
     }
 
-    let mut documentation_option = get_documentation_data(locale, mnemonic.clone());
+    let symbol = get_symbol(document, position);
+
+    match symbol {
+        Symbol::None => Vec::new(),
+        Symbol::Number(number) => documentation_number(number, locale),
+        Symbol::Label(label, pos) => documentation_label(label, pos, document.borrow()),
+        Symbol::PredefinedSymbol(mnemonic) => documentation_predefined(mnemonic, locale),
+        Symbol::Constant(_, _) => Vec::new(),
+        Symbol::Macro(_, _) => Vec::new(),
+    }
+}
+
+fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> Vec<MarkedString> {
+    let lines = document.text.lines();
+    let lines = lines.into_iter().collect::<Vec<&str>>();
+    let prev_text = lines[(pos - 1) as usize];
+    if pos == 0 || !prev_text.trim().starts_with(";") {
+        return Vec::new();
+    }
+
+    let mut comment_start: u32 = pos;
+    for i in (0..pos).rev() {
+        if !lines[i as usize].trim().starts_with(";") {
+            comment_start = i + 1;
+            break;
+        }
+    }
+
+    if comment_start == pos {
+        return Vec::new();
+    }
+
+    let lines = &lines[(comment_start as usize)..(pos as usize)];
+    
+    let mut documentation_vector: Vec<MarkedString> = Vec::new();
+
+    let tmp = format!("**{}**", label.as_str());
+    documentation_vector.push(MarkedString::String(tmp));
+
+    let mut tmp = String::new();
+    for line in lines {
+        tmp.push_str(&line.trim()[1..]);
+        tmp.push_str("\n\n");
+    }
+    documentation_vector.push(MarkedString::String(tmp));
+
+    documentation_vector
+}
+
+fn documentation_number(number: String, locale: Locale) -> Vec<MarkedString> {
+    let labels = match locale {
+        Locale::POLISH => ("Binarnie", "Dziesiętnie", "Szesnastkowo"),
+        _              => ("Binary",   "Decimal",     "Hexadecimal"),
+    };
+
+    let parse_result: Result<i32, std::num::ParseIntError>;
+
+    if number.ends_with("b") || number.ends_with("B") {
+        let n = &number[1..(number.len() - 1)];
+        parse_result = i32::from_str_radix(n, 2);
+    }
+    else if number.ends_with("h") || number.ends_with("H") {
+        let n = &number[1..(number.len() - 1)];
+        parse_result = i32::from_str_radix(n, 16);
+    }
+    else {
+        let n = &number[1..];
+        parse_result = i32::from_str_radix(n, 10);
+    }
+
+    let value = match parse_result {
+        Ok(v) => v,
+        Err(_) => return Vec::new(),
+    };
+
+    let string = MarkedString::String(
+        format!("{}: #{:b}b\n\n{}: #{}\n\n{}: #{:X}h",
+         labels.0, value,
+         labels.1, value,
+         labels.2, value));
+    vec![string]
+
+}
+
+fn documentation_predefined(mnemonic: String, locale: Locale) -> Vec<MarkedString> {
+    
+    let mut documentation_option = get_documentation(locale, mnemonic.clone());
 
     if documentation_option.is_none() && locale != Locale::ENGLISH {
-        documentation_option = get_documentation_data(Locale::ENGLISH, mnemonic.clone());
+        documentation_option = get_documentation(Locale::ENGLISH, mnemonic.clone());
     }
 
     if documentation_option.is_none() {
@@ -224,11 +299,8 @@ pub(crate) fn documentation(
     };
 
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
-    let mut tmp: String;
 
-    tmp = String::from("**");
-    tmp.push_str(mnemonic.as_str());
-    tmp.push_str("**");
+    let tmp = format!("**{}**", mnemonic.as_str());
     documentation_vector.push(MarkedString::String(tmp));
 
     // if documentation.detail != "" {
@@ -239,11 +311,11 @@ pub(crate) fn documentation(
     // }
 
     if documentation.description != "" {
-        tmp = String::from(documentation.description.clone());
+        let tmp = String::from(documentation.description.clone());
         documentation_vector.push(MarkedString::String(tmp));
     }
 
-    tmp = syntax((mnemonic, documentation.clone()));
+    let tmp = syntax((mnemonic, documentation.clone()));
     if tmp != "" {
         documentation_vector.push(MarkedString::LanguageString(LanguageString {
             language: "asm8051".to_string(),
@@ -251,7 +323,7 @@ pub(crate) fn documentation(
         }));
     }
 
-    tmp = generate_valid_operands(documentation.valid_operands.clone());
+    let tmp = generate_valid_operands(documentation.valid_operands.clone());
 
     if tmp != "" {
         let header = String::from(match locale {
@@ -262,7 +334,7 @@ pub(crate) fn documentation(
         documentation_vector.push(MarkedString::String(format!("{}{}", header, tmp)));
     }
 
-    tmp = generate_affected_flags(documentation.affected_flags.clone());
+    let tmp = generate_affected_flags(documentation.affected_flags.clone());
     if tmp != "" {
         let header = String::from(match locale {
             Locale::POLISH => "Zmodyfikowane flagi:\n\n",
@@ -276,64 +348,160 @@ pub(crate) fn documentation(
 }
 
 /// Get the symbol/mnemonic/word over which user is hovering
-fn get_symbol(document: &TextDocumentItem, position: Position) -> String {
+fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
     // split text document into individual lines
     let mut lines = document.borrow().text.lines();
 
     // go to the line over which user is hovering
-    let mut line_option: Option<&str> = Option::None;
-    for _i in 0..position.line + 1 {
-        line_option = lines.next();
-    }
+    let line_option = lines.nth(position.line as usize);
 
     if line_option.is_none() {
-        return String::from("");
+        return Symbol::None;
+    }
+    let chars = line_option.unwrap().chars().collect::<Vec<char>>();
+    let chars_length = chars.len();
+
+    if position.character >= (chars_length as u32) {
+        return Symbol::None;
     }
 
-    // get individual Unicode graphemes as Vec<&str>
-    let graphemes =
-        UnicodeSegmentation::graphemes(line_option.unwrap(), true)
-        .collect::<Vec<&str>>();
-    let _chars = line_option.unwrap().chars().collect::<Vec<char>>();
-    let chars_length = _chars.len();
+    // Check if we're not in the comment, and return if we are
+    for i in 0..=position.character {
+        if chars[i as usize] == ';' {
+            return Symbol::None;
+        }
+    }
 
     let mut symbol_start_position = 0;
-    let mut symbol_end_position = graphemes.len() as u32;
+    let mut symbol_end_position = chars_length as u32;
 
-    if position.character != 0 {
-        // find beginning of the symbol user is hovering over
-        for i in (0..=position.character).rev() {
-            let index = i as usize;
-            if index < chars_length && !is_valid_character(_chars[index]) {
-                symbol_start_position = i + 1;
-                break;
-            }
+    // find beginning of the symbol user is hovering over
+    for i in (0..=position.character).rev() {
+        if !is_valid_character(chars[i as usize]) {
+            symbol_start_position = i + 1;
+            break;
         }
     }
-    if position.character + 1 < graphemes.len() as u32 {
-        // find end of the symbol user is hovering over
-        for i in position.character..=(graphemes.len() - 1).try_into().unwrap() {
-            if !is_valid_character(_chars[i as usize]) {
-                symbol_end_position = i;
-                break;
-            }
+    
+    // find end of the symbol user is hovering over
+    for i in position.character..(chars_length as u32) {
+        if !is_valid_character(chars[i as usize]) {
+            symbol_end_position = i;
+            break;
         }
+    }
+
+    if symbol_start_position >= symbol_end_position {
+        return Symbol::None;
     }
 
     // using locations of beginning and end of the symbol create a String containing it
-    let mut sym: String = String::from("");
-    for i in symbol_start_position..symbol_end_position {
-        sym.push_str(_chars[i as usize].to_string().as_str());
+    let chars = chars[(symbol_start_position as usize)..(symbol_end_position as usize)].borrow();
+
+    let symbol_text = String::from_iter(chars);
+    if DOCUMENTATION[&Locale::ENGLISH].contains_key(&symbol_text) {
+        return Symbol::PredefinedSymbol(symbol_text);
+    }
+    else if symbol_text.starts_with("#") {
+        return Symbol::Number(symbol_text);
+    }
+    
+    let sym = is_symbol_constant(&symbol_text, document.borrow());
+    if sym.0 {
+        return Symbol::Constant(symbol_text, sym.1);
+    }
+    
+    let sym = is_symbol_macro(&symbol_text, document.borrow());
+    if sym.0 {
+        return Symbol::Macro(symbol_text, sym.1);
     }
 
-    sym
+    let sym = is_symbol_label(&symbol_text, document.borrow());
+    if sym.0 {
+        return Symbol::Label(symbol_text, sym.1);
+    }
+    
+
+    Symbol::None
+
+}
+
+fn is_symbol_macro(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
+    let lines = document.text.lines();
+    let mut line_number: u32 = 0;
+    for line in lines {
+        if line.starts_with(symbol_text) && 
+           str_contains_any(
+                line.borrow(), 
+                &[ "MACRO" ], 
+                false) {
+            return (true, line_number);
+        }
+        line_number = line_number + 1;
+    }
+
+    (false, 0)
+}
+
+fn is_symbol_label(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
+    let lines = document.text.lines();
+    let mut line_number: u32 = 0;
+    for line in lines {
+        if line.starts_with(symbol_text) && 
+           !str_contains_any(
+                line.borrow(), 
+                &[ "EQU", "SET", "DB", "DW", "REG", "BIT", "MACRO" ], 
+                false) {
+            return (true, line_number);
+        }
+        line_number = line_number + 1;
+    }
+
+    (false, 0)
+}
+
+fn is_symbol_constant(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
+    let lines = document.text.lines();
+    let mut line_number: u32 = 0;
+    for line in lines {
+        if line.starts_with(symbol_text) && 
+           str_contains_any(
+                line.borrow(), 
+                &[ "EQU", "SET", "DB", "DW", "REG", "BIT" ], 
+                false) {
+            return (true, line_number);
+        }
+        line_number = line_number + 1;
+    }
+
+    (false, 0)
+}
+
+fn str_contains_any(string: &str, contains: &[&str], case_sensitive: bool) -> bool {
+    let t = match case_sensitive {
+        false => string.to_lowercase(),
+        true  => string.to_string(),
+    };
+    for cont in contains {
+        let c = match case_sensitive {
+            false => cont.to_lowercase(),
+            true  => cont.to_string(),
+        };
+
+        if t.contains(&c) {
+            return true;
+        }
+    }
+    
+    false
 }
 
 fn is_valid_character(character: char) -> bool {
-    IS_VALID_CHARACTER_REGEX.is_match(character.to_string().as_str())
+    let text = character.to_string();
+    IS_VALID_CHARACTER_REGEX.is_match(text.as_str())
 }
 
-fn get_documentation_data(_locale: Locale, _mnemonic: String) -> Option<Documentation> {
+fn get_documentation(_locale: Locale, _mnemonic: String) -> Option<Documentation> {
     let docs = match DOCUMENTATION.get(_locale.borrow()){
         Some(doc) => doc,
         None => return None,
@@ -356,9 +524,17 @@ lazy_static! {
         (Locale::POLISH, load_documentation::load_documentation!(polish)),
     ]);
 }
-
 use serde::{Deserialize, Serialize};
 use bitflags::bitflags;
+
+pub enum Symbol {
+    None,
+    Number(String),
+    Label(String, u32),
+    PredefinedSymbol(String),
+    Constant(String, u32),
+    Macro(String, u32),
+}
 
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize, Default, Clone)]
@@ -622,7 +798,7 @@ impl PossibleOperand {
 mod tests {
     mod all_documentation {
         use test_case::test_case;
-        use crate::{flags::Locale, hover_documentation::all_documentation};
+        use crate::{flags::Locale, hover::all_documentation};
 
         #[test_case(Locale::POLISH,  true  ; "some for POLISH locale")]
         #[test_case(Locale::ENGLISH, true  ; "some for ENGLISH locale")]
@@ -644,7 +820,7 @@ mod tests {
         mod with_syntax_function {
             use test_case::test_case;
 
-            use crate::hover_documentation::{Documentation, ValidOperand, Flag, syntax};
+            use crate::hover::{Documentation, ValidOperand, Flag, syntax};
             
             fn empty_valid_operands() -> Vec<Vec<ValidOperand>> {
                 Vec::<Vec::<ValidOperand>>::new()
@@ -717,7 +893,7 @@ mod tests {
 }
 #[cfg(test)]
 mod test_all_documentation {
-    use crate::{flags::Locale, hover_documentation::all_documentation};
+    use crate::{flags::Locale, hover::all_documentation};
 
     #[test]
     fn while_locale_is_polish() {
@@ -763,7 +939,7 @@ mod test_generating_syntax {
     #[test_case(vec!(ValidOperand::from_i32(12, None), ValidOperand::from_i32(3, None), ValidOperand::from_i32(5, None)) ;
         "with three valid operands")]
     fn for_one_operand(operands: Vec::<ValidOperand>){
-        let syntax = syntax_one_operand(test_mnemonic(), &operands);
+        let syntax = syntax_one_operand(test_mnemonic(), &operands, String::from(""));
 
         let syntax_header = format!("{} [operand]", test_mnemonic());
         assert!(syntax.starts_with(&syntax_header));
@@ -775,19 +951,17 @@ mod test_generating_syntax {
         }
     }
     
-    fn for_two_operands(operands0: Vec::<ValidOperand>, operands1: Vec::<ValidOperand>) {
-        let syntax = syntax_two_operands(test_mnemonic(), operands0.borrow(), operands1.borrow());
+    // fn for_two_operands(operands0: Vec::<ValidOperand>, operands1: Vec::<ValidOperand>) {
+    //     let syntax = crate::hover::syntax_two_operands(test_mnemonic(), &operands0, &operands1, String::from(""));
         
-        let syntax_header = format!("{} [operand]", test_mnemonic());
-        assert!(syntax.starts_with(&syntax_header));
+    //     let syntax_header = format!("{} [operand]", test_mnemonic());
+    //     assert!(syntax.starts_with(&syntax_header));
 
-        for operand in operands0 {
-            for operand1 in operands1 {
+    //     for operand in operands0 {
+    //         for operand1 in operands1 {
 
-            }
-        }
-    }
-
-
+    //         }
+    //     }
+    // }
 }
 //#endregion tests

@@ -4,9 +4,8 @@ mod backend;
 mod client_configuration;
 mod diagnostics;
 mod flags;
-mod hover_documentation;
+mod hover;
 
-use crate::client_configuration::ClientConfiguration;
 use i18n_embed::{
     LanguageLoader, Localizer, DefaultLocalizer, fluent::{
         FluentLanguageLoader, fluent_language_loader
