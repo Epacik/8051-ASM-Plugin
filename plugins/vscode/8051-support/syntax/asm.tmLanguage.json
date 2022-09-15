@@ -20,6 +20,17 @@
 			]
 		},
 		{
+			"name": "string.quoted.double.asm",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.asm",
+					"match": "\\\\."
+				}
+			]
+		},
+		{
 			"name":"comment.line",
 			"match": ";.*$"
 		},
@@ -49,8 +60,20 @@
 			"match": "\\b(A|B|AB|C)\\b"
 		},
 		{
-			"name":  "entity.name.function",
-			"match": "#[0-9A-Fa-f]+[HB]?"
+			"name":  "variable.name",
+			"match": "#[01]+[Bb]\\b"
+		},
+		{
+			"name":  "variable.name",
+			"match": "#[0-9]\\b"
+		},
+		{
+			"name":  "variable.name",
+			"match": "#[0-9][0-9A-Fa-f][Hh]\\b"
+		},
+		{
+			"name":	"support.function",
+			"match": "\\b(ORG|DB|DW|END|EQU|SET|BIT|REG|IF|ELSE|ENDIF|MACRO|ENDM|MACEND|EXITM|INCLUDE|INCDIR)\\b"
 		}
 	],
 	"repository": {
