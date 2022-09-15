@@ -1,1 +1,240 @@
-{}
+{
+  "WRITE_TEXT": {
+    "detail": "Write text to the LCD",
+    "description": "Write text to the LCD.\r\nWrites a NULL (00000000B) terminated string to the LCD.\r\nLocation of the string is provided using the DPTR register.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "WRITE_DATA": {
+    "detail": "Write character to the LCD",
+    "description": "Write character to the LCD.\r\nWrites a byte stored in the Accumulator to the LCD as an ASCII character.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "WRITE_HEX": {
+    "detail": "Write hexadecimal number to the LCD",
+    "description": "Write hexadecimal number to the LCD.\r\nWrites a byte stored in the Accumulator to the LCD as a hexadecimal number.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "WRITE_INSTR": {
+    "detail": "Send an instruction to the LCD",
+    "description": "Send an instruction to the LCD.\r\nSends a byte stored in the Accumulator to the LCD as an instruction.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "LCD_INIT": {
+    "detail": "Initialize LCD",
+    "description": "Initializes the LCD.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "LCD_OFF": {
+    "detail": "Turn off LCD",
+    "description": "Turns the LCD off.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "LCD_CLR": {
+    "detail": "Clear LCD",
+    "description": "Clear the LCD and move the cursor to the beginning.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DELAY_US": {
+    "detail": "Delay in microseconds",
+    "description": "Pauses the program execution for the time, in microseconds, calculated by the formula\r\n\u0060(A * 2 \u002B 6) * 12 / 11.0592\u0060 [\u03BCs] \r\nwhere A is a value stored in the Accumulator.\r\nResulting wait time ranges between around 6.5 \u03BCs and 559.9 \u03BCs.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DELAY_MS": {
+    "detail": "Delay in milliseconds",
+    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator.\r\nExecution will be paused for 256 ms if the value stored in the Accumulator is equal to 0.\r\nResulting wait time ranges between 1 ms and 256 ms.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DELAY_100MS": {
+    "detail": "Delay in 100\u0027s of milliseconds",
+    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator multiplied by a 100.\r\nExecution will be paused for 25.6 s if the value stored in the Accumulator is equal to 0.\r\nResulting wait time ranges between 100 ms and 25.6 s.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "WAIT_ENTER": {
+    "detail": "Wait for Enter key",
+    "description": "Write \u0022PRESS ENTER...\u0022 to the LCD and wait for the user to press the Enter key",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "WAIT_ENTER_NW": {
+    "detail": "Wait for Enter key",
+    "description": "Wait for the user to press the Enter key, without writing anything to the LCD",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TEST_ENTER": {
+    "detail": "Is the Enter key pressed",
+    "description": "Check if the Enter key is pressed.",
+    "valid_operands": [],
+    "affected_flags": [
+      {
+        "flag": 7,
+        "when_set": "Key is not pressed",
+        "when_unset": "Key is pressed"
+      }
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "WAIT_ENT_ESC": {
+    "detail": "Wait for Enter or Esc",
+    "description": "Wait for user to press either the Enter key or the Escape key.\r\n",
+    "valid_operands": [],
+    "affected_flags": [
+      {
+        "flag": 7,
+        "when_set": "Esc was pressed",
+        "when_unset": "Enter was pressed"
+      }
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "WAIT_KEY": {
+    "detail": "Wait for any key",
+    "description": "Wait for a user to press any key on the matrix keypad.\r\nNumber of key pressed is stored in the Accumulator",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "GET_NUM": {
+    "detail": "Get BCD number",
+    "description": "Ask user for up to 4 BCD digits and store them in the memory location pointed by @R0 register.\r\nTo finish inputing a number user can either\r\n - Press the Enter key\r\n - Press the Esc key\r\n - Type 4 digits",
+    "valid_operands": [],
+    "affected_flags": [
+      {
+        "flag": 7,
+        "when_set": "Enter was pressed",
+        "when_unset": "User typed 4 digits or pressed Esc"
+      }
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "BCD_HEX": {
+    "detail": "Convert BCD to hexadecimal",
+    "description": "Converts two byte BCD number, stored in the memory location pointed by @R0 register, to a hexadecimal representation of that number,\r\nand stores the result in the same two bytes pointed by the @R0 register.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "HEX_BCD": {
+    "detail": "Convert hexadecimal to BCD",
+    "description": "Converts two byte hexadecimal number, stored in the memory location pointed by @R0 register, to a three byte BCD representation of that number,\r\nand stores the result in the memory location pointed by @R0 register.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "MUL_2_2": {
+    "detail": "Multiply two two-byte numbers",
+    "description": "Multiplies a two-byte number stored in the memory location pointed by the @R0 register \r\nwith a two-byte number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "MUL_3_1": {
+    "detail": "Multiply three-byte number by a one-byte number",
+    "description": "Multiplies a three-byte number stored in the memory location pointed by the @R0 register \r\nwith a number stored in the Accumulator.\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DIV_2_1": {
+    "detail": "Divide two-byte number by a one-byte number",
+    "description": "Divides a two-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register.\r\n\r\nThe result will be stored as a two-byte number in the memory location pointed by the @R0 register, \r\nand the reminder will be stored in the Accumulator",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DIV_4_2": {
+    "detail": "Divide four-byte number by a two-byte number",
+    "description": "Divides a four-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register,\r\nand the reminder will be stored as a two-byte number in the location four bytes after the memory address in the R0 register ( @(R0\u002B4) ).",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  }
+}

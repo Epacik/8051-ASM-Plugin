@@ -1,7 +1,7 @@
 {
   "A": {
     "detail": "The Accumulator",
-    "description": "8 bit accumulator used mostly for arithmetic, logical and data transfer operations.\r\nHolds a result of most of operations performed by ALU",
+    "description": "8 bit accumulator used mostly for arithmetic, logical and data transfer operations.\r\nHolds a result of most of operations performed by ALU.\r\nThe Accumulator is bit and byte addressable.\r\nIt is located at 0E0h",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -11,7 +11,7 @@
   },
   "B": {
     "detail": "B register",
-    "description": "8 bit register used in conjunction with the Accumulator to multiply (MUL) or divide (DIV) value.\r\nWhile multiplying B stores one of the values to multiply, and after operation is completed, stores a higher byte of a result.\r\nWhile dividing B stores a divisor and after operation is done, stores a remainder of the result.",
+    "description": "8 bit register used in conjunction with the Accumulator to multiply (MUL) or divide (DIV) value.\r\nWhile multiplying B stores one of the values to multiply, and after operation is completed, stores a higher byte of a result.\r\nWhile dividing B stores a divisor and after operation is done, stores a remainder of the result.\r\n\r\nIt is bit and byte addressable.\r\nIt\u0027s located at 0F0h.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -61,7 +61,7 @@
   },
   "DPTR": {
     "detail": "Data Pointer",
-    "description": "User accessible, 16 bit register designed to store an address pointing to external memory\r\n",
+    "description": "User accessible, 16 bit register designed to store an address pointing to external memory.\r\nCan be accessed as two 8-bit registers, DPL (Data Pointer Low) and DPH (Data Pointer High)",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -85,6 +85,36 @@
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "P0;P1;P2;P3": {
+    "detail": "Port register",
+    "description": "8 bit I/O register used to control an I/O port with the same name.\r\nEach bit correspods to a pin on the 8051 microcontroller.\r\nEach pin can be either as an input or output.\r\nTo change a pin mode you have to write data to it.\r\nIf you set a bit (write 1), pin will be configured as input, of you reset it (write 0) it will be configured as output.\r\nIt will also change voltage on that pin, setting a bit changes voltage to 5V, and resetting it changes it to 0V.\r\n\r\nAddresses of port registers:\r\n - P0: 80H\r\n - P1: 90H \r\n - P2: A0H\r\n - P3: B0H",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TMOD": {
+    "detail": "Timer Mode",
+    "description": "8 bit register used to control the Operating Modes of built in timers.\r\nThe higher nibble is used to control T1 timer, and the lower nibble is used to control T0 timer.\r\n - Gate, bit 3 for T0 or 7 for T1: if 0 bits TR0/TR1 must be set. If 1 bits TR0/TR1 must be set and signal og INT0/INT1 must be high.\r\n - C/T, bit 2 for T0 or 6 for T1: if 0 (timer mode) timer counts pulses from the internal oscillator. If 1 (counter mode) counts pulses from pin T0/T1 (P3.4/P3.5)\r\n - T0M1/T1M1, bit 1 fot T0 or 5 for T1: timer operating mode select. Bit 1\r\n - T0M0/T1M0, bit 1 fot T0 or 5 for T1: timer operating mode select. Bit 0\r\n\r\n#### Operating modes:\r\n###### Mode 0 (T0M1/T1M1 = 0, T0M0/T1M0 = 0): 13 bit mode\r\nTimer 0 and Timer 1 operate as 8 bit counters.\r\nTimer register is configured as 13 bit register that consists of TH0/TH1 and lower 5 bits of TH0/TL1.\r\nThree most significant bits of TL0/TL1 should be ignored.\r\nSetting TR1 won\u0027t reset the Timer register.\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (1FFFh) to the min value (0h).\r\n\r\n###### Mode 1 (T0M1/T1M1 = 1, T0M0/T1M0 = 0): 16 bit mode\r\nSimilar to the mode 0, with the difference being that all bits from TH1 and TL1 are used.\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (0FFFFh) to the min value (0h).\r\n\r\n###### Mode 2 (T0M1/T1M1 = 0, T0M0/T1M0 = 1): 8 bit mode with auto reload\r\nTimer 0 and Timer 1 operate as 8 bit counters.\r\nTH0/TH1 holds a value that will be loaded to TL0/TL1 after an overflow.\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (0FFh) to the value set in TH0/TH1.\r\n\r\n###### Mode 3 (T0M1/T1M1 = 1, T0M0/T1M0 = 1): Split mode\r\nBoth timers are used at once, Timer 0 counting over TL0 and Timer 1 counting over TH0.\r\nTimer 1 can not be stopped independently of Timer 0, but it can be put in modes 0 to 2.\r\nTimer interrupt (TF0/TF1) is set when the timer register (TL0/TH0) rolls from the max value (0FFh) to the  min value (0h).\r\n\r\n\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DPL": {
+    "detail": "Data Pointer Low",
+    "description": "",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false

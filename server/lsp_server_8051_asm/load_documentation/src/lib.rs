@@ -54,7 +54,7 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
 
             for partial_key in key.split(";") {
                 let pkey = partial_key.trim();
-                items.push(quote::quote!{ ( std::string::String::from(#pkey), crate::hover_documentation::Documentation {
+                items.push(quote::quote!{ ( std::string::String::from(#pkey), crate::hover::Documentation {
                     detail: std::string::String::from(#detail),
                     description: std::string::String::from(#description),
                     affected_flags: std::vec::Vec::from([#(#affected_flags),*]),
@@ -181,7 +181,7 @@ fn parse_affected_flags(flags: &std::vec::Vec<Flag>) -> Vec<proc_macro2::TokenSt
         let when_unset = flag.when_unset.clone();
 
         affected_flags.push(quote::quote! {(
-            crate::hover_documentation::Flag {
+            crate::hover::Flag {
                 flag: #bit,
                 when_set: std::string::String::from(#when_set),
                 when_unset: std::string::String::from(#when_unset),
@@ -200,7 +200,7 @@ fn parse_valid_operands(vo: &Vec<Vec<ValidOperand>>) -> Vec<proc_macro2::TokenSt
             let o = operand.operand;
             let when = operand.when_first_is;
             op.push(quote::quote! {(
-                crate::hover_documentation::ValidOperand {
+                crate::hover::ValidOperand {
                     operand: #o,
                     when_first_is: #when,
                 }
@@ -239,15 +239,3 @@ struct ValidOperand {
     pub operand: i32,
     pub when_first_is: i32,
 }
-
-// #[cfg(test)]
-// mod tests {
-//     use crate::load_docs;
-//     use std::str::FromStr;
-
-//     #[test]
-//     fn test_doc_loading() {
-//         let docs = load_docs(proc_macro2::TokenStream::from_str("english").unwrap());
-//         assert_eq!(true, true);
-//     }
-// }
