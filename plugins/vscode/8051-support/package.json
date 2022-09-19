@@ -1,6 +1,6 @@
 {
 	"name": "asm8051",
-	"displayName": "8051 Support",
+	"displayName": "8051 Microcontroller Assembly Support",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -10,14 +10,15 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:8051-support.openDocs",
-		"onLanguage:asm8051"
+		"onCommand:asm8051.openDocs",
+		"onLanguage:asm8051",
+		"onView:asm8051-docs-list"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "8051-support.openDocs",
+				"command": "asm8051.openDocs",
 				"title": "%asm8051.commands.openDocs%"
 			}
 		],
@@ -111,7 +112,24 @@
 				"language": "asm8051",
 				"path": "./snippets/logical.code-snippets"
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "asm8051-docs-list-container",
+					"title": "%asm8051.views.documentationPanel.title%",
+					"icon": "resources/docs.svg"
+				}
+			]
+		},
+		"views": {
+			"asm8051-docs-list-container": [
+				{
+					"id": "asm8051-docs-list",
+					"name": "%asm8051.views.documentationPanel.title%"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
