@@ -1,5 +1,4 @@
-import { nullishableString } from "./miscellaneousTypeAliases";
-
+import { nullishableString } from "../miscellaneousTypeAliases";
 
 export default interface IDocumentation {
     detail: nullishableString;

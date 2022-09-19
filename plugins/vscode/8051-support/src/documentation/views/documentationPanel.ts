@@ -1,49 +1,49 @@
 import * as vscode from "vscode";
 import { localize } from "vscode-nls-i18n";
 import IDocumentation from "../documentation";
-import { nullishableString } from "../miscellaneousTypeAliases";
-import { getUri } from "../utilities/getUri";
+import { isNullishOrWhitespace, nullishableString } from "../../miscellaneousTypeAliases";
+import { getUri } from "../../utilities/getUri";
+import DocumentationViewBase from "../documentationViewBase";
+import { LanguageClient } from "vscode-languageclient/node";
+import IOpenDocsArguments from "../IOpenDocsArguments";
 
 
-export class DocumentationPanel {
+export class DocumentationPanel extends DocumentationViewBase {
     public static currentPanel: DocumentationPanel | undefined;
     private readonly _panel: vscode.WebviewPanel;
     private _disposables: vscode.Disposable[] = [];
-    private _docs: Map<string, IDocumentation>;
     
-    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, docs: Map<string, IDocumentation>) {
+    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, client: LanguageClient, args?: IOpenDocsArguments) {
+        super(client);
         console.log(localize('asm8051.views.documentationPanel.creatingView'));
-        docs = this.#objectToMap(docs);
-        this._docs = docs;
         this._panel = panel;
 
         this._panel.onDidDispose(this.dispose, null, this._disposables);
 
-        this._getWebviewContent(this._panel.webview, extensionUri, docs).then(value => {
-            this._panel.webview.html = value;
-        })
+        this.getDocumentation().then(docs => {
+            this._getWebviewContent(this._panel.webview, extensionUri, docs, args).then(value => {
+                this._panel.webview.html = value;
+                // if(args !== undefined)
+                //     this.show(args);
+            });
+        });
     }
 
-    #objectToMap(docs: any): Map<string, IDocumentation> {
-        let result = new Map<string, IDocumentation>();
 
-        for (const [key, value] of Object.entries(docs)) {
-            result.set(key, <IDocumentation>value);
-        }
-        return result;
-    }
-
-    public static render(extensionUri: vscode.Uri, docs: Map<string, IDocumentation>) {
+    public static render(extensionUri: vscode.Uri, client: LanguageClient, args?: IOpenDocsArguments) {
         if (DocumentationPanel.currentPanel) {
             DocumentationPanel.currentPanel._panel.reveal(vscode.ViewColumn.Active);
+            if(args !== undefined)
+                DocumentationPanel.currentPanel.show(args);
         }
         else { 
             const title = localize("asm8051.views.documentationPanel.title");
             const panel = vscode.window.createWebviewPanel("8051-support", title, vscode.ViewColumn.Active, {
                 enableScripts: true,
+                retainContextWhenHidden: true
             });
 
-            DocumentationPanel.currentPanel = new DocumentationPanel(panel, extensionUri, docs);
+            DocumentationPanel.currentPanel = new DocumentationPanel(panel, extensionUri, client, args);
         }
         
     }
@@ -61,16 +61,22 @@ export class DocumentationPanel {
         }
     }
 
-    private async _getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri, docs: Map<string, IDocumentation>) {
+    private show(args: IOpenDocsArguments){
+        this._panel.webview.postMessage(args);
+    }
+
+    private async _getWebviewContent(
+        webview: vscode.Webview, 
+        extensionUri: vscode.Uri, 
+        docs: ([key: string, label: string, entries: ([name: string, data: IDocumentation])[]])[],
+        args?: IOpenDocsArguments) {
         // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
 
         const toolkitUri = getUri(webview, extensionUri, [ "node_modules", "@vscode", "webview-ui-toolkit", "dist", "toolkit.js",]);
 
-        const scriptUri = getUri(webview, extensionUri, [ "out", "views", "scripts", "documentationPanelScript.js" ]);
+        const scriptUri = getUri(webview, extensionUri, [ "out", "documentation", "views", "scripts", "documentationPanelScript.js" ]);
 
-        const cssUri = getUri(webview, extensionUri, [ "src", "views", "styles", "documentationPanel.css" ]);
-
-        let splitted = this.#splitDocsByCategory(docs);
+        const cssUri = getUri(webview, extensionUri, [ "src", "documentation", "views", "styles", "documentationPanel.css" ]);
 
         const title = localize("asm8051.views.documentationPanel.title");
         return /*html*/ `
@@ -85,42 +91,32 @@ export class DocumentationPanel {
             </head>
             <body>
               <h1 class="documentationHeader">${title}</h1>
+              <p id="scriptThingie"></p>
               <section id="docs-list">
-                ${await this.#createDocsList(splitted)}
+                ${await this.#createDocsList(docs)}
               </section>
-              <!--<script src="${scriptUri}"></script>-->
+              ${args !== undefined ? `<script defer>window.initialElement = ${JSON.stringify(args)};</script>` : ""}
+
+              <script src="${scriptUri}"></script>
             </body>
           </html>
         `;
     }
 
-    async #createDocsList(splitted: Map<string, Map<string, IDocumentation>>): Promise<string> {
+    async #createDocsList(categorizedDocs: ([key: string, label: string, entries: ([name: string, data: IDocumentation])[]])[]): Promise<string> {
         let output = "";
-        const keys: Array<[key: string, label: string]> = [];
 
-        for (const key of splitted.keys()){
-            keys.push([key, localize('asm8051.views.documentationPanel.categories.' + key)]);
-        }
-        keys.sort((a, b): number => {
-            if(a[1] < b[1]) return -1;
-            else if (a[1] > b[1]) return 1;
-            return 0;
-        });
-        for (const kl of keys){
-            const value = splitted.get(kl[0]);
-            if(value === undefined) continue;
-
+        for (const [key, label, entries] of categorizedDocs) {
             output += `
-            <h2 class="categoryHeader">
-                <span>${kl[1]}</span>
+            <h2 class="categoryHeader" id="${key}">
+                <span>${label}</span>
                 <vscode-divider role="separator"></vscode-divider>
             </h2>
             `;
-            for (const [docsKey, doc] of value) {
+            for (const [docsKey, doc] of entries) {
                 output += await this.#createDocElement(docsKey, doc);
             }
         }
-
 
         return output;
     }
@@ -136,7 +132,7 @@ export class DocumentationPanel {
             result += `<p>${value?.trim()}</p>`;
         };
 
-        const getSectionFromParsed = (section: string): nullishableString  => {
+        const getSectionFromParsed = (section: string): nullishableString => {
             section = section.toUpperCase();
             const borderChar = '▨';
             if(isNullishOrWhitespace(parsed) || !parsed?.includes(borderChar + section)) return null;
@@ -151,7 +147,7 @@ export class DocumentationPanel {
             return result.slice(startIndex, endIndex).replace("\n", "").trim();
         }
 
-        let result = `<h3 class="doc-mnemonic">${key}</h3>`;
+        let result = `<h3 class="doc-mnemonic" id="${key}">${key}</h3>`;
         
         let markdown = this.#prepareMarkdownToParse(doc);
         let parsed = await this.#parseMarkdown(markdown);
@@ -165,19 +161,6 @@ export class DocumentationPanel {
     }
     async #parseMarkdown(markdown: nullishableString): Promise<nullishableString> {
         return await vscode.commands.executeCommand('markdown.api.render', markdown);
-    }
-
-    #splitDocsByCategory(docs: Map<string, IDocumentation>): Map<string, Map<string, IDocumentation>> {
-        let splittedDocs = new Map<string, Map<string, IDocumentation>>();
-        for (const [key, value] of docs) {
-            if(!splittedDocs.has(value.category)) {
-                splittedDocs.set(value.category, new Map<string, IDocumentation>());
-            }
-
-            splittedDocs.get(value.category)?.set(key, value);
-        }
-
-        return splittedDocs;
     }
 
     #prepareMarkdownToParse(doc: IDocumentation): string {
@@ -207,4 +190,3 @@ export class DocumentationPanel {
     }
 }
 
-const isNullishOrWhitespace = (str: nullishableString) => str === null || str === undefined || str.trim() === "";

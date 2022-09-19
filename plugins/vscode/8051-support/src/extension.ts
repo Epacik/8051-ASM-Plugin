@@ -13,9 +13,11 @@ import {
 } from 'vscode-languageclient/node';
 
 import * as net from 'net';
-import { DocumentationPanel } from './views/documentationPanel';
-import IDocumentation from './documentation';
+import { DocumentationPanel } from './documentation/views/documentationPanel';
+import IDocumentation from './documentation/documentation';
 import { localize, init as initLocalization }  from 'vscode-nls-i18n';
+import { DocumentationTreeProvider } from './documentation/documentationTreeProvider';
+import IOpenDocsArguments from './documentation/IOpenDocsArguments';
 
 const DEBUG: boolean = process.env.Debug8051Plugin?.trim()?.toLowerCase() == "true";
 
@@ -38,12 +40,14 @@ export function activate(context: ExtensionContext) {
 		}
 	};
 
-	client = new LanguageClient("8051-support", "8051 support", serverOptions, clientOptions, true);
+	client = new LanguageClient("asm8051", "8051 support", serverOptions, clientOptions, true);
 	//client.registerFeature(new GetAllDocumentationFeature());
 	
 	client.trace = Trace.Verbose;
 
-	const showPane = commands.registerCommand("8051-support.openDocs", () => openDocsCommand(context));
+	window.registerTreeDataProvider("asm8051-docs-list", new DocumentationTreeProvider(client));
+	
+	const showPane = commands.registerCommand("asm8051.openDocs", (args?: IOpenDocsArguments) => openDocsCommand(context, args));
 
 	context.subscriptions.push(client.start(), showPane);
 }
@@ -71,9 +75,8 @@ function getServerOptions() {
 	return serverOptions;
 }
 
-async function openDocsCommand(context: ExtensionContext) {
-	let docs: Map<string, IDocumentation> = await client.sendRequest("documentation/getAll");
-	DocumentationPanel.render(context.extensionUri, docs);
+async function openDocsCommand(context: ExtensionContext, args?: IOpenDocsArguments) {
+	DocumentationPanel.render(context.extensionUri, client, args);
 }
 	
 

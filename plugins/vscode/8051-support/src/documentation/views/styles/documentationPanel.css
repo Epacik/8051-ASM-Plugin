@@ -1,15 +1,19 @@
+html {
+    height: 100vh;
+    overflow-y: auto;
+}
 .documentationHeader {
     position:sticky;
     top: 0; 
     width: 100%; 
-    background: white;
+    background: var(--vscode-editor-background);
 }
 
 .categoryHeader {
     position:sticky; 
     top: 35px; 
     width: 100%; 
-    background: white;
+    background: var(--vscode-editor-background);
 
     display: flex;
     align-items: center;
@@ -37,5 +41,5 @@
     position:sticky; 
     top: 60px; 
     width: 100%; 
-    background: white;
+    background: var(--vscode-editor-background);
 }
