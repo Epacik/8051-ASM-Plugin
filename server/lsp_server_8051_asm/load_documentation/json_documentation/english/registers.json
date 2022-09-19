@@ -61,7 +61,7 @@
   },
   "DPTR": {
     "detail": "Data Pointer",
-    "description": "User accessible, 16 bit register designed to store an address pointing to external memory.\r\nCan be accessed as two 8-bit registers, DPL (Data Pointer Low) and DPH (Data Pointer High)",
+    "description": "User accessible, 16 bit register designed to store an address pointing to external memory (RAM or ROM).\r\nCan be accessed as two 8-bit registers, DPL (Data Pointer Low) and DPH (Data Pointer High)",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -111,10 +111,110 @@
   },
   "DPL": {
     "detail": "Data Pointer Low",
-    "description": "",
+    "description": "Lower 8 bits of Data Pointer (DPTR) \r\nAddress: 82H",
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DPH": {
+    "detail": "Data Pointer High",
+    "description": "Higher 8 bits of Data Pointer (DPTR) \r\nAddress: 83H",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "PCON": {
+    "detail": "Power Control",
+    "description": "**NOT bit-addressable**\r\n8 bit register used to control 8051\u0027s power states.\r\n - Pin 0 (IDL) controls the Idle state in which CPU will not receive the clock signal, peripheral devices however will receive it. Can be turned off using interrupt or hardware reset.\r\n - Pin 1 (PD) controls the Power Down state in which the oscillator, which produces the clock signal, will be stopped and the system voltage will drop to 2V. Can be turned off using hardware reset.\r\n\r\nIn addition to bits controlling power states PCON \r\n- contains two general purpose flags, bits 2 (GF0) and 3 (GF1)\r\n- and bit to control baud rate of the Serial port, bit 7 (SMOD) - if set the baud rate is doubled.\r\n\r\nIt is located at address 87H\r\n\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "SCON": {
+    "detail": "Serial Control",
+    "description": "8 bit register used to:\r\n - control mode of serial port (bits 7, SM0, and 6, SM1)\r\n - control baud rate (bits 7, SM0, and 6, SM1)\r\n - send data (bit 3, TB8)\r\n - receive data (bit 4, REN, enables receiving, bit 2, RB8 contains received bit)\r\n - set serial interrupt flags (bit 1, TI - transmit interrupt, bit 0, RI - receive interrupt)\r\n\r\nLocated at address 98H\r\n\r\nSerial port modes:\r\n - 0 (SM0 = 0, SM1 = 0) - 8 bit synchronous shift register mode with fixed baud rate: oscillator frequency / 12\r\n - 1 (SM0 = 0, SM1 = 1) - 8 bit UART mode with baud rate set using Timer1\r\n - 2 (SM0 = 1, SM1 = 0) - 9 bit Multiprocessor Communication mode with fixed baud rate: oscillator frequency / 32 or oscillator frequency / 64\r\n - 3 (SM0 = 1, SM1 = 1) - 9 bit Multiprocessor Communication mode with baud rate set using Timer1",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "IE": {
+    "detail": "Interrupt Enable",
+    "description": "8 bit register used to control which interrupts are enabled.\r\nIf bit is set (1) corresponding interrupt is enabled, otherwise it is disabled, with the exception of bit 7.\r\nWhen unset (0) all interrupts are disabled, otherwise other interrupts can be individually enabled.\r\n\r\nInterrupts:\r\n - ES  - Serial Port Interrupt, bit 4, vector: 0023H\r\n - ET1 - Timer 1 Overflow Interrupt, bit 3, vector: 001BH\r\n - EX1 - External Interrupt 1, bit 2, vector: 0013H\r\n - ET0 - Timer 0 Overflow Interrupt, bit 1, vector: 000BH\r\n - EX0 - External Interrupt 0, bit 0, vector: 0003H\r\n\r\n**Bit 7 is bit addressable**\r\nBit 5, ET2 is reserved.\r\n\r\nLocated at address A8H\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "IP": {
+    "detail": "Interrupt Priority",
+    "description": "8 bit register used to control priority of interrupts.\r\nIf bit is set, the correspondings interrupts priority is set to high, otherwise is set to low.\r\n\r\nInterrupts:\r\n - PS - Serial Port Interrupt Priority, bit 4\r\n - PT1 - Timer 1 Overflow Interrupt Priority, bit 3\r\n - PX1 - External Interrupt 1 Priority, bit 2\r\n - PT0 - Timer 0 Overflow Interrupt Priority, bit 1\r\n - PX0 - External Interrupt 0 Priority, bit 0\r\n\r\nBit 5, PT2, is reserved.\r\n\r\nLocated at address B8H\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "SBUF": {
+    "detail": "Serial Buffer",
+    "description": "8 bit register used to hold data while receiving or transmitting data over the serial port.\r\n\r\nLocated at address 99H\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TL0": {
+    "detail": "Timer 0 Low",
+    "description": "Lower byte of the Timer 0\r\n\r\nLocated at address 8AH\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TH0": {
+    "detail": "Timer 0 High",
+    "description": "Higher byte of the Timer 0\r\n\r\nLocated at address 8CH\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TL1": {
+    "detail": "Timer 1 Low",
+    "description": "Lower byte of the Timer 1\r\n\r\nLocated at address 8BH\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TH1": {
+    "detail": "Timer 1 High",
+    "description": "Higher byte of the Timer 1\r\n\r\nLocated at address 8DH\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false

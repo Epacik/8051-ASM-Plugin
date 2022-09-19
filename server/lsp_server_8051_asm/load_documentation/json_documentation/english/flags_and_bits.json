@@ -1,7 +1,7 @@
 {
   "TF0;TF1": {
     "detail": "Timer Overflow",
-    "description": " Set to 1 when timer has overflown (transition from all bits set to 1, to all bits set to 0). \r\nCleared after running associated interrupt vector (Timer 0: 000Bh, Timer 1: 001Bh)",
+    "description": "Set to 1 when timer has overflown (transition from all bits set to 1, to all bits set to 0). \r\n\r\nCleared after running associated interrupt vector (Timer 0: 000Bh, Timer 1: 001Bh)",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -21,7 +21,7 @@
   },
   "IE0;IE1": {
     "detail": "External interrupt",
-    "description": "Set to 1 when transition from high to low signal is received on port 3.3, \r\ncleared after running associated vector (Timer 0: 0003h, Timer 1: 0013h)",
+    "description": "Set to 1 when transition from high to low signal is received on port 3.2/3.3, \r\ncleared after running associated vector (External Interrupt 0: 0003h, External Interrupt 1: 0013h)",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -31,7 +31,7 @@
   },
   "IT0;IT1": {
     "detail": "Exterial interrupt type ",
-    "description": "When set to 1 interrupts will be generated on transition from high to low signal on port 3.3, \r\nWhen set to 0 interrupt will be generated on low signal on port 3.3",
+    "description": "When set to 1 interrupts will be generated on transition from high to low signal on port 3.2/3.3, \r\nWhen set to 0 interrupt will be generated on low signal on port 3.2/3.3",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -41,7 +41,7 @@
   },
   "CY;PSW.7": {
     "detail": "Carry flag",
-    "description": "Carry flag\r\nSet when the result of an addition exceeded 255, or when subtracting larger number from a smaller one.",
+    "description": "Set when the result of an addition exceeded 255, \r\n\r\nor when subtracting larger number from a smaller one.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -81,7 +81,7 @@
   },
   "OV;PSW.2": {
     "detail": "Overflow flag",
-    "description": "Overflow flag\r\nIndicates overflow of a signed value.\r\nSet when a value of a signed addition or subtraction rolls over from -128 to 127 \r\nor the other way around.",
+    "description": "Overflow flag\r\nIndicates overflow of a signed value.\r\nSet when a value of a signed addition or subtraction rolls over from -128 to 127 or vice versa\r\nor the other way around.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,

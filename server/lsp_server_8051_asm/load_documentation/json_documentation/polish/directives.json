@@ -1,7 +1,7 @@
 {
   "ORG": {
-    "detail": "Origin",
-    "description": "Defines an offset for subsequent code or data.\r\nAddress must be provided as a number (hex or decimal) or simple expression without any forward references.\r\nAbsolute addresses and labels may be used. \r\nThe \u0027$\u0027 symbol may be used in an expression to indicate current location.\r\n",
+    "detail": "Pocz\u0105tek",
+    "description": "Definiuje wzgl\u0119dn\u0105 pozycj\u0119 kodu lub danych nast\u0119puj\u0105cych po tej dyrektywie.\r\n\r\nAdres musi zosta\u0107 podany jako liczba (dziesi\u0119tna b\u0105d\u017A szesnastkowa) lub jako proste wyra\u017Cenie bez niekompletnych referencji.\r\n\r\nW wyra\u017Ceniu mog\u0105 by\u0107 u\u017Cyte etykiety, adresy lub \u0027$\u0027 w celu uzyskania obecnej lokalizacji kodu.",
     "valid_operands": [
       [
         {
@@ -17,8 +17,8 @@
     "prefix_required": false
   },
   "DB": {
-    "detail": "Define Byte",
-    "description": "Define byte.\r\nAllocates a byte or multiple of them in memory.\r\nData can be defined as hexadecimal, decimal or binary number, or as an ASCII string.\r\nMultiple numbers can be defined using the same label by separating them using a comma.\r\nNumbers after the first one can be accessed using following syntax \u0060LABEL\u002BN\u0060 where N is an index of a number you want to access.\r\n\r\n",
+    "detail": "Zdefiniuj Bajt",
+    "description": "Zdefiniuj Bajt.\r\n\r\nAlokuje bajt, lub wiele bajt\u00F3w, w pami\u0119ci.\r\n\r\nDane mog\u0105 by\u0107 zdefiniowane w postaci liczby binarnej, dziesi\u0119tnej, szesnastkowej, lub jako tekst ASCII.\r\n\r\nPojedyncza etykieta mo\u017Ce by\u0107 u\u017Cyta do zdefiniowania wielu sta\u0142ych liczbowych, umieszczaj\u0105c je po przecinku.\r\n\r\nKolejne liczby, oraz litery w tek\u015Bcie ASCII, mog\u0105 by\u0107 u\u017Cyte za pomoc\u0105 sk\u0142adni \u0060ETYKIETA\u002BN\u0060 gdzie N jest indeksem numeru kt\u00F3ry chcesz u\u017Cy\u0107.\r\n\r\n",
     "valid_operands": [
       [
         {
@@ -42,12 +42,12 @@
     "affected_flags": [],
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
-    "prefix": "LABEL: ",
+    "prefix": "ETYKIETA: ",
     "prefix_required": false
   },
   "END": {
-    "detail": "End of module",
-    "description": "Indicates the end of assembly module.\r\nAnything after this directive is ignored.\r\nIf this directive is missing, end of file is considered an end of module instead.",
+    "detail": "Koniec modu\u0142u",
+    "description": "Sygnalizuje koniec modu\u0142u.\r\n\r\nWszystko co znajduje si\u0119 po tej dyrektywie jest zignorowane.\r\n\r\nJe\u015Bli w pliku brakuje tej dyrektywy koniec pliku jest uznany za koniec modu\u0142u.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -56,8 +56,8 @@
     "prefix_required": false
   },
   "EQU": {
-    "detail": "Equate / Define a constant",
-    "description": "Defines a constant without occupying space in memory.\r\nEvery use of defined constant gets replaced by defined value.\r\nValue cannot be changed later.\r\nIf you want to define a constant that can be redefined later use SET instead.\r\n",
+    "detail": "Zdefiniuj sta\u0142\u0105",
+    "description": "Definiuje sta\u0142\u0105 bez zabierania miejsca w pami\u0119ci programu.\r\n\r\nKa\u017Cde u\u017Cycie sta\u0142ej zostanie zast\u0105pione podczas asemblacji.\r\n\r\nWarto\u015B\u0107 sta\u0142ej nie mo\u017Ce by\u0107 zmieniona w dalszej cz\u0119\u015Bci pliku.\r\nAby zdefiniowa\u0107 sta\u0142\u0105 kt\u00F3r\u0105 mo\u017Cna zredefiniowa\u0107 nale\u017Cy u\u017Cy\u0107 dyrektywy SET.\r\n",
     "valid_operands": [
       [
         {
@@ -69,12 +69,12 @@
     "affected_flags": [],
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
-    "prefix": "NAME_OF_CONSTANT ",
+    "prefix": "NAZWA_STALEJ ",
     "prefix_required": false
   },
   "SET": {
-    "detail": "Set / (Re)define a constant",
-    "description": "Defines a constant without occupying space in memory.\r\nEvery use of defined constant gets replaced by defined value.\r\nValue can be changed later using another SET directive.\r\n",
+    "detail": "Zdefiniuj lub redefiniuj sta\u0142\u0105",
+    "description": "Definiuje sta\u0142\u0105 bez zabierania miejsca w pami\u0119ci programu.\r\n\r\nKa\u017Cde u\u017Cycie sta\u0142ej zostanie zast\u0105pione podczas asemblacji.\r\n\r\nWarto\u015B\u0107 sta\u0142ej mo\u017Ce by\u0107 zmieniona w dalszej cz\u0119\u015Bci pliku.\r\n",
     "valid_operands": [
       [
         {
@@ -86,12 +86,12 @@
     "affected_flags": [],
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
-    "prefix": "NAME_OF_CONSTANT ",
+    "prefix": "NAZWA_STALEJ ",
     "prefix_required": false
   },
   "DW": {
-    "detail": "Define Word",
-    "description": "Define word.\r\nAllocates two bytes (16 bits) or multiple of them in memory.\r\nData can be defined as hexadecimal, decimal or binary number, or as an ASCII string.\r\nMultiple numbers can be defined using the same label by separating them using a comma.\r\nNumbers after the first one can be accessed using following syntax \u0060LABEL\u002BN\u0060 where N is an index of a number you want to access.",
+    "detail": "Zdefiniuj S\u0142owo",
+    "description": "Zdefiniuj S\u0142owo.\r\n\r\nAlokuje dwa bajty bajt, lub ich wielokrotno\u015B\u0107, w pami\u0119ci.\r\n\r\nDane mog\u0105 by\u0107 zdefiniowane w postaci liczby binarnej, dziesi\u0119tnej, szesnastkowej, lub jako tekst ASCII.\r\n\r\nPojedyncza etykieta mo\u017Ce by\u0107 u\u017Cyta do zdefiniowania wielu sta\u0142ych liczbowych, umieszczaj\u0105c je po przecinku.\r\n\r\nKolejne liczby, oraz litery w tek\u015Bcie ASCII, mog\u0105 by\u0107 u\u017Cyte za pomoc\u0105 sk\u0142adni \u0060ETYKIETA\u002BN\u0060 gdzie N jest indeksem numeru kt\u00F3ry chcesz u\u017Cy\u0107.\r\n\r\n",
     "valid_operands": [
       [
         {
@@ -115,12 +115,12 @@
     "affected_flags": [],
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
-    "prefix": "LABEL: ",
+    "prefix": "ETYKIETA: ",
     "prefix_required": false
   },
   "BIT": {
-    "detail": "Define Bit Address",
-    "description": "Define a bit address.\r\nDefines a constant that can be used as a replacement of an address to a bit.",
+    "detail": "Zdefiniuj adres bitu",
+    "description": "Zdefiniuj adres bitu.\r\n\r\nDefiniuje sta\u0142\u0105, kt\u00F3ra mo\u017Ce by\u0107 u\u017Cyta zamiast adresu bitu.",
     "valid_operands": [
       [
         {
@@ -132,12 +132,12 @@
     "affected_flags": [],
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
-    "prefix": "LABEL ",
+    "prefix": "ETYKIETA ",
     "prefix_required": false
   },
   "REG": {
-    "detail": "Define Register Symbol",
-    "description": "Define register symbol.\r\nDefines a constant that can be used as a replacement of an address to an internal register or address to an internal memory.",
+    "detail": "Zdefiniuj symbol rejestru",
+    "description": "Zdefiniuj symbol rejestru.\r\n\r\nDefiniuje sta\u0142\u0105 kt\u00F3ra mo\u017Ce by\u0107 u\u017Cyta zamiast rejestru, lub adresu do wewn\u0119trznej pami\u0119ci. ",
     "valid_operands": [
       [
         {
@@ -153,12 +153,12 @@
     "affected_flags": [],
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
-    "prefix": "LABEL ",
+    "prefix": "ETYKIETA ",
     "prefix_required": false
   },
   "IF": {
-    "detail": "Conditional assembly",
-    "description": "Conditional assembly.\r\nIf the condition evaluates to TRUE (or not 0) instructions inside the IF block are assembled.\r\nAn IF block starts with the IF directive and ends with either ELSE or ENDIF.\r\nIf the directive ELSE is used to end the IF block then instructions between ELSE and ENDIF directives are assembled \r\nwhen the initial condition evaluates to FALSE. ",
+    "detail": "Asemblacja warunkowa",
+    "description": "Asemblacja warunkowa.\r\n\r\nJe\u015Bli warunek zostanie zewaluowane jako TRUE (warto\u015B\u0107 inna ni\u017C 0) instrukcje wewn\u0105trz bloku IF zostan\u0105 zasemblowane.\r\n\r\nBlok IF zaczyna si\u0119 od dyrektywy IF i ko\u0144czy si\u0119 albo dyrektyw\u0105 ELSE lub ENDIF.\r\n\r\nJe\u015Bli zostanie u\u017Cyta dyrektywa ELSE instrukcje pomi\u0119dzy ELSE oraz ENDIF \r\n\r\nzostan\u0105 zasemblowane gdy warunek dyrektywy IF zostanie zewaluowany do FALSE (warto\u015B\u0107 r\u00F3wna 0).",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -167,8 +167,8 @@
     "prefix_required": false
   },
   "ELSE": {
-    "detail": "Alternative conditional assembly",
-    "description": "Alternative conditional assembly.\r\nUsed in conjunction with the IF directive.\r\nInstructions betwen ELSE and ENDIF directives are assembled \r\nwhen the condition of the IF directive preceding the ELSE directive evaluates to false.",
+    "detail": "Alternatywna asemblacja warunkowa",
+    "description": "Alternatywna asemblacja warunkowa.\r\n\r\nU\u017Cywane wraz z dyrektyw\u0105 ID.\r\n\r\nInstrukcje pomi\u0119dzy ELSE oraz ENDIF \r\n\r\nzostan\u0105 zasemblowane gdy warunek dyrektywy IF, poprzedzaj\u0105cej dyrektyw\u0119 ELSE, zostanie zewaluowany do FALSE (warto\u015B\u0107 r\u00F3wna 0).",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -177,8 +177,8 @@
     "prefix_required": false
   },
   "ENDIF": {
-    "detail": "End of conditional assembly",
-    "description": "End of conditional assembly.\r\nUsed to denote an end of IF or ELSE directives.",
+    "detail": "Koniec asemblacji warunkowej",
+    "description": "Koniec asemblacji warunkowej.\r\n\r\nU\u017Cywana do zako\u0144czenia bloku dyurektyw IF lub ELSE.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -187,18 +187,18 @@
     "prefix_required": false
   },
   "MACRO": {
-    "detail": "Macro",
-    "description": "Allows user to generate code snippets with parameters that can be used in similar way to standard mnemonics.\r\nMACRO block has to be ended with either ENDM or MACEND.\r\nNames of parameters are case sensitive.\r\n\r\n\u0060\u0060\u0060\r\nNAME MACRO %PAR1, %PAR2\r\n\tINC %PAR1\r\n\tDEC %PAR2\r\n\tENDM\r\n\u0060\u0060\u0060",
+    "detail": "Makro",
+    "description": "Pozwala na zdefiniowanie fragment\u00F3w kodu z parametrami kt\u00F3re mog\u0105 by\u0107 u\u017Cywane w podobny spos\u00F3b do standardowych mnemonik\u00F3w.\r\n\r\nBlok dyrektywy MACRO musi by\u0107 zako\u0144czony dyrektyw\u0105 ENDM lub dyrektyw\u0105 MACEND.\r\n\r\nWielko\u015B\u0107 liter w nazwach parametr\u00F3w jest brana pod uwag\u0119.\r\n\r\n\u0060\u0060\u0060\r\nNAZWA MACRO %PAR1, %PAR2\r\n\tINC %PAR1\r\n\tDEC %PAR2\r\n\tENDM\r\n\u0060\u0060\u0060",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
-    "prefix": "NAME_OF_MACRO ",
+    "prefix": "NAZWA_MAKRA ",
     "prefix_required": false
   },
   "ENDM;MACEND": {
-    "detail": "End of macro",
-    "description": "Indicates an end of a macro.",
+    "detail": "Koniec makra",
+    "description": "Definiuje koniec bloku dyrektywy MACRO",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,

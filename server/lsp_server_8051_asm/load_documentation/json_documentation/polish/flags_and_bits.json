@@ -1,7 +1,7 @@
 {
   "TF0;TF1": {
-    "detail": "Timer Overflow",
-    "description": " Set to 1 when timer has overflown (transition from all bits set to 1, to all bits set to 0). \r\nCleared after running associated interrupt vector (Timer 0: 000Bh, Timer 1: 001Bh)",
+    "detail": "Timer zosta\u0142 Przepe\u0142niony ",
+    "description": "Zostaje ustawiony na 1 gdy Timer zostanie przepe\u0142niony (przej\u015Bcie mi\u0119dzy wszystkimi bitami r\u00F3wnymi 1 do wszystkich bit\u00F3w r\u00F3wnych 0).\r\n\r\nZostaje zresetowany po wykonaniu wektora przerwania zwi\u0105zanego z tym przepe\u0142nieniem (Timer 0: 000Bh, Timer 1: 001Bh).",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -10,8 +10,8 @@
     "prefix_required": false
   },
   "TR0;TR1": {
-    "detail": "Timer Run",
-    "description": "Set to 1 when timer is running, \r\nSet to 0 when timer is halted",
+    "detail": "Uruchom Timer",
+    "description": "Gdy ustawiony na 1 Timer zostaje uruchomiony,\r\nGdy zresetowany Timer zostaje zatrzymany\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -20,8 +20,8 @@
     "prefix_required": false
   },
   "IE0;IE1": {
-    "detail": "External interrupt",
-    "description": "Set to 1 when transition from high to low signal is received on port 3.3, \r\ncleared after running associated vector (Timer 0: 0003h, Timer 1: 0013h)",
+    "detail": "Przerwanie Zewn\u0119trzne",
+    "description": "Zostaje ustawiony gdy na porcie 3.3 pojawi si\u0119 przej\u015Bcie z wysokiego do niskiego stanu sygna\u0142u. \r\n\r\nZostaje zresetowany po wykonaniu zwi\u0105zanego wektora przerwania (Zewn\u0119trzne przerwanie 0: 0003h, Zewn\u0119trzne przerwanie 1: 0013h)",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -30,8 +30,8 @@
     "prefix_required": false
   },
   "IT0;IT1": {
-    "detail": "Exterial interrupt type ",
-    "description": "When set to 1 interrupts will be generated on transition from high to low signal on port 3.3, \r\nWhen set to 0 interrupt will be generated on low signal on port 3.3",
+    "detail": "Rodzaj Przerwania zewn\u0119trznego",
+    "description": "Kiedy jest ustawiony (1) przerwanie b\u0119dzie generowane podczas przej\u015Bcia mi\u0119dzy stanem wysokim a niskim na porcie 3.2/3.3,\r\n\r\nje\u015Bli b\u0119dize zresetowany (0) przerwanie b\u0119dzie generowane gdy sygna\u0142 na porcie 3.2/3.3 b\u0119dzie niski",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -40,8 +40,8 @@
     "prefix_required": false
   },
   "CY;PSW.7": {
-    "detail": "Carry flag",
-    "description": "Carry flag\r\nSet when the result of an addition exceeded 255, or when subtracting larger number from a smaller one.",
+    "detail": "Flaga przeniesienia",
+    "description": "Ustawiona kiedy wynik dodawania jest wi\u0119kszy ni\u017C 255 \r\n\r\nlub kiedy podczas odejmowania odjemnik jest wi\u0119kszy ni\u017C odjemna.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -50,8 +50,8 @@
     "prefix_required": false
   },
   "AC;PSW.6": {
-    "detail": "Auxiliary carry flag",
-    "description": "Used for BCD operations.\r\nSet when ADD or SUBB operations result in carry/borrow between bit 3 and 4.\r\nOtherwise it is cleared.",
+    "detail": "Dodatkowa flaga przeniesienia",
+    "description": "U\u017Cywana do operacji na liczbach BCD.\r\n\r\nUstawiona je\u015Bli operacje ADD lub SUBB spowoduj\u0105 przeniesienie/po\u017Cyczk\u0119 pomi\u0119dzy bitami 3 i 4.\r\n\r\nJe\u015Bli to nie nast\u0105pi flaga jest wyczyszczona.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -60,8 +60,8 @@
     "prefix_required": false
   },
   "F0;PSW.5": {
-    "detail": "General purpose flag",
-    "description": "General purpose flag.\r\nUser can decide what is it used for.",
+    "detail": "Flaga og\u00F3lnego przeznaczenia",
+    "description": "Programista mo\u017Ce zdecydowa\u0107 do czego jest u\u017Cywana.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,

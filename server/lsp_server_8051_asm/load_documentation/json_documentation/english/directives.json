@@ -1,7 +1,7 @@
 {
   "ORG": {
     "detail": "Origin",
-    "description": "Defines an offset for subsequent code or data.\r\nAddress must be provided as a number (hex or decimal) or simple expression without any forward references.\r\nAbsolute addresses and labels may be used. \r\nThe \u0027$\u0027 symbol may be used in an expression to indicate current location.\r\n",
+    "description": "Defines an offset for subsequent code or data. \r\nAddress must be provided as a number (hex or decimal) or simple expression without any forward references. \r\n\r\nAbsolute addresses and labels may be used.  \r\nThe \u0027$\u0027 symbol may be used in an expression to indicate current location.\r\n",
     "valid_operands": [
       [
         {
@@ -18,7 +18,7 @@
   },
   "DB": {
     "detail": "Define Byte",
-    "description": "Define byte.\r\nAllocates a byte or multiple of them in memory.\r\nData can be defined as hexadecimal, decimal or binary number, or as an ASCII string.\r\nMultiple numbers can be defined using the same label by separating them using a comma.\r\nNumbers after the first one can be accessed using following syntax \u0060LABEL\u002BN\u0060 where N is an index of a number you want to access.\r\n\r\n",
+    "description": "Define byte.\r\n\r\nAllocates a byte or multiple of them in memory.\r\n\r\nData can be defined as hexadecimal, decimal or binary number, or as an ASCII string.\r\n\r\nMultiple numbers can be defined using the same label by separating them with a comma.\r\n\r\nNumbers after the first one can be accessed using following syntax \u0060LABEL\u002BN\u0060 where N is an index of a number you want to access.\r\n\r\n",
     "valid_operands": [
       [
         {
@@ -47,7 +47,7 @@
   },
   "END": {
     "detail": "End of module",
-    "description": "Indicates the end of assembly module.\r\nAnything after this directive is ignored.\r\nIf this directive is missing, end of file is considered an end of module instead.",
+    "description": "Indicates the end of assembly module.\r\n\r\nAnything after this directive is ignored.\r\n\r\nIf this directive is missing, end of file is considered an end of module instead.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -57,7 +57,7 @@
   },
   "EQU": {
     "detail": "Equate / Define a constant",
-    "description": "Defines a constant without occupying space in memory.\r\nEvery use of defined constant gets replaced by defined value.\r\nValue cannot be changed later.\r\nIf you want to define a constant that can be redefined later use SET instead.\r\n",
+    "description": "Defines a constant without occupying space in memory.\r\n\r\nEvery use of defined constant gets replaced by defined value during assembly.\r\n\r\nValue cannot be changed later.\r\nIf you want to define a constant that can be redefined later use SET instead.\r\n",
     "valid_operands": [
       [
         {
@@ -73,7 +73,7 @@
     "prefix_required": false
   },
   "SET": {
-    "detail": "Set / (Re)define a constant",
+    "detail": "Set / Define or redefine a constant",
     "description": "Defines a constant without occupying space in memory.\r\nEvery use of defined constant gets replaced by defined value.\r\nValue can be changed later using another SET directive.\r\n",
     "valid_operands": [
       [
@@ -91,7 +91,7 @@
   },
   "DW": {
     "detail": "Define Word",
-    "description": "Define word.\r\nAllocates two bytes (16 bits) or multiple of them in memory.\r\nData can be defined as hexadecimal, decimal or binary number, or as an ASCII string.\r\nMultiple numbers can be defined using the same label by separating them using a comma.\r\nNumbers after the first one can be accessed using following syntax \u0060LABEL\u002BN\u0060 where N is an index of a number you want to access.",
+    "description": "Define word.\r\n\r\nAllocates two bytes (16 bits) or multiple of them in memory.\r\n\r\nData can be defined as hexadecimal, decimal or binary number, or as an ASCII string.\r\n\r\nMultiple numbers can be defined using the same label by separating them using a comma.\r\n\r\nNumbers after the first one can be accessed using following syntax \u0060LABEL\u002BN\u0060 where N is an index of a number you want to access.",
     "valid_operands": [
       [
         {
@@ -137,7 +137,7 @@
   },
   "REG": {
     "detail": "Define Register Symbol",
-    "description": "Define register symbol.\r\nDefines a constant that can be used as a replacement of an address to an internal register or address to an internal memory.",
+    "description": "Define register symbol.\r\nDefines a constant that can be used as a replacement of an internal register or address to an internal memory.",
     "valid_operands": [
       [
         {
@@ -158,7 +158,7 @@
   },
   "IF": {
     "detail": "Conditional assembly",
-    "description": "Conditional assembly.\r\nIf the condition evaluates to TRUE (or not 0) instructions inside the IF block are assembled.\r\nAn IF block starts with the IF directive and ends with either ELSE or ENDIF.\r\nIf the directive ELSE is used to end the IF block then instructions between ELSE and ENDIF directives are assembled \r\nwhen the initial condition evaluates to FALSE. ",
+    "description": "Conditional assembly.\r\n\r\nIf the condition evaluates to TRUE (or not 0) instructions inside the IF block are assembled.\r\n\r\nAn IF block starts with the IF directive and ends with either ELSE or ENDIF.\r\n\r\nIf the directive ELSE is used to end the IF block then instructions between ELSE and ENDIF directives are assembled \r\n\r\nwhen the initial condition evaluates to FALSE. ",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -168,7 +168,7 @@
   },
   "ELSE": {
     "detail": "Alternative conditional assembly",
-    "description": "Alternative conditional assembly.\r\nUsed in conjunction with the IF directive.\r\nInstructions betwen ELSE and ENDIF directives are assembled \r\nwhen the condition of the IF directive preceding the ELSE directive evaluates to false.",
+    "description": "Alternative conditional assembly.\r\n\r\nUsed in conjunction with the IF directive.\r\n\r\nInstructions betwen ELSE and ENDIF directives are assembled \r\n\r\nwhen the condition of the IF directive preceding the ELSE directive evaluates to false.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -178,7 +178,7 @@
   },
   "ENDIF": {
     "detail": "End of conditional assembly",
-    "description": "End of conditional assembly.\r\nUsed to denote an end of IF or ELSE directives.",
+    "description": "End of conditional assembly.\r\n\r\nUsed to denote an end of IF or ELSE directives.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -188,7 +188,7 @@
   },
   "MACRO": {
     "detail": "Macro",
-    "description": "Allows user to generate code snippets with parameters that can be used in similar way to standard mnemonics.\r\nMACRO block has to be ended with either ENDM or MACEND.\r\nNames of parameters are case sensitive.\r\n\r\n\u0060\u0060\u0060\r\nNAME MACRO %PAR1, %PAR2\r\n\tINC %PAR1\r\n\tDEC %PAR2\r\n\tENDM\r\n\u0060\u0060\u0060",
+    "description": "Allows user to generate code snippets with parameters that can be used in similar way to standard mnemonics.\r\n\r\nMACRO block has to be ended with either ENDM or MACEND.\r\n\r\nNames of parameters are case sensitive.\r\n\r\n\u0060\u0060\u0060\r\nNAME MACRO %PAR1, %PAR2\r\n\tINC %PAR1\r\n\tDEC %PAR2\r\n\tENDM\r\n\u0060\u0060\u0060",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,

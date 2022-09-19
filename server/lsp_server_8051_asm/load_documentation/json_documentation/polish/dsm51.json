@@ -1,7 +1,7 @@
 {
   "WRITE_TEXT": {
-    "detail": "Write text to the LCD",
-    "description": "Write text to the LCD.\r\nWrites a NULL (00000000B) terminated string to the LCD.\r\nLocation of the string is provided using the DPTR register.",
+    "detail": "Wypisz tekst na ekranie LCD",
+    "description": "Wypisz tekst zako\u0144czony symbolem NULL (00000000B) na ekranie LCD.\r\n\r\nAdres tekstu jest przekazany za pomoc\u0105 rejestru DPTR.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -10,8 +10,8 @@
     "prefix_required": false
   },
   "WRITE_DATA": {
-    "detail": "Write character to the LCD",
-    "description": "Write character to the LCD.\r\nWrites a byte stored in the Accumulator to the LCD as an ASCII character.",
+    "detail": "Wypisz znak na ekranie LCD",
+    "description": "Wypisuje znak bajt przechowywany w Akumulatorze na ekranie LCD jako znak ASCII.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -20,8 +20,8 @@
     "prefix_required": false
   },
   "WRITE_HEX": {
-    "detail": "Write hexadecimal number to the LCD",
-    "description": "Write hexadecimal number to the LCD.\r\nWrites a byte stored in the Accumulator to the LCD as a hexadecimal number.",
+    "detail": "Wypisz liczb\u0119 szesnastkow\u0105 na ekranie LCD",
+    "description": "Wypisuje bajt przechowywany w Akumulatorze na ekranie LCD jako liczb\u0119 szesnastkow\u0105.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -30,8 +30,8 @@
     "prefix_required": false
   },
   "WRITE_INSTR": {
-    "detail": "Send an instruction to the LCD",
-    "description": "Send an instruction to the LCD.\r\nSends a byte stored in the Accumulator to the LCD as an instruction.",
+    "detail": "Wy\u015Blij instrukcj\u0119 do ekranu LCD",
+    "description": "Wysy\u0142a bajt przechowywany w Akumulatorze do ekranu LCD jako instrukcj\u0119 do wykonania.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -40,8 +40,8 @@
     "prefix_required": false
   },
   "LCD_INIT": {
-    "detail": "Initialize LCD",
-    "description": "Initializes the LCD.",
+    "detail": "Inicjalizuj ekran LCD",
+    "description": "Inicjalizuje ekran LCD.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -50,8 +50,8 @@
     "prefix_required": false
   },
   "LCD_OFF": {
-    "detail": "Turn off LCD",
-    "description": "Turns the LCD off.",
+    "detail": "Wy\u0142\u0105cz ekran LCD",
+    "description": "Wy\u0142\u0105cza ekran LCD.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -60,8 +60,8 @@
     "prefix_required": false
   },
   "LCD_CLR": {
-    "detail": "Clear LCD",
-    "description": "Clear the LCD and move the cursor to the beginning.",
+    "detail": "Wyczy\u015B\u0107 ekran LCD",
+    "description": "Wyszy\u015B\u0107 ekran LCD i przesu\u0144 kursor na pocz\u0105tek.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -70,8 +70,8 @@
     "prefix_required": false
   },
   "DELAY_US": {
-    "detail": "Delay in microseconds",
-    "description": "Pauses the program execution for the time, in microseconds, calculated by the formula\r\n\u0060(A * 2 \u002B 6) * 12 / 11.0592\u0060 [\u03BCs] \r\nwhere A is a value stored in the Accumulator.\r\nResulting wait time ranges between around 6.5 \u03BCs and 559.9 \u03BCs.",
+    "detail": "Op\u00F3\u017Anienie w mikrosekundach",
+    "description": "Zatrzymuje wykonywanie programu przez ilo\u015B\u0107 czasy, w mikrosekundach, obliczon\u0105 za pomoc\u0105 wzoru\r\n\r\n\u0060(A * 2 \u002B 6) * 12 / 11.0592\u0060 [\u03BCs] \r\n\r\ngdzie A jest warto\u015Bci\u0105 przechowywan\u0105 w Akumulatorze.\r\n\r\nCzas oczekiwania b\u0119dzie wynosi\u0142 od 6.5 \u03BCs do 559.9 \u03BCs.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -80,8 +80,8 @@
     "prefix_required": false
   },
   "DELAY_MS": {
-    "detail": "Delay in milliseconds",
-    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator.\r\nExecution will be paused for 256 ms if the value stored in the Accumulator is equal to 0.\r\nResulting wait time ranges between 1 ms and 256 ms.",
+    "detail": "Op\u00F3\u017Anienie w milisekundach",
+    "description": "Zatrzymuje wykonywanie programu na czas, w milisekundach, przechowywany w Akumulatorze.\r\n\r\nWykonywanie b\u0119dzie zatrzymane na 256 ms je\u015Bli warto\u015B\u0107 przechowywana w Akumulatorze jest r\u00F3wna 0.\r\n\r\nCzas oczekiwania b\u0119dzie wynosi\u0142 od 1 ms do 256 ms.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -90,8 +90,8 @@
     "prefix_required": false
   },
   "DELAY_100MS": {
-    "detail": "Delay in 100\u0027s of milliseconds",
-    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator multiplied by a 100.\r\nExecution will be paused for 25.6 s if the value stored in the Accumulator is equal to 0.\r\nResulting wait time ranges between 100 ms and 25.6 s.",
+    "detail": "Op\u00F3\u017Anienie w setkach milisekund",
+    "description": "Zatrzymuje wykonywanie programu na czas, w milisekundach, przechowywany w Akumulatorze, pomno\u017Conej przez 100.\r\n\r\nWykonywanie b\u0119dzie zatrzymane na for 25.6 s je\u015Bli warto\u015B\u0107 przechowywana w Akumulatorze jest r\u00F3wna 0.\r\n\r\nCzas oczekiwania b\u0119dzie wynosi\u0142 od 100 ms do 25.6 s.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -100,8 +100,8 @@
     "prefix_required": false
   },
   "WAIT_ENTER": {
-    "detail": "Wait for Enter key",
-    "description": "Write \u0022PRESS ENTER...\u0022 to the LCD and wait for the user to press the Enter key",
+    "detail": "Zaczekaj na klawisz ENTER",
+    "description": "Wypisuje \u0022PRESS ENTER...\u0022 na ekranie LCD i czeka a\u017C u\u017Cytkownik wci\u015Bnie przycisk Enter",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -110,8 +110,8 @@
     "prefix_required": false
   },
   "WAIT_ENTER_NW": {
-    "detail": "Wait for Enter key",
-    "description": "Wait for the user to press the Enter key, without writing anything to the LCD",
+    "detail": "Zaczekaj na klawisz ENTER",
+    "description": "Czeka a\u017C u\u017Cytkownik wci\u015Bnie przycisk Enter bez wypisywania tekstu na ekranie LCD.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -120,14 +120,14 @@
     "prefix_required": false
   },
   "TEST_ENTER": {
-    "detail": "Is the Enter key pressed",
-    "description": "Check if the Enter key is pressed.",
+    "detail": "Czy Enter jest wci\u015Bni\u0119ty",
+    "description": "Sprawdza czy klawisz Enter jest wci\u015Bni\u0119ty",
     "valid_operands": [],
     "affected_flags": [
       {
         "flag": 7,
-        "when_set": "Key is not pressed",
-        "when_unset": "Key is pressed"
+        "when_set": "Klawisz nie jest wci\u015Bni\u0119ty",
+        "when_unset": "Klawisz jest wci\u015Bni\u0119ty"
       }
     ],
     "dont_generate_syntax": false,
@@ -136,14 +136,14 @@
     "prefix_required": false
   },
   "WAIT_ENT_ESC": {
-    "detail": "Wait for Enter or Esc",
-    "description": "Wait for user to press either the Enter key or the Escape key.\r\n",
+    "detail": "Zaczekaj na klawisz ENTER lub ESC",
+    "description": "Czeka a\u017C u\u017Cytkownik wci\u015Bnie klawisz Enter lub ESC.",
     "valid_operands": [],
     "affected_flags": [
       {
         "flag": 7,
-        "when_set": "Enter was pressed",
-        "when_unset": "Esc was pressed"
+        "when_set": "Esc zosta\u0142 wci\u015Bni\u0119ty",
+        "when_unset": "Enter zosta\u0142 wci\u015Bni\u0119ty"
       }
     ],
     "dont_generate_syntax": false,
@@ -152,8 +152,8 @@
     "prefix_required": false
   },
   "WAIT_KEY": {
-    "detail": "Wait for any key",
-    "description": "Wait for a user to press any key on the matrix keypad.\r\nNumber of key pressed is stored in the Accumulator",
+    "detail": "Zaczekaj na wci\u015Bni\u0119cie klawisza",
+    "description": "Czeka a\u017C u\u017Cytkownik wci\u015Bnie dowolny przycisk na klawiaturze matrycowej.\r\n\r\nNumer wci\u015Bni\u0119tego klawisza jest umieszczony w Akumulatorze.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -162,14 +162,14 @@
     "prefix_required": false
   },
   "GET_NUM": {
-    "detail": "Get BCD number",
-    "description": "Ask user for up to 4 BCD digits and store them in the memory location pointed by @R0 register.\r\nTo finish inputing a number user can either\r\n - Press the Enter key\r\n - Press the Esc key\r\n - Type 4 digits",
+    "detail": "Otrzymaj numer BCD",
+    "description": "Popro\u015B u\u017Cytkownika o wpisanie 4 cyft zakodowanych w formacie BCD i umie\u015B\u0107 je pod adresem wskazanym przez rejestr @R0\r\n\r\nAby zako\u0144czy\u0107 wpisywanie cyfr u\u017Cytkownik mo\u017Ce\r\n - Wcisn\u0105\u0107 Enter\r\n - Wcisn\u0105\u0107 Esc\r\n - Wpisa\u0107 4 cyfry",
     "valid_operands": [],
     "affected_flags": [
       {
         "flag": 7,
-        "when_set": "Enter was pressed",
-        "when_unset": "User typed 4 digits or pressed Esc"
+        "when_set": "Enter zosta\u0142 wci\u015Bni\u0119ty",
+        "when_unset": "u\u017Cytkownik wpisa\u0142 4 cyfry, lub wcisn\u0105\u0142 Esc"
       }
     ],
     "dont_generate_syntax": false,
@@ -178,8 +178,8 @@
     "prefix_required": false
   },
   "BCD_HEX": {
-    "detail": "Convert BCD to hexadecimal",
-    "description": "Converts two byte BCD number, stored in the memory location pointed by @R0 register, to a hexadecimal representation of that number,\r\nand stores the result in the same two bytes pointed by the @R0 register.",
+    "detail": "Konwertuj BCD do liczby szesnastkowej",
+    "description": "Konwertuje dwubajtow\u0105 liczb\u0119 zakodowan\u0105 w formie BCD, kt\u00F3ra jest przechowywana pod adresem wskazanym przez rejestr @R0\r\n\r\ndo postaci szesnastkowej. Wynik tej operacji jest zapisany do adresu wskazanego przez rejestr @R0 jako dwa bajty.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -188,8 +188,8 @@
     "prefix_required": false
   },
   "HEX_BCD": {
-    "detail": "Convert hexadecimal to BCD",
-    "description": "Converts two byte hexadecimal number, stored in the memory location pointed by @R0 register, to a three byte BCD representation of that number,\r\nand stores the result in the memory location pointed by @R0 register.",
+    "detail": "Konwertuj liczb\u0119 szesnastkow\u0105 do postaci BCD",
+    "description": "Konwertuje dwubajtow\u0105 liczb\u0119 szesnastkow\u0105 przechowywan\u0105 pod adresem wskazanym przez rejestr @R0 do trybajtowej liczby w formacie BCD.\r\n\r\nWynik jest zapisany w miejscu wskazanym przez rejestr @R0.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -198,8 +198,8 @@
     "prefix_required": false
   },
   "MUL_2_2": {
-    "detail": "Multiply two two-byte numbers",
-    "description": "Multiplies a two-byte number stored in the memory location pointed by the @R0 register \r\nwith a two-byte number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register",
+    "detail": "Pomn\u00F3\u017C dwa dwubajtowe liczby",
+    "description": "Mno\u017Cy dwubajtow\u0105 liczb\u0119 wskazan\u0105 przez rejestr @R0 \r\n\r\nz dwubajtow\u0105 liczb\u0105 przechowywan\u0105 w rejestrze B (starszy bajt) oraz Akumulatorze (m\u0142odszy bajt).\r\n\r\nWynik dzia\u0142ania b\u0119dzie przechowany jako czterobajtowa liczba w miejscu wskazanym przez rejestr @R0.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -208,8 +208,8 @@
     "prefix_required": false
   },
   "MUL_3_1": {
-    "detail": "Multiply three-byte number by a one-byte number",
-    "description": "Multiplies a three-byte number stored in the memory location pointed by the @R0 register \r\nwith a number stored in the Accumulator.\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register",
+    "detail": "Pomn\u00F3\u017C trzybajtow\u0105 liczb\u0119 przez jednobajtow\u0105 liczb\u0119",
+    "description": "Mno\u017Cy trzybajtow\u0105 liczb\u0119 przechowywan\u0105 pod adresem wskazanym przez rejestr @R0 \r\nz liczb\u0105 przechowywan\u0105 w Akumulatorze.\r\n\r\nWynik b\u0119dzie przechowany jako czterobajtowa liczba w miejscu wskazanym przez rejestr @R0.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -218,8 +218,8 @@
     "prefix_required": false
   },
   "DIV_2_1": {
-    "detail": "Divide two-byte number by a one-byte number",
-    "description": "Divides a two-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register.\r\n\r\nThe result will be stored as a two-byte number in the memory location pointed by the @R0 register, \r\nand the reminder will be stored in the Accumulator",
+    "detail": "Podziel dwubajtow\u0105 liczb\u0119 przez jednobajtow\u0105 liczb\u0119",
+    "description": "Dzieli dwubajtow\u0105 liczb\u0119 przechowywan\u0105 pod adresem wskazanym przez rejestr @R0\r\nprzez liczb\u0119 przechowywan\u0105 w rejestrze B.\r\n\r\nWynik zostanie zapisany jako dwubajtowa liczba w miejscu wskazywanym przez rejestr @R0, \r\n\r\nnatomiast reszta z dzielenia zostanie zapisana w Akumulatorze.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -228,8 +228,8 @@
     "prefix_required": false
   },
   "DIV_4_2": {
-    "detail": "Divide four-byte number by a two-byte number",
-    "description": "Divides a four-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register,\r\nand the reminder will be stored as a two-byte number in the location four bytes after the memory address in the R0 register ( @(R0\u002B4) ).",
+    "detail": "Podziel czterobajtow\u0105 liczb\u0119 przez dwubajtow\u0105 liczb\u0119",
+    "description": "Dzieli czterobajtow\u0105 liczb\u0119 przechowywan\u0105 pod adresem wskazywanym przez rejestr @R0\r\nprzez dwubajtow\u0105 liczb\u0105 przechowywan\u0105 w rejestrze B (starszy bajt) oraz Akumulatorze (m\u0142odszy bajt).\r\n\r\nWynik zostanie zapisany jako czterobajtowa liczba w miejscu wskazanym przez rejestr @R0,\r\na reszta z dzielenia b\u0119dzie przechowana jako dwubajtowa liczba w cztery bajty po adresie wskazanym przez rejestr @R0 ( @(R0\u002B4) )\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,

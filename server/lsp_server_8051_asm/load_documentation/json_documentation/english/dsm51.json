@@ -1,7 +1,7 @@
 {
   "WRITE_TEXT": {
     "detail": "Write text to the LCD",
-    "description": "Write text to the LCD.\r\nWrites a NULL (00000000B) terminated string to the LCD.\r\nLocation of the string is provided using the DPTR register.",
+    "description": "Writes a NULL (00000000B) terminated string to the LCD.\r\n\r\nLocation of the string is provided using the DPTR register.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -11,7 +11,7 @@
   },
   "WRITE_DATA": {
     "detail": "Write character to the LCD",
-    "description": "Write character to the LCD.\r\nWrites a byte stored in the Accumulator to the LCD as an ASCII character.",
+    "description": "Writes a byte stored in the Accumulator to the LCD as an ASCII character.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -31,7 +31,7 @@
   },
   "WRITE_INSTR": {
     "detail": "Send an instruction to the LCD",
-    "description": "Send an instruction to the LCD.\r\nSends a byte stored in the Accumulator to the LCD as an instruction.",
+    "description": "Sends a byte stored in the Accumulator to the LCD as an instruction.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -71,7 +71,7 @@
   },
   "DELAY_US": {
     "detail": "Delay in microseconds",
-    "description": "Pauses the program execution for the time, in microseconds, calculated by the formula\r\n\u0060(A * 2 \u002B 6) * 12 / 11.0592\u0060 [\u03BCs] \r\nwhere A is a value stored in the Accumulator.\r\nResulting wait time ranges between around 6.5 \u03BCs and 559.9 \u03BCs.",
+    "description": "Pauses the program execution for the time, in microseconds, calculated by the formula\r\n\r\n\u0060(A * 2 \u002B 6) * 12 / 11.0592\u0060 [\u03BCs] \r\n\r\nwhere A is a value stored in the Accumulator.\r\n\r\nResulting wait time ranges between around 6.5 \u03BCs and 559.9 \u03BCs.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -81,7 +81,7 @@
   },
   "DELAY_MS": {
     "detail": "Delay in milliseconds",
-    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator.\r\nExecution will be paused for 256 ms if the value stored in the Accumulator is equal to 0.\r\nResulting wait time ranges between 1 ms and 256 ms.",
+    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator.\r\n\r\nExecution will be paused for 256 ms if the value stored in the Accumulator is equal to 0.\r\n\r\nResulting wait time ranges between 1 ms and 256 ms.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -91,7 +91,7 @@
   },
   "DELAY_100MS": {
     "detail": "Delay in 100\u0027s of milliseconds",
-    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator multiplied by a 100.\r\nExecution will be paused for 25.6 s if the value stored in the Accumulator is equal to 0.\r\nResulting wait time ranges between 100 ms and 25.6 s.",
+    "description": "Pauses the program execution for the time, in milliseconds, stored in the Accumulator multiplied by a 100.\r\n\r\nExecution will be paused for 25.6 s if the value stored in the Accumulator is equal to 0.\r\n\r\nResulting wait time ranges between 100 ms and 25.6 s.\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -153,7 +153,7 @@
   },
   "WAIT_KEY": {
     "detail": "Wait for any key",
-    "description": "Wait for a user to press any key on the matrix keypad.\r\nNumber of key pressed is stored in the Accumulator",
+    "description": "Wait for a user to press any key on the matrix keypad.\r\n\r\nNumber of key pressed is stored in the Accumulator",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -163,7 +163,7 @@
   },
   "GET_NUM": {
     "detail": "Get BCD number",
-    "description": "Ask user for up to 4 BCD digits and store them in the memory location pointed by @R0 register.\r\nTo finish inputing a number user can either\r\n - Press the Enter key\r\n - Press the Esc key\r\n - Type 4 digits",
+    "description": "Ask user for up to 4 BCD digits and store them in the memory location pointed by @R0 register.\r\n\r\nTo finish inputing a number user can either\r\n - Press the Enter key\r\n - Press the Esc key\r\n - Type 4 digits",
     "valid_operands": [],
     "affected_flags": [
       {
@@ -179,7 +179,7 @@
   },
   "BCD_HEX": {
     "detail": "Convert BCD to hexadecimal",
-    "description": "Converts two byte BCD number, stored in the memory location pointed by @R0 register, to a hexadecimal representation of that number,\r\nand stores the result in the same two bytes pointed by the @R0 register.",
+    "description": "Converts two byte BCD number, stored in the memory location pointed by @R0 register, to a hexadecimal representation of that number,\r\n\r\nand stores the result in the same two bytes pointed by the @R0 register.\r\n\r\n**The @R0 register points to the least significang byte.**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -189,7 +189,7 @@
   },
   "HEX_BCD": {
     "detail": "Convert hexadecimal to BCD",
-    "description": "Converts two byte hexadecimal number, stored in the memory location pointed by @R0 register, to a three byte BCD representation of that number,\r\nand stores the result in the memory location pointed by @R0 register.",
+    "description": "Converts two byte hexadecimal number, stored in the memory location pointed by @R0 register, to a three byte BCD representation of that number,\r\n\r\nand stores the result in the memory location pointed by @R0 register.\r\n\r\n**The @R0 register points to the least significang byte.**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -199,7 +199,7 @@
   },
   "MUL_2_2": {
     "detail": "Multiply two two-byte numbers",
-    "description": "Multiplies a two-byte number stored in the memory location pointed by the @R0 register \r\nwith a two-byte number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register",
+    "description": "Multiplies a two-byte number stored in the memory location pointed by the @R0 register \r\nwith a two-byte number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register\r\n\r\n**The @R0 register points to the least significang byte.**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -209,7 +209,7 @@
   },
   "MUL_3_1": {
     "detail": "Multiply three-byte number by a one-byte number",
-    "description": "Multiplies a three-byte number stored in the memory location pointed by the @R0 register \r\nwith a number stored in the Accumulator.\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register",
+    "description": "Multiplies a three-byte number stored in the memory location pointed by the @R0 register \r\nwith a number stored in the Accumulator.\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register\r\n\r\n**The @R0 register points to the least significang byte.**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -219,7 +219,7 @@
   },
   "DIV_2_1": {
     "detail": "Divide two-byte number by a one-byte number",
-    "description": "Divides a two-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register.\r\n\r\nThe result will be stored as a two-byte number in the memory location pointed by the @R0 register, \r\nand the reminder will be stored in the Accumulator",
+    "description": "Divides a two-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register.\r\n\r\nThe result will be stored as a two-byte number in the memory location pointed by the @R0 register, \r\nand the reminder will be stored in the Accumulator\r\n\r\n**The @R0 register points to the least significang byte.**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,
@@ -229,7 +229,7 @@
   },
   "DIV_4_2": {
     "detail": "Divide four-byte number by a two-byte number",
-    "description": "Divides a four-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register,\r\nand the reminder will be stored as a two-byte number in the location four bytes after the memory address in the R0 register ( @(R0\u002B4) ).",
+    "description": "Divides a four-byte number stored in the memory location pointed by the @R0 register \r\nby a number stored in the B register (higher byte) and the Accumulator (lower byte).\r\n\r\nThe result will be stored as a four-byte number in the memory location pointed by the @R0 register,\r\nand the reminder will be stored as a two-byte number in the location four bytes after the memory address in the R0 register ( @(R0\u002B4) ).\r\n\r\n**The @R0 register points to the least significang byte.**",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": false,

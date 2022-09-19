@@ -1,7 +1,7 @@
 {
   "ADD": {
-    "detail": "Add to Accumulator",
-    "description": "Adds a byte value to a value stored in the accumulator, and stores the results back in the accumulator.",
+    "detail": "Dodaj do Akumulatora",
+    "description": "Dodaje bajt do warto\u015Bci przechowywanej w Akumulatorze. \r\n\r\nNast\u0119pnie zapisuje wynik dodawania w Akumulatorze.",
     "valid_operands": [
       [
         {
@@ -31,17 +31,17 @@
     "affected_flags": [
       {
         "flag": 2,
-        "when_set": "result overflows signed byte value (-128 to 127)",
+        "when_set": "wynik skutkuje w przepe\u0142nieniu warto\u015Bci bajta ze znakiem ( z 127 do -128) ",
         "when_unset": ""
       },
       {
         "flag": 6,
-        "when_set": "result exceedes 15",
+        "when_set": "wynik skutkuje przeniesieniem mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
       {
         "flag": 7,
-        "when_set": "result exceedes 255",
+        "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       }
     ],
@@ -51,8 +51,8 @@
     "prefix_required": false
   },
   "ADDC": {
-    "detail": "Add to Accumulator with Carry flag",
-    "description": "Adds a byte value and a carry flag to the accumulator, and stores the results in the accumulator.",
+    "detail": "Dodaj do Akumulatora z Flag\u0105 Przeniesienia",
+    "description": "Dodaje bajt i warto\u015B\u0107 flagi przeniesienia do warto\u015Bci przechowywanej w Akumulatorze.\r\n\r\nNast\u0119pnie zapisuje wynik dodawania w Akumulatorze.",
     "valid_operands": [
       [
         {
@@ -82,17 +82,17 @@
     "affected_flags": [
       {
         "flag": 2,
-        "when_set": "",
-        "when_unset": "result overflows signed byte value (-128 to 127)"
+        "when_set": "wynik skutkuje przepe\u0142nieniem warto\u015Bci bajta ze znakiem ( z 127 do -128) ",
+        "when_unset": ""
       },
       {
         "flag": 6,
-        "when_set": "result exceedes 15",
+        "when_set": "wynik skutkuje przeniesieniem mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
       {
         "flag": 7,
-        "when_set": "result exceedes 255",
+        "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       }
     ],
@@ -102,8 +102,8 @@
     "prefix_required": false
   },
   "SUBB": {
-    "detail": "Subtract from Accumulator With Borrow",
-    "description": "Subtract the value of operand and the Carry Flag from the value of the Accumulator, and stores the results in the accumulator.",
+    "detail": "Odejmij od Akumulatora z Po\u017Cyczeniem",
+    "description": "Odejmuje warto\u015B\u0107 operandu oraz flagi Przeniesienia (Po\u017Cyczenia) od warto\u015Bci przechowywanej w Akumulatorze.\r\n\r\nNast\u0119pnie zapisuje wynik dzia\u0142ania w Akumulatorze",
     "valid_operands": [
       [
         {
@@ -133,17 +133,17 @@
     "affected_flags": [
       {
         "flag": 2,
-        "when_set": "result overflows signed byte value (-128 to 127)",
+        "when_set": "wynik skutkuje przepe\u0142nieniem warto\u015Bci bajta ze znakiem ( z -128 do 127) ",
         "when_unset": ""
       },
       {
         "flag": 6,
-        "when_set": "lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of the Accumulator",
+        "when_set": "wynik skutkuje po\u017Cyczk\u0105 mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
       {
         "flag": 7,
-        "when_set": "value stored in operand was greater than value stored in the Accumulator",
+        "when_set": "warto\u015B\u0107 operandu jest wi\u0119ksza ni\u017C warto\u015B\u0107 przechowywana w Akumulatorze",
         "when_unset": ""
       }
     ],
@@ -153,8 +153,8 @@
     "prefix_required": false
   },
   "INC": {
-    "detail": "Increment register",
-    "description": "Increments register or data in internal RAM by 1,\r\n\r\nIf initial value equals 255 (0xFF), or 65535 in case of DPTR (0xFFFF), value is reset to 0.\r\n\r\nCarry flag is **not** set when that happens.",
+    "detail": "Inkrementuj rejestr",
+    "description": "Inkrementuje rejestr albo bajt w wewn\u0119trznej pami\u0119ci RAM o 1\r\n\r\nJe\u015Bli pocz\u0105tkowa warto\u015B\u0107 jest r\u00F3wna 255 (FFh), lub 65535 (FFFFh) w orzpadku DPTR, warto\u015B\u0107 jest ustawiona na 0.\r\n\r\nFlaga przeniesienia **nie jest** wtedy ustawiana.",
     "valid_operands": [
       [
         {
@@ -186,8 +186,8 @@
     "prefix_required": false
   },
   "DEC": {
-    "detail": "Decrement register",
-    "description": "Decrements register or data in internal RAM by 1,\r\n\r\nIf initial value equals 0 value is reset to 255 (0xFF).\r\n\r\nCarry flag is **not** set when that happens.",
+    "detail": "Dekrementuj rejestr",
+    "description": "Dekrementuje rejestr albo bajt w wewn\u0119trznej pami\u0119ci RAM o 1\r\n\r\nJe\u015Bli pocz\u0105tkowa warto\u015B\u0107 jest r\u00F3wna 0 , warto\u015B\u0107 jest ustawiona na 255 (FFh).\r\n\r\nFlaga przeniesienia **nie jest** wtedy ustawiana.",
     "valid_operands": [
       [
         {
@@ -215,8 +215,8 @@
     "prefix_required": false
   },
   "MUL": {
-    "detail": "Multiply Accumulator by B",
-    "description": "Multiplies value stored in the Accumulator by a value stored in B register.\r\n\r\nResult is split into two bytes.\r\n\r\nThe most significant byte is stored in the B register.\r\n\r\nThe least significant byte is stored in the Accumulator.",
+    "detail": "Pomn\u00F3\u017C warto\u015Bci Akumulatora i rejestru B",
+    "description": "Mno\u017Cy warto\u015B\u0107 przechowywan\u0105 w Akumulatorze przez warto\u015B\u0107 przechowywan\u0105 w rejestrze B.\r\n\r\nWynik jest z\u0142o\u017Cony z dw\u00F3ch bajt\u00F3w.\r\n\r\nNajbardziej znacz\u0105cy bajt jest umieszczany w rejestrze B.\r\n\r\nNajmniej znacz\u0105cy bajt jest umieszczany w Akumulatorze.",
     "valid_operands": [
       [
         {
@@ -228,13 +228,13 @@
     "affected_flags": [
       {
         "flag": 2,
-        "when_set": "result exceeds 255",
+        "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       },
       {
         "flag": 7,
         "when_set": "",
-        "when_unset": "always"
+        "when_unset": "zawsze"
       }
     ],
     "dont_generate_syntax": false,
@@ -243,8 +243,8 @@
     "prefix_required": false
   },
   "DIV": {
-    "detail": "Divide Accumulator by B register",
-    "description": "Devides value stored in the Accumulator by a value stored in B register.\r\n\r\nResult is split into two bytes.\r\n\r\nA quotient is stored in the Accumulator.\r\n\r\nA remainder is stored in the B register.",
+    "detail": "Podziel warto\u015B\u0107 Akumulatora przez warto\u015B\u0107 rejestru B",
+    "description": "Dzieli warto\u015B\u0107 przechowywan\u0105 w Akumulatorze przez warto\u015B\u0107 przechowywan\u0105 w rejestrze B.\r\n\r\nWynik jest z\u0142o\u017Cony z dw\u00F3ch bajt\u00F3w.\r\n\r\nIloraz jest umieszczony w Akumulatorze.\r\n\r\nReszta z dzielenia jest umieszczona w rejestrze B.",
     "valid_operands": [
       [
         {
@@ -260,8 +260,8 @@
     "prefix_required": false
   },
   "DA": {
-    "detail": "Decimal adjust Accumulator",
-    "description": "Adjusts value stored in the Accumulator to a BCD encoded number, after two BCD number were added.\r\n - 6 is added if lower nibble of the Accumulator is greater than 9 or if Auxiliary Carry flag is set.\r\n - 60 is added if higher nibble is greater than 9 (or in other words, if initial value of accumulator was greater than 90H) or if the Carry flag is set after previous operation.\r\n\r\nIn short this operation adds 00H, 06H, 60H, or 66H, based of values of Accumulartor and PSW.\r\n\r\n**This instruction does not convert hexadecimal value to a BCD encoded value, and it does not apply to BCD subtraction**",
+    "detail": "Popraw warto\u015B\u0107 w Akumulatorze (BCD)",
+    "description": "Poprawia warto\u015B\u0107 przechowywan\u0105 w akumulatorze do liczby zakodowanej w BCD, po dodaniu 2 zapisanych w ten spos\u00F3b liczb.\r\n - 6h jest dodane je\u015Bli dolny p\u00F3\u0142bajt Akumulatora jest wi\u0119kszy od 9 lub je\u015Bli flaga Pomocniczego Przeniesienia jest ustawiona.\r\n - 60h jest dodane je\u015Bli g\u00F3rny p\u00F3\u0142bajt Akumulatora jest wi\u0119kszy ni\u017C 9 (innymi s\u0142owy je\u015Bli warto\u015B\u0107 Akumulatora by\u0142a wi\u0119ksza ni\u017C 90h) lub je\u015Bli po poprzedniej operacji jest ustawiona flaga przeniesienia\r\n\r\nW skr\u00F3cie, ta operacja dodaje 00h, 06h, 60h, lub 66h w zale\u017Cno\u015Bci od warto\u015Bci Akumulatora oraz PSW\r\n\r\n**Ta instrukcja nie konwertuje warto\u015Bci szesnastkowych do warto\u015Bci zakodowanych w BCD oraz nie dzia\u0142a poprawnie z odejmowaniem liczb BCD**",
     "valid_operands": [
       [
         {
@@ -273,7 +273,7 @@
     "affected_flags": [
       {
         "flag": 7,
-        "when_set": "resulting BCD number exceeds 100",
+        "when_set": "wynik jest wi\u0119kszy ni\u017C 100",
         "when_unset": ""
       }
     ],
