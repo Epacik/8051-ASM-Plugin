@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="190"
+             x:Class="QaD8051JDE.Views.FlagEditor">
+    <StackPanel Margin="5">
+        <RadioButton x:Name="Selection" GroupName="FlagEditorGroup"/>
+        <TextBlock>Flag</TextBlock>
+        <ComboBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" x:Name="Flags"></ComboBox>
+        <TextBlock>When set</TextBlock>
+        <TextBox x:Name="WhenSet"></TextBox>
+        <TextBlock>When unset (optional)</TextBlock>
+        <TextBox x:Name="WhenUnset"></TextBox>
+    </StackPanel>
+</UserControl>

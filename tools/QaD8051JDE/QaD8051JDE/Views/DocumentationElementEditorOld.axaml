@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:QaD8051JDE.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="QaD8051JDE.Views.DocumentationElementEditorOld">
+
+    <Design.DataContext>
+        <vm:OldDocumentationElementEditor/>
+    </Design.DataContext>
+
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="5, 0">
+            <Button Click="SaveButtonClick">💾</Button>
+            <Button Click="RefreshButtonClick">↩️</Button>
+        </StackPanel>
+        
+        <ScrollViewer Grid.Row="1" Margin="5">
+            <StackPanel >
+                <TextBlock Text="Detail:"/>
+                <TextBox Text="{Binding Detail}" />
+
+                <TextBlock Text="Description"/>
+                <TextBox Text="{Binding Description}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>
+
+                <TextBlock Text="Syntax"/>
+                <TextBox Text="{Binding Syntax}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>
+
+                <TextBlock Text="Affected flags"/>
+                <TextBox Text="{Binding AffectedFlags}" AcceptsReturn="True" AcceptsTab="True" Height="150"/>
+
+                <TextBlock Text="Valid operands"/>
+                <TextBox Text="{Binding ValidOperands}" AcceptsReturn="True" AcceptsTab="True" Height="100"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        
+    </Grid>
+</UserControl>

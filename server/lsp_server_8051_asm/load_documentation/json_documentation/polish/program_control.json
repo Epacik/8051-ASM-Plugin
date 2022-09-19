@@ -1,0 +1,366 @@
+{
+  "CALL": {
+    "detail": "Call subroutine",
+    "description": "Calls a subroutine.\r\nSets value of the Program Counter to address of the next instruction and pushes it onto the stack.\r\nLeast significant byte is pushed first and the most significant byte is pushed second.\r\nAfter that the Program Counter is updated so it points to a subroutine.\r\n**This instruction is a placeholder. It get\u0027s replaced by either ACALL or LCALL, whichever is more fitting.**",
+    "valid_operands": [
+      [
+        {
+          "operand": 1,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "ACALL": {
+    "detail": "Absolute Call",
+    "description": "Calls a subroutine within a 2K block of memory.\r\nSets value of the Program Counter to address of the next instruction and pushes it onto the stack.\r\nLeast significant byte is pushed first and the most significant byte is pushed second.\r\nAfter that a least significant byte of the Program Counter replaced by the second byte of the instruction, \r\nand the three least significant bits (0-2) of PC with bits indicating a page.\r\nOther bits of the most significant byte of the Program Counter are unchanged.",
+    "valid_operands": [
+      [
+        {
+          "operand": 1,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "LCALL": {
+    "detail": "Long Call",
+    "description": "Calls a subroutine.\r\nSets value of the Program Counter to address of the next instruction and pushes it onto the stack.\r\nLeast significant byte is pushed first and the most significant byte is pushed second.\r\nAfter that the Program Counter is updated so it points to a subroutine.\r\n",
+    "valid_operands": [
+      [
+        {
+          "operand": 1,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "RET": {
+    "detail": "Return from subroutine",
+    "description": "Return from a subroutine called by LCALL or ACALL.\r\nPops two bytes off the stack and stores them in the Program Counter.\r\nLeast significant byte is popped first.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "RETI": {
+    "detail": "Return from interrupt",
+    "description": "Return from a interrupt.\r\nEnables interrupts of lower or equal priority to the one the program is returning from, \r\nand then pops two bytes off the stack and stores them in the Program Counter.\r\nLeast significant byte is popped first.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "AJMP": {
+    "detail": "Absolute Jump",
+    "description": "Jump to an address within a 2K block of memory.\r\nA least significant byte of the Program Counter replaced by the second byte of the instruction, \r\nand the three least significant bits (0-2) of PC with bits indicating a page.\r\nOther bits of the most significant byte of the Program Counter are unchanged.",
+    "valid_operands": [
+      [
+        {
+          "operand": 1,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "LJMP": {
+    "detail": "Long Jump",
+    "description": "Jumps to a specified address.\r\nSets a value of the Program Counter to a provided address.",
+    "valid_operands": [
+      [
+        {
+          "operand": 1,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "SJMP": {
+    "detail": "Short Jump",
+    "description": "Jump to a relative address.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.\r\nResult of that addition is stored back in the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JMP": {
+    "detail": "Jump",
+    "description": "Jump to an address.\r\nIf @A\u002BDPTR is a provided operand jumps to an address that is a sum of values of the Accumulator and DPTR.\r\nOtherwise it gets replaced by AJMP, LJMP, or SJMP instructions.",
+    "valid_operands": [
+      [
+        {
+          "operand": 14,
+          "when_first_is": 0
+        },
+        {
+          "operand": 1,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "CJNE": {
+    "detail": "Compare and jump if not equal",
+    "description": "Compare and jump if not equal.\r\nJumps to a relative address if values of two operands are not equal, otherwise program continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        },
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 3,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 12
+        }
+      ],
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [
+      {
+        "flag": 7,
+        "when_set": "value of a first operand is less than value of a second operand",
+        "when_unset": ""
+      }
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "DJNZ": {
+    "detail": "Decrement and jump if not zero",
+    "description": "Decrements value of an operand by 1.\r\nIf the resulting value is not equal zero jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JB": {
+    "detail": "Jump if bit set",
+    "description": "If a provided bit is set, jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 9,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JBC": {
+    "detail": "Jump if bit not set and clear it",
+    "description": "If a provided bit is set, clears that bit and jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 9,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JC": {
+    "detail": "Jump if Carry set",
+    "description": "If the Carry flag is set, jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JNC": {
+    "detail": "Jump if Carry not set",
+    "description": "If the Carry flag is not set, jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JNB": {
+    "detail": "Jump if bit not set",
+    "description": "If a provided bit is not set, jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 9,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JZ": {
+    "detail": "Jump if Accumulator is zero",
+    "description": "If a value of the Accumulator equals zero, jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "JNZ": {
+    "detail": "Jump if Accumulator is not zero",
+    "description": "If a value of the Accumulator is not equal zero, jumps to a relative address, otherwise continues to the next instruction.\r\nProvided address is treated as an signed byte (-128 to 127) and is added to the Program Counter.",
+    "valid_operands": [
+      [
+        {
+          "operand": 11,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "NOP": {
+    "detail": "No Operation",
+    "description": "Does nothing for a single cycle",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  }
+}

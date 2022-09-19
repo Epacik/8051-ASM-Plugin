@@ -2,3 +2,17 @@ out
 node_modules
 client/server
 .vscode-test
+.idea
+
+plugins/vscode/8051-support/yarn-error.log
+
+
+
+server/lsp_server_8051_asm/target/
+server/lsp_server_8051_asm/target/*
+
+server/lsp_server_8051_asm/load_documentation/target/
+server/lsp_server_8051_asm/load_documentation/target/*
+.vs
+bin
+obj

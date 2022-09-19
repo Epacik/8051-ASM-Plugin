@@ -1,0 +1,112 @@
+{
+  "TF0;TF1": {
+    "detail": "Timer zosta\u0142 Przepe\u0142niony ",
+    "description": "Zostaje ustawiony na 1 gdy Timer zostanie przepe\u0142niony (przej\u015Bcie mi\u0119dzy wszystkimi bitami r\u00F3wnymi 1 do wszystkich bit\u00F3w r\u00F3wnych 0).\r\n\r\nZostaje zresetowany po wykonaniu wektora przerwania zwi\u0105zanego z tym przepe\u0142nieniem (Timer 0: 000Bh, Timer 1: 001Bh).",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "TR0;TR1": {
+    "detail": "Uruchom Timer",
+    "description": "Gdy ustawiony na 1 Timer zostaje uruchomiony,\r\nGdy zresetowany Timer zostaje zatrzymany\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "IE0;IE1": {
+    "detail": "Przerwanie Zewn\u0119trzne",
+    "description": "Zostaje ustawiony gdy na porcie 3.3 pojawi si\u0119 przej\u015Bcie z wysokiego do niskiego stanu sygna\u0142u. \r\n\r\nZostaje zresetowany po wykonaniu zwi\u0105zanego wektora przerwania (Zewn\u0119trzne przerwanie 0: 0003h, Zewn\u0119trzne przerwanie 1: 0013h)",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "IT0;IT1": {
+    "detail": "Rodzaj Przerwania zewn\u0119trznego",
+    "description": "Kiedy jest ustawiony (1) przerwanie b\u0119dzie generowane podczas przej\u015Bcia mi\u0119dzy stanem wysokim a niskim na porcie 3.2/3.3,\r\n\r\nje\u015Bli b\u0119dize zresetowany (0) przerwanie b\u0119dzie generowane gdy sygna\u0142 na porcie 3.2/3.3 b\u0119dzie niski",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "CY;PSW.7": {
+    "detail": "Flaga przeniesienia",
+    "description": "Ustawiona kiedy wynik dodawania jest wi\u0119kszy ni\u017C 255 \r\n\r\nlub kiedy podczas odejmowania odjemnik jest wi\u0119kszy ni\u017C odjemna.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "AC;PSW.6": {
+    "detail": "Dodatkowa flaga przeniesienia",
+    "description": "U\u017Cywana do operacji na liczbach BCD.\r\n\r\nUstawiona je\u015Bli operacje ADD lub SUBB spowoduj\u0105 przeniesienie/po\u017Cyczk\u0119 pomi\u0119dzy bitami 3 i 4.\r\n\r\nJe\u015Bli to nie nast\u0105pi flaga jest wyczyszczona.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "F0;PSW.5": {
+    "detail": "Flaga og\u00F3lnego przeznaczenia",
+    "description": "Programista mo\u017Ce zdecydowa\u0107 do czego jest u\u017Cywana.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "RS1;PSW.4;RS0;PSW.3": {
+    "detail": "Register bank selector",
+    "description": "Bits RS0 and RS1 (PSW.3 and PSW.4 respectively) are used to select a bank of registers (where registers R0-R7 are in RAM).\r\n*By default the Stack Pointer points at 08h. This means that using the stack without changing it\u0027s default address *will* change values of registers R0-R7 in banks 1, 2, and 3*\r\n\r\nTo select a specific bank change values of R0 and R1 to values depicted below\r\n| RS1 | RS0 | Selected bank | Available at address |\r\n| --- | --- | ------------- | -------------------- |\r\n| 0   | 0   | Bank 0        | 00h - 07h            |\r\n| 0   | 1   | Bank 1        | 08h - 0Fh            |\r\n| 1   | 0   | Bank 2        | 10h - 17h            |\r\n| 1   | 1   | Bank 3        | 18h - 1Fh            |\r\n",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "OV;PSW.2": {
+    "detail": "Overflow flag",
+    "description": "Overflow flag\r\nIndicates overflow of a signed value.\r\nSet when a value of a signed addition or subtraction rolls over from -128 to 127 \r\nor the other way around.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": true,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "PSW.1": {
+    "detail": "User defined bit",
+    "description": "User defined bit\r\nUser can decide what is it used for",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "P;PSW.0": {
+    "detail": "Parity flag",
+    "description": "Parity flag\r\nIndicates odd or even number of set bits in accumulator. Updated on every cycle.",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  }
+}

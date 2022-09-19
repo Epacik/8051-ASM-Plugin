@@ -1,0 +1,20 @@
+{
+  "asm8051.commands.openDocs": "8051 Microcontroller Assembly Support: Open documentation",
+  "asm8051.config.maxNumberOfProblems": "Controls the maximum number of problems produced by the server.",
+  "asm8051.config.trace_server": "Traces the communication between VS Code and the language server.",
+  "asm8051.config.kit.generic": "Turns on documentation and diagnostics for assembly instructions only",
+  "asm8051.config.kit.dsm51": "Turns on documentation and diagnostics for assembly instructions and subroutines available in DSM-51",
+  "asm8051.config.kit.description": "Changes available set of documentation and diagnostics",
+  "asm8051.config.language": "Changes language of showed documentation, diagnostics, errors and more",
+  "asm8051.views.documentationPanel.creatingView": "Creating a webview with documentation",
+  "asm8051.views.documentationPanel.title": "8051 Documentation",
+  "asm8051.messages.activateExtension": "Activating 8051 microcontroller assembly support plugin",
+  "asm8051.views.documentationPanel.categories.registers": "Registers",
+  "asm8051.views.documentationPanel.categories.program_control": "Program control instructions",
+  "asm8051.views.documentationPanel.categories.arithmetic": "Arithmetic instructions",
+  "asm8051.views.documentationPanel.categories.logical": "Logical instructions",
+  "asm8051.views.documentationPanel.categories.data_transfer": "Data transfer instructions",
+  "asm8051.views.documentationPanel.categories.directives": "Directives",
+  "asm8051.views.documentationPanel.categories.flags_and_bits": "Flags and bits",
+  "asm8051.views.documentationPanel.categories.dsm51": "DSM-51"
+}

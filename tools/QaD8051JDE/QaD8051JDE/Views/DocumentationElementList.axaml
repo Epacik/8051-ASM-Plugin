@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:QaD8051JDE.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="QaD8051JDE.Views.DocumentationElementList">
+
+    <Design.DataContext>
+        <vm:DocumentationElementListViewModel/>
+    </Design.DataContext>
+    
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Elements" VerticalAlignment="Center" Margin="10"/>
+            <Button Click="AddMnemonicButtonClick">➕</Button>
+            <Button Click="RemoveMnemonicButtonClick">➖</Button>
+            <Button Click="EditMnemonicButtonClick">✏️</Button>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <ListBox x:Name="ElementList"
+                     Items="{Binding Elements}"
+                     SelectionChanged="ElementList_SelectionChanged"
+                     SelectedItem="{Binding SelectedElement}"
+                     SelectionMode="Single">
+            </ListBox>
+        </ScrollViewer>
+
+        <ContentControl Content="{Binding Editor}" Grid.Column="1" Grid.RowSpan="2"/>
+    </Grid>
+</UserControl>

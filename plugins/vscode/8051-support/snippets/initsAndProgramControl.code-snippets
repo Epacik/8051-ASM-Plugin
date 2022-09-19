@@ -1,0 +1,28 @@
+{
+    "Init":{
+        "prefix": ["init", "start"],
+        "body": [
+            "\tLJMP  START",
+            "\tORG  100H",
+            "START:",
+            "\t$0",
+            "\tSJMP  START"
+            ],
+        "description": "Boilerplate for a program"
+    },
+    "Procedure":{
+        "prefix": ["proc"],
+        "body": [
+            "${1:PROCEDURE}:",
+            "\t$0",
+            "\tRET",
+            ],
+        "description": "Boilerplate for a subroutine"
+    },
+}
+
+
+
+
+
+

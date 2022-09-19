@@ -1,0 +1,1 @@
+code ..\plugins\vscode\8051-support\; code ..\server\lsp_server_8051_asm\

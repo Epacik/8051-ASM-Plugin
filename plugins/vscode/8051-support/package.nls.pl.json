@@ -1,0 +1,20 @@
+{
+  "asm8051.commands.openDocs": "8051 Microcontroller Assembly Support: Otwórz dokumentację",
+  "asm8051.config.maxNumberOfProblems": "Kontroluje maksymalną liczbę problemów generowanych przez serwer.",
+  "asm8051.config.trace_server": "Śledzi komunikację między programem VS Code a serwerem języka.",
+  "asm8051.config.kit.description": "Zmienia dostępny zestaw dokumentacji i diagnostyki",
+  "asm8051.config.kit.dsm51": "Włącza dokumentację i diagnostykę instrukcji i podprogramów dostępnych w DSM-51",
+  "asm8051.config.kit.generic": "Włącza dokumentację i diagnostykę tylko dla instrukcji ",
+  "asm8051.config.language": "Zmienia język pokazywanej dokumentacji, diagnostyki, błędów i nie tylko",
+  "asm8051.views.documentationPanel.creatingView": "Tworzenie widoku internetowego z dokumentacją",
+  "asm8051.views.documentationPanel.title": "Dokumentacja 8051",
+  "asm8051.messages.activateExtension": "Aktywacja wtyczki obsługi asemblera mikrokontrolera 8051",
+  "asm8051.views.documentationPanel.categories.arithmetic": "Instrukcje arytmetyczne",
+  "asm8051.views.documentationPanel.categories.data_transfer": "Instrukcje przesyłania danych",
+  "asm8051.views.documentationPanel.categories.program_control": "Instrukcje sterowania programem",
+  "asm8051.views.documentationPanel.categories.logical": "Instrukcje logiczne",
+  "asm8051.views.documentationPanel.categories.registers": "Rejestry",
+  "asm8051.views.documentationPanel.categories.directives": "Dyrektywy",
+  "asm8051.views.documentationPanel.categories.flags_and_bits": "Flagi i bity",
+  "asm8051.views.documentationPanel.categories.dsm51": "DSM-51"
+}

@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Cargo test",
+            "cargo": {
+                "args": [
+                    "test",
+                    "-p",
+                    "load_documentation",
+                    "--lib",
+                    "tests"
+                ]
+            },
+            "program": "${cargo:program}",
+            "args": []
+        }
+        
+        
+    ]
+}

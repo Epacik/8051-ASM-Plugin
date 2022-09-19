@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:QaD8051JDE.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="QaD8051JDE.Views.FilesList">
+    <Design.DataContext>
+        <vm:FilelListViewModel/>
+    </Design.DataContext>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="210"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Categories" VerticalAlignment="Center" Margin="10"/>
+            <Button Click="AddFileButtonClick">➕</Button>
+            <Button Click="RemoveFileButtonClick">➖</Button>
+            <Button Click="EditFileNameButtonClick">✏️</Button>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <ListBox x:Name="CategoryList"
+                     Items="{Binding Categories}"
+                     SelectionChanged="CategoryList_SelectionChanged"
+                     SelectedItem="{Binding SelectedCategory}"
+                     SelectionMode="Single">
+            </ListBox>
+        </ScrollViewer>
+
+        <ContentControl Content="{Binding DocumentationElements}" Grid.Column="1" Grid.RowSpan="2"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,275 @@
+{
+  "MOV": {
+    "detail": "Move ",
+    "description": "Move data from second operand to the first one.\r\n\r\nBoth operands have to be in the internal RAM.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        },
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 9,
+          "when_first_is": 0
+        },
+        {
+          "operand": 8,
+          "when_first_is": 0
+        },
+        {
+          "operand": 15,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 12,
+          "when_first_is": 6
+        },
+        {
+          "operand": 12,
+          "when_first_is": 7
+        },
+        {
+          "operand": 12,
+          "when_first_is": 5
+        },
+        {
+          "operand": 6,
+          "when_first_is": 12
+        },
+        {
+          "operand": 6,
+          "when_first_is": 5
+        },
+        {
+          "operand": 9,
+          "when_first_is": 8
+        },
+        {
+          "operand": 8,
+          "when_first_is": 9
+        },
+        {
+          "operand": 3,
+          "when_first_is": 6
+        },
+        {
+          "operand": 3,
+          "when_first_is": 12
+        },
+        {
+          "operand": 3,
+          "when_first_is": 7
+        },
+        {
+          "operand": 3,
+          "when_first_is": 5
+        },
+        {
+          "operand": 4,
+          "when_first_is": 15
+        },
+        {
+          "operand": 5,
+          "when_first_is": 6
+        },
+        {
+          "operand": 5,
+          "when_first_is": 12
+        },
+        {
+          "operand": 5,
+          "when_first_is": 7
+        },
+        {
+          "operand": 5,
+          "when_first_is": 5
+        },
+        {
+          "operand": 7,
+          "when_first_is": 12
+        },
+        {
+          "operand": 7,
+          "when_first_is": 5
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "MOVC": {
+    "detail": "Move from Code",
+    "description": "Move a byte from specified address into the Accumulator.\r\n\r\nAddress of code is calculated by adding value stored in the Accumulator and either DPTR or PC.\r\n\r\nPC is incremented before adding.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 14,
+          "when_first_is": 0
+        },
+        {
+          "operand": 17,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "MOVX": {
+    "detail": "Move between external memory and the accumulator",
+    "description": "Move between external memory and the accumulator.\r\n\r\nUses either 8 bit or 16 bit address to external memory.\r\n",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        },
+        {
+          "operand": 16,
+          "when_first_is": 0
+        },
+        {
+          "operand": 6,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 12,
+          "when_first_is": 16
+        },
+        {
+          "operand": 12,
+          "when_first_is": 6
+        },
+        {
+          "operand": 16,
+          "when_first_is": 12
+        },
+        {
+          "operand": 6,
+          "when_first_is": 12
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "PUSH": {
+    "detail": "Push onto stack",
+    "description": "Increments the Stack Pointer and copies value stored under provided internal RAM address to memory pointed by the stack pointer.",
+    "valid_operands": [
+      [
+        {
+          "operand": 5,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "POP": {
+    "detail": "Pop from stack",
+    "description": "Stores value pointed to by the Stack Pointer in under the provided internal RAM address and then decrements the Stack Pointer.",
+    "valid_operands": [
+      [
+        {
+          "operand": 5,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "XCH": {
+    "detail": "Exchange bytes",
+    "description": "Stores a value of the Accumulator in a second operand and stores a value of the second operand in the Accumulator.",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 6,
+          "when_first_is": 0
+        },
+        {
+          "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 7,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "XCHD": {
+    "detail": "Exchange digit",
+    "description": "Stores a lower nibble (bits 0-3) of the Accumulator in a second operand and stores a lower nibble of the second operand in the Accumulator.\r\n\r\nOperation exchanges lower nibbles of both values (bits 0-3). \r\n\r\nIt does not affect higher nibbles (bit 4-7).",
+    "valid_operands": [
+      [
+        {
+          "operand": 12,
+          "when_first_is": 0
+        }
+      ],
+      [
+        {
+          "operand": 6,
+          "when_first_is": 0
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  }
+}

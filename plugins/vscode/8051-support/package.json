@@ -1,0 +1,163 @@
+{
+	"name": "asm8051",
+	"displayName": "8051 Microcontroller Assembly Support",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.54.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:asm8051.openDocs",
+		"onLanguage:asm8051",
+		"onView:asm8051-docs-list"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "asm8051.openDocs",
+				"title": "%asm8051.commands.openDocs%"
+			}
+		],
+		"languages": [
+			{
+				"id": "asm8051",
+				"extensions": [
+					".asm",
+					".h51",
+					".a51"
+				],
+				"aliases": [
+					"8051",
+					"8051 Assembly"
+				]
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "8051 Support",
+			"properties": {
+				"asm8051.maxNumberOfProblems": {
+					"scope": "resource",
+					"type": "number",
+					"default": 100,
+					"description": "%asm8051.config.maxNumberOfProblems%"
+				},
+				"asm8051.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "off",
+					"description": "%asm8051.config.trace_server%"
+				},
+				"asm8051.kit": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"generic",
+						"DSM-51"
+					],
+					"enumDescriptions": [
+						"%asm8051.config.kit.generic%",
+						"%asm8051.config.kit.dsm51%"
+					],
+					"default": "generic",
+					"description": "%asm8051.config.kit.description%"
+				},
+				"asm8051.language": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"default",
+						"english",
+						"polski"
+					],
+					"default": "default",
+					"description": "%asm8051.config.language%"
+				}
+			}
+		},
+		"grammars": [
+			{
+				"language": "asm8051",
+				"scopeName": "source.asm8051",
+				"path": "./syntax/asm.tmLanguage.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "asm8051",
+				"path": "./snippets/arthmetic.code-snippets"
+			},
+			{
+				"language": "asm8051",
+				"path": "./snippets/boolean.code-snippets"
+			},
+			{
+				"language": "asm8051",
+				"path": "./snippets/dataTransfer.code-snippets"
+			},
+			{
+				"language": "asm8051",
+				"path": "./snippets/initsAndProgramControl.code-snippets"
+			},
+			{
+				"language": "asm8051",
+				"path": "./snippets/logical.code-snippets"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "asm8051-docs-list-container",
+					"title": "%asm8051.views.documentationPanel.title%",
+					"icon": "resources/docs.svg"
+				}
+			]
+		},
+		"views": {
+			"asm8051-docs-list-container": [
+				{
+					"id": "asm8051-docs-list",
+					"name": "%asm8051.views.documentationPanel.title%"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "yarn run compile",
+		"compile": "tsc -b ./",
+		"watch": "tsc -watch -b ./",
+		"pretest": "yarn run compile && yarn run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.4",
+		"@types/mocha": "^9.0.0",
+		"@types/node": "14.x",
+		"@typescript-eslint/eslint-plugin": "^5.1.0",
+		"@typescript-eslint/parser": "^5.1.0",
+		"@vscode/test-electron": "^1.6.2",
+		"eslint": "^8.1.0",
+		"glob": "^7.1.7",
+		"mocha": "^9.1.3",
+		"typescript": "^4.4.4",
+		"vscode-nls-dev": "^4.0.0"
+	},
+	"dependencies": {
+		"@types/vscode": "^1.62.0",
+		"@vscode/webview-ui-toolkit": "^0.8.5",
+		"net": "^1.0.2",
+		"vscode-languageclient": "^7.0.0",
+		"vscode-nls": "^5.0.0",
+		"vscode-nls-i18n": "^0.2.4"
+	}
+}
