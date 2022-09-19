@@ -1,5 +1,5 @@
 //#region imports hell
-use crate::{diagnostics, hover, client_configuration::ClientConfiguration};
+use crate::{diagnostics, hover, client_configuration::ClientConfiguration, flags::Locale, LANG_ID};
 use dashmap::DashMap;
 use tower_lsp::{
     Client, LanguageServer,
@@ -9,7 +9,7 @@ use tower_lsp::{
         DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
         HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
         MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
-        Url, DidChangeTextDocumentParams,}
+        DidChangeTextDocumentParams,}
 };
 
 use serde_json::Value;
@@ -21,6 +21,7 @@ use std::{
     sync::Arc,
 };
 //#endregion imports
+
 
 /// Connection with a client and additional configutation
 #[derive(Debug)]
@@ -36,6 +37,8 @@ pub(crate) struct Backend {
 
     /// configuration received from client
     pub(crate) client_configuration: Arc<Mutex<ClientConfiguration>>,
+
+    pub(crate) client_locale: Arc<Mutex<Locale>>,
 }
 
 #[tower_lsp::async_trait]
@@ -70,6 +73,20 @@ impl LanguageServer for Backend {
         // capability to show documentation on hover
         result.capabilities.hover_provider = Option::from(HoverProviderCapability::Simple(true));
 
+        self.update_configuration().await;
+        
+        let locale = match params.locale.unwrap_or_default().as_str() {
+            "pl" => Locale::POLISH,
+            _ => Locale::ENGLISH,
+        };
+        try_update_mutex_value(
+            self.client_locale.borrow(),
+            locale).await;
+
+        crate::localizer()
+            .select(&[locale.lang_name().parse().unwrap()])
+            .unwrap();
+
         Ok(result)
     }
 
@@ -101,12 +118,13 @@ impl LanguageServer for Backend {
     async fn did_change_configuration(&self, _params: DidChangeConfigurationParams) {
         println!("{}", crate::localize!("configuration-changed"));
 
+        self.update_configuration().await;
         self.validate_all_documents().await;
     }
 
     async fn completion(&self, _params: CompletionParams) -> Result<Option<CompletionResponse>> {
         println!("completion!");
-        let _locale = self.client_configuration.lock().await.display_locale();
+        let _locale = self.client_locale().await;
         let documentation = hover::all_documentation(_locale);
 
         if documentation.is_none() {
@@ -152,6 +170,7 @@ impl LanguageServer for Backend {
             _params.text_document_position_params.position,
             document.borrow(),
             config.borrow(),
+            self.client_locale().await
         );
 
         Ok(Some(Hover {
@@ -164,6 +183,11 @@ impl LanguageServer for Backend {
     #[allow(unused_mut)]
     async fn did_open(&self, _params: DidOpenTextDocumentParams) {
         println!("file open");
+
+        if _params.text_document.language_id != String::from(LANG_ID) {
+            return;
+        }
+
         let file_uri = _params.text_document.uri.as_str();
         let file = _params.text_document.clone();
 
@@ -175,23 +199,31 @@ impl LanguageServer for Backend {
     /// remove file from local HashMap of opened files
     #[allow(unused_mut)]
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {
-        println!("file closed");
-        let file_url = _params.text_document.uri.as_str();
 
-        self.documents.remove(file_url);
+        println!("file closed");
+        let file_uri = _params.text_document.uri.as_str();
+
+        if self.documents.contains_key(file_uri.borrow()) {
+            self.documents.remove(file_uri);
+        }
     }
 
     async fn did_change(&self, mut params: DidChangeTextDocumentParams) {
+
         self.client
             .log_message(MessageType::INFO, "file changed!")
             .await;
         let file_uri = params.text_document.uri.to_string();
 
+        if !self.documents.contains_key(file_uri.as_str()) {
+            return;
+        }
+
         let document = TextDocumentItem {
             uri:params.text_document.uri,
             text: std::mem::take(&mut params.content_changes[0].text),
             version:params.text_document.version, 
-            language_id: String::from("asm8051")
+            language_id: String::from(LANG_ID)
         };
         
 
@@ -216,15 +248,7 @@ impl Backend {
             return;
         }
         
-        let mut config: bool = true;
         for res in self.documents.iter() {
-            if config {
-                try_update_mutex_value(
-                    self.client_configuration.borrow(), 
-                    self.ask_for_configuration(res.uri.clone()).await).await;
-
-                config = false;
-            }
             self.validate_document(res.pair().1.borrow()).await;
         }
     }
@@ -241,8 +265,16 @@ impl Backend {
             .await;
     }
 
+    async fn update_configuration(&self) {
+        let config = self.ask_for_configuration().await;
+        try_update_mutex_value(
+            self.client_configuration.borrow(),
+            config).await;
+    }
+
     /// Get new configuration from the client if it's capable of it
-    async fn ask_for_configuration(&self, uri: Url) -> ClientConfiguration {
+    async fn ask_for_configuration(&self) -> ClientConfiguration {
+    // async fn ask_for_configuration(&self, uri: Url) -> ClientConfiguration {
         // can the client provide it's configuration
         
         if !has_configuration_capability(self.client_capabilities.lock().await.clone()) {
@@ -253,8 +285,9 @@ impl Backend {
         let config_result = self
             .client
             .configuration(vec![ConfigurationItem {
-                scope_uri: Option::Some(uri),
-                section: Option::Some(String::from("asm8051")),
+                // scope_uri: Option::Some(uri),
+                scope_uri: Option::None,
+                section: Option::Some(String::from(LANG_ID)),
             }])
             .await;
 
@@ -275,28 +308,19 @@ impl Backend {
             }
         }
 
-        let ui_locale = self.client_configuration.lock().await.ui_locale.clone();
         
 
         let new_configuration = ClientConfiguration {
             max_number_of_problems: newconfig.max_number_of_problems,
             kit: newconfig.kit,
-            locale: newconfig.locale,
-            ui_locale: ui_locale,
         };
-
-        let new_display_locale = new_configuration.display_locale().lang_name();
-
-        crate::localizer()
-            .select(&[new_display_locale.parse().unwrap()])
-            .unwrap();
 
         new_configuration
     }
 
     
     pub async fn get_all_documentation(&self) -> Result<Option<Value>> {
-        let _locale = self.client_configuration.lock().await.display_locale();
+        let _locale = self.client_locale().await;
         let docs_option = hover::all_documentation(_locale);
         if docs_option.is_none() {
             return Ok(Option::None);
@@ -334,7 +358,12 @@ impl Backend {
             documents: DashMap::new(),
             client_capabilities: Arc::new(Mutex::new(ClientCapabilities::default())),
             client_configuration: Arc::new(Mutex::new(ClientConfiguration::default())),
+            client_locale: Arc::new(Mutex::new(Locale::ENGLISH)),
         }
+    }
+
+    async fn client_locale(&self) -> Locale {
+        self.client_locale.lock().await.clone()
     }
 }
 

@@ -52,7 +52,7 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
             let prefix = item.prefix;
             let prefix_required = item.prefix_required;
 
-            for partial_key in key.split(";") {
+            for partial_key in key.split(";") { 
                 let pkey = partial_key.trim();
                 items.push(quote::quote!{ ( std::string::String::from(#pkey), crate::hover::Documentation {
                     detail: std::string::String::from(#detail),

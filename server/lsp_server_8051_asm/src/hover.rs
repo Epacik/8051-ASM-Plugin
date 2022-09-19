@@ -186,16 +186,9 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
 pub(crate) fn documentation(
     position: Position,
     document: &TextDocumentItem,
-    configuration: &ClientConfiguration,
+    _configuration: &ClientConfiguration,
+    locale: Locale
 ) -> Vec<MarkedString> {
-
-    let locale: Locale;
-
-    if configuration.locale() == Locale::DEFAULT {
-        locale = configuration.ui_locale();
-    } else {
-        locale = configuration.locale();
-    }
 
     let symbol = get_symbol(document, position);
 
@@ -318,7 +311,7 @@ fn documentation_predefined(mnemonic: String, locale: Locale) -> Vec<MarkedStrin
     let tmp = syntax((mnemonic, documentation.clone()));
     if tmp != "" {
         documentation_vector.push(MarkedString::LanguageString(LanguageString {
-            language: "asm8051".to_string(),
+            language: crate::LANG_ID.to_string(),
             value: tmp.to_string(),
         }));
     }

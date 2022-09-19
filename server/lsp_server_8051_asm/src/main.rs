@@ -39,6 +39,7 @@ async fn main() {
         .await;
 }
 
+pub (crate) static LANG_ID: &str = "asm8051";
 //#region localization
 #[derive(RustEmbed)]
 #[folder = "i18n/"]
