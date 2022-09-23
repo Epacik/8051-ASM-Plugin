@@ -43,7 +43,7 @@ pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
 }
 
 fn syntax_one_operand(key: String, operands: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [operand]\n\n",prefix, key);
+    let mut result = format!("{}{} [{}]\n\n", prefix, key, crate::localize!("hover-operand"));
 
     for operand in operands {
         result.push_str(format!("{}{} [{}]\n", prefix, key, operand.operand().label()).as_str());
@@ -54,7 +54,7 @@ fn syntax_one_operand(key: String, operands: &Vec<ValidOperand>, prefix: String)
 }
 
 fn syntax_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [operand0], [operand1]\n\n", prefix,  key);
+    let mut result = format!("{}{} [{}], [{}]\n\n", prefix,  key, crate::localize!("hover-operand0"), crate::localize!("hover-operand1"));
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
@@ -70,7 +70,12 @@ fn syntax_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &V
 }
 
 fn syntax_three_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, operands2: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [operand0], [operand1], [operand2]\n\n", prefix, key);
+    let mut result = format!("{}{} [{}], [{}], [{}]\n\n",
+        prefix,
+        key,
+        crate::localize!("hover-operand0"), 
+        crate::localize!("hover-operand1"), 
+        crate::localize!("hover-operand2"));
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
@@ -116,7 +121,8 @@ pub(crate) fn generate_affected_flags(flags: Vec<Flag>) -> String {
         result.push_str("**: ");
 
         if !flag.when_set.is_empty() {
-            result.push_str("set when ");
+            result.push_str(crate::localize!("hover-setWhen").as_str());
+            result.push_str(" ");
             result.push_str(flag.when_set.as_str());
         }
 
@@ -125,7 +131,8 @@ pub(crate) fn generate_affected_flags(flags: Vec<Flag>) -> String {
         }
 
         if !flag.when_unset.is_empty() {
-            result.push_str("unset when ");
+            result.push_str(crate::localize!("hover-unsetWhen").as_str());
+            result.push_str(" ");
             result.push_str(flag.when_set.as_str());
         }
 
@@ -163,7 +170,8 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
 
         for i in 0..filtered.len() {
 
-            result.push_str("**Operand");
+            result.push_str("**");
+            result.push_str(crate::localize!("hover-Operand__cap").as_str());
             result.push_str(i.to_string().as_str());
             result.push_str("**: \n");
 
@@ -239,11 +247,17 @@ fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> 
     documentation_vector
 }
 
-fn documentation_number(number: String, locale: Locale) -> Vec<MarkedString> {
-    let labels = match locale {
-        Locale::POLISH => ("Binarnie", "Dziesiętnie", "Szesnastkowo"),
-        _              => ("Binary",   "Decimal",     "Hexadecimal"),
-    };
+fn clean_markdown(tmp: &str) -> String {
+    String::from(tmp)
+}
+
+fn documentation_number(number: String, _locale: Locale) -> Vec<MarkedString> {
+    
+    let labels: (String, String, String) = (
+        crate::localize!("hover-documentationNumber-label-binary"),
+        crate::localize!("hover-documentationNumber-label-decimal"),
+        crate::localize!("hover-documentationNumber-label-hexadecimal")
+    );
 
     let parse_result: Result<i32, std::num::ParseIntError>;
 

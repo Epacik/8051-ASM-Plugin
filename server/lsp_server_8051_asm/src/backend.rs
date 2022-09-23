@@ -127,7 +127,7 @@ impl LanguageServer for Backend {
         }
 
         self.client
-            .log_message(MessageType::INFO, "server initialized!")
+            .log_message(MessageType::INFO, crate::localize!("server-initialized"))
             .await;
     }
 
@@ -179,7 +179,7 @@ impl LanguageServer for Backend {
         if document.is_none() {
             return Err(Error {
                 code: ErrorCode::ServerError(002),
-                message: "An error occurred while reading document".to_string(),
+                message: crate::localize!("error-document-read"),
                 data: None,
             });
         }
@@ -197,6 +197,7 @@ impl LanguageServer for Backend {
         Ok(Some(Hover {
             contents: HoverContents::Array(doc),
             range: None,
+            
         }))
     }
 
