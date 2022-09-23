@@ -1,7 +1,7 @@
 {
   "ANL": {
-    "detail": "Bitwise AND",
-    "description": "Performs a bitwise AND operation between operands.\r\n\r\nDoes not affect value of second operand.",
+    "detail": "Bitowy AND",
+    "description": "Przeprowadza bitow\u0105 operacj\u0119 AND pomi\u0119dzy operandami.\r\n\r\nNie wp\u0142ywa na warto\u015B\u0107 drugiego operandu.",
     "valid_operands": [
       [
         {
@@ -55,8 +55,8 @@
     "prefix_required": false
   },
   "ORL": {
-    "detail": "Bitwise OR",
-    "description": "Performs a bitwise OR operation between operands.\r\n\r\nDoes not affect value of second operand.",
+    "detail": "Bitowy OR",
+    "description": "Przeprowadza bitow\u0105 operacj\u0119 OR pomi\u0119dzy operandami.\r\n\r\nNie wp\u0142ywa na warto\u015B\u0107 drugiego operandu.",
     "valid_operands": [
       [
         {
@@ -110,8 +110,8 @@
     "prefix_required": false
   },
   "XRL": {
-    "detail": "Bitwise XOR",
-    "description": "Performs a bitwise XOR operation between operands.\r\n\r\nDoes not affect value of second operand.",
+    "detail": "Bitowy XOR",
+    "description": "Przeprowadza bitow\u0105 operacj\u0119 XOR pomi\u0119dzy operandami.\r\n\r\nNie wp\u0142ywa na warto\u015B\u0107 drugiego operandu.",
     "valid_operands": [
       [
         {
@@ -165,8 +165,8 @@
     "prefix_required": false
   },
   "CLR": {
-    "detail": "Clear",
-    "description": "Clear (set to 0) value of the Accumulator, the Carry flag or a bit in RAM",
+    "detail": "Wyczy\u015B\u0107",
+    "description": "Czy\u015Bci (ustawia na 0) warto\u015B\u0107 Akumulatora, flagi Przeniesienia, lub bitu w pami\u0119ci RAM.",
     "valid_operands": [
       [
         {
@@ -190,8 +190,8 @@
     "prefix_required": false
   },
   "CPL": {
-    "detail": "Complement",
-    "description": "Complements (reverses) value of the Accumulator, the Carry flag or a bit in RAM.\r\nThe Carry flag or bit in RAM is:\r\n - unset if it was set\r\n - set if it was unset\r\n\r\nEach bit in the Accumulator is subjected to the same operation as Carry flag or bit in RAM.\r\n\u003E If value of Accumulator was 10101001 then it will be set to 01010110",
+    "detail": "Uzupe\u0142nij",
+    "description": "Uzupe\u0142nia (odwraca) warto\u015B\u0107 Akumulatora, flagi Przeniesienia, lub bitu w pami\u0119ci RAM\r\n\r\nFlaga Przeniesienia lub bit w pami\u0119ci RAM zostanie:\r\n - zresetowana (0) je\u015Bli by\u0142a ustawiona (1)\r\n - ustawiona (1) je\u015Bli by\u0142a zresetowana (0)\r\n\r\nKa\u017Cdy bit w Akumulatorze jest poddany temu samemu dzia\u0142aniu co flaga Przeniesienia lub bit w pami\u0119ci RAM.\r\n\r\n\u003E Je\u015Bli warto\u015B\u0107 Akumulatora wynosi\u0142a 10101001, zostanie ona zmieniona na 01010110\r\n",
     "valid_operands": [
       [
         {
@@ -215,8 +215,8 @@
     "prefix_required": false
   },
   "RL": {
-    "detail": "Rotate left",
-    "description": "Shifts bits of value stored in the Accumulator to the left.\r\n\r\nThe most significant bit is moved to the least significant bit.",
+    "detail": "Obr\u00F3\u0107 w lewo",
+    "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w lewo.\r\n\r\nWarto\u015B\u0107 najstarszego bitu jest przeniesiona do najm\u0142odszego bitu.",
     "valid_operands": [
       [
         {
@@ -232,8 +232,8 @@
     "prefix_required": false
   },
   "RLC": {
-    "detail": "Rotate left trough Carry flag",
-    "description": "Shifts bits of value stored in the Accumulator to the left trough the Carry flag.\r\n\r\nValue of the Carry flag is moved to the least significant bit of the Accumulator.\r\n\r\nThe most significant bit is moved to the Carry flag.\r\n\r\nCan be used to multiply number by 2",
+    "detail": "Obr\u00F3\u0107 w lewo za po\u015Brednictwem flagi Przeniesienia",
+    "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w lewo za po\u015Brednictwem flagi Przeniesienia.\r\n\r\nWarto\u015B\u0107 flagi Przeniesienia jest przeniesiona do najm\u0142odszego bitu.\r\n\r\nWarto\u015B\u0107 najstarszego bitu jest przeniesiona do flagi Przeniesienia.\r\n\r\nTa operacja mo\u017Ce by\u0107 u\u017Cyta do prostego mno\u017Cenia przez 2.",
     "valid_operands": [
       [
         {
@@ -255,8 +255,8 @@
     "prefix_required": false
   },
   "RR": {
-    "detail": "Rotate right",
-    "description": "Shifts bits of value stored in the Accumulator to the right.\r\n\r\nThe least significant bit is moved to the most significant bit.",
+    "detail": "Obr\u00F3\u0107 w prawo",
+    "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w prawo.\r\n\r\nWarto\u015B\u0107 najm\u0142odszego bitu jest przeniesiona do najstarszego bitu.",
     "valid_operands": [
       [
         {
@@ -272,8 +272,8 @@
     "prefix_required": false
   },
   "RRC": {
-    "detail": "Rotate right trough Carry flag",
-    "description": "Shifts bits of value stored in the Accumulator to the right trough the Carry flag.\r\n\r\nValue of the Carry flag is moved to the most significant bit of the Accumulator.\r\n\r\nThe least significant bit is moved to the Carry flag.\r\n\r\n\r\nCan be used to divide number by 2",
+    "detail": "Obr\u00F3\u0107 w prawo za po\u015Brednictwem flagi Przeniesienia",
+    "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w prawo za po\u015Brednictwem flagi Przeniesienia.\r\n\r\nWarto\u015B\u0107 flagi Przeniesienia jest przeniesiona do najstarszego bitu.\r\n\r\nWarto\u015B\u0107 najm\u0142odszego bitu jest przeniesiona do flagi Przeniesienia.\r\n\r\nTa operacja mo\u017Ce by\u0107 u\u017Cyta do prostego dzielenia przez 2.",
     "valid_operands": [
       [
         {
@@ -295,8 +295,8 @@
     "prefix_required": false
   },
   "SWAP": {
-    "detail": "Swap nibbles of the Accumulator",
-    "description": "Swap the most significant nibble of the Accumulator with the least significant nibble.\r\n\r\nEnd result will be the same as rotating Accumulator value 4 times.",
+    "detail": "Zamie\u0144 p\u00F3\u0142bajty Akumulatora",
+    "description": "Zamienia miejscami starszy p\u00F3\u0142bajt z m\u0142odszym p\u00F3\u0142bajtem.\r\n\r\nEfekt ko\u0144cowy jest taki sam jak obr\u00F3cenie warto\u015Bci Akumulatora 4 razy.",
     "valid_operands": [
       [
         {
@@ -312,8 +312,8 @@
     "prefix_required": false
   },
   "SETB": {
-    "detail": "Set Bit",
-    "description": "Set a specified bit",
+    "detail": "Ustaw bit",
+    "description": "Ustawia (1) warto\u015B\u0107 flagi przeniesienia, lub bitu w pami\u0119ci RAM.",
     "valid_operands": [
       [
         {

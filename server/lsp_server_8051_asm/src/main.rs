@@ -58,7 +58,7 @@ static LANGUAGE_LOADER: Lazy<FluentLanguageLoader> = Lazy::new(|| {
     loader
 });
 
-pub fn localizer() -> Box<dyn Localizer> {
+pub(crate) fn localizer() -> Box<dyn Localizer> {
     Box::from(DefaultLocalizer::new(&*LANGUAGE_LOADER, &Localizations))
 }
 

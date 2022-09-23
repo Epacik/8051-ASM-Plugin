@@ -61,7 +61,7 @@
   },
   "F0;PSW.5": {
     "detail": "General purpose flag",
-    "description": "General purpose flag.\r\nUser can decide what is it used for.",
+    "description": "User can decide what is it used for.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -71,7 +71,7 @@
   },
   "RS1;PSW.4;RS0;PSW.3": {
     "detail": "Register bank selector",
-    "description": "Bits RS0 and RS1 (PSW.3 and PSW.4 respectively) are used to select a bank of registers (where registers R0-R7 are in RAM).\r\n*By default the Stack Pointer points at 08h. This means that using the stack without changing it\u0027s default address *will* change values of registers R0-R7 in banks 1, 2, and 3*\r\n\r\nTo select a specific bank change values of R0 and R1 to values depicted below\r\n| RS1 | RS0 | Selected bank | Available at address |\r\n| --- | --- | ------------- | -------------------- |\r\n| 0   | 0   | Bank 0        | 00h - 07h            |\r\n| 0   | 1   | Bank 1        | 08h - 0Fh            |\r\n| 1   | 0   | Bank 2        | 10h - 17h            |\r\n| 1   | 1   | Bank 3        | 18h - 1Fh            |\r\n",
+    "description": "Bits RS0 and RS1 (PSW.3 and PSW.4 respectively) are used to select a bank of registers (where registers R0-R7 are in RAM).\r\n\r\n*By default the Stack Pointer points at 08h. This means that using the stack without changing it\u0027s default address *will* change values of registers R0-R7 in banks 1, 2, and 3*\r\n\r\nTo select a specific bank change values of RS0 and RS1 to values depicted below\r\n| RS1 | RS0 | Selected bank | Available at address |\r\n| --- | --- | ------------- | -------------------- |\r\n| 0   | 0   | Bank 0        | 00h - 07h            |\r\n| 0   | 1   | Bank 1        | 08h - 0Fh            |\r\n| 1   | 0   | Bank 2        | 10h - 17h            |\r\n| 1   | 1   | Bank 3        | 18h - 1Fh            |\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -81,7 +81,7 @@
   },
   "OV;PSW.2": {
     "detail": "Overflow flag",
-    "description": "Overflow flag\r\nIndicates overflow of a signed value.\r\nSet when a value of a signed addition or subtraction rolls over from -128 to 127 or vice versa\r\nor the other way around.",
+    "description": "Indicates overflow of a signed value.\r\n\r\nSet when a value of a signed addition or subtraction rolls over from -128 to 127 or vice versa\r\n\r\nor the other way around.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -91,7 +91,7 @@
   },
   "PSW.1": {
     "detail": "User defined bit",
-    "description": "User defined bit\r\nUser can decide what is it used for",
+    "description": "A programmer can decide what is it used for",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -101,7 +101,7 @@
   },
   "P;PSW.0": {
     "detail": "Parity flag",
-    "description": "Parity flag\r\nIndicates odd or even number of set bits in accumulator. Updated on every cycle.",
+    "description": "Indicates even number of set bits in accumulator.\r\n\r\nUpdated on every cycle.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,

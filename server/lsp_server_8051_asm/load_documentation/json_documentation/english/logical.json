@@ -191,7 +191,7 @@
   },
   "CPL": {
     "detail": "Complement",
-    "description": "Complements (reverses) value of the Accumulator, the Carry flag or a bit in RAM.\r\nThe Carry flag or bit in RAM is:\r\n - unset if it was set\r\n - set if it was unset\r\n\r\nEach bit in the Accumulator is subjected to the same operation as Carry flag or bit in RAM.\r\n\u003E If value of Accumulator was 10101001 then it will be set to 01010110",
+    "description": "Complements (reverses) value of the Accumulator, the Carry flag or a bit in RAM.\r\n\r\nThe Carry flag or bit in RAM is:\r\n - unset (0) if it was set (1)\r\n - set (1) if it was unset (0)\r\n\r\nEach bit in the Accumulator is subjected to the same operation as Carry flag or bit in RAM.\r\n\r\n\u003E If value of Accumulator was 10101001 then it will be set to 01010110",
     "valid_operands": [
       [
         {
@@ -273,7 +273,7 @@
   },
   "RRC": {
     "detail": "Rotate right trough Carry flag",
-    "description": "Shifts bits of value stored in the Accumulator to the right trough the Carry flag.\r\n\r\nValue of the Carry flag is moved to the most significant bit of the Accumulator.\r\n\r\nThe least significant bit is moved to the Carry flag.\r\n\r\n\r\nCan be used to divide number by 2",
+    "description": "Shifts bits of value stored in the Accumulator to the right trough the Carry flag.\r\n\r\nValue of the Carry flag is moved to the most significant bit of the Accumulator.\r\n\r\nThe least significant bit is moved to the Carry flag.\r\n\r\nCan be used to divide number by 2",
     "valid_operands": [
       [
         {
@@ -313,7 +313,7 @@
   },
   "SETB": {
     "detail": "Set Bit",
-    "description": "Set a specified bit",
+    "description": "Set (to 1) value of the Carry flag or a bit in RAM",
     "valid_operands": [
       [
         {

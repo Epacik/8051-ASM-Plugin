@@ -37,7 +37,10 @@ export function activate(context: ExtensionContext) {
 		documentSelector: [{ scheme: "file", language: "asm8051" }],
 		synchronize: {
 			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
-		}
+		},
+		markdown: {
+			isTrusted: true,
+		},
 	};
 
 	client = new LanguageClient("asm8051", "8051 support", serverOptions, clientOptions, true);

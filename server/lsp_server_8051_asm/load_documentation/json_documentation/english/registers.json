@@ -1,7 +1,7 @@
 {
   "A": {
     "detail": "The Accumulator",
-    "description": "8 bit accumulator used mostly for arithmetic, logical and data transfer operations.\r\nHolds a result of most of operations performed by ALU.\r\nThe Accumulator is bit and byte addressable.\r\nIt is located at 0E0h",
+    "description": "8 bit accumulator used mostly for arithmetic, logical and data transfer operations.\r\n\r\nHolds a result of most of operations performed by ALU.\r\n\r\nThe Accumulator is bit and byte addressable.\r\n\r\nIt is located at 0E0h",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -11,7 +11,7 @@
   },
   "B": {
     "detail": "B register",
-    "description": "8 bit register used in conjunction with the Accumulator to multiply (MUL) or divide (DIV) value.\r\nWhile multiplying B stores one of the values to multiply, and after operation is completed, stores a higher byte of a result.\r\nWhile dividing B stores a divisor and after operation is done, stores a remainder of the result.\r\n\r\nIt is bit and byte addressable.\r\nIt\u0027s located at 0F0h.",
+    "description": "8 bit register used in conjunction with the Accumulator to multiply (MUL) or divide (DIV) value.\r\n\r\nWhile multiplying B stores one of the values to multiply, and after operation is completed, stores a higher byte of a result.\r\n\r\nWhile dividing B stores a divisor and after operation is done, stores a remainder of the result.\r\n\r\n\r\nIt is bit and byte addressable.\r\n\r\nIt\u0027s located at 0F0h.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -31,7 +31,7 @@
   },
   "@R0;@R1": {
     "detail": "Register",
-    "description": "Helper register containing a memory address.\r\nUsed for indirect addressing.",
+    "description": "Helper register containing a memory address.\r\n\r\nUsed for indirect addressing.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -40,8 +40,8 @@
     "prefix_required": false
   },
   "TCON": {
-    "detail": "Time Control register",
-    "description": "8 bit register used to control the two built in timers.\r\n\r\n| ***Bit***  | TCON.7 | TCON.6 | TCON.5 | TCON.4 | TCON.3 | TCON.2 | TCON.1 | TCON.0 |\r\n| ---------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Name*** | TF1    | TR1    | TF0    | TR0    | IE1    | IT1    | IE0    | IT0    |\r\n\r\n- TF0/TF1 - Timer Overflow - Set to 1 when timer has overflown (transition from all bits set to 1, to all bits set to 0). Cleared after running associated interrupt vector (Timer 0: 000Bh, Timer 1: 001Bh)\r\n\r\n- TR0/TR1 - Timer Run - Set to 1 when timer is running, set to 0 when timer is halted\r\n\r\n- IE0/IE1 - External interrupt - Set to 1 when transition from high to low signal is received on port 3.3, cleared after running associated vector (Timer 0: 0003h, Timer 1: 0013h)\r\n\r\n- IT0/IT1 - Exterial interrupt type - When set to 1 interrupts will be generated on transition from high to low signal on port 3.3, when set to 0 interrupt will be generated on low signal on port 3.3\r\n\r\n\r\n",
+    "detail": "Timer Control register",
+    "description": "8 bit register used to control the two built in timers.\r\n\r\n| ***Bit***  | TCON.7 | TCON.6 | TCON.5 | TCON.4 | TCON.3 | TCON.2 | TCON.1 | TCON.0 |\r\n| ---------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Name*** | TF1    | TR1    | TF0    | TR0    | IE1    | IT1    | IE0    | IT0    |\r\n\r\n - TF0/TF1 - Timer Overflow - Set to 1 when timer has overflown (transition from all bits set to 1, to all bits set to 0). Cleared after running associated interrupt vector (Timer 0: 000Bh, Timer 1: 001Bh)\r\n - TR0/TR1 - Timer Run - Set to 1 when timer is running, set to 0 when timer is halted\r\n - IE0/IE1 - External interrupt - Set to 1 when transition from high to low signal is received on port 3.2 (IE0) or 3.3 (IE1), cleared after running associated vector (External Interrupt 0: 0003h, External Interrupt 1: 0013h)\r\n - IT0/IT1 - Exterial interrupt type - When set to 1 interrupts will be generated on transition from high to low signal on port 3.2 (IE0) or 3.3 (IE1), when set to 0 interrupt will be generated on low signal on port 3.2 (IE0) or 3.3 (IE1)\r\n\r\n\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -51,7 +51,7 @@
   },
   "R0;R1;R2;R3;R4;R5;R6;R7": {
     "detail": "Helper register",
-    "description": "Helper register generally used as a temporary data storage.\r\nCan be used as one of operands in many operations.",
+    "description": "Helper register generally used as a temporary data storage.\r\n\r\nCan be used as one of operands in many operations.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -61,7 +61,7 @@
   },
   "DPTR": {
     "detail": "Data Pointer",
-    "description": "User accessible, 16 bit register designed to store an address pointing to external memory (RAM or ROM).\r\nCan be accessed as two 8-bit registers, DPL (Data Pointer Low) and DPH (Data Pointer High)",
+    "description": "User accessible, 16 bit register designed to store an address pointing to external memory (RAM or ROM).\r\n\r\nCan be accessed as two 8-bit registers, DPL (Data Pointer Low) and DPH (Data Pointer High).",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -71,7 +71,7 @@
   },
   "PC": {
     "detail": "Program Counter",
-    "description": "16 bit register storing address to the next instruction to be executed.\r\nThe program counter is incremented after each executed instruction, by the size of instruction that was executed.\r\nValue can be modified using Program Control instructions.\r\nAfter reset will set PC to 0h, which means that CPU will be expecting the first instruction to be at that address.",
+    "description": "16 bit register storing address to the next instruction to be executed.\r\n\r\nThe program counter is incremented after each executed instruction, by the size of instruction that was executed.\r\n\r\nValue can be modified using Program Control instructions.\r\n\r\nAfter reset PC will set to 0h, which means that CPU will be expecting the first instruction to be at that address.",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -81,7 +81,7 @@
   },
   "SP": {
     "detail": "Stack Pointer",
-    "description": "An 8 bit register containing an address to the top of the stack.\r\nWhile pushing data onto a stack, the SP is incremented **before** data is stored.\r\nWhile popping data from the stack, the SP is decremented **after** data is returned.\r\n\r\nInitial value of the stack pointer is 07h.\r\nValue can be modified by: PUSH, POP, ACALL, LCALL, RET, and, RETI",
+    "description": "An 8 bit register containing an address to the top of the stack.\r\n\r\nWhile pushing data onto a stack, the SP is incremented **before** data is stored.\r\n\r\nWhile popping data from the stack, the SP is decremented **after** data is returned.\r\n\r\n\r\nInitial value of the stack pointer is 07h.\r\n\r\nValue can be modified by: PUSH, POP, ACALL, LCALL, RET, and RETI",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -89,19 +89,19 @@
     "prefix": "",
     "prefix_required": false
   },
-  "P0;P1;P2;P3": {
+  "P0;P1;P2;P3;P0.0;P1.0;P2.0;P3.0;P0.1;P1.1;P2.1;P3.1;P0.2;P1.2;P2.2;P3.2;P0.3;P1.3;P2.3;P3.3;P0.4;P1.4;P2.4;P3.4;P0.5;P1.5;P2.5;P3.5;P0.6;P1.6;P2.6;P3.6;P0.7;P1.7;P2.7;P3.7;": {
     "detail": "Port register",
-    "description": "8 bit I/O register used to control an I/O port with the same name.\r\nEach bit correspods to a pin on the 8051 microcontroller.\r\nEach pin can be either as an input or output.\r\nTo change a pin mode you have to write data to it.\r\nIf you set a bit (write 1), pin will be configured as input, of you reset it (write 0) it will be configured as output.\r\nIt will also change voltage on that pin, setting a bit changes voltage to 5V, and resetting it changes it to 0V.\r\n\r\nAddresses of port registers:\r\n - P0: 80H\r\n - P1: 90H \r\n - P2: A0H\r\n - P3: B0H",
+    "description": "8 bit I/O register used to control an I/O port with the same name.\r\n\r\nEach bit correspods to a pin on the 8051 microcontroller.\r\n\r\nEach pin can be either as an input or output.\r\n\r\nTo change a pin mode you have to write data to it.\r\n\r\nIf you set a bit (write 1), pin will be configured as input, of you reset it (write 0) it will be configured as output.\r\n\r\nIt will also change state on that pin, setting a bit changes state to high (5V), and resetting it changes it to low (0V).\r\n\r\nAddresses of port registers:\r\n - P0: 80H\r\n - P1: 90H \r\n - P2: A0H\r\n - P3: B0H",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "dont_duplicate_in_all_docs": true,
     "prefix": "",
     "prefix_required": false
   },
   "TMOD": {
     "detail": "Timer Mode",
-    "description": "8 bit register used to control the Operating Modes of built in timers.\r\nThe higher nibble is used to control T1 timer, and the lower nibble is used to control T0 timer.\r\n - Gate, bit 3 for T0 or 7 for T1: if 0 bits TR0/TR1 must be set. If 1 bits TR0/TR1 must be set and signal og INT0/INT1 must be high.\r\n - C/T, bit 2 for T0 or 6 for T1: if 0 (timer mode) timer counts pulses from the internal oscillator. If 1 (counter mode) counts pulses from pin T0/T1 (P3.4/P3.5)\r\n - T0M1/T1M1, bit 1 fot T0 or 5 for T1: timer operating mode select. Bit 1\r\n - T0M0/T1M0, bit 1 fot T0 or 5 for T1: timer operating mode select. Bit 0\r\n\r\n#### Operating modes:\r\n###### Mode 0 (T0M1/T1M1 = 0, T0M0/T1M0 = 0): 13 bit mode\r\nTimer 0 and Timer 1 operate as 8 bit counters.\r\nTimer register is configured as 13 bit register that consists of TH0/TH1 and lower 5 bits of TH0/TL1.\r\nThree most significant bits of TL0/TL1 should be ignored.\r\nSetting TR1 won\u0027t reset the Timer register.\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (1FFFh) to the min value (0h).\r\n\r\n###### Mode 1 (T0M1/T1M1 = 1, T0M0/T1M0 = 0): 16 bit mode\r\nSimilar to the mode 0, with the difference being that all bits from TH1 and TL1 are used.\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (0FFFFh) to the min value (0h).\r\n\r\n###### Mode 2 (T0M1/T1M1 = 0, T0M0/T1M0 = 1): 8 bit mode with auto reload\r\nTimer 0 and Timer 1 operate as 8 bit counters.\r\nTH0/TH1 holds a value that will be loaded to TL0/TL1 after an overflow.\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (0FFh) to the value set in TH0/TH1.\r\n\r\n###### Mode 3 (T0M1/T1M1 = 1, T0M0/T1M0 = 1): Split mode\r\nBoth timers are used at once, Timer 0 counting over TL0 and Timer 1 counting over TH0.\r\nTimer 1 can not be stopped independently of Timer 0, but it can be put in modes 0 to 2.\r\nTimer interrupt (TF0/TF1) is set when the timer register (TL0/TH0) rolls from the max value (0FFh) to the  min value (0h).\r\n\r\n\r\n",
+    "description": "8 bit register used to control the Operating Modes of built in timers.\r\n\r\nThe higher nibble is used to control T1 timer, and the lower nibble is used to control T0 timer.\r\n - Gate, bit 3 for T0 or 7 for T1: if 0 bits TR0/TR1 must be set. If 1 bits TR0/TR1 must be set and signal of INT0/INT1 must be high.\r\n - C/T, bit 2 for T0 or 6 for T1: if 0 (timer mode) timer counts pulses from the internal oscillator. If 1 (counter mode) counts pulses from pin P3.4 for T0 or P3.5 for T1\r\n - T0M1/T1M1, bit 1 fot T0 or 5 for T1: timer operating mode select. Bit 1\r\n - T0M0/T1M0, bit 0 fot T0 or 4 for T1: timer operating mode select. Bit 0\r\n\r\n\r\n#### Operating modes:\r\n##### Mode 0 (T0M1/T1M1 = 0, T0M0/T1M0 = 0): 13 bit mode - timers are independent\r\nTimer register is configured as 13 bit register that consists of TH0/TH1 and lower 5 bits of TL0/TL1.\r\n\r\nThree most significant bits of TL0/TL1 should be ignored.\r\n\r\nSetting TR0/TR1 won\u0027t reset the Timer register.\r\n\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (1FFFh) to the min value (0h).\r\n\r\n\r\n##### Mode 1 (T0M1/T1M1 = 1, T0M0/T1M0 = 0): 16 bit mode - timers are independent\r\nSimilar to the mode 0, with the difference being that all bits from TH0/TH1 and TL0/TL1 are used.\r\n\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (0FFFFh) to the min value (0h).\r\n\r\n\r\n##### Mode 2 (T0M1/T1M1 = 0, T0M0/T1M0 = 1): 8 bit mode with auto reload - timers are independent\r\nTimer operates as 8 bit counter.\r\n\r\nTH0/TH1 holds a value that will be loaded to TL0/TL1 after an overflow.\r\n\r\nTimer interrupt (TF0/TF1) is set when the timer register rolls from the max value (0FFh) to the value set in TH0/TH1.\r\n\r\n##### Mode 3 (T0M1/T1M1 = 1, T0M0/T1M0 = 1): Split mode - timers are **not** independent\r\nBoth timers are used at once, Timer 0 counting over TL0 and Timer 1 counting over TH0.\r\n\r\nTimer 1 can not be stopped independently of Timer 0, but it can be put in modes 0 to 2.\r\n\r\nTimer interrupt (TF0/TF1) is set when the timer register (TL0/TH0) rolls from the max value (0FFh) to the  min value (0h).\r\n\r\n\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -111,7 +111,7 @@
   },
   "DPL": {
     "detail": "Data Pointer Low",
-    "description": "Lower 8 bits of Data Pointer (DPTR) \r\nAddress: 82H",
+    "description": "Lower 8 bits of Data Pointer (DPTR) \r\n\r\nAddress: 82H",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -121,7 +121,7 @@
   },
   "DPH": {
     "detail": "Data Pointer High",
-    "description": "Higher 8 bits of Data Pointer (DPTR) \r\nAddress: 83H",
+    "description": "Higher 8 bits of Data Pointer (DPTR) \r\n\r\nAddress: 83H\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -131,7 +131,7 @@
   },
   "PCON": {
     "detail": "Power Control",
-    "description": "**NOT bit-addressable**\r\n8 bit register used to control 8051\u0027s power states.\r\n - Pin 0 (IDL) controls the Idle state in which CPU will not receive the clock signal, peripheral devices however will receive it. Can be turned off using interrupt or hardware reset.\r\n - Pin 1 (PD) controls the Power Down state in which the oscillator, which produces the clock signal, will be stopped and the system voltage will drop to 2V. Can be turned off using hardware reset.\r\n\r\nIn addition to bits controlling power states PCON \r\n- contains two general purpose flags, bits 2 (GF0) and 3 (GF1)\r\n- and bit to control baud rate of the Serial port, bit 7 (SMOD) - if set the baud rate is doubled.\r\n\r\nIt is located at address 87H\r\n\r\n",
+    "description": "**NOT bit-addressable**\r\n\r\n8 bit register used to control 8051\u0027s power states.\r\n - Pin 0 (IDL) controls the Idle state in which CPU will not receive the clock signal, peripheral devices however will receive it. Can be turned off using interrupt or hardware reset.\r\n - Pin 1 (PD) controls the Power Down state in which the oscillator, which produces the clock signal, will be stopped and the system voltage will drop to 2V. Can be turned off using hardware reset.\r\n\r\nIn addition to bits controlling power states PCON contains \r\n - two general purpose flags, bits 2 (GF0) and 3 (GF1)\r\n - and bit to control baud rate of the Serial port, bit 7 (SMOD) - if set the baud rate is doubled.\r\n\r\nIt is located at address 87H\r\n\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -141,7 +141,7 @@
   },
   "SCON": {
     "detail": "Serial Control",
-    "description": "8 bit register used to:\r\n - control mode of serial port (bits 7, SM0, and 6, SM1)\r\n - control baud rate (bits 7, SM0, and 6, SM1)\r\n - send data (bit 3, TB8)\r\n - receive data (bit 4, REN, enables receiving, bit 2, RB8 contains received bit)\r\n - set serial interrupt flags (bit 1, TI - transmit interrupt, bit 0, RI - receive interrupt)\r\n\r\nLocated at address 98H\r\n\r\nSerial port modes:\r\n - 0 (SM0 = 0, SM1 = 0) - 8 bit synchronous shift register mode with fixed baud rate: oscillator frequency / 12\r\n - 1 (SM0 = 0, SM1 = 1) - 8 bit UART mode with baud rate set using Timer1\r\n - 2 (SM0 = 1, SM1 = 0) - 9 bit Multiprocessor Communication mode with fixed baud rate: oscillator frequency / 32 or oscillator frequency / 64\r\n - 3 (SM0 = 1, SM1 = 1) - 9 bit Multiprocessor Communication mode with baud rate set using Timer1",
+    "description": "8 bit register used to control Serial port\r\n\r\n| ***Bit***  | SCON.7 | SCON.6 | SCON.5 | SCON.4 | SCON.3 | SCON.2 | SCON.1 | SCON.0 |\r\n| ---------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Name*** | SM0    | SM1    | SM2    | REN    | TB8    | RB8    | RI     | TI     |\r\n\r\nBits description:\r\n - SM0/SM1 - Operating mode selection\r\n - SM2 - Configures multi-microcontroller communication for modes 2 and 3, and detecting stop bit for mode 1 (for mode 0 should be 0). \r\n - REN - Enables a receiver\r\n - TB8 - 9th bit of data to transmit for modes 2 and 3\r\n - RB8 - 9th bit of received data for modes 2 and 3\r\n - RI - Receiver interrupt, set when data is received, reset manually\r\n - TI - Transmitter interrupt, set after data is sent, reset manually \r\n\r\nLocated at address 98H\r\n\r\nSerial port modes:\r\n - Mode 0 (SM0 = 0, SM1 = 0) \r\n\t- 8 bit synchronous shift register mode with fixed baud rate: oscillator frequency / 12\r\n - Mode 1 (SM0 = 0, SM1 = 1) \r\n\t- 8 bit Async UART mode with baud rate set using Timer1\r\n    - if SM2 is set RI is set only when a valid stop bit is received\r\n - Mode 2 (SM0 = 1, SM1 = 0) \r\n\t- 9 bit Multiprocessor Communication mode with fixed baud rate: oscillator frequency / 32 or oscillator frequency / 64\r\n    - SM2 is\r\n\t\t- set - received teansmission is a device address\r\n        - reset - received teansmission is a data\r\n - Mode 3 (SM0 = 1, SM1 = 1) \r\n\t- 9 bit Async Multiprocessor Communication mode with baud rate set using Timer1\r\n    - SM2 is\r\n\t\t- set - received teansmission is a device address\r\n        - reset - received teansmission is a data",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -151,7 +151,7 @@
   },
   "IE": {
     "detail": "Interrupt Enable",
-    "description": "8 bit register used to control which interrupts are enabled.\r\nIf bit is set (1) corresponding interrupt is enabled, otherwise it is disabled, with the exception of bit 7.\r\nWhen unset (0) all interrupts are disabled, otherwise other interrupts can be individually enabled.\r\n\r\nInterrupts:\r\n - ES  - Serial Port Interrupt, bit 4, vector: 0023H\r\n - ET1 - Timer 1 Overflow Interrupt, bit 3, vector: 001BH\r\n - EX1 - External Interrupt 1, bit 2, vector: 0013H\r\n - ET0 - Timer 0 Overflow Interrupt, bit 1, vector: 000BH\r\n - EX0 - External Interrupt 0, bit 0, vector: 0003H\r\n\r\n**Bit 7 is bit addressable**\r\nBit 5, ET2 is reserved.\r\n\r\nLocated at address A8H\r\n",
+    "description": "8 bit register used to control which interrupts are enabled.\r\n\r\nIf bit is set (1) corresponding interrupt is enabled, otherwise it is disabled, with the exception of bit 7.\r\n\r\nWhen bit 7 is unset (0) all interrupts are disabled, otherwise other interrupts can be individually enabled.\r\n\r\n| ***Bit***     | IE.7   | IE.6   | IE.5   | IE.4   | IE.3   | IE.2   | IE.1   | IE.0   |\r\n| ------------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Name***    | EA     | -      | -      | ES     | ET1    | EX1    | ET0    | EX0    |\r\n| ------------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Vecrtor*** | -      | -      | -      | 0023h  | 001Bh  | 0013h  | 000Bh  | 0003h  |\r\n\r\nInterrupts:\r\n - ET2 - Timer 2 interrupt (8052 only)\r\n - ES  - Serial Port Interrupt\r\n - ET1 - Timer 1 Overflow Interrupt\r\n - EX1 - External Interrupt 1\r\n - ET0 - Timer 0 Overflow Interrupt\r\n - EX0 - External Interrupt 0\r\n\r\n**Bit 7 is bit addressable**\r\n\r\nBit 5, ET2 is reserved.\r\n\r\nLocated at address A8H\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -161,7 +161,7 @@
   },
   "IP": {
     "detail": "Interrupt Priority",
-    "description": "8 bit register used to control priority of interrupts.\r\nIf bit is set, the correspondings interrupts priority is set to high, otherwise is set to low.\r\n\r\nInterrupts:\r\n - PS - Serial Port Interrupt Priority, bit 4\r\n - PT1 - Timer 1 Overflow Interrupt Priority, bit 3\r\n - PX1 - External Interrupt 1 Priority, bit 2\r\n - PT0 - Timer 0 Overflow Interrupt Priority, bit 1\r\n - PX0 - External Interrupt 0 Priority, bit 0\r\n\r\nBit 5, PT2, is reserved.\r\n\r\nLocated at address B8H\r\n",
+    "description": "8 bit register used to control priority of interrupts.\r\n\r\nIf bit is set, the correspondings interrupts priority is set to high, otherwise is set to low.\r\n\r\n| ***Bit***    | IP.7   | IP.6   | IP.5   | IP.4   | IP.3   | IP.2   | IP.1   | IP.0   |\r\n| ------------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Name***   | -      | -      | PT2    | PS     | PT1    | PX1    | PT0    | PX0    |\r\n\r\nInterrupts:\r\n - PT2 - Timer 2 overflow Interrupt Priority (8052 only)\r\n - PS  - Serial Port Interrupt Priority\r\n - PT1 - Timer 1 Overflow Interrupt Priority\r\n - PX1 - External Interrupt 1 Priority\r\n - PT0 - Timer 0 Overflow Interrupt Priority\r\n - PX0 - External Interrupt 0 Priority\r\n\r\nBit 6 and 7 are reserved.\r\n\r\nLocated at address B8H\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -171,7 +171,7 @@
   },
   "SBUF": {
     "detail": "Serial Buffer",
-    "description": "8 bit register used to hold data while receiving or transmitting data over the serial port.\r\n\r\nLocated at address 99H\r\n",
+    "description": "8 bit register used to hold data while receiving or transmitting data over the serial port.\r\n\r\nThey are actually two registers hiding under the same name.\r\n - while writing to SBUF data is passed to transmit buffer, and initializes data transmission\r\n - while reading from SBUF data is passed from receive buffer.\r\n\r\nLocated at address 99H\r\n",
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
@@ -215,6 +215,16 @@
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix": "",
+    "prefix_required": false
+  },
+  "AB": {
+    "detail": "Accumulator and register B",
+    "description": "Combination of Accumulator and B register used for multiplication and division\r\n\r\n[Accumulator](command:asm8051.openDocs?%7B%22category%22:%22registers%22,%22item%22:%22A%22%7D)\r\n[Register B](command:asm8051.openDocs?%7B%22category%22:%22registers%22,%22item%22:%22B%22%7D)",
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false

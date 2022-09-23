@@ -185,7 +185,7 @@
     "prefix_required": false
   },
   "PUSH": {
-    "detail": "Wepchnij na stos",
+    "detail": "Wstaw na stos",
     "description": "Inkrementuje Wska\u017Anik Stosu i umieszcza przekazan\u0105 wasto\u015B\u0107 w pod adresem wskazywanym przez Wska\u017Anik stosu.",
     "valid_operands": [
       [

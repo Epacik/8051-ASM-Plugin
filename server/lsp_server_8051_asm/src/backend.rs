@@ -9,7 +9,7 @@ use tower_lsp::{
         DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
         HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
         MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
-        DidChangeTextDocumentParams,}
+        DidChangeTextDocumentParams, ServerCapabilities, HoverOptions, WorkDoneProgressOptions, }
 };
 
 use serde_json::Value;
@@ -49,33 +49,54 @@ impl LanguageServer for Backend {
         try_update_mutex_value(self.client_capabilities.borrow(), params.capabilities).await;
 
         // time to set some capabilities, so the client knows what server can do
-        let mut result = InitializeResult::default();
+        let result = InitializeResult{
+            server_info: None,
+            capabilities: ServerCapabilities {
 
-        // capability to execute commands
-        result.capabilities.execute_command_provider = Some(ExecuteCommandOptions {
-            commands: vec!["test.command".to_string()],
-            work_done_progress_options: Default::default(),
-        });
+                // capability to execute commands
+                execute_command_provider: Some(ExecuteCommandOptions {
+                    commands: vec!["test.command".to_string()],
+                    work_done_progress_options: Default::default(),
+                }),
+                // how documents are synced
+                text_document_sync: Some(TextDocumentSyncCapability::from(
+                    TextDocumentSyncKind::FULL,
+                )),
 
-        // capability to synchronise documents
-        result.capabilities.text_document_sync = Some(TextDocumentSyncCapability::from(
-            TextDocumentSyncKind::FULL,
-        ));
+                completion_provider: Some(CompletionOptions {
+                    resolve_provider: Option::from(true),
+                    trigger_characters: None,
+                    all_commit_characters: None,
+                    work_done_progress_options: Default::default(),
+                }),
+                hover_provider: Some(HoverProviderCapability::Options(
+                    HoverOptions { 
+                        work_done_progress_options: WorkDoneProgressOptions { 
+                            work_done_progress: Some(true)
+                         } 
+                        }
+                    )
+                ),
+                //references_provider: Some(OneOf::Left(true)),
 
-        // capability to autocomplete
-        result.capabilities.completion_provider = Some(CompletionOptions {
-            resolve_provider: Option::from(true),
-            trigger_characters: None,
-            all_commit_characters: None,
-            work_done_progress_options: Default::default(),
-        });
+                ..ServerCapabilities::default()
+            },
+            ..InitializeResult::default()
+        };
+
 
         // capability to show documentation on hover
-        result.capabilities.hover_provider = Option::from(HoverProviderCapability::Simple(true));
 
         self.update_configuration().await;
-        
-        let locale = match params.locale.unwrap_or_default().as_str() {
+
+        let lang = params.locale.unwrap_or_default();
+        let lang_localization = match lang.as_str() {
+            "pl" => "pl",
+            _ => "en",
+        };
+
+        crate::localizer().select(&[lang_localization.parse().unwrap()]).unwrap();
+        let locale = match lang.as_str() {
             "pl" => Locale::POLISH,
             _ => Locale::ENGLISH,
         };
@@ -106,7 +127,7 @@ impl LanguageServer for Backend {
         }
 
         self.client
-            .log_message(MessageType::INFO, "server initialized!")
+            .log_message(MessageType::INFO, crate::localize!("server-initialized"))
             .await;
     }
 
@@ -158,7 +179,7 @@ impl LanguageServer for Backend {
         if document.is_none() {
             return Err(Error {
                 code: ErrorCode::ServerError(002),
-                message: "An error occurred while reading document".to_string(),
+                message: crate::localize!("error-document-read"),
                 data: None,
             });
         }
@@ -176,6 +197,7 @@ impl LanguageServer for Backend {
         Ok(Some(Hover {
             contents: HoverContents::Array(doc),
             range: None,
+            
         }))
     }
 
