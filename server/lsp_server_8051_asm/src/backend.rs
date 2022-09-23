@@ -88,8 +88,15 @@ impl LanguageServer for Backend {
         // capability to show documentation on hover
 
         self.update_configuration().await;
-        
-        let locale = match params.locale.unwrap_or_default().as_str() {
+
+        let lang = params.locale.unwrap_or_default();
+        let lang_localization = match lang.as_str() {
+            "pl" => "pl",
+            _ => "en",
+        };
+
+        crate::localizer().select(&[lang_localization.parse().unwrap()]).unwrap();
+        let locale = match lang.as_str() {
             "pl" => Locale::POLISH,
             _ => Locale::ENGLISH,
         };
