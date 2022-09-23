@@ -12,15 +12,15 @@ window.addEventListener('message', event => {
 
 const scrollToElement = (args: IOpenDocsArguments) => {
     location.href = "#";
-    let item: HTMLElement | null = null;
+    let item: Element | null | undefined = null;
     if(!isNullishOrWhitespace(args.item)) {
-        item = document.getElementById(args.item!);
+        item = Array.from(document.querySelectorAll(".doc-mnemonic")).find(x => x.id?.includes(args.item!));
     }
     else {
         item = document.getElementById(args.category);
     }
 
-    if(item === null)
+    if(item === null || item === undefined)
         return;
     
     item.scrollIntoView()
