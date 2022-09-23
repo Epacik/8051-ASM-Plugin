@@ -242,7 +242,7 @@ fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> 
         tmp.push_str(&line.trim()[1..]);
         tmp.push_str("\n\n");
     }
-    documentation_vector.push(MarkedString::String(tmp));
+    documentation_vector.push(MarkedString::String(clean_markdown(&tmp)));
 
     documentation_vector
 }
@@ -322,7 +322,7 @@ fn documentation_predefined(mnemonic: String, locale: Locale) -> Vec<MarkedStrin
         documentation_vector.push(MarkedString::String(tmp));
     }
 
-    let tmp = syntax((mnemonic, documentation.clone()));
+    let tmp = syntax((mnemonic.clone(), documentation.clone()));
     if tmp != "" {
         documentation_vector.push(MarkedString::LanguageString(LanguageString {
             language: crate::LANG_ID.to_string(),
@@ -350,6 +350,16 @@ fn documentation_predefined(mnemonic: String, locale: Locale) -> Vec<MarkedStrin
         
         documentation_vector.push(MarkedString::String(format!("{}{}", header, tmp)));
     }
+
+    documentation_vector.push(
+        MarkedString::String(
+            format!(
+                "[Go to documentation](command:asm8051.openDocs?%7B%22category%22:%22{}%22,%22item%22:%22{}%22%7D)", 
+                documentation.category, 
+                mnemonic
+            )
+        )
+    );
 
     documentation_vector
 }
