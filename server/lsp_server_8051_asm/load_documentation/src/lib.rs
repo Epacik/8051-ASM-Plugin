@@ -22,7 +22,7 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
         if file.is_err(){
             continue;
         }
-        let (file_path, filename) =  read_filename_and_path(&file);
+        let (file_path, filename) =  read_filename_and_path(&file); 
 
         let content = match read_file_content(file_path.borrow()) {
             Some(value) => value,
