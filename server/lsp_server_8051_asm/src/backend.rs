@@ -9,7 +9,7 @@ use tower_lsp::{
         DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
         HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
         MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
-        DidChangeTextDocumentParams,}
+        DidChangeTextDocumentParams, ServerCapabilities, HoverOptions, WorkDoneProgressOptions, }
 };
 
 use serde_json::Value;
@@ -49,29 +49,43 @@ impl LanguageServer for Backend {
         try_update_mutex_value(self.client_capabilities.borrow(), params.capabilities).await;
 
         // time to set some capabilities, so the client knows what server can do
-        let mut result = InitializeResult::default();
+        let result = InitializeResult{
+            server_info: None,
+            capabilities: ServerCapabilities {
 
-        // capability to execute commands
-        result.capabilities.execute_command_provider = Some(ExecuteCommandOptions {
-            commands: vec!["test.command".to_string()],
-            work_done_progress_options: Default::default(),
-        });
+                // capability to execute commands
+                execute_command_provider: Some(ExecuteCommandOptions {
+                    commands: vec!["test.command".to_string()],
+                    work_done_progress_options: Default::default(),
+                }),
+                // how documents are synced
+                text_document_sync: Some(TextDocumentSyncCapability::from(
+                    TextDocumentSyncKind::FULL,
+                )),
 
-        // capability to synchronise documents
-        result.capabilities.text_document_sync = Some(TextDocumentSyncCapability::from(
-            TextDocumentSyncKind::FULL,
-        ));
+                completion_provider: Some(CompletionOptions {
+                    resolve_provider: Option::from(true),
+                    trigger_characters: None,
+                    all_commit_characters: None,
+                    work_done_progress_options: Default::default(),
+                }),
+                hover_provider: Some(HoverProviderCapability::Options(
+                    HoverOptions { 
+                        work_done_progress_options: WorkDoneProgressOptions { 
+                            work_done_progress: Some(true)
+                         } 
+                        }
+                    )
+                ),
+                //references_provider: Some(OneOf::Left(true)),
 
-        // capability to autocomplete
-        result.capabilities.completion_provider = Some(CompletionOptions {
-            resolve_provider: Option::from(true),
-            trigger_characters: None,
-            all_commit_characters: None,
-            work_done_progress_options: Default::default(),
-        });
+                ..ServerCapabilities::default()
+            },
+            ..InitializeResult::default()
+        };
+
 
         // capability to show documentation on hover
-        result.capabilities.hover_provider = Option::from(HoverProviderCapability::Simple(true));
 
         self.update_configuration().await;
         
