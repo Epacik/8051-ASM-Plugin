@@ -29,5 +29,4 @@ public enum PossibleOperands
     BinaryNumber                 = 101,
     DecimalNumber                = 102,
     AsciiCharacters              = 103,
-
 }
