@@ -85,7 +85,7 @@ fn get_project_path() -> String {
         );
     }
     let project_path = project_path_result.unwrap();
-    project_path
+    project_path 
 }
 
 #[inline(always)]

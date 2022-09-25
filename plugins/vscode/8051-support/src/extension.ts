@@ -1,5 +1,5 @@
 //#region imports
-import { ExtensionContext, workspace, commands, window, MarkdownString } from 'vscode';
+import { ExtensionContext, workspace, commands, window, MarkdownString, Uri } from 'vscode';
 
 import { Trace } from 'vscode-jsonrpc';
 
@@ -11,6 +11,8 @@ import {
 	StreamInfo,
 	TransportKind
 } from 'vscode-languageclient/node';
+
+import * as ChildProcess from "child_process";
 
 import * as net from 'net';
 import { DocumentationPanel } from './documentation/views/documentationPanel';
@@ -31,7 +33,7 @@ export function activate(context: ExtensionContext) {
 
 	console.log(localize("asm8051.messages.activateExtension"));
 
-	let serverOptions: ServerOptions = getServerOptions();
+	let serverOptions: ServerOptions = getServerOptions(context.extensionUri);
 
 	let clientOptions: LanguageClientOptions = {
 		documentSelector: [{ scheme: "file", language: "asm8051" }],
@@ -44,7 +46,6 @@ export function activate(context: ExtensionContext) {
 	};
 
 	client = new LanguageClient("asm8051", "8051 support", serverOptions, clientOptions, true);
-	//client.registerFeature(new GetAllDocumentationFeature());
 	
 	client.trace = Trace.Verbose;
 
@@ -55,11 +56,11 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(client.start(), showPane);
 }
 
-function getServerOptions() {
-	let serverOptions: ServerOptions;
+function getServerOptions(extensionUri: Uri): ServerOptions {
 
 	if (DEBUG) {
-		serverOptions = () => {
+		return () => {
+
 			let socket = net.connect({ port: 8050, });
 			let result: StreamInfo = {
 				writer: socket,
@@ -69,13 +70,21 @@ function getServerOptions() {
 		};
 	}
 	else {
-		//TODO: Add options to start a "production" server
-		serverOptions = {
-			run: { command: "cmd" },
-			debug: { command: "cmd" },
+		return {
+			command: Uri.joinPath(extensionUri, ...["out", "bin", "lsp_server_8051_asm"]).fsPath,
+			args: [ "--use-stdio" ],
 		};
+		// return async () => {
+		// 	ChildProcess.spawnSync();
+
+		// 	let socket = net.connect({ port: 8050, });
+		// 	let result: StreamInfo = {
+		// 		writer: socket,
+		// 		reader: socket
+		// 	};
+		// 	return result;
+		// };
 	}
-	return serverOptions;
 }
 
 async function openDocsCommand(context: ExtensionContext, args?: IOpenDocsArguments) {

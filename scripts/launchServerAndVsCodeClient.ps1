@@ -1,1 +1,1 @@
-code "$PSScriptRoot\..\plugins\vscode\8051-support\"; code "$PSScriptRoot\..\server\lsp_server_8051_asm\"
+code "$PSScriptRoot/../plugins/vscode/8051-support/"; code "$PSScriptRoot/../server/lsp_server_8051_asm/"

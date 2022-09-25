@@ -6,6 +6,8 @@ mod diagnostics;
 mod flags;
 mod hover;
 
+use std::borrow::Borrow;
+
 use i18n_embed::{
     LanguageLoader, Localizer, DefaultLocalizer, fluent::{
         FluentLanguageLoader, fluent_language_loader
@@ -18,23 +20,40 @@ use rust_embed::RustEmbed;
 
 #[tokio::main]
 async fn main() {
+
+    let args: Vec<String> = std::env::args().collect();
     localizer().select(&["en".parse().unwrap()]).unwrap();
 
-    //let stream = TcpStream::connect("127.0.0.1:8050").await.unwrap();
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:8050").await.unwrap();
-    let (stream, _) = listener.accept().await.unwrap();
-    
-    let (read, write) = tokio::io::split(stream);
+    if args.contains(String::from("--use-stdio").borrow()) {
+        let stdin = tokio::io::stdin();
+        let stdout = tokio::io::stdout();
+        serve(stdin, stdout).await;
+    }
+    else {
+        //let stream = TcpStream::connect("127.0.0.1:8050").await.unwrap();
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:8050").await.unwrap();
+        let (stream, _) = listener.accept().await.unwrap();
+        
+        let (read, write) = tokio::io::split(stream);
 
-    #[cfg(feature = "runtime-agnostic")]
-    let (read, write) = (read.compat(), write.compat_write());
-    
-    let (service, messages) = 
-        LspService::build(|client| backend::Backend::new(client))
-        .custom_method("documentation/getAll", backend::Backend::get_all_documentation)
-        .finish();
+        #[cfg(feature = "runtime-agnostic")]
+        let (read, write) = (read.compat(), write.compat_write());
+        
+        serve(read, write).await;
+    }
+}
 
-    Server::new(read, write, messages)
+async fn serve<I, O>(input: I, output: O)
+where
+    I: tokio::io::AsyncRead + Unpin,
+    O: tokio::io::AsyncWrite,
+{
+    let (service, socket) = 
+    LspService::build(|client| backend::Backend::new(client))
+    .custom_method("documentation/getAll", backend::Backend::get_all_documentation)
+    .finish();
+
+    Server::new(input, output, socket)
         .serve(service)
         .await;
 }

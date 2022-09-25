@@ -112,7 +112,6 @@ impl LanguageServer for Backend {
     }
 
     async fn initialized(&self, _params: InitializedParams) {
-        println!("{}", localize!("server-initialized"));
 
         // add custom event in case user changes configuration in editor that supports it
         if has_configuration_capability(self.client_capabilities.lock().await.clone()) {
@@ -132,19 +131,20 @@ impl LanguageServer for Backend {
     }
 
     async fn shutdown(&self) -> Result<()> {
-        println!("server shutdown!");
+        self.client.log_message(MessageType::INFO,"server shutdown!").await;
         Ok(())
     }
 
     async fn did_change_configuration(&self, _params: DidChangeConfigurationParams) {
-        println!("{}", localize!("configuration-changed"));
+        self.client.log_message(MessageType::INFO, localize!("configuration-changed")).await;
 
         self.update_configuration().await;
         self.validate_all_documents().await;
     }
 
     async fn completion(&self, _params: CompletionParams) -> Result<Option<CompletionResponse>> {
-        println!("completion!");
+        self.client.log_message(MessageType::INFO,"completion!").await;
+
         let _locale = self.client_locale().await;
         let documentation = hover::all_documentation(_locale);
 
@@ -161,7 +161,7 @@ impl LanguageServer for Backend {
     }
 
     async fn hover(&self, _params: HoverParams) -> Result<Option<Hover>> {
-        println!("hover!");
+        self.client.log_message(MessageType::INFO,"hover!").await;
 
         // get clients configuration
         let config = self.client_configuration.lock().await.clone();
@@ -204,7 +204,7 @@ impl LanguageServer for Backend {
     /// Add opened file to a local hashmap of opened files and validate it
     #[allow(unused_mut)]
     async fn did_open(&self, _params: DidOpenTextDocumentParams) {
-        println!("file open");
+        self.client.log_message(MessageType::INFO,"file open").await;
 
         if _params.text_document.language_id != String::from(LANG_ID) {
             return;
@@ -222,7 +222,7 @@ impl LanguageServer for Backend {
     #[allow(unused_mut)]
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {
 
-        println!("file closed");
+        self.client.log_message(MessageType::INFO,"file closed").await;
         let file_uri = _params.text_document.uri.as_str();
 
         if self.documents.contains_key(file_uri.borrow()) {
@@ -326,7 +326,7 @@ impl Backend {
             if cnf.is_ok() {
                 newconfig = cnf.unwrap();
             } else {
-                println!("{}", cnf.unwrap_err());
+                self.client.log_message(MessageType::INFO, cnf.unwrap_err()).await;
             }
         }
 

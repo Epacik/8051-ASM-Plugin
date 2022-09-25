@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { localize } from "vscode-nls-i18n";
 import IDocumentation from "../documentation";
 import { isNullishOrWhitespace, nullishableString } from "../../miscellaneousTypeAliases";
-import { getUri } from "../../utilities/getUri";
+import { getWebviewUri } from "../../utilities/getUri";
 import DocumentationViewBase from "../documentationViewBase";
 import { LanguageClient } from "vscode-languageclient/node";
 import IOpenDocsArguments from "../IOpenDocsArguments";
@@ -72,11 +72,11 @@ export class DocumentationPanel extends DocumentationViewBase {
         args?: IOpenDocsArguments) {
         // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
 
-        const toolkitUri = getUri(webview, extensionUri, [ "node_modules", "@vscode", "webview-ui-toolkit", "dist", "toolkit.js",]);
+        const toolkitUri = getWebviewUri(webview, extensionUri, [ "node_modules", "@vscode", "webview-ui-toolkit", "dist", "toolkit.js",]);
 
-        const scriptUri = getUri(webview, extensionUri, [ "out", "documentation", "views", "scripts", "documentationPanelScript.js" ]);
+        const scriptUri = getWebviewUri(webview, extensionUri, [ "out", "documentation", "views", "scripts", "documentationPanelScript.js" ]);
 
-        const cssUri = getUri(webview, extensionUri, [ "src", "documentation", "views", "styles", "documentationPanel.css" ]);
+        const cssUri = getWebviewUri(webview, extensionUri, [ "src", "documentation", "views", "styles", "documentationPanel.css" ]);
 
         const title = localize("asm8051.views.documentationPanel.title");
         return /*html*/ `
