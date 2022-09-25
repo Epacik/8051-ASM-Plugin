@@ -35,6 +35,7 @@ public partial class DocumentationElementEditor : UserControl
         viewModel.AffectedFlags  = Element.Value.AffectedFlags is not null ? new(Element.Value.AffectedFlags) : new();
         viewModel.Prefix         = Element.Value.Prefix;
         viewModel.PrefixRequired = Element.Value.PrefixRequired;
+        viewModel.Label          = Element.Value.Label;
 
         foreach(Flag flag in Element.Value.AffectedFlags ?? (IEnumerable<Flag>)Array.Empty<Flag>())
         {
@@ -98,6 +99,7 @@ public partial class DocumentationElementEditor : UserControl
             DontGenerateSyntax = DontGenerateSyntax.IsChecked == true,
             DontDuplicate      = DontDuplicate.IsChecked      == true,
             Prefix             = viewModel.Prefix,
+            Label              = viewModel.Label,
         }));
 
         if (_timer is not null)

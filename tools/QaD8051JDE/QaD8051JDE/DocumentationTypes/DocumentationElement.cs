@@ -25,6 +25,7 @@ public class DocumentationElement
 
     [JsonIgnore]
     private string? _prefix;
+
     [JsonPropertyName("prefix")]
     public string? Prefix
     {
@@ -35,4 +36,6 @@ public class DocumentationElement
     [JsonPropertyName("prefix_required")]
     public bool PrefixRequired { get; set; }
 
+    [JsonPropertyName("label")]
+    public string? Label { get; set; }
 }

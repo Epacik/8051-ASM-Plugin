@@ -72,6 +72,9 @@
               </StackPanel>
               <TextBox Text="{Binding Prefix}" FontFamily="Cascadia Code" />
               <!--<TextBox Text="{Binding ValidOperands}" AcceptsReturn="True" AcceptsTab="True" Height="100"/>-->
+
+              <TextBlock>Label: </TextBlock>
+              <TextBox Text="{Binding Label}"></TextBox>
             </StackPanel>
         </ScrollViewer>
 

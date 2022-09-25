@@ -52,4 +52,12 @@ internal class DocumentationElementEditorViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _prefixRequired, value);
     }
 
+    private string? _label;
+
+    public string? Label
+    {
+        get => _label;
+        set => this.RaiseAndSetIfChanged(ref _label, value);
+    }
+
 }
