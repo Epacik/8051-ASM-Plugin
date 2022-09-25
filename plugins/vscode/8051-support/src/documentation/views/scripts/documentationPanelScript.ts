@@ -14,7 +14,8 @@ const scrollToElement = (args: IOpenDocsArguments) => {
     location.href = "#";
     let item: Element | null | undefined = null;
     if(!isNullishOrWhitespace(args.item)) {
-        item = Array.from(document.querySelectorAll(".doc-mnemonic")).find(x => x.id?.includes(args.item!));
+        item = Array.from(document.querySelectorAll(".doc-mnemonic"))
+                    .find(x => x.id == args.item || x.id?.includes(args.item! + ";"));
     }
     else {
         item = document.getElementById(args.category);
