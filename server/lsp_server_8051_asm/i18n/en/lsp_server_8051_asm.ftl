@@ -1,33 +1,77 @@
 # messages 
-hello-world = Hello World!
-server-initialized = Server initialized!
+hello-world           = Hello World!
+server-initialized    = Server initialized!
 configuration-changed = Configuration has changed 
 
 
 # flags
-flag-carry = Carry
+flag-parity             = Parity
+flag-userDefined        = User defined
+flag-overflow           = Overflow
+flag-registerBankSelect = Register Bank Select
+flag-flag0              = Flag0
+flag-auxiliaryCarry     = Auxiliary Carry
+flag-carry              = Carry
+flag-unknown            = [UNKNOWN]
 
+# operand labels
+operand-any                = any
+operand-codeAddress        = code address
+operand-label              = label
+operand-byte               = byte
+operand-twoBytes           = two bytes
+operand-internalRamAddress = internal RAM address
+operand-indirectR0OrR1     = @R0 or @R1
+operand-helperRegister     = R0 trough R7
+operand-carryFlag          = carry flag
+operand-bitAddress         = bit address
+operand-negatedBitAddress  = address of negated bit
+operand-relativeAddress    = relative address
+operand-A                  = the Accumulator
+operand-AB                 = the Accumulator and B register
+operand-A_DPTR             = address in the Accumulator + DPTR
+operand-DPTR               = DPTR
+operand-indirectDPTR       = address in the DPTR
+operand-indirectA_PC       = address in the Accumulator + PC
+operand-absoluteAddress    = absolute address
+operand-B                  = register B
+operand-DPL                = Data Pointer Low
+operand-DPH                = Data Pointer High
+
+operand-hex                = hexadecimal number
+operand-bin                = binary number
+operand-dec                = decimal number
+operand-ascii              = ASCII characters
+
+operand-unknown            = [UNKNOWN]
+
+operand-example-label      = LABEL
 
 # categories
-category-registers = Registers
+category-registers       = Registers
 category-program_control = Program control instructions
-category-arithmetic = Arithmetic instructions
-category-logical = Logical instructions
-category-data_transfer = Data transfer instructions
+category-arithmetic      = Arithmetic instructions
+category-logical         = Logical instructions
+category-data_transfer   = Data transfer instructions
 
 # errors
 error-document-read = An error occurred while reading document
+error-outOfRange    = out of range
 
 # hover
-hover-operand = operand
-hover-operand0 = operand0
-hover-operand1 = operand1
-hover-operand2 = operand2
-hover-Operand__cap = Operand
+hover-operand                      = operand
+hover-operand0                     = operand0
+hover-operand1                     = operand1
+hover-operand2                     = operand2
+hover-Operand__cap                 = Operand
+hover-validOperands                = Valid operands
+hover-affectedFlags                = Affected flags
 
-hover-setWhen = set when
-hover-unsetWhen = unset when
+hover-goToDocs                     = Go to documentation
 
-hover-documentationNumber-label-binary = Binary
-hover-documentationNumber-label-decimal = Decimal
-hover-documentationNumber-label-hexadecimal = Hexadecimal
+hover-setWhen                      = set when
+hover-unsetWhen                    = unset when
+
+hover-numberBase-label-binary      = Binary
+hover-numberBase-label-decimal     = Decimal
+hover-numberBase-label-hexadecimal = Hexadecimal

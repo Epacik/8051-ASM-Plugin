@@ -1,6 +1,5 @@
 //#region imports
-use crate::flags::Locale;
-use crate::client_configuration::ClientConfiguration;
+use crate::{localize, flags::Locale, client_configuration::ClientConfiguration, };
 use lazy_static::lazy_static;
 use tower_lsp::lsp_types::{ MarkedString, Position, TextDocumentItem, LanguageString};
 use regex::Regex;
@@ -43,7 +42,7 @@ pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
 }
 
 fn syntax_one_operand(key: String, operands: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [{}]\n\n", prefix, key, crate::localize!("hover-operand"));
+    let mut result = format!("{}{} [{}]\n\n", prefix, key, localize!("hover-operand"));
 
     for operand in operands {
         result.push_str(format!("{}{} [{}]\n", prefix, key, operand.operand().label()).as_str());
@@ -54,7 +53,11 @@ fn syntax_one_operand(key: String, operands: &Vec<ValidOperand>, prefix: String)
 }
 
 fn syntax_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [{}], [{}]\n\n", prefix,  key, crate::localize!("hover-operand0"), crate::localize!("hover-operand1"));
+    let mut result = format!("{}{} [{}], [{}]\n\n", 
+        prefix,
+        key, 
+        localize!("hover-operand0"), 
+        localize!("hover-operand1"));
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
@@ -73,9 +76,9 @@ fn syntax_three_operands(key: String, operands0: &Vec<ValidOperand>, operands1: 
     let mut result = format!("{}{} [{}], [{}], [{}]\n\n",
         prefix,
         key,
-        crate::localize!("hover-operand0"), 
-        crate::localize!("hover-operand1"), 
-        crate::localize!("hover-operand2"));
+        localize!("hover-operand0"), 
+        localize!("hover-operand1"), 
+        localize!("hover-operand2"));
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
@@ -121,7 +124,7 @@ pub(crate) fn generate_affected_flags(flags: Vec<Flag>) -> String {
         result.push_str("**: ");
 
         if !flag.when_set.is_empty() {
-            result.push_str(crate::localize!("hover-setWhen").as_str());
+            result.push_str(localize!("hover-setWhen").as_str());
             result.push_str(" ");
             result.push_str(flag.when_set.as_str());
         }
@@ -131,7 +134,7 @@ pub(crate) fn generate_affected_flags(flags: Vec<Flag>) -> String {
         }
 
         if !flag.when_unset.is_empty() {
-            result.push_str(crate::localize!("hover-unsetWhen").as_str());
+            result.push_str(localize!("hover-unsetWhen").as_str());
             result.push_str(" ");
             result.push_str(flag.when_set.as_str());
         }
@@ -171,7 +174,7 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
         for i in 0..filtered.len() {
 
             result.push_str("**");
-            result.push_str(crate::localize!("hover-Operand__cap").as_str());
+            result.push_str(localize!("hover-Operand__cap").as_str());
             result.push_str(i.to_string().as_str());
             result.push_str("**: \n");
 
@@ -248,15 +251,16 @@ fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> 
 }
 
 fn clean_markdown(tmp: &str) -> String {
+    //TODO: remove command links
     String::from(tmp)
 }
 
 fn documentation_number(number: String, _locale: Locale) -> Vec<MarkedString> {
     
     let labels: (String, String, String) = (
-        crate::localize!("hover-documentationNumber-label-binary"),
-        crate::localize!("hover-documentationNumber-label-decimal"),
-        crate::localize!("hover-documentationNumber-label-hexadecimal")
+        localize!("hover-numberBase-label-binary"),
+        localize!("hover-numberBase-label-decimal"),
+        localize!("hover-numberBase-label-hexadecimal")
     );
 
     let parse_result: Result<i32, std::num::ParseIntError>;
@@ -333,28 +337,27 @@ fn documentation_predefined(mnemonic: String, locale: Locale) -> Vec<MarkedStrin
     let tmp = generate_valid_operands(documentation.valid_operands.clone());
 
     if tmp != "" {
-        let header = String::from(match locale {
-            Locale::POLISH => "Poprawne operandy:\n\n",
-            Locale { .. } => "Valid operands:\n\n",
-        });
-
-        documentation_vector.push(MarkedString::String(format!("{}{}", header, tmp)));
+        documentation_vector.push(MarkedString::String(
+            format!(
+                "{}:\n\n{}",
+                localize!("hover-validOperands"),
+                tmp)));
     }
 
     let tmp = generate_affected_flags(documentation.affected_flags.clone());
     if tmp != "" {
-        let header = String::from(match locale {
-            Locale::POLISH => "Zmodyfikowane flagi:\n\n",
-            Locale { .. } => "Affected flags:\n\n",
-        });
-        
-        documentation_vector.push(MarkedString::String(format!("{}{}", header, tmp)));
+        documentation_vector.push(MarkedString::String(
+            format!(
+                "{}:\n\n{}",
+                localize!("hover-affectedFlags"),
+                tmp)));
     }
 
     documentation_vector.push(
         MarkedString::String(
             format!(
-                "[Go to documentation](command:asm8051.openDocs?%7B%22category%22:%22{}%22,%22item%22:%22{}%22%7D)", 
+                "[{}](command:asm8051.openDocs?%7B%22category%22:%22{}%22,%22item%22:%22{}%22%7D)",
+                localize!("hover-goToDocs"),
                 documentation.category, 
                 mnemonic
             )
@@ -673,8 +676,8 @@ impl ValidOperand {
         let max = PossibleOperand::all().bits();
         let min = PossibleOperand::empty().bits();
 
-        if operand > max || operand < min { panic!("operand was out of range") }
-        if when_first_is > max || when_first_is < min { panic!("when_first_is was out of range") }
+        if operand > max || operand < min { panic!("operand was {}", localize!("error-outOfRange")) }
+        if when_first_is > max || when_first_is < min { panic!("when_first_is {}", localize!("error-outOfRange")) }
 
         ValidOperand { operand, when_first_is }
     }
@@ -734,56 +737,61 @@ bitflags! {
 impl FlagType {
     pub fn label(&self) -> String {
         match self.bits {
-            0 => "Patity".to_string(),
-            1 => "User defined".to_string(),
-            2 => "Overflow".to_string(),
-            3 => "Register Bank Select 0".to_string(),
-            4 => "Register Bank Select 1".to_string(),
-            5 => "Flag 0".to_string(),
-            6 => "Auxiliary Carry".to_string(),
-            7 => crate::localize!("flag-carry"),
-            _ => "Unknown".to_string()
+            0 => localize!("flag-parity"),
+            1 => localize!("flag-userDefined"),
+            2 => localize!("flag-overflow"),
+            3 => format!("{} 0", localize!("flag-registerBankSelect")),
+            4 => format!("{} 1", localize!("flag-registerBankSelect")),
+            5 => localize!("flag-flag0"),
+            6 => localize!("flag-auxiliaryCarry"),
+            7 => localize!("flag-carry"),
+            _ => localize!("flag-unknown")
         }
     }
 }
 
 impl PossibleOperand {
     pub fn label(&self) -> String {
-        (match self.bits {
-            0 => "any",
-            1 => "code address",
-            2 => "label",
-            3 => "byte",
-            4 => "two bytes",
-            5 => "internal RAM address",
-            6 => "@R0 or @R1",
-            7 => "R0 trough R7",
-            8 => "carry flag",
-            9 => "bit address",
-            10 => "address of negated bit",
-            11 => "relative address",
-            12 => "the Accumulator",
-            13 => "the Accumulator an B register",
-            14 => "address in the Accumulator + DPTR",
-            15 => "DPTR",
-            16 => "address in DPTR",
-            17 => "address in the Accumulator + PC",
-            18 => "Absolute address",
+        
+        match self.bits {
+            0   => localize!("operand-any"),
+            1   => localize!("operand-codeAddress"),
+            2   => localize!("operand-label"),
+            3   => localize!("operand-byte"),
+            4   => localize!("operand-twoBytes"),
+            5   => localize!("operand-internalRamAddress"),
+            6   => localize!("operand-indirectR0OrR1"),
+            7   => localize!("operand-helperRegister"),
+            8   => localize!("operand-carryFlag"),
+            9   => localize!("operand-bitAddress"),
+            10  => localize!("operand-negatedBitAddress"),
+            11  => localize!("operand-relativeAddress"),
+            12  => localize!("operand-A"),
+            13  => localize!("operand-AB"),
+            14  => localize!("operand-A_DPTR"),
+            15  => localize!("operand-DPTR"),
+            16  => localize!("operand-indirectDPTR"),
+            17  => localize!("operand-indirectA_PC"),
+            18  => localize!("operand-absoluteAddress"),
+            19  => localize!("operand-B"),
+            20  => localize!("operand-DPL"),
+            21  => localize!("operand-DPH"),
 
-            100 => "Hexadecimal number",
-            101 => "Binary number",
-            102 => "Decimal number",
-            103 => "Ascii characters",
-            _ => "Unknown"
-        }).to_string()
+            100 => localize!("operand-hex"),
+            101 => localize!("operand-bin"),
+            102 => localize!("operand-dec"),
+            103 => localize!("operand-ascii"),
+            _   => localize!("operand-unknown"),
+        }
     }
 
     pub fn example(&self, i: Option<i32>) -> String {
         let r_address = format!("@R{}", i.unwrap_or(0));
         let r = format!("R{}", i.unwrap_or(0));
+        let label = localize!("operand-example-label");
         (match self.bits {
             1 => "23H",
-            2 => "LABEL",
+            2 => label.as_str(),
             3 => "#32H",
             4 => "#5C6H",
             5 => "23H",
@@ -800,6 +808,9 @@ impl PossibleOperand {
             16 => "@DPTR",
             17 => "@A+PC",
             18 => "100h",
+            19 => "B",
+            20 => "DPL",
+            21 => "DPH",
 
             100 => "56h",
             101 => "010101011b",

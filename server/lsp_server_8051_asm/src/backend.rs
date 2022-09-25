@@ -1,5 +1,5 @@
 //#region imports hell
-use crate::{diagnostics, hover, client_configuration::ClientConfiguration, flags::Locale, LANG_ID};
+use crate::{diagnostics, hover, client_configuration::ClientConfiguration, flags::Locale, LANG_ID, localize};
 use dashmap::DashMap;
 use tower_lsp::{
     Client, LanguageServer,
@@ -112,7 +112,7 @@ impl LanguageServer for Backend {
     }
 
     async fn initialized(&self, _params: InitializedParams) {
-        println!("{}", crate::localize!("server-initialized"));
+        println!("{}", localize!("server-initialized"));
 
         // add custom event in case user changes configuration in editor that supports it
         if has_configuration_capability(self.client_capabilities.lock().await.clone()) {
@@ -127,7 +127,7 @@ impl LanguageServer for Backend {
         }
 
         self.client
-            .log_message(MessageType::INFO, crate::localize!("server-initialized"))
+            .log_message(MessageType::INFO, localize!("server-initialized"))
             .await;
     }
 
@@ -137,7 +137,7 @@ impl LanguageServer for Backend {
     }
 
     async fn did_change_configuration(&self, _params: DidChangeConfigurationParams) {
-        println!("{}", crate::localize!("configuration-changed"));
+        println!("{}", localize!("configuration-changed"));
 
         self.update_configuration().await;
         self.validate_all_documents().await;
@@ -179,7 +179,7 @@ impl LanguageServer for Backend {
         if document.is_none() {
             return Err(Error {
                 code: ErrorCode::ServerError(002),
-                message: crate::localize!("error-document-read"),
+                message: localize!("error-document-read"),
                 data: None,
             });
         }
