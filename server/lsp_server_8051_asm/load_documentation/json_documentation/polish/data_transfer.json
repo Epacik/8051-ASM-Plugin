@@ -21,11 +21,27 @@
           "when_first_is": 0
         },
         {
+          "operand": 21,
+          "when_first_is": 0
+        },
+        {
+          "operand": 20,
+          "when_first_is": 0
+        },
+        {
+          "operand": 15,
+          "when_first_is": 0
+        },
+        {
           "operand": 15,
           "when_first_is": 0
         },
         {
           "operand": 5,
+          "when_first_is": 0
+        },
+        {
+          "operand": 19,
           "when_first_is": 0
         },
         {
@@ -47,12 +63,36 @@
           "when_first_is": 5
         },
         {
+          "operand": 12,
+          "when_first_is": 19
+        },
+        {
+          "operand": 12,
+          "when_first_is": 21
+        },
+        {
+          "operand": 12,
+          "when_first_is": 20
+        },
+        {
           "operand": 6,
           "when_first_is": 12
         },
         {
           "operand": 6,
           "when_first_is": 5
+        },
+        {
+          "operand": 6,
+          "when_first_is": 19
+        },
+        {
+          "operand": 6,
+          "when_first_is": 21
+        },
+        {
+          "operand": 6,
+          "when_first_is": 20
         },
         {
           "operand": 9,
@@ -79,6 +119,22 @@
           "when_first_is": 5
         },
         {
+          "operand": 3,
+          "when_first_is": 19
+        },
+        {
+          "operand": 3,
+          "when_first_is": 21
+        },
+        {
+          "operand": 3,
+          "when_first_is": 20
+        },
+        {
+          "operand": 4,
+          "when_first_is": 15
+        },
+        {
           "operand": 4,
           "when_first_is": 15
         },
@@ -99,12 +155,60 @@
           "when_first_is": 5
         },
         {
+          "operand": 5,
+          "when_first_is": 19
+        },
+        {
+          "operand": 5,
+          "when_first_is": 21
+        },
+        {
+          "operand": 5,
+          "when_first_is": 20
+        },
+        {
+          "operand": 19,
+          "when_first_is": 12
+        },
+        {
+          "operand": 19,
+          "when_first_is": 6
+        },
+        {
+          "operand": 19,
+          "when_first_is": 5
+        },
+        {
+          "operand": 19,
+          "when_first_is": 7
+        },
+        {
+          "operand": 19,
+          "when_first_is": 21
+        },
+        {
+          "operand": 19,
+          "when_first_is": 20
+        },
+        {
           "operand": 7,
           "when_first_is": 12
         },
         {
           "operand": 7,
           "when_first_is": 5
+        },
+        {
+          "operand": 7,
+          "when_first_is": 19
+        },
+        {
+          "operand": 7,
+          "when_first_is": 21
+        },
+        {
+          "operand": 7,
+          "when_first_is": 20
         }
       ]
     ],
