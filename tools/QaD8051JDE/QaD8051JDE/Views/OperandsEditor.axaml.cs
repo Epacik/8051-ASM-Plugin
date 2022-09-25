@@ -16,15 +16,16 @@ namespace QaD8051JDE.Views
         {
 
         }
-        public OperandsEditor(int operatorNumber)
+        public OperandsEditor(int operandNumber)
         {
             InitializeComponent();
-            SetOperatorNumber(operatorNumber);
+            SetOperandNumber(operandNumber);
         }
 
-        public void SetOperatorNumber(int operatorNumber)
+        public void SetOperandNumber(int operandNumber)
         {
-            Title.Text = $"Operand {operatorNumber}";
+            Title.Text = $"Operand {operandNumber}";
+            this.operandNumber = operandNumber;
         }
 
         public bool IsChecked => Selection.IsChecked == true;
@@ -35,12 +36,19 @@ namespace QaD8051JDE.Views
 
             var items = (ObservableCollection<Operand>)(ValidValues.Items);
             
-            foreach (ValidOperand item in values)
+            foreach(IGrouping<PossibleOperands, ValidOperand> item in values.GroupBy(x => x.PossibleOperand))
             {
-                var operand = new Operand();
+                var operand = new Operand(operandNumber == 0);
                 operand.Set(item);
                 items.Add(operand);
             }
+
+            //foreach (ValidOperand item in values)
+            //{
+            //    var operand = new Operand(operandNumber == 0);
+            //    operand.Set(item);
+            //    items.Add(operand);
+            //}
 
             ValidValues.EndBatchUpdate();
         }
@@ -52,10 +60,9 @@ namespace QaD8051JDE.Views
 
             foreach (Operand item in items)
             {
-                list.Add(item.Get());
+                list.AddRange(item.Get());
             }
             return list;
-
         }
 
         private void AddValueButton_Click(object sender, RoutedEventArgs args)
@@ -63,7 +70,7 @@ namespace QaD8051JDE.Views
             ValidValues.BeginBatchUpdate();
 
             var items = (ObservableCollection<Operand>)(ValidValues.Items);
-            items.Add(new Operand());
+            items.Add(new Operand(operandNumber == 0));
 
             ValidValues.EndBatchUpdate();
         }
@@ -89,6 +96,7 @@ namespace QaD8051JDE.Views
         private TextBlock Title;
         private RadioButton Selection;
         private ListBox ValidValues;
+        private int operandNumber;
 
         private void InitializeComponent()
         {

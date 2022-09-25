@@ -11,7 +11,9 @@
             <Button Click="AddValueButton_Click">➕</Button>
             <Button Click="RemoveValueButton_Click" >➖</Button>
         </StackPanel>
-        <ListBox x:Name="ValidValues" SelectionMode="Single">
+        <ListBox x:Name="ValidValues" SelectionMode="Single"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 MaxHeight="999999">
         </ListBox>
     </StackPanel>
 </UserControl>

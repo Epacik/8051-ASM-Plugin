@@ -8,9 +8,10 @@
     <Design.DataContext>
         <vm:FilelListViewModel/>
     </Design.DataContext>
-    <Grid ShowGridLines="True">
+  
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="210"/>
+            <ColumnDefinition Width="230"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -18,7 +19,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Background="#eaeaea">
             <TextBlock Text="Categories" VerticalAlignment="Center" Margin="10"/>
             <Button Click="AddFileButtonClick">➕</Button>
             <Button Click="RemoveFileButtonClick">➖</Button>
@@ -30,7 +31,8 @@
                      Items="{Binding Categories}"
                      SelectionChanged="CategoryList_SelectionChanged"
                      SelectedItem="{Binding SelectedCategory}"
-                     SelectionMode="Single">
+                     SelectionMode="Single"
+                     Background="#f2f2f2">
             </ListBox>
         </ScrollViewer>
 

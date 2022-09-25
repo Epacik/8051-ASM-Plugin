@@ -106,7 +106,7 @@ public partial class DocumentationElementEditor : UserControl
         SavedText.IsVisible = true;
         _timer = new DispatcherTimer(
             new TimeSpan(0, 0, 3),
-            DispatcherPriority.ApplicationIdle,
+            DispatcherPriority.Background,
             (s, e) =>
         {
             SavedText.IsVisible = false;
@@ -146,7 +146,7 @@ public partial class DocumentationElementEditor : UserControl
         for(int i = 0; i < OperandsPanel.Children.Count; i++)
         {
             var child = (OperandsEditor)OperandsPanel.Children[i];
-            child.SetOperatorNumber(i);
+            child.SetOperandNumber(i);
         }
     }
 

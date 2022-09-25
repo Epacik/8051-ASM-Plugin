@@ -14,7 +14,7 @@ namespace QaD8051JDE.Views
     public partial class FilesList : UserControl
     {
         readonly ViewModels.FilesListViewModel viewModel = new ();
-        private readonly string LanguageFolderPath;
+        private readonly string? LanguageFolderPath;
 
         public FilesList()
         {
@@ -38,7 +38,7 @@ namespace QaD8051JDE.Views
                 viewModel.DocumentationElements.RemoveEditor();
             }
 
-            var files = Directory.GetFiles(LanguageFolderPath);
+            var files = Directory.GetFiles(LanguageFolderPath!);
             viewModel.Categories = files.Select(x => new TextBlock { Text = Path.GetFileName(x), Tag = x })
                 .ToArray();
         }
@@ -91,7 +91,7 @@ namespace QaD8051JDE.Views
                 if (!name.EndsWith(".json"))
                     name += ".json";
 
-                File.WriteAllText(Path.Combine(LanguageFolderPath, name), "{}");
+                File.WriteAllText(Path.Combine(LanguageFolderPath!, name), "{}");
 
                 LoadFiles();
             }
@@ -107,7 +107,7 @@ namespace QaD8051JDE.Views
                 var messagebox = MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Are you sure?", "Are you sure?", ButtonEnum.YesNo, Icon.Info);
 
 
-                if (await messagebox.ShowDialog(desktop.MainWindow) == ButtonResult.No)
+                if (await messagebox.ShowDialog(desktop.MainWindow) != ButtonResult.Yes)
                     return;
             }
 
@@ -148,8 +148,8 @@ namespace QaD8051JDE.Views
                 if (!newFileName.EndsWith(".json"))
                     newFileName += ".json";
 
-                var oldPath = Path.Combine(LanguageFolderPath, fileToEdit + ".json");
-                var newPath = Path.Combine(LanguageFolderPath, newFileName);
+                var oldPath = Path.Combine(LanguageFolderPath!, fileToEdit + ".json");
+                var newPath = Path.Combine(LanguageFolderPath!, newFileName);
                 File.Move(oldPath, newPath);
                 LoadFiles();
             }

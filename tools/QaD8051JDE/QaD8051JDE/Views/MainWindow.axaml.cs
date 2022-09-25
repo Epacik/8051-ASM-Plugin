@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 using System;
 using System.IO;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace QaD8051JDE.Views
         private void MainWindow_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
         {
             if(e.Key == Avalonia.Input.Key.S &&
-               e.Modifiers == Avalonia.Input.InputModifiers.Control)
+               e.KeyModifiers == Avalonia.Input.KeyModifiers.Control)
             {
                 viewModel?.FilesList?.Save();
             }
@@ -37,18 +38,22 @@ namespace QaD8051JDE.Views
 
         private async Task SelectFolder()
         {
-            string? path;
-            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime && lifetime.Args.Length > 0)
+            string? path = null;
+            if (Application.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime && lifetime.Args.Length > 0)
             {
                 path = lifetime.Args[0];
             }
             else 
             {
-                var dialog = new OpenFolderDialog()
+                var dialog = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
                 {
                     Title = "Select folder containing documentation",
-                };
-                path = await dialog.ShowAsync(this);
+                });
+                if(dialog?.FirstOrDefault()?.TryGetUri(out Uri? uri) ?? false)
+                {
+                    path = uri.LocalPath;
+                }
+                
             }
             if(path is null || !Directory.Exists(path))
             {

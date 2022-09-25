@@ -1,28 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0;</TargetFrameworks>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.11" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
+    <PackageReference Include="Avalonia" Version="11.0.0-preview1" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview1" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.11" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
-    <PackageReference Include="MessageBox.Avalonia" Version="1.7.1" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview1" />
+    <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.0-preview1" />
+    <PackageReference Include="FluentAvaloniaUI" Version="2.0.0-preview1" />
+    <PackageReference Include="MessageBox.Avalonia" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\DocumentationElementEditor.axaml.cs">
       <DependentUpon>DocumentationElementEditor.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\DocumentationElementEditorOld.axaml.cs">
-      <DependentUpon>DocumentationElementEditorOld.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

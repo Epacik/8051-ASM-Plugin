@@ -14,27 +14,26 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="210"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Background="#f2f2f2">
             <TextBlock Text="Languages" VerticalAlignment="Center" Margin="10"/>
-            <!--<Button>➕</Button>
-            <Button>➖</Button>
-            <Button>✏️</Button>-->
+            
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <ListBox x:Name="DirectoryContents"
                      Items="{Binding LanguageDirectories}"
                      SelectionChanged="DirectoryContents_SelectionChanged"
                      SelectedItem="{Binding SelectedLanguage}"
-                     SelectionMode="Single">
+                     SelectionMode="Single"
+                     Background="#fafafa">
             </ListBox>
         </ScrollViewer>
         

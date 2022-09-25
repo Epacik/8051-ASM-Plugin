@@ -4,9 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"  
              x:Class="QaD8051JDE.Views.Operand">
+
     <StackPanel Orientation="Horizontal" Spacing="5" Margin="5">
-        <ComboBox x:Name="ValidOperands"></ComboBox>
-        <TextBlock VerticalAlignment="Center"> When first is</TextBlock>
-        <ComboBox x:Name="When"></ComboBox>
+        <ComboBox x:Name="ValidOperands" Width="200"
+                  SelectionChanged="ValidOperands_SelectionChanged"
+                  HorizontalContentAlignment="Left">
+          <ToolTip.Tip>
+            <ToolTip x:Name="ValidOperandsTooltip"/>
+          </ToolTip.Tip>
+        </ComboBox>
+        <TextBlock VerticalAlignment="Center" x:Name="Label"> When first is</TextBlock>
+        <!--<ComboBox x:Name="When" ></ComboBox>-->
+      <DropDownButton ClickMode="Press" x:Name="WhenButton" Content="Any" Width="200">
+        <DropDownButton.Flyout>
+          <Flyout>
+            <ListBox SelectionMode="Multiple" x:Name="WhenListBox"
+                     SelectionChanged="WhenListBox_SelectionChanged"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+          </Flyout>
+        </DropDownButton.Flyout>
+        <ToolTip.Tip>
+          <ToolTip x:Name="WhenTooltip"/>
+        </ToolTip.Tip>
+      </DropDownButton>
     </StackPanel>
 </UserControl>

@@ -52,17 +52,15 @@
                 </Expander>
 
 
-                <Expander Header="Valid operands">
+                <Expander Header="Valid operands" MaxHeight="999999">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal">
                             <Button Click="AddOperandButton_Click">➕</Button>
                             <Button Click="RemoveOperandButton_Click" >➖</Button>
                         </StackPanel>
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="OperandsPanel" Orientation="Horizontal">
+                      <StackPanel x:Name="OperandsPanel" Orientation="Horizontal" MaxHeight="999999">
 
-                            </StackPanel>
-                        </ScrollViewer>
+                      </StackPanel>
                     </StackPanel>
                 </Expander>
 

@@ -31,5 +31,4 @@ public class MainWindowViewModel : ReactiveObject
         get => "QaD8051JDE: " + title;
         set => this.RaiseAndSetIfChanged(ref title, value);
     }
-
 }

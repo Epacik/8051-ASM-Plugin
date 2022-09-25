@@ -10,9 +10,9 @@
         <vm:DocumentationElementListViewModel/>
     </Design.DataContext>
     
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="220"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -20,7 +20,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Background="#e2e2e2">
             <TextBlock Text="Elements" VerticalAlignment="Center" Margin="10"/>
             <Button Click="AddMnemonicButtonClick">➕</Button>
             <Button Click="RemoveMnemonicButtonClick">➖</Button>
@@ -32,7 +32,8 @@
                      Items="{Binding Elements}"
                      SelectionChanged="ElementList_SelectionChanged"
                      SelectedItem="{Binding SelectedElement}"
-                     SelectionMode="Single">
+                     SelectionMode="Single" 
+                     Background="#eaeaea">
             </ListBox>
         </ScrollViewer>
 

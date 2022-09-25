@@ -124,7 +124,7 @@ namespace QaD8051JDE.Views
                 var messagebox = MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Are you sure?", "Are you sure?", ButtonEnum.YesNo, Icon.Info);
 
 
-                if (await messagebox.ShowDialog(desktop.MainWindow) == ButtonResult.No)
+                if (await messagebox.ShowDialog(desktop.MainWindow) != ButtonResult.Yes)
                     return;
             }
 

@@ -12,7 +12,7 @@ namespace QaD8051JDE.Views
         {
             InitializeComponent();
 
-            Flags.Items = ((FlagType[])Enum.GetValues(typeof(FlagType)))
+            Flags!.Items = ((FlagType[])Enum.GetValues(typeof(FlagType)))
                 .Select(x => new TextBlock { Text = $"{(int)x}: {x}", Tag = x });
         }
 
