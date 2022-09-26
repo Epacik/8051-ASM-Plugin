@@ -10,7 +10,7 @@ Made as a part of my Engineering Thesis.
 
 This extension includes a handy built in documentation to help you with writing programs. This also includes an documentation on hover.
 
-\!\[Built-in documentation\]\(https://raw.githubusercontent.com/Epacik/8051-ASM-Plugin/main/plugins/vscode/images/docs.png)
+![Built-in documentation](https://raw.githubusercontent.com/Epacik/8051-ASM-Plugin/main/plugins/vscode/images/docs.png)
 
 ##### Documenting your code!
 
