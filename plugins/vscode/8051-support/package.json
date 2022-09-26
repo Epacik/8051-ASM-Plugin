@@ -113,7 +113,7 @@
 				{
 					"id": "asm8051-docs-list-container",
 					"title": "%asm8051.views.documentationPanel.title%",
-					"icon": "resources/docs.svg"
+					"icon": "resources/docs.png"
 				}
 			]
 		},

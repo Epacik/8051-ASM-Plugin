@@ -9,6 +9,9 @@
    id="svg5"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
    sodipodi:docname="docs.svg"
+   inkscape:export-filename="C:\Users\epat\source\other_repos\8051-ASM-Plugin2\plugins\vscode\8051-support\resources\docs.png"
+   inkscape:export-xdpi="106.21996"
+   inkscape:export-ydpi="106.21996"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -82,19 +85,28 @@
        id="path589"
        cx="5.9376397"
        cy="6.2403593"
-       r="3.0216095" />
+       r="3.0216095"
+       inkscape:export-filename="C:\Users\epat\source\other_repos\8051-ASM-Plugin2\plugins\vscode\8051-support\resources\path589.png"
+       inkscape:export-xdpi="106.21996"
+       inkscape:export-ydpi="106.21996" />
     <circle
        style="fill:#b3b3b3;stroke-width:1.0072"
        id="path598"
        cx="5.8998694"
        cy="15.87174"
-       r="3.0216095" />
+       r="3.0216095"
+       inkscape:export-filename="C:\Users\epat\source\other_repos\8051-ASM-Plugin2\plugins\vscode\8051-support\resources\path589.png"
+       inkscape:export-xdpi="106.21996"
+       inkscape:export-ydpi="106.21996" />
     <circle
        style="fill:#b3b3b3;stroke-width:1.0072"
        id="path600"
        cx="5.8998694"
        cy="25.54089"
-       r="3.0216095" />
+       r="3.0216095"
+       inkscape:export-filename="C:\Users\epat\source\other_repos\8051-ASM-Plugin2\plugins\vscode\8051-support\resources\path589.png"
+       inkscape:export-xdpi="106.21996"
+       inkscape:export-ydpi="106.21996" />
     <rect
        style="fill:#b3b3b3;stroke-width:1.20864"
        id="rect751"
@@ -103,7 +115,10 @@
        x="11.640927"
        y="4.7230744"
        rx="1.2086438"
-       ry="1.2086438" />
+       ry="1.2086438"
+       inkscape:export-filename="C:\Users\epat\source\other_repos\8051-ASM-Plugin2\plugins\vscode\8051-support\resources\path589.png"
+       inkscape:export-xdpi="106.21996"
+       inkscape:export-ydpi="106.21996" />
     <rect
        style="fill:#b3b3b3;stroke-width:1.20864"
        id="rect835"
@@ -112,7 +127,10 @@
        x="11.640927"
        y="14.430995"
        rx="1.2086438"
-       ry="1.2086438" />
+       ry="1.2086438"
+       inkscape:export-filename="C:\Users\epat\source\other_repos\8051-ASM-Plugin2\plugins\vscode\8051-support\resources\path589.png"
+       inkscape:export-xdpi="106.21996"
+       inkscape:export-ydpi="106.21996" />
     <rect
        style="fill:#b3b3b3;stroke-width:1.20864"
        id="rect837"
@@ -121,6 +139,9 @@
        x="11.640927"
        y="23.951962"
        rx="1.2086438"
-       ry="1.2086438" />
+       ry="1.2086438"
+       inkscape:export-filename="C:\Users\epat\source\other_repos\8051-ASM-Plugin2\plugins\vscode\8051-support\resources\path589.png"
+       inkscape:export-xdpi="106.21996"
+       inkscape:export-ydpi="106.21996" />
   </g>
 </svg>
