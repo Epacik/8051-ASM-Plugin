@@ -51,6 +51,10 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
             let dont_duplicate_in_all_docs = item.dont_duplicate_in_all_docs;
             let prefix = item.prefix;
             let prefix_required = item.prefix_required;
+            let label = match item.label {
+                Some(value) => quote::quote!(std::option::Option::Some(std::string::String::from(#value))),
+                None => quote::quote!(std::option::Option::None),
+            };
 
             for partial_key in key.split(";") { 
                 let pkey = partial_key.trim();
@@ -65,6 +69,7 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
                     full_key: std::string::String::from(#key),
                     prefix: std::string::String::from(#prefix),
                     prefix_required: #prefix_required,
+                    label: #label,
                  })});
             }
 
@@ -223,6 +228,7 @@ struct Documentation {
     pub dont_duplicate_in_all_docs: bool,
     pub prefix: std::string::String,
     pub prefix_required: bool,
+    pub label: Option<String>,
 }
 
 #[allow(dead_code)]

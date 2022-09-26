@@ -35,11 +35,11 @@ export class DocumentationTreeProvider extends DocumentationViewBase implements 
         for (const [key, category, entries] of docs) {
             const children: TreeItem[] = [];
 
-            for (const [name, _] of entries) {
+            for (const [name, entry] of entries) {
                 const child = new TreeItem(
-                    name,
+                    entry.label,
                     undefined,
-                    new TreeCommand(name, `asm8051.openDocs`, {category: key, item: name})); 
+                    new TreeCommand(entry.label, `asm8051.openDocs`, {category: key, item: name})); 
                 children.push(child);
             }
 

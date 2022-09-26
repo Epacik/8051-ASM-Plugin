@@ -63,7 +63,7 @@
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": "Helper registers R0 to R7"
   },
   "DPTR": {
     "detail": "Data Pointer",
@@ -107,7 +107,7 @@
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
     "prefix_required": false,
-    "label": "P0;P1;P2;P3;"
+    "label": "Port registers P0 to P3"
   },
   "TMOD": {
     "detail": "Timer Mode",

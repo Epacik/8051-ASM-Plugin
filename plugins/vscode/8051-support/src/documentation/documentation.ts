@@ -7,4 +7,5 @@ export default interface IDocumentation {
     affected_flags: nullishableString,
     valid_operands: nullishableString,
     category: string,
+    label: string,
 }

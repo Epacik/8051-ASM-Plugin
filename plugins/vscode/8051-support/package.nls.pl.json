@@ -16,5 +16,8 @@
   "asm8051.views.documentationPanel.categories.registers": "Rejestry",
   "asm8051.views.documentationPanel.categories.directives": "Dyrektywy",
   "asm8051.views.documentationPanel.categories.flags_and_bits": "Flagi i bity",
-  "asm8051.views.documentationPanel.categories.dsm51": "DSM-51"
+  "asm8051.views.documentationPanel.categories.dsm51": "DSM-51",
+  "asm8051.views.documentationPanel.sections.syntax": "Składnia",
+  "asm8051.views.documentationPanel.sections.validOperands": "Dozwolone operandy",
+  "asm8051.views.documentationPanel.sections.affectedFlags": "Zmodyfikowane flagi"
 }

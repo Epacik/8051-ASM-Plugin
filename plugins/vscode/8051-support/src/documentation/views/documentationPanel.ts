@@ -23,8 +23,6 @@ export class DocumentationPanel extends DocumentationViewBase {
         this.getDocumentation().then(docs => {
             this._getWebviewContent(this._panel.webview, extensionUri, docs, args).then(value => {
                 this._panel.webview.html = value;
-                // if(args !== undefined)
-                //     this.show(args);
             });
         });
     }
@@ -147,15 +145,15 @@ export class DocumentationPanel extends DocumentationViewBase {
             return result.slice(startIndex, endIndex).replace("\n", "").trim();
         }
 
-        let result = `<h3 class="doc-mnemonic" id="${key}">${key}</h3>`;
+        let result = `<h3 class="doc-mnemonic" id="${key}">${doc.label}</h3>`;
         
         let markdown = this.#prepareMarkdownToParse(doc);
         let parsed = await this.#parseMarkdown(markdown);
 
         insertSection(null, getSectionFromParsed("desc"));
-        insertSection("Syntax", getSectionFromParsed("syntax"));
-        insertSection("Valid operands", getSectionFromParsed("valid_operands"));
-        insertSection("Affected flags", getSectionFromParsed("affected_flags"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.syntax"),        getSectionFromParsed("syntax"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.validOperands"), getSectionFromParsed("valid_operands"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.affectedFlags"), getSectionFromParsed("affected_flags"));
 
         return result + `<div class="doc-spacer"></div>\n\n`;
     }

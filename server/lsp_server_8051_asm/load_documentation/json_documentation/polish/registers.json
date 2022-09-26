@@ -7,7 +7,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "B": {
     "detail": "Rejestr B",
@@ -17,7 +18,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "PSW": {
     "detail": "S\u0142owo Stanu Programu",
@@ -27,7 +29,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "@R0;@R1": {
     "detail": "Rejestr",
@@ -37,7 +40,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "TCON": {
     "detail": "Rejestr kontroli Czasomierza",
@@ -47,7 +51,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "R0;R1;R2;R3;R4;R5;R6;R7": {
     "detail": "Rejestr pomocniczy",
@@ -57,7 +62,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": "Rejestry pomocnicze R0 do R7"
   },
   "DPTR": {
     "detail": "Wska\u017Anik danych",
@@ -67,7 +73,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "PC": {
     "detail": "Licznik Programu",
@@ -77,7 +84,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "SP": {
     "detail": "Wska\u017Anik Stosu",
@@ -87,7 +95,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "P0;P1;P2;P3;P0.0;P1.0;P2.0;P3.0;P0.1;P1.1;P2.1;P3.1;P0.2;P1.2;P2.2;P3.2;P0.3;P1.3;P2.3;P3.3;P0.4;P1.4;P2.4;P3.4;P0.5;P1.5;P2.5;P3.5;P0.6;P1.6;P2.6;P3.6;P0.7;P1.7;P2.7;P3.7;": {
     "detail": "Port register",
@@ -97,7 +106,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": "Rejestry port\u00F3w P0 do P3"
   },
   "TMOD": {
     "detail": "Tryb Czasomierza",
@@ -107,7 +117,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "DPL": {
     "detail": "M\u0142odszy bajt Wska\u017Anika Danych",
@@ -117,7 +128,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "DPH": {
     "detail": "Starszy bajt Wska\u017Anika Danych",
@@ -127,7 +139,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "PCON": {
     "detail": "Kontrola Zasilania",
@@ -137,7 +150,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "SCON": {
     "detail": "Kontrola portu szeregowego",
@@ -147,7 +161,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "IE": {
     "detail": "Kontrola Przerwa\u0144",
@@ -157,7 +172,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "IP": {
     "detail": "Priorytet Przerwa\u0144",
@@ -167,7 +183,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "SBUF": {
     "detail": "Bufor Portu Szeregowego",
@@ -177,7 +194,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "TL0": {
     "detail": "M\u0142odszy bajt Czasomierza 0",
@@ -187,7 +205,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "TH0": {
     "detail": "Starszy bajt Czasomierza 0",
@@ -197,7 +216,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "TL1": {
     "detail": "M\u0142odszy bajt Czasomierza 1",
@@ -207,7 +227,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "TH1": {
     "detail": "Timer 1 High",
@@ -217,7 +238,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   },
   "AB": {
     "detail": "Akumulator i rejestr B",
@@ -227,6 +249,7 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null
   }
 }

@@ -16,5 +16,8 @@
   "asm8051.views.documentationPanel.categories.data_transfer": "Data transfer instructions",
   "asm8051.views.documentationPanel.categories.directives": "Directives",
   "asm8051.views.documentationPanel.categories.flags_and_bits": "Flags and bits",
-  "asm8051.views.documentationPanel.categories.dsm51": "DSM-51"
+  "asm8051.views.documentationPanel.categories.dsm51": "DSM-51",
+  "asm8051.views.documentationPanel.sections.syntax": "Syntax",
+  "asm8051.views.documentationPanel.sections.validOperands": "Valid operands",
+  "asm8051.views.documentationPanel.sections.affectedFlags": "Affected flags"
 }

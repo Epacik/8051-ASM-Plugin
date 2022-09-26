@@ -64,8 +64,8 @@ hover-operand0                     = operand0
 hover-operand1                     = operand1
 hover-operand2                     = operand2
 hover-Operand__cap                 = Operand
-hover-validOperands                = Poprawne operandy
-hover-affectedFlags                = Zmodyfikowane flags
+hover-validOperands                = Dozwolone operandy
+hover-affectedFlags                = Zmodyfikowane flagi
 
 hover-goToDocs                     = Przejdź do dokumentacji
 

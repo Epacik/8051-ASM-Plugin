@@ -569,6 +569,7 @@ pub struct Documentation {
     pub category: String,
     pub prefix: String,
     pub prefix_required: bool,
+    pub label: Option<String>,
 }
 
 impl Documentation {
@@ -583,7 +584,8 @@ impl Documentation {
         full_key: &str,
         category: &str,
         prefix: &str,
-        prefix_required: bool) -> Documentation {
+        prefix_required: bool,
+        label: Option<String>) -> Documentation {
 
         Documentation { 
             detail: String::from(detail), 
@@ -595,7 +597,8 @@ impl Documentation {
             dont_duplicate_in_all_docs,
             full_key: String::from(full_key),
             prefix: String::from(prefix),
-            prefix_required
+            prefix_required,
+            label
         }
     }
 }
@@ -869,8 +872,9 @@ mod tests {
                     "TEST",
                     "category", 
                     "", 
-                    false) ; "dont_generate_syntax is set")]
-            #[test_case("", Documentation::new("", "", empty_valid_operands(), empty_affected_flags(), false, false, "", "", "", false) ; "no data is provided") ]
+                    false,
+                    Option::None) ; "dont_generate_syntax is set")]
+            #[test_case("", Documentation::new("", "", empty_valid_operands(), empty_affected_flags(), false, false, "", "", "", false, Option::None) ; "no data is provided") ]
             #[test_case("TEST", Documentation::new(
                 "some detail",
                 "some description",
@@ -881,7 +885,8 @@ mod tests {
                 "TEST",
                 "category", 
                 "", 
-                false) ; "any of the inner vectors of valid operands is empty")]
+                false,
+                Option::None) ; "any of the inner vectors of valid operands is empty")]
             #[test_case("TEST", Documentation::new(
                 "some detail",
                 "some description",
@@ -897,7 +902,8 @@ mod tests {
                 "TEST",
                 "category", 
                 "", 
-                false) ; "lenght of valid_operands vector is greater than 3")]
+                false,
+                Option::None) ; "lenght of valid_operands vector is greater than 3")]
             fn is_empty_when(mnemonic: &str, doc: Documentation) {
                 let mnemonic = String::from(mnemonic);
                 let syntax = syntax((mnemonic, doc));

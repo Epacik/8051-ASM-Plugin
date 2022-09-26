@@ -359,7 +359,8 @@ impl Backend {
                 "syntax": hover::syntax(pair.clone()),
                 "affected_flags": hover::generate_affected_flags(pair.clone().1.affected_flags),
                 "valid_operands": hover::generate_valid_operands(pair.clone().1.valid_operands),
-                "category": pair.1.category
+                "category": pair.1.category,
+                "label": match pair.1.label { Some(value) => value, None => pair.0.clone(), },
             });
             if !pair.1.dont_duplicate_in_all_docs {
                 map.insert(pair.0, obj);
