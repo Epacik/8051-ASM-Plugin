@@ -1,7 +1,7 @@
 {
 	"name": "asm8051",
 	"displayName": "8051 Microcontroller Assembly Tools",
-	"description": "",
+	"description": "Language support for 8051 microcontroller assembly, including documentation on hover, syntax highlighting and handy built in documentation.",
 	"version": "0.1.0",
 	"license": "MIT",
 	"author": {
@@ -66,26 +66,15 @@
 					"scope": "window",
 					"type": "string",
 					"enum": [
-						"generic",
+						"8051",
 						"DSM-51"
 					],
 					"enumDescriptions": [
 						"%asm8051.config.kit.generic%",
 						"%asm8051.config.kit.dsm51%"
 					],
-					"default": "generic",
+					"default": "8051",
 					"description": "%asm8051.config.kit.description%"
-				},
-				"asm8051.language": {
-					"scope": "window",
-					"type": "string",
-					"enum": [
-						"default",
-						"english",
-						"polski"
-					],
-					"default": "default",
-					"description": "%asm8051.config.language%"
 				}
 			}
 		},
