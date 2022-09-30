@@ -56,13 +56,13 @@ impl LanguageServer for Backend {
                 text_document_sync: Some(TextDocumentSyncCapability::from(
                     TextDocumentSyncKind::FULL,
                 )),
-
-                completion_provider: Some(CompletionOptions {
-                    resolve_provider: Option::from(true),
-                    trigger_characters: None,
-                    all_commit_characters: None,
-                    work_done_progress_options: Default::default(),
-                }),
+                
+                // completion_provider: Some(CompletionOptions {
+                //     resolve_provider: Option::from(true),
+                //     trigger_characters: None,
+                //     all_commit_characters: None,
+                //     work_done_progress_options: Default::default(),
+                // }),
                 hover_provider: Some(HoverProviderCapability::Options(
                     HoverOptions { 
                         work_done_progress_options: WorkDoneProgressOptions { 
@@ -191,7 +191,6 @@ impl LanguageServer for Backend {
         Ok(Some(Hover {
             contents: HoverContents::Array(doc),
             range: None,
-            
         }))
     }
 
