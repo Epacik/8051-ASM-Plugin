@@ -36,11 +36,11 @@
 		},
 		{
 			"name": "keyword.other",
-			"match": "(?<=(LCALL|ACALL|CALL|LJMP|SJMP)\\s*)\\w+"
+			"match": "(?i)(?<=(LCALL|ACALL|CALL|LJMP|SJMP)\\s*)\\w+"
 		},
 		{
 			"name": "keyword.control.asm",
-			"match": "\\b(NOP|AJMP|LJMP|RR|INC|JBC|ACALL|LCALL|RRC|DEC|JB|RL|ADD|JNB|ACALL|RLC|ADDC|JC|ORL|JNC|ANL|JZ|XRL|JNZ|XRL|JMP|MOV|SJMP|MOVC|DIV|SUBB|MUL|CPL|CJNE|PUSH|CLR|SWAP|XCH|POP|SETB|DA|DJNZ|XCHD|MOVX|ORG|CALL)\\b"
+			"match": "(?i)\\b(NOP|AJMP|LJMP|RR|INC|JBC|ACALL|LCALL|RRC|DEC|JB|RL|ADD|JNB|ACALL|RLC|ADDC|JC|ORL|JNC|ANL|JZ|XRL|JNZ|XRL|JMP|MOV|SJMP|MOVC|DIV|SUBB|MUL|CPL|CJNE|PUSH|CLR|SWAP|XCH|POP|SETB|DA|DJNZ|XCHD|MOVX|ORG|CALL)\\b"
 		},
 		{
 			"name": "keyword.other",
@@ -49,15 +49,15 @@
 		
 		{
 			"name": "meta.structure.dictionary.key.python",
-			"match": "\\b(RET|RETI)\\b"
+			"match": "(?i)\\b(RET|RETI)\\b"
 		},
 		{
 			"name": "entity.name.class",
-			"match": "@?R[0-7]"
+			"match": "(?i)@?R[0-7]"
 		},
 		{
 			"name": "entity.name.tag",
-			"match": "\\b(A|B|AB|C)\\b"
+			"match": "(?i)\\b(A|B|AB|C)\\b"
 		},
 		{
 			"name":  "variable.name",
@@ -73,7 +73,7 @@
 		},
 		{
 			"name":	"support.function",
-			"match": "\\b(ORG|DB|DW|END|EQU|SET|BIT|REG|IF|ELSE|ENDIF|MACRO|ENDM|MACEND|EXITM|INCLUDE|INCDIR)\\b"
+			"match": "(?i)\\b(ORG|DB|DW|END|EQU|SET|BIT|REG|IF|ELSE|ENDIF|MACRO|ENDM|MACEND|EXITM|INCLUDE|INCDIR)\\b"
 		}
 	],
 	"repository": {
