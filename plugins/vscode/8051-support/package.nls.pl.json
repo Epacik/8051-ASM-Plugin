@@ -1,5 +1,6 @@
 {
   "asm8051.commands.openDocs": "8051 Microcontroller Assembly Support: Otwórz dokumentację",
+  "asm8051.commands.refreshDocsTree": "Odśwież drzewo dokumentacji",
   "asm8051.config.maxNumberOfProblems": "Kontroluje maksymalną liczbę problemów generowanych przez serwer.",
   "asm8051.config.trace_server": "Śledzi komunikację między programem VS Code a serwerem języka.",
   "asm8051.config.kit.description": "Zmienia dostępny zestaw dokumentacji i diagnostyki",

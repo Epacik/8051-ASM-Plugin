@@ -11,11 +11,14 @@ export class DocumentationTreeProvider extends DocumentationViewBase implements 
 
     constructor(client: LanguageClient) {
         super(client);
+        this.#refresh.bind(this);
+        vscode.commands.registerCommand("asm8051.refreshDocsTree", () => this.#onDidChangeTreeData.fire());
     }
-    onDidChangeTreeData?: vscode.Event<void | TreeItem | null | undefined> | undefined;
+    #onDidChangeTreeData: vscode.EventEmitter<void | TreeItem | null | undefined> = new vscode.EventEmitter<void | TreeItem | null | undefined>();
+    onDidChangeTreeData?: vscode.Event<void | TreeItem | null | undefined> | undefined = this.#onDidChangeTreeData.event;
 
     getTreeItem(element: TreeItem): vscode.TreeItem|Thenable<vscode.TreeItem> {
-    return element;
+        return element;
     }
 
     getChildren(element?: TreeItem|undefined): vscode.ProviderResult<TreeItem[]> {

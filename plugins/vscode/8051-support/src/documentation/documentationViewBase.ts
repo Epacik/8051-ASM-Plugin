@@ -79,7 +79,8 @@ export default class DocumentationViewBase {
     }
 
     protected async getDocumentation(): Promise<([key: string, label: string, entries: ([name: string, data: IDocumentation])[]])[]> {
-        const docs: Map<string, IDocumentation> = this.objectToMap(await this.#client.sendRequest("documentation/getAll"));
+        const rawDocs = await this.#client.sendRequest("documentation/getAll")
+        const docs: Map<string, IDocumentation> = this.objectToMap(rawDocs);
         const categorized = this.categorize(this.sortDocs(docs));
         return this.sortCategories(categorized);
     }

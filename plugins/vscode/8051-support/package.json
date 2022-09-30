@@ -26,6 +26,11 @@
       {
         "command": "asm8051.openDocs",
         "title": "%asm8051.commands.openDocs%"
+      },
+      {
+        "command": "asm8051.refreshDocsTree",
+        "title": "%asm8051.commands.refreshDocsTree%",
+        "icon": "$(refresh)"
       }
     ],
     "languages": [
@@ -124,11 +129,20 @@
           "name": "%asm8051.views.documentationPanel.title%"
         }
       ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "asm8051.refreshDocsTree",
+          "when": "view == asm8051-docs-list",
+          "group": "navigation"
+        }
+      ]
     }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
-    "compile": "tsc -b ./",
+    "compile": "tsc -b ./ && pwsh ./copyServerBinaries.ps1",
     "watch": "tsc -watch -b ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
