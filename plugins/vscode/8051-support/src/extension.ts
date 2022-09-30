@@ -70,6 +70,9 @@ function getServerOptions(extensionUri: Uri): ServerOptions {
 		};
 	}
 	else {
+		if(process.platform == "linux") { //there's probably a better way, but I'm lazy
+			ChildProcess.execSync(`chmod +x "${Uri.joinPath(extensionUri, ...["out", "bin", "lsp_server_8051_asm"]).fsPath}"`)
+		}
 		return {
 			command: Uri.joinPath(extensionUri, ...["out", "bin", "lsp_server_8051_asm"]).fsPath,
 			args: [ "--use-stdio" ],

@@ -1,7 +1,7 @@
 //#region imports
 use crate::{localize, flags::Locale, client_configuration::ClientConfiguration, };
 use lazy_static::lazy_static;
-use tower_lsp::lsp_types::{ MarkedString, Position, TextDocumentItem, LanguageString};
+use tower_lsp::lsp_types::*;
 use regex::Regex;
 use std::borrow::Borrow;
 use std::collections::HashMap;
@@ -214,6 +214,10 @@ pub(crate) fn documentation(
 }
 
 fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> Vec<MarkedString> {
+    if pos == 0 {
+        return Vec::new();
+    }
+
     let lines = document.text.lines();
     let lines = lines.into_iter().collect::<Vec<&str>>();
     let prev_text = lines[(pos - 1) as usize];

@@ -1,16 +1,10 @@
 //#region imports hell
 use crate::{diagnostics, hover, client_configuration::ClientConfiguration, flags::Locale, LANG_ID, localize};
 use dashmap::DashMap;
-use tower_lsp::{
-    Client, LanguageServer,
-    jsonrpc::{ Error, ErrorCode, Result },
-    lsp_types::{ClientCapabilities, CompletionItem, CompletionOptions, CompletionParams, CompletionResponse,
-        ConfigurationItem, DidChangeConfigurationParams, DidCloseTextDocumentParams,
-        DidOpenTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, Hover, HoverContents,
-        HoverParams, HoverProviderCapability, InitializeParams, InitializeResult, InitializedParams,
-        MessageType, Registration, TextDocumentItem, TextDocumentSyncCapability, TextDocumentSyncKind,
-        DidChangeTextDocumentParams, ServerCapabilities, HoverOptions, WorkDoneProgressOptions, }
-};
+use tower_lsp::*;
+use tower_lsp::jsonrpc::*;
+use tower_lsp::lsp_types::*;
+
 
 use serde_json::Value;
 use tokio::sync::Mutex;
