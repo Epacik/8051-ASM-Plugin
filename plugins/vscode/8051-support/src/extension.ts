@@ -77,16 +77,6 @@ function getServerOptions(extensionUri: Uri): ServerOptions {
 			command: Uri.joinPath(extensionUri, ...["out", "bin", "lsp_server_8051_asm"]).fsPath,
 			args: [ "--use-stdio" ],
 		};
-		// return async () => {
-		// 	ChildProcess.spawnSync();
-
-		// 	let socket = net.connect({ port: 8050, });
-		// 	let result: StreamInfo = {
-		// 		writer: socket,
-		// 		reader: socket
-		// 	};
-		// 	return result;
-		// };
 	}
 }
 
