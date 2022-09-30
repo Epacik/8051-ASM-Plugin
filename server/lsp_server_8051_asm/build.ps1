@@ -38,9 +38,9 @@ if($Clean){
 if ($targets | HasTarget Windows64 ) {
     Write-Output "Building for x86_64-pc-windows-gnu"
     Set-Location "$PSScriptRoot/load_documentation"
-    Invoke-Expression -Command "cross build -r --target x86_64-pc-windows-gnu"
+    Invoke-Expression -Command "cross build --release --target x86_64-pc-windows-gnu"
     Set-Location "$PSScriptRoot"
-    Invoke-Expression -Command "cross build -r --target x86_64-pc-windows-gnu"
+    Invoke-Expression -Command "cross build --release --target x86_64-pc-windows-gnu"
     Write-Output ""
     Write-Output ""
 }
@@ -48,9 +48,9 @@ if ($targets | HasTarget Windows64 ) {
 if ($targets | HasTarget Windows32) {
     Write-Output "Building for i686-pc-windows-gnu"
     Set-Location "$PSScriptRoot/load_documentation"
-    Invoke-Expression -Command "cross build -r --target i686-pc-windows-gnu"
+    Invoke-Expression -Command "cross build --release --target i686-pc-windows-gnu"
     Set-Location "$PSScriptRoot"
-    Invoke-Expression -Command "cross build -r --target i686-pc-windows-gnu"
+    Invoke-Expression -Command "cross build --release --target i686-pc-windows-gnu"
     Write-Output ""
     Write-Output ""
 }
@@ -58,9 +58,9 @@ if ($targets | HasTarget Windows32) {
 if ($targets | HasTarget Linux64) {
     Write-Output "Building for x86_64-unknown-linux-gnu"
     Set-Location "$PSScriptRoot/load_documentation"
-    Invoke-Expression -Command "cross build -r --target x86_64-unknown-linux-gnu"
+    Invoke-Expression -Command "cross build --release --target x86_64-unknown-linux-gnu"
     Set-Location "$PSScriptRoot"
-    Invoke-Expression -Command "cross build -r --target x86_64-unknown-linux-gnu"
+    Invoke-Expression -Command "cross build --release --target x86_64-unknown-linux-gnu"
     Write-Output ""
     Write-Output ""
 }
