@@ -10,7 +10,14 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			}
+			},
+		},
+		{
+			"type": "shell",
+			"label": "copyServer",
+			"command": "pwsh",
+			"args": ["./copyServerBinaries.ps1"],
+			"dependsOn":["tsc"]
 		}
 	]
 }

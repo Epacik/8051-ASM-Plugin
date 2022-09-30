@@ -30,7 +30,7 @@
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
-			"preLaunchTask": "tsc"
+			"preLaunchTask": "copyServer"
 		},
 		{
 			"name": "Extension Tests",
