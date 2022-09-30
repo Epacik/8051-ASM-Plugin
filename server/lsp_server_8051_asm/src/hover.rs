@@ -208,8 +208,8 @@ pub(crate) fn documentation(
         Symbol::Number(number) => documentation_number(number, locale),
         Symbol::Label(label, pos) => documentation_label(label, pos, document.borrow()),
         Symbol::PredefinedSymbol(mnemonic) => documentation_predefined(mnemonic, locale),
-        Symbol::Constant(_, _) => Vec::new(),
-        Symbol::Macro(_, _) => Vec::new(),
+        Symbol::Constant(label, pos) => documentation_label(label, pos, document.borrow()),
+        Symbol::Macro(label, pos) => documentation_label(label, pos, document.borrow()),
     }
 }
 
@@ -225,7 +225,7 @@ fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> 
         return Vec::new();
     }
 
-    let mut comment_start: u32 = pos;
+    let mut comment_start: u32 = pos - 1;
     for i in (0..pos).rev() {
         if !lines[i as usize].trim().starts_with(";") {
             comment_start = i + 1;
@@ -423,10 +423,11 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
     let chars = chars[(symbol_start_position as usize)..(symbol_end_position as usize)].borrow();
 
     let symbol_text = String::from_iter(chars);
-    if DOCUMENTATION[&Locale::ENGLISH].contains_key(&symbol_text) {
+    let symbol_text_upper = symbol_text.to_uppercase();
+    if DOCUMENTATION[&Locale::ENGLISH].contains_key(&symbol_text_upper) {
         return Symbol::PredefinedSymbol(symbol_text);
     }
-    else if symbol_text.starts_with("#") {
+    else if is_symbol_number(&symbol_text) {
         return Symbol::Number(symbol_text);
     }
     
@@ -445,9 +446,21 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
         return Symbol::Label(symbol_text, sym.1);
     }
     
-
     Symbol::None
 
+}
+
+fn is_symbol_number(symbol_text: &str) -> bool {
+    symbol_text.starts_with("#0") ||
+    symbol_text.starts_with("#1") ||
+    symbol_text.starts_with("#2") ||
+    symbol_text.starts_with("#3") ||
+    symbol_text.starts_with("#4") ||
+    symbol_text.starts_with("#5") ||
+    symbol_text.starts_with("#6") ||
+    symbol_text.starts_with("#7") ||
+    symbol_text.starts_with("#8") ||
+    symbol_text.starts_with("#9")
 }
 
 fn is_symbol_macro(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
@@ -485,10 +498,19 @@ fn is_symbol_label(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32
 }
 
 fn is_symbol_constant(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
+    let symbol_text2 = if symbol_text.starts_with("#") { 
+        let chars = symbol_text.borrow().chars().collect::<Vec<char>>();
+        let chars = chars[1..].borrow();
+        String::from_iter(chars)
+    }
+    else {
+        String::from(symbol_text.borrow())
+    };
+
     let lines = document.text.lines();
     let mut line_number: u32 = 0;
     for line in lines {
-        if line.starts_with(symbol_text) && 
+        if (line.starts_with(symbol_text) || line.starts_with(symbol_text2.as_str())) && 
            str_contains_any(
                 line.borrow(), 
                 &[ "EQU", "SET", "DB", "DW", "REG", "BIT" ], 
