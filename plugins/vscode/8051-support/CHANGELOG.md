@@ -1,9 +1,6 @@
-# Change Log
+### 0.1.0
 
-All notable changes to the "8051-suppport" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+Initial release:
+- Built in documentation of 8051 microcontroller and DSM-51 learning kit
+- Comments above labels are treated as documentation of those labels
+- Assembly syntax coloring
