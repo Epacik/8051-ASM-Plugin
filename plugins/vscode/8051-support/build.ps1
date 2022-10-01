@@ -6,7 +6,7 @@ param (
     [switch]$IncrementMinor,
 
     [Parameter(HelpMessage="Stops script from incrementing a Patch version number after building vsix")]
-    [switch]$DontIncrementPatch,
+    [switch]$IncrementPatch,
 
     [Parameter(HelpMessage="Stops script from rebuilding a LSP Server")]
     [switch]$DontRebuildServer,
@@ -62,7 +62,7 @@ $patch = $version.Build
 
 if ($IncrementMajor) { $major = ($major + 1) }
 if ($IncrementMinor) { $minor = ($minor + 1) }
-if (-Not ($DontIncrementPatch)) { $patch = ($patch + 1) }
+if ($IncrementPatch) { $patch = ($patch + 1) }
 
 $version = New-Object System.Version($major, $minor, $patch)
 $version = ($version.ToString(3))
