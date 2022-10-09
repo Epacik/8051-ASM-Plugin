@@ -207,7 +207,7 @@ pub(crate) fn documentation(
         Symbol::None => Vec::new(),
         Symbol::Number(number) => documentation_number(number, locale),
         Symbol::Label(label, pos) => documentation_label(label, pos, document.borrow()),
-        Symbol::PredefinedSymbol(mnemonic) => documentation_predefined(mnemonic, locale),
+        Symbol::Keyword(mnemonic) => documentation_keyword(mnemonic, locale),
         Symbol::Constant(label, pos) => documentation_label(label, pos, document.borrow()),
         Symbol::Macro(label, pos) => documentation_label(label, pos, document.borrow()),
     }
@@ -267,20 +267,19 @@ fn documentation_number(number: String, _locale: Locale) -> Vec<MarkedString> {
         localize!("hover-numberBase-label-hexadecimal")
     );
 
-    let parse_result: Result<i32, std::num::ParseIntError>;
-
+    let parse_result: Result<i32, std::num::ParseIntError> = 
     if number.ends_with("b") || number.ends_with("B") {
         let n = &number[1..(number.len() - 1)];
-        parse_result = i32::from_str_radix(n, 2);
+        i32::from_str_radix(n, 2)
     }
     else if number.ends_with("h") || number.ends_with("H") {
         let n = &number[1..(number.len() - 1)];
-        parse_result = i32::from_str_radix(n, 16);
+        i32::from_str_radix(n, 16)
     }
     else {
         let n = &number[1..];
-        parse_result = i32::from_str_radix(n, 10);
-    }
+        i32::from_str_radix(n, 10)
+    };
 
     let value = match parse_result {
         Ok(v) => v,
@@ -296,21 +295,14 @@ fn documentation_number(number: String, _locale: Locale) -> Vec<MarkedString> {
 
 }
 
-fn documentation_predefined(mnemonic: String, locale: Locale) -> Vec<MarkedString> {
+fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> {
     
-    let mut documentation_option = get_documentation(locale, mnemonic.clone());
-
-    if documentation_option.is_none() && locale != Locale::ENGLISH {
-        documentation_option = get_documentation(Locale::ENGLISH, mnemonic.clone());
-    }
-
-    if documentation_option.is_none() {
-        return <Vec<MarkedString>>::new();
-    }
-
-    let documentation = match documentation_option {
-        None => Documentation::default(),
-        Some(d) => d,
+    let documentation = match get_documentation(locale, mnemonic.clone()) {
+        Some(docs) => docs,
+        None => match get_documentation(Locale::ENGLISH, mnemonic.clone()) {
+            Some(docs) => docs,
+            None => return <Vec<MarkedString>>::new(),
+        },
     };
 
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
@@ -425,7 +417,7 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
     let symbol_text = String::from_iter(chars);
     let symbol_text_upper = symbol_text.to_uppercase();
     if DOCUMENTATION[&Locale::ENGLISH].contains_key(&symbol_text_upper) {
-        return Symbol::PredefinedSymbol(symbol_text);
+        return Symbol::Keyword(symbol_text);
     }
     else if is_symbol_number(&symbol_text) {
         return Symbol::Number(symbol_text);
@@ -577,7 +569,7 @@ pub enum Symbol {
     None,
     Number(String),
     Label(String, u32),
-    PredefinedSymbol(String),
+    Keyword(String),
     Constant(String, u32),
     Macro(String, u32),
 }
