@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "lsp_server_8051_asm"
+		},
+		{
+			"path": "asm8051_parser"
+		}
+	],
+	"settings": {}
+}
