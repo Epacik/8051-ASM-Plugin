@@ -1,0 +1,13 @@
+[package]
+name = "asm8051_parser"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+[dependencies]
+chumsky = "*"
+string-join = "*"
+
+[dev-dependencies]
+test-case = "*"

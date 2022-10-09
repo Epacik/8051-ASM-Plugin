@@ -1,0 +1,27 @@
+{
+    // Użyj funkcji IntelliSense, aby uzyskać informacje o możliwych atrybutach.
+    // Najedź kursorem, aby wyświetlić opisy istniejących atrybutów.
+    // Aby uzyskać więcej informacji, odwiedź stronę: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Run tests in parser",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=asm8051_parser",
+                    "--package=asm8051_parser"
+                ],
+                "filter": {
+                    "name": "asm8051_parser",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
