@@ -7,20 +7,6 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Cargo test proc_macro",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--lib=load_documentation"
-                ]
-            },
-            "program": "${cargo:program}",
-            "args": []
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
             "name": "Debug executable 'lsp_server_8051_asm'",
             "cargo": {
                 "args": [
