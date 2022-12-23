@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 chumsky = "*"
 string-join = "*"
+ropey =  { version = "*", features = ["unicode_lines"] }
 
 [dev-dependencies]
 test-case = "*"

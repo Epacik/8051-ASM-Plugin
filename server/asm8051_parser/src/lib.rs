@@ -1,3 +1,4 @@
+pub mod lexer_old;
 pub mod lexer;
 
 #[allow(dead_code)]
