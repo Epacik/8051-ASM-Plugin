@@ -1,10 +1,10 @@
 //#region imports
-use crate::{localize, flags::Locale, client_configuration::ClientConfiguration, };
+use crate::{client_configuration::ClientConfiguration, flags::Locale, localize};
 use lazy_static::lazy_static;
-use tower_lsp::lsp_types::*;
 use regex::Regex;
 use std::borrow::Borrow;
 use std::collections::HashMap;
+use tower_lsp::lsp_types::*;
 //#endregion
 
 pub(crate) fn all_documentation(locale: Locale) -> Option<HashMap<String, Documentation>> {
@@ -25,7 +25,7 @@ pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
     }
 
     let operands = docs.valid_operands.clone();
-    
+
     for op in docs.valid_operands {
         if op.is_empty() {
             return String::from("");
@@ -36,7 +36,13 @@ pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
         0 => key,
         1 => syntax_one_operand(key, operands[0].borrow(), docs.prefix),
         2 => syntax_two_operands(key, operands[0].borrow(), operands[1].borrow(), docs.prefix),
-        3 => syntax_three_operands(key, operands[0].borrow(), operands[1].borrow(), operands[2].borrow(), docs.prefix),
+        3 => syntax_three_operands(
+            key,
+            operands[0].borrow(),
+            operands[1].borrow(),
+            operands[2].borrow(),
+            docs.prefix,
+        ),
         _ => "".to_string(),
     }
 }
@@ -46,47 +52,88 @@ fn syntax_one_operand(key: String, operands: &Vec<ValidOperand>, prefix: String)
 
     for operand in operands {
         result.push_str(format!("{}{} [{}]\n", prefix, key, operand.operand().label()).as_str());
-        result.push_str(format!("{}{} {}\n\n", prefix, key, operand.operand().example(None)).as_str());
-    }    
+        result.push_str(
+            format!("{}{} {}\n\n", prefix, key, operand.operand().example(None)).as_str(),
+        );
+    }
 
     result
 }
 
-fn syntax_two_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [{}], [{}]\n\n", 
-        prefix,
-        key, 
-        localize!("hover-operand0"), 
-        localize!("hover-operand1"));
-
-    for operand0 in operands0.clone() {
-        for operand1 in operands1.clone() {
-            if operand1.when_first_is() != PossibleOperand::ANY && operand1.when_first_is() != operand0.operand() {
-                continue;
-            }
-            result.push_str(format!("{}{} [{}], [{}]\n", prefix,  key, operand0.operand().label(), operand1.operand().label()).as_str());
-            result.push_str(format!("{}{} {}, {}\n\n", prefix,  key, operand0.operand().example(None), operand1.operand().example(None)).as_str());
-        }
-    }    
-
-    result
-}
-
-fn syntax_three_operands(key: String, operands0: &Vec<ValidOperand>, operands1: &Vec<ValidOperand>, operands2: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [{}], [{}], [{}]\n\n",
+fn syntax_two_operands(
+    key: String,
+    operands0: &Vec<ValidOperand>,
+    operands1: &Vec<ValidOperand>,
+    prefix: String,
+) -> String {
+    let mut result = format!(
+        "{}{} [{}], [{}]\n\n",
         prefix,
         key,
-        localize!("hover-operand0"), 
-        localize!("hover-operand1"), 
-        localize!("hover-operand2"));
+        localize!("hover-operand0"),
+        localize!("hover-operand1")
+    );
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
-            if operand1.when_first_is() != PossibleOperand::ANY && operand1.when_first_is() != operand0.operand() {
+            if operand1.when_first_is() != PossibleOperand::ANY
+                && operand1.when_first_is() != operand0.operand()
+            {
+                continue;
+            }
+            result.push_str(
+                format!(
+                    "{}{} [{}], [{}]\n",
+                    prefix,
+                    key,
+                    operand0.operand().label(),
+                    operand1.operand().label()
+                )
+                .as_str(),
+            );
+            result.push_str(
+                format!(
+                    "{}{} {}, {}\n\n",
+                    prefix,
+                    key,
+                    operand0.operand().example(None),
+                    operand1.operand().example(None)
+                )
+                .as_str(),
+            );
+        }
+    }
+
+    result
+}
+
+fn syntax_three_operands(
+    key: String,
+    operands0: &Vec<ValidOperand>,
+    operands1: &Vec<ValidOperand>,
+    operands2: &Vec<ValidOperand>,
+    prefix: String,
+) -> String {
+    let mut result = format!(
+        "{}{} [{}], [{}], [{}]\n\n",
+        prefix,
+        key,
+        localize!("hover-operand0"),
+        localize!("hover-operand1"),
+        localize!("hover-operand2")
+    );
+
+    for operand0 in operands0.clone() {
+        for operand1 in operands1.clone() {
+            if operand1.when_first_is() != PossibleOperand::ANY
+                && operand1.when_first_is() != operand0.operand()
+            {
                 continue;
             }
             for operand2 in operands2.clone() {
-                if operand2.when_first_is() != PossibleOperand::ANY && operand2.when_first_is() != operand0.operand() {
+                if operand2.when_first_is() != PossibleOperand::ANY
+                    && operand2.when_first_is() != operand0.operand()
+                {
                     continue;
                 }
                 result.push_str(
@@ -94,23 +141,27 @@ fn syntax_three_operands(key: String, operands0: &Vec<ValidOperand>, operands1: 
                         "{}{} [{}], [{}], [{}]\n",
                         prefix,
                         key,
-                        operand0.operand().label(), 
-                        operand1.operand().label(), 
+                        operand0.operand().label(),
+                        operand1.operand().label(),
                         operand2.operand().label()
-                    ).as_str());
+                    )
+                    .as_str(),
+                );
 
                 result.push_str(
                     format!(
-                        "{}{} {}, {}, {}\n\n", 
+                        "{}{} {}, {}, {}\n\n",
                         prefix,
-                        key, 
-                        operand0.operand().example(None), 
+                        key,
+                        operand0.operand().example(None),
                         operand1.operand().example(None),
                         operand2.operand().example(None)
-                    ).as_str());
+                    )
+                    .as_str(),
+                );
             }
         }
-    }    
+    }
 
     result
 }
@@ -146,7 +197,6 @@ pub(crate) fn generate_affected_flags(flags: Vec<Flag>) -> String {
 }
 
 pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> String {
-    
     if operands.len() == 0 {
         return String::new();
     }
@@ -158,11 +208,10 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
             result.push_str(operand.operand().label().as_str());
             result.push_str("\n");
         }
-    }
-    else {
-        let mut filtered : Vec<Vec<i32>> = Vec::new();
+    } else {
+        let mut filtered: Vec<Vec<i32>> = Vec::new();
         for i in 0..operands.len() {
-            let inner = &operands[i]; 
+            let inner = &operands[i];
             filtered.push(Vec::new());
             for operand in inner {
                 if !filtered[i].contains(&operand.operand) {
@@ -172,7 +221,6 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
         }
 
         for i in 0..filtered.len() {
-
             result.push_str("**");
             result.push_str(localize!("hover-Operand__cap").as_str());
             result.push_str(i.to_string().as_str());
@@ -180,7 +228,11 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
 
             for operand in filtered[i].clone() {
                 result.push_str(" - ");
-                result.push_str(PossibleOperand::from_bits_truncate(operand).label().as_str());
+                result.push_str(
+                    PossibleOperand::from_bits_truncate(operand)
+                        .label()
+                        .as_str(),
+                );
                 result.push_str("\n");
             }
 
@@ -198,9 +250,8 @@ pub(crate) fn documentation(
     position: Position,
     document: &TextDocumentItem,
     _configuration: &ClientConfiguration,
-    locale: Locale
+    locale: Locale,
 ) -> Vec<MarkedString> {
-
     let symbol = get_symbol(document, position);
 
     match symbol {
@@ -238,7 +289,7 @@ fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> 
     }
 
     let lines = &lines[(comment_start as usize)..(pos as usize)];
-    
+
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
 
     let tmp = format!("**{}**", label.as_str());
@@ -260,43 +311,37 @@ fn clean_markdown(tmp: &str) -> String {
 }
 
 fn documentation_number(number: String, _locale: Locale) -> Vec<MarkedString> {
-    
     let labels: (String, String, String) = (
         localize!("hover-numberBase-label-binary"),
         localize!("hover-numberBase-label-decimal"),
-        localize!("hover-numberBase-label-hexadecimal")
+        localize!("hover-numberBase-label-hexadecimal"),
     );
 
-    let parse_result: Result<i32, std::num::ParseIntError> = 
-    if number.ends_with("b") || number.ends_with("B") {
-        let n = &number[1..(number.len() - 1)];
-        i32::from_str_radix(n, 2)
-    }
-    else if number.ends_with("h") || number.ends_with("H") {
-        let n = &number[1..(number.len() - 1)];
-        i32::from_str_radix(n, 16)
-    }
-    else {
-        let n = &number[1..];
-        i32::from_str_radix(n, 10)
-    };
+    let parse_result: Result<i32, std::num::ParseIntError> =
+        if number.ends_with("b") || number.ends_with("B") {
+            let n = &number[1..(number.len() - 1)];
+            i32::from_str_radix(n, 2)
+        } else if number.ends_with("h") || number.ends_with("H") {
+            let n = &number[1..(number.len() - 1)];
+            i32::from_str_radix(n, 16)
+        } else {
+            let n = &number[1..];
+            i32::from_str_radix(n, 10)
+        };
 
     let value = match parse_result {
         Ok(v) => v,
         Err(_) => return Vec::new(),
     };
 
-    let string = MarkedString::String(
-        format!("{}: #{:b}b\n\n{}: #{}\n\n{}: #{:X}h",
-         labels.0, value,
-         labels.1, value,
-         labels.2, value));
+    let string = MarkedString::String(format!(
+        "{}: #{:b}b\n\n{}: #{}\n\n{}: #{:X}h",
+        labels.0, value, labels.1, value, labels.2, value
+    ));
     vec![string]
-
 }
 
 fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> {
-    
     let documentation = match get_documentation(locale, mnemonic.clone()) {
         Some(docs) => docs,
         None => match get_documentation(Locale::ENGLISH, mnemonic.clone()) {
@@ -333,32 +378,28 @@ fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> 
     let tmp = generate_valid_operands(documentation.valid_operands.clone());
 
     if tmp != "" {
-        documentation_vector.push(MarkedString::String(
-            format!(
-                "{}:\n\n{}",
-                localize!("hover-validOperands"),
-                tmp)));
+        documentation_vector.push(MarkedString::String(format!(
+            "{}:\n\n{}",
+            localize!("hover-validOperands"),
+            tmp
+        )));
     }
 
     let tmp = generate_affected_flags(documentation.affected_flags.clone());
     if tmp != "" {
-        documentation_vector.push(MarkedString::String(
-            format!(
-                "{}:\n\n{}",
-                localize!("hover-affectedFlags"),
-                tmp)));
+        documentation_vector.push(MarkedString::String(format!(
+            "{}:\n\n{}",
+            localize!("hover-affectedFlags"),
+            tmp
+        )));
     }
 
-    documentation_vector.push(
-        MarkedString::String(
-            format!(
-                "[{}](command:asm8051.openDocs?%7B%22category%22:%22{}%22,%22item%22:%22{}%22%7D)",
-                localize!("hover-goToDocs"),
-                documentation.category, 
-                mnemonic
-            )
-        )
-    );
+    documentation_vector.push(MarkedString::String(format!(
+        "[{}](command:asm8051.openDocs?%7B%22category%22:%22{}%22,%22item%22:%22{}%22%7D)",
+        localize!("hover-goToDocs"),
+        documentation.category,
+        mnemonic
+    )));
 
     documentation_vector
 }
@@ -398,7 +439,7 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
             break;
         }
     }
-    
+
     // find end of the symbol user is hovering over
     for i in position.character..(chars_length as u32) {
         if !is_valid_character(chars[i as usize]) {
@@ -418,16 +459,15 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
     let symbol_text_upper = symbol_text.to_uppercase();
     if DOCUMENTATION[&Locale::ENGLISH].contains_key(&symbol_text_upper) {
         return Symbol::Keyword(symbol_text);
-    }
-    else if is_symbol_number(&symbol_text) {
+    } else if is_symbol_number(&symbol_text) {
         return Symbol::Number(symbol_text);
     }
-    
+
     let sym = is_symbol_constant(&symbol_text, document.borrow());
     if sym.0 {
         return Symbol::Constant(symbol_text, sym.1);
     }
-    
+
     let sym = is_symbol_macro(&symbol_text, document.borrow());
     if sym.0 {
         return Symbol::Macro(symbol_text, sym.1);
@@ -437,33 +477,28 @@ fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
     if sym.0 {
         return Symbol::Label(symbol_text, sym.1);
     }
-    
-    Symbol::None
 
+    Symbol::None
 }
 
 fn is_symbol_number(symbol_text: &str) -> bool {
-    symbol_text.starts_with("#0") ||
-    symbol_text.starts_with("#1") ||
-    symbol_text.starts_with("#2") ||
-    symbol_text.starts_with("#3") ||
-    symbol_text.starts_with("#4") ||
-    symbol_text.starts_with("#5") ||
-    symbol_text.starts_with("#6") ||
-    symbol_text.starts_with("#7") ||
-    symbol_text.starts_with("#8") ||
-    symbol_text.starts_with("#9")
+    symbol_text.starts_with("#0")
+        || symbol_text.starts_with("#1")
+        || symbol_text.starts_with("#2")
+        || symbol_text.starts_with("#3")
+        || symbol_text.starts_with("#4")
+        || symbol_text.starts_with("#5")
+        || symbol_text.starts_with("#6")
+        || symbol_text.starts_with("#7")
+        || symbol_text.starts_with("#8")
+        || symbol_text.starts_with("#9")
 }
 
 fn is_symbol_macro(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
     let lines = document.text.lines();
     let mut line_number: u32 = 0;
     for line in lines {
-        if line.starts_with(symbol_text) && 
-           str_contains_any(
-                line.borrow(), 
-                &[ "MACRO" ], 
-                false) {
+        if line.starts_with(symbol_text) && str_contains_any(line.borrow(), &["MACRO"], false) {
             return (true, line_number);
         }
         line_number = line_number + 1;
@@ -476,11 +511,13 @@ fn is_symbol_label(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32
     let lines = document.text.lines();
     let mut line_number: u32 = 0;
     for line in lines {
-        if line.starts_with(symbol_text) && 
-           !str_contains_any(
-                line.borrow(), 
-                &[ "EQU", "SET", "DB", "DW", "REG", "BIT", "MACRO" ], 
-                false) {
+        if line.starts_with(symbol_text)
+            && !str_contains_any(
+                line.borrow(),
+                &["EQU", "SET", "DB", "DW", "REG", "BIT", "MACRO"],
+                false,
+            )
+        {
             return (true, line_number);
         }
         line_number = line_number + 1;
@@ -490,23 +527,24 @@ fn is_symbol_label(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32
 }
 
 fn is_symbol_constant(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
-    let symbol_text2 = if symbol_text.starts_with("#") { 
+    let symbol_text2 = if symbol_text.starts_with("#") {
         let chars = symbol_text.borrow().chars().collect::<Vec<char>>();
         let chars = chars[1..].borrow();
         String::from_iter(chars)
-    }
-    else {
+    } else {
         String::from(symbol_text.borrow())
     };
 
     let lines = document.text.lines();
     let mut line_number: u32 = 0;
     for line in lines {
-        if (line.starts_with(symbol_text) || line.starts_with(symbol_text2.as_str())) && 
-           str_contains_any(
-                line.borrow(), 
-                &[ "EQU", "SET", "DB", "DW", "REG", "BIT" ], 
-                false) {
+        if (line.starts_with(symbol_text) || line.starts_with(symbol_text2.as_str()))
+            && str_contains_any(
+                line.borrow(),
+                &["EQU", "SET", "DB", "DW", "REG", "BIT"],
+                false,
+            )
+        {
             return (true, line_number);
         }
         line_number = line_number + 1;
@@ -518,19 +556,19 @@ fn is_symbol_constant(symbol_text: &str, document: &TextDocumentItem) -> (bool, 
 fn str_contains_any(string: &str, contains: &[&str], case_sensitive: bool) -> bool {
     let t = match case_sensitive {
         false => string.to_lowercase(),
-        true  => string.to_string(),
+        true => string.to_string(),
     };
     for cont in contains {
         let c = match case_sensitive {
             false => cont.to_lowercase(),
-            true  => cont.to_string(),
+            true => cont.to_string(),
         };
 
         if t.contains(&c) {
             return true;
         }
     }
-    
+
     false
 }
 
@@ -540,12 +578,12 @@ fn is_valid_character(character: char) -> bool {
 }
 
 fn get_documentation(_locale: Locale, _mnemonic: String) -> Option<Documentation> {
-    let docs = match DOCUMENTATION.get(_locale.borrow()){
+    let docs = match DOCUMENTATION.get(_locale.borrow()) {
         Some(doc) => doc,
         None => return None,
     };
 
-    let doc = match docs.get(&String::from(_mnemonic)){
+    let doc = match docs.get(&String::from(_mnemonic)) {
         Some(d) => d,
         None => return None,
     };
@@ -562,8 +600,8 @@ lazy_static! {
         (Locale::POLISH, load_documentation::load_documentation!(polish)),
     ]);
 }
-use serde::{Deserialize, Serialize};
 use bitflags::bitflags;
+use serde::{Deserialize, Serialize};
 
 pub enum Symbol {
     None,
@@ -592,10 +630,10 @@ pub struct Documentation {
 
 impl Documentation {
     #[allow(dead_code)]
-    pub fn new (
-        detail: &str, 
-        description: &str, 
-        valid_operands: Vec<Vec<ValidOperand>>, 
+    pub fn new(
+        detail: &str,
+        description: &str,
+        valid_operands: Vec<Vec<ValidOperand>>,
         affected_flags: Vec<Flag>,
         dont_generate_syntax: bool,
         dont_duplicate_in_all_docs: bool,
@@ -603,20 +641,20 @@ impl Documentation {
         category: &str,
         prefix: &str,
         prefix_required: bool,
-        label: Option<String>) -> Documentation {
-
-        Documentation { 
-            detail: String::from(detail), 
-            description: String::from(description), 
-            valid_operands, 
-            affected_flags, 
-            dont_generate_syntax, 
-            category: String::from(category) ,
+        label: Option<String>,
+    ) -> Documentation {
+        Documentation {
+            detail: String::from(detail),
+            description: String::from(description),
+            valid_operands,
+            affected_flags,
+            dont_generate_syntax,
+            category: String::from(category),
             dont_duplicate_in_all_docs,
             full_key: String::from(full_key),
             prefix: String::from(prefix),
             prefix_required,
-            label
+            label,
         }
     }
 }
@@ -690,24 +728,30 @@ impl ValidOperand {
             operand: operand.bits,
             when_first_is: when_first_is.unwrap_or(PossibleOperand::ANY).bits,
         }
-    } 
+    }
 
     pub fn from_i32(operand: i32, when_first_is: Option<i32>) -> ValidOperand {
         let when_first_is = when_first_is.unwrap_or(0);
         let max = PossibleOperand::all().bits();
         let min = PossibleOperand::empty().bits();
 
-        if operand > max || operand < min { panic!("operand was {}", localize!("error-outOfRange")) }
-        if when_first_is > max || when_first_is < min { panic!("when_first_is {}", localize!("error-outOfRange")) }
+        if operand > max || operand < min {
+            panic!("operand was {}", localize!("error-outOfRange"))
+        }
+        if when_first_is > max || when_first_is < min {
+            panic!("when_first_is {}", localize!("error-outOfRange"))
+        }
 
-        ValidOperand { operand, when_first_is }
+        ValidOperand {
+            operand,
+            when_first_is,
+        }
     }
 
     pub fn equals(&self, other: &ValidOperand) -> bool {
         self.operand == other.operand && self.when_first_is == other.when_first_is
     }
-
-} 
+}
 
 bitflags! {
     #[derive(serde::Deserialize, Default)]
@@ -750,7 +794,7 @@ bitflags! {
         const DECIMAL_NUMBER                   = 102;
         const ASCII_CHARACTERS                 = 103;
 
-        
+
     }
 }
 
@@ -766,43 +810,42 @@ impl FlagType {
             5 => localize!("flag-flag0"),
             6 => localize!("flag-auxiliaryCarry"),
             7 => localize!("flag-carry"),
-            _ => localize!("flag-unknown")
+            _ => localize!("flag-unknown"),
         }
     }
 }
 
 impl PossibleOperand {
     pub fn label(&self) -> String {
-        
         match self.bits {
-            0   => localize!("operand-any"),
-            1   => localize!("operand-codeAddress"),
-            2   => localize!("operand-label"),
-            3   => localize!("operand-byte"),
-            4   => localize!("operand-twoBytes"),
-            5   => localize!("operand-internalRamAddress"),
-            6   => localize!("operand-indirectR0OrR1"),
-            7   => localize!("operand-helperRegister"),
-            8   => localize!("operand-carryFlag"),
-            9   => localize!("operand-bitAddress"),
-            10  => localize!("operand-negatedBitAddress"),
-            11  => localize!("operand-relativeAddress"),
-            12  => localize!("operand-A"),
-            13  => localize!("operand-AB"),
-            14  => localize!("operand-A_DPTR"),
-            15  => localize!("operand-DPTR"),
-            16  => localize!("operand-indirectDPTR"),
-            17  => localize!("operand-indirectA_PC"),
-            18  => localize!("operand-absoluteAddress"),
-            19  => localize!("operand-B"),
-            20  => localize!("operand-DPL"),
-            21  => localize!("operand-DPH"),
+            0 => localize!("operand-any"),
+            1 => localize!("operand-codeAddress"),
+            2 => localize!("operand-label"),
+            3 => localize!("operand-byte"),
+            4 => localize!("operand-twoBytes"),
+            5 => localize!("operand-internalRamAddress"),
+            6 => localize!("operand-indirectR0OrR1"),
+            7 => localize!("operand-helperRegister"),
+            8 => localize!("operand-carryFlag"),
+            9 => localize!("operand-bitAddress"),
+            10 => localize!("operand-negatedBitAddress"),
+            11 => localize!("operand-relativeAddress"),
+            12 => localize!("operand-A"),
+            13 => localize!("operand-AB"),
+            14 => localize!("operand-A_DPTR"),
+            15 => localize!("operand-DPTR"),
+            16 => localize!("operand-indirectDPTR"),
+            17 => localize!("operand-indirectA_PC"),
+            18 => localize!("operand-absoluteAddress"),
+            19 => localize!("operand-B"),
+            20 => localize!("operand-DPL"),
+            21 => localize!("operand-DPH"),
 
             100 => localize!("operand-hex"),
             101 => localize!("operand-bin"),
             102 => localize!("operand-dec"),
             103 => localize!("operand-ascii"),
-            _   => localize!("operand-unknown"),
+            _ => localize!("operand-unknown"),
         }
     }
 
@@ -837,8 +880,9 @@ impl PossibleOperand {
             101 => "010101011b",
             102 => "63",
             103 => "'Lorem ipsum'",
-            _ => ""
-        }).to_string()
+            _ => "",
+        })
+        .to_string()
     }
 }
 
@@ -846,8 +890,8 @@ impl PossibleOperand {
 #[cfg(test)]
 mod tests {
     mod all_documentation {
-        use test_case::test_case;
         use crate::{flags::Locale, hover::all_documentation};
+        use test_case::test_case;
 
         #[test_case(Locale::POLISH,  true  ; "some for POLISH locale")]
         #[test_case(Locale::ENGLISH, true  ; "some for ENGLISH locale")]
@@ -869,23 +913,23 @@ mod tests {
         mod with_syntax_function {
             use test_case::test_case;
 
-            use crate::hover::{Documentation, ValidOperand, Flag, syntax};
-            
+            use crate::hover::{syntax, Documentation, Flag, ValidOperand};
+
             fn empty_valid_operands() -> Vec<Vec<ValidOperand>> {
-                Vec::<Vec::<ValidOperand>>::new()
+                Vec::<Vec<ValidOperand>>::new()
             }
             fn empty_affected_flags() -> Vec<Flag> {
                 Vec::<Flag>::new()
             }
-    
+
             #[test_case(
                 "TEST",
                 Documentation::new(
                     "", 
                     "some description", 
-                    Vec::<Vec::<ValidOperand>>::new(), 
-                    Vec::<Flag>::new(), 
-                    true, 
+                    Vec::<Vec::<ValidOperand>>::new(),
+                    Vec::<Flag>::new(),
+                    true,
                     false,
                     "TEST",
                     "category", 
@@ -910,8 +954,8 @@ mod tests {
                 "some description",
                 vec!(
                     vec!(ValidOperand::from_i32(1, None)),
-                    vec!(ValidOperand::from_i32(1, None)), 
-                    vec!(ValidOperand::from_i32(1, None)), 
+                    vec!(ValidOperand::from_i32(1, None)),
+                    vec!(ValidOperand::from_i32(1, None)),
                     vec!(ValidOperand::from_i32(1, None))
                 ),
                 empty_affected_flags(),
@@ -939,9 +983,7 @@ mod tests {
             //     let syntax = syntax((String::from("TEST"), doc));
             // }
         }
-        
     }
-
 }
 #[cfg(test)]
 mod test_all_documentation {
@@ -953,7 +995,10 @@ mod test_all_documentation {
         assert!(docs.is_some(), "Docs are Option::None");
 
         let docs = docs.unwrap();
-        assert!(!docs.is_empty(), "Docs are a HashMap, but that HashMap is empty");
+        assert!(
+            !docs.is_empty(),
+            "Docs are a HashMap, but that HashMap is empty"
+        );
     }
 
     #[test]
@@ -962,7 +1007,10 @@ mod test_all_documentation {
         assert!(docs.is_some(), "Docs are Option::None");
 
         let docs = docs.unwrap();
-        assert!(!docs.is_empty(), "Docs are a HashMap, but that HashMap is empty");
+        assert!(
+            !docs.is_empty(),
+            "Docs are a HashMap, but that HashMap is empty"
+        );
     }
 
     #[test]
@@ -970,7 +1018,6 @@ mod test_all_documentation {
         let docs = all_documentation(Locale::DEFAULT);
         assert!(docs.is_none(), "Docs are not Option::None");
     }
-
 }
 
 #[cfg(test)]
@@ -990,22 +1037,27 @@ mod test_generating_syntax {
     #[test_case(vec!(ValidOperand::from_i32(12, None), ValidOperand::from_i32(3, None)) ; "with two valid operands")]
     #[test_case(vec!(ValidOperand::from_i32(12, None), ValidOperand::from_i32(3, None), ValidOperand::from_i32(5, None)) ;
         "with three valid operands")]
-    fn for_one_operand(operands: Vec::<ValidOperand>){
+    fn for_one_operand(operands: Vec<ValidOperand>) {
         let syntax = syntax_one_operand(test_mnemonic(), &operands, String::from(""));
 
         let syntax_header = format!("{} [operand]", test_mnemonic());
         assert!(syntax.starts_with(&syntax_header));
 
         for operand in operands {
-            let section_for_operand = format!("{} [{}]\n{} {}",
-            test_mnemonic(), operand.operand().label(), test_mnemonic(), operand.operand().example(Some(1)));
-             assert!(syntax.contains(&section_for_operand));
+            let section_for_operand = format!(
+                "{} [{}]\n{} {}",
+                test_mnemonic(),
+                operand.operand().label(),
+                test_mnemonic(),
+                operand.operand().example(Some(1))
+            );
+            assert!(syntax.contains(&section_for_operand));
         }
     }
-    
+
     // fn for_two_operands(operands0: Vec::<ValidOperand>, operands1: Vec::<ValidOperand>) {
     //     let syntax = crate::hover::syntax_two_operands(test_mnemonic(), &operands0, &operands1, String::from(""));
-        
+
     //     let syntax_header = format!("{} [operand]", test_mnemonic());
     //     assert!(syntax.starts_with(&syntax_header));
 

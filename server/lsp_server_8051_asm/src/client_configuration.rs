@@ -1,4 +1,4 @@
-use crate::flags::{Kits};
+use crate::flags::Kits;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, Default, Clone)]
@@ -12,13 +12,12 @@ pub struct ClientConfiguration {
     pub(crate) kit: String,
 }
 
-
 impl ClientConfiguration {
     #[allow(dead_code)]
     pub fn kit(&self) -> Kits {
         match self.kit.as_str() {
             "DSM-51" => Kits::DSM51,
-            &_       => Kits::GENERIC_8051
+            &_ => Kits::GENERIC_8051,
         }
     }
 }

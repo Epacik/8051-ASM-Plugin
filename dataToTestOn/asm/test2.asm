@@ -1,4 +1,6 @@
     LJMP  START
+
+STRING EQU "dbsjakdsajkndsa"
     ORG  100H
 START:
     MOV A, #0

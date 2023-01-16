@@ -9,8 +9,8 @@
             "type": "PowerShell",
             "request": "launch",
             "script": "${file}",
-            "cwd": "${file}",
-            "args": [ "-BuildFor Linux64,Windows32,Windows64" ]
+            "cwd": "${file}"
+            // "args": [ "-BuildFor Linux64,Windows32,Windows64" ]
         }
     ]
 }

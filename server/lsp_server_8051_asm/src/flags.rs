@@ -20,6 +20,7 @@ impl Locale {
             2 => "en",
             3 => "pl",
             _ => "",
-        }).to_string()
-    } 
+        })
+        .to_string()
+    }
 }
