@@ -15,6 +15,7 @@ dependencies = [
 name = "asm8051_parser"
 version = "0.1.0"
 dependencies = [
+ "ahash",
  "chumsky",
  "ropey",
  "string-join",

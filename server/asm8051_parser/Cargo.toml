@@ -9,6 +9,7 @@ edition = "2021"
 chumsky = "*"
 string-join = "*"
 ropey =  { version = "*", features = ["unicode_lines"] }
+ahash = "*"
 
 [dev-dependencies]
 test-case = "*"

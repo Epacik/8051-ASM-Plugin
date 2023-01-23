@@ -167,6 +167,6 @@ pub fn lexical_analisys(source: &str) -> (Option<Vec<PositionedToken>>, Vec<Simp
     let rope = Rope::from_str(source);
     let spans = initial::get_spanned_strings(rope);
     let lines = initial::split_spanned_strings_into_lines(spans);
-    
+    print!("test {}", 12);
     analysis::perform_analysis(lines)
 }

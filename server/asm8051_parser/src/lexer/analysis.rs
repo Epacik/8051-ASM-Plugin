@@ -1,6 +1,7 @@
 use chumsky::{prelude::Simple, Error, Span};
 
-use crate::extensions::EndsWithDigit;
+use crate::issues::{IssueInfo, self};
+
 use super::{
     PositionedToken, 
     keywords,
@@ -13,11 +14,12 @@ use super::{
     Trivia,
     Keyword,
     Number,
+    extensions::Digits, ControlCharacter, Parenthesis, Arithmetic,
     };
 
-pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<PositionedToken>>, Vec<Simple<String, Position>>) {
+pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<PositionedToken>>, Vec<Simple<IssueInfo, Position>>) {
     let mut tokens = Vec::<PositionedToken>::new();
-    let mut errors = Vec::<Simple<String, Position>>::new();
+    let mut errors = Vec::<Simple<IssueInfo, Position>>::new();
     for line in lines
     {
         let mut indexes = 0..line.len();
@@ -140,16 +142,16 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 let next = &line[item_index + 1];
                 let num = next.content.clone();
 
-                let token = if num.ends_with("H") || num.ends_with("h") {
+                let token = if num.is_hexadecimal() {
                     Token::Number(Number::Hexadecimal(num))
                 }
-                else if num.ends_with("O") || num.ends_with("o") {
+                else if num.is_octal() {
                     Token::Number(Number::Octal(num))
                 }
-                else if num.ends_with("B") || num.ends_with("b") {
+                else if num.is_binary() {
                     Token::Number(Number::Octal(num))
                 }
-                else if num.ends_with_digit() {
+                else if num.is_decimal() {
                     Token::Number(Number::Decimal(num))
                 }
                 else {
@@ -163,6 +165,33 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
 
                 tokens.push(PositionedToken::new(token, position));
                 indexes.next();
+            }
+
+            // address
+            else if
+                item.initial_type == InitialTokenType::Other &&
+                item_index > 0 &&
+                item.content.starts_with_digit() &&
+                item.content.is_number() {
+
+                let content = item.content.clone();
+                let token = if content.is_hexadecimal() {
+                    Token::Number(Number::Hexadecimal(content))
+                }
+                else if content.is_octal(){
+                    Token::Number(Number::Octal(content))
+                }
+                else if content.is_binary() {
+                    Token::Number(Number::Octal(content))
+                }
+                else if content.is_decimal() {
+                    Token::Number(Number::Decimal(content))
+                }
+                else {
+                    Token::Unknown(content)
+                };
+
+                tokens.push(PositionedToken::new(token, item.position.clone()));
             }
 
             // whitespace
@@ -181,19 +210,51 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                         item.position.clone()));
             }
 
+            // control characters
+            else if item.initial_type == InitialTokenType::Control {
+                let content = item.content.clone();
+                let token = match content.as_str() {
+                    "(" => Token::ControlCharacter(ControlCharacter::Parenthesis(Parenthesis::Open)),
+                    ")" => Token::ControlCharacter(ControlCharacter::Parenthesis(Parenthesis::Close)),
+                    "," => Token::ControlCharacter(ControlCharacter::ArgumentSeparator),
+                    "@" => Token::ControlCharacter(ControlCharacter::AddressingIndicator),
+                    
+                    "+" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Add)),
+                    "-" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Subtract)),
+                    "*" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Multiply)),
+                    "/" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Divide)),
+                    "%" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Modulo)),
+
+                    _ => {
+                        errors.push(
+                            Simple::custom(
+                                item.position.clone(),
+                                issues::UNKNOWN_TOKEN));
+                        Token::Unknown(content)
+                    },
+                };
+
+                tokens.push(PositionedToken::new(token, item.position.clone()));
+            }
+
             // others
             else if item.initial_type == InitialTokenType::Other && item_index > 0 {
                 let content = item.content.clone();
 
-                if keywords::is_keyword(&content) {
-
-                    let token = string_to_keyword(content);
-                
-                    tokens.push(PositionedToken::new(Token::Keyword(token), item.position.clone()));
+                let token = if keywords::is_keyword(&content) {
+                    Token::Keyword(string_to_keyword(content))
                 }
                 else {
-                    tokens.push(PositionedToken::new(Token::Other(content), item.position.clone()));
-                }
+                    Token::Other(content)
+                };
+
+                tokens.push(PositionedToken::new(token, item.position.clone()))
+            }
+
+            // everything that was not catched is Unknown
+            else {
+                
+                tokens.push(PositionedToken::new(Token::Unknown(item.content.clone()), item.position.clone()))
             }
 
         }
