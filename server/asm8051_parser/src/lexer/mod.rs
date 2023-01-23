@@ -2,12 +2,12 @@ use std::{ops::Range, borrow::Borrow};
 use chumsky::prelude::Simple;
 use ropey::Rope;
 
-pub(self) mod analysis;
-pub(self) mod initial;
-pub(self) mod keywords;
-
-
 mod tests;
+
+mod analysis;
+mod initial;
+mod keywords;
+mod extensions;
 
 //#region Types
 
@@ -19,9 +19,14 @@ pub struct Position {
     pub columns: Range<usize>
 }
 impl std::fmt::Debug for Position {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("TextPosition").field("range", &self.range).field("line", &self.line).field("columns", &self.columns).finish()
-    }
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("TextPosition")
+            .field("range", &self.range)
+            .field("line", &self.line)
+            .field("columns", &self.columns)
+            .finish()
+    }   
 }
 
 impl chumsky::Span for Position {
@@ -61,7 +66,7 @@ pub enum Token {
     Address(Number),
     String(String),
     Number(Number),
-    ControlCharacter(char),
+    ControlCharacter(ControlCharacter),
     Trivia(Trivia),
     Other(String),
     Unknown(String),
@@ -98,6 +103,29 @@ pub enum Trivia {
     WhiteSpace(String),
     Comment(String),
 }
+#[derive(Debug, PartialEq)]
+pub enum ControlCharacter {
+    Arithmetic(Arithmetic),
+    AddressingIndicator,
+    ArgumentSeparator,
+    Parenthesis(Parenthesis)
+}
+
+#[derive(Debug, PartialEq)]
+pub enum Arithmetic {
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
+    Modulo,
+}
+
+#[derive(Debug, PartialEq)]
+pub enum Parenthesis {
+    Open,
+    Close
+}
+
 //#endregion
 
 //#region positioned token
