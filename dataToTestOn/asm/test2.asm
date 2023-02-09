@@ -1,6 +1,6 @@
     LJMP  START
 
-STRING EQU "dbsjakdsajkndsa"
+STRING EQU ""
     ORG  100H
 START:
     MOV A, #0

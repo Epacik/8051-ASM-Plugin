@@ -1,4 +1,3 @@
-use std::borrow::Borrow;
 
 pub(crate) trait Digits {
     fn ends_with_digit(&self) -> bool;

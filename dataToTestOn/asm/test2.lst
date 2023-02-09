@@ -1,11 +1,17 @@
      1  0000: 02 01 00      LJMP  START
-     2  0100:               ORG  100H
-     3  0100:           START:
-     4  0100: 74 00         MOV A, #0
-     5  0102: 79 01         MOV R1, #1
-     6  0104:           LOOP:
-     7  0104: 29            ADD A, R1
-     8  0105: 12 81 04      CALL WRITE_HEX
-     9  0108: 80 FA         SJMP LOOP
-    10  010A: 1F            DEC R7
-    11                  
+     2                  
+     3        F2CC      STRING EQU ""
+***** B��D 7 : PUSTY OPERAND *****
+     4  0100:               ORG  100H
+     5  0100:           START:
+     6  0100: 74 00         MOV A, #0
+     7  0102: 79 01         MOV R1, #1
+     8  0104:           LOOP:
+     9  0104: 29            ADD A, R1
+    10  0105: 3A            ADDC A, R2
+    11  0106: 9B            SUBB A, R3
+    12  0107: 12 81 04      CALL WRITE_HEX
+    13  010A: 80 F8         SJMP LOOP
+    14  010C: 1F            DEC R7
+    15  010D: 22            RET ;🤨🤨🤨a̐éö̲\r\n
+    16                  

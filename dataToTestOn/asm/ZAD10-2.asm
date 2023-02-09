@@ -1,5 +1,6 @@
 SEG_ON EQU P1.6
 
+;kom
 ZERO EQU 03FH	;0
 ONE EQU 006H	;1
 TWO EQU 05BH	;2
@@ -27,10 +28,12 @@ START:
       MOV  R1, #DISPLAY
 START2:
       MOV  R2, #0
+
+; jakiś komentarz
 LOOP:
       SETB  P1.6
       MOV  R0, #CSDS
-      MOV  A, R3
+      MOV  A, A
       MOVX  @R0, A
       MOV  R0, #CSDB
     

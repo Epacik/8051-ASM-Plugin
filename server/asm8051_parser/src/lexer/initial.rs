@@ -18,15 +18,13 @@ impl SpannedString {
         SpannedString { content: string, position, initial_type }
     }
 
+    #[allow(unused)]
     pub fn from_str(string: &str, position: Position, initial_type: InitialTokenType) -> SpannedString {
         SpannedString { content: String::from(string), position, initial_type }
     }
 }
 
-#[derive(PartialEq)]
-#[derive(Debug)]
-#[derive(Default)]
-#[derive(Clone, Copy)]
+#[derive(PartialEq, Debug, Default, Clone, Copy)]
 pub(super) enum InitialTokenType {
     #[default]
     None,
@@ -38,12 +36,13 @@ pub(super) enum InitialTokenType {
 
 fn is_control_char(c: char) -> bool {
     match c {
-        ';' | ':' => true,
+        ';' | ':'  => true,
         '"' | '\'' => true,
-        '(' | ')' => true,
-        ',' => true,
-        '#' => true,
-        '@' => true,
+        '(' | ')'  => true,
+        ','  => true,
+        '#'  => true,
+        '@'  => true,
+        '\\' => true,
         '+' | '-' | '*' | '/' | '%' => true,
         _ => false,
     }
@@ -139,7 +138,6 @@ pub(super) fn get_spanned_strings(source: Rope) -> Vec<SpannedString> {
 
         if buf.len() > 0 {
             push_buf_to_spans(&buf, &mut spans);
-            buf = Vec::new();
         }
 
     }

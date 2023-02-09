@@ -10,3 +10,5 @@ START:
     MOVX       @R1,A              ;wpisz wybrane segmenty              
     CLR       P1.6              ;włącz wyświetlacz 7-segm        
     SJMP       $   
+    ADD A, @R0
+    
