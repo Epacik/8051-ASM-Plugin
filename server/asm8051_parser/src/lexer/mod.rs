@@ -1,6 +1,9 @@
-use std::{ops::Range, borrow::Borrow};
-use chumsky::prelude::Simple;
+use std::ops::Range;
 use ropey::Rope;
+
+use crate::issues::Issue;
+
+use self::tokens::PositionedToken;
 
 mod tests;
 
@@ -8,6 +11,7 @@ mod analysis;
 mod initial;
 mod keywords;
 mod extensions;
+pub mod tokens;
 
 //#region Types
 
@@ -27,6 +31,15 @@ impl std::fmt::Debug for Position {
             .field("columns", &self.columns)
             .finish()
     }   
+}
+
+impl std::fmt::Display for Position {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "range: {}:{}; line: {}; columns: {}:{}", 
+            self.range.start, self.range.end, 
+            self.line, 
+            self.columns.start, self.columns.end)
+    }
 }
 
 impl chumsky::Span for Position {
@@ -57,116 +70,11 @@ impl Position {
 
 //#endregion
 
-//#region Tokens
-
-#[derive(Debug, PartialEq)]
-pub enum Token {
-    Keyword(Keyword),
-    Label(String),
-    Address(Number),
-    String(String),
-    Number(Number),
-    ControlCharacter(ControlCharacter),
-    Trivia(Trivia),
-    Other(String),
-    Unknown(String),
-}
-
-#[derive(Debug, PartialEq)]
-pub enum Keyword {
-    Instruction(String),
-    Register(Register),
-    Directive(String),
-    FlagOrBit(String),
-}
-
-#[derive(Debug, PartialEq)]
-pub enum Register {
-    Main(String),
-    Special(String),
-    Helper(String),
-    Port(String),
-    Addressing(String)
-}
-
-#[derive(Debug, PartialEq)]
-pub enum Number {
-    Binary(String),
-    Octal(String),
-    Decimal(String),
-    Hexadecimal(String)
-}
-
-#[derive(Debug, PartialEq)]
-pub enum Trivia {
-    NewLine(String),
-    WhiteSpace(String),
-    Comment(String),
-}
-#[derive(Debug, PartialEq)]
-pub enum ControlCharacter {
-    Arithmetic(Arithmetic),
-    AddressingIndicator,
-    ArgumentSeparator,
-    Parenthesis(Parenthesis)
-}
-
-#[derive(Debug, PartialEq)]
-pub enum Arithmetic {
-    Add,
-    Subtract,
-    Multiply,
-    Divide,
-    Modulo,
-}
-
-#[derive(Debug, PartialEq)]
-pub enum Parenthesis {
-    Open,
-    Close
-}
-
-//#endregion
-
-//#region positioned token
-
-#[derive(Debug, PartialEq)]
-pub struct PositionedToken {
-    pub token: Token,
-    pub position: Position,
-}
-
-impl std::fmt::Display for PositionedToken {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}, range: {}-{}; line: {}; columns: {}-{}",
-            match self.token.borrow() {
-                Token::Label(lb) => format!("Label: {}, range", lb.clone()),
-                _ => todo!(),
-            },
-            self.position.range.start,
-            self.position.range.end,
-            self.position.line,
-            self.position.columns.start,
-            self.position.columns.end
-        )
-    }
-}
-
-impl PositionedToken {
-    pub fn new(token: Token, position: Position) -> PositionedToken {
-        PositionedToken { token, position }
-    }
-}
-//#endregion
-//#endregion
-
-pub fn lexical_analisys(source: &str) -> (Option<Vec<PositionedToken>>, Vec<Simple<String, Position>>) {
+pub fn lexical_analisys<S: AsRef<str>>(s: S)-> (Option<Vec<PositionedToken>>, Vec<Issue>) {
+    let source = s.as_ref();
 
     let rope = Rope::from_str(source);
     let spans = initial::get_spanned_strings(rope);
     let lines = initial::split_spanned_strings_into_lines(spans);
-    print!("test {}", 12);
     analysis::perform_analysis(lines)
 }
