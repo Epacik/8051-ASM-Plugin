@@ -7,9 +7,12 @@ edition = "2021"
 
 [dependencies]
 chumsky = "*"
+regex = "*"
 string-join = "*"
 ropey =  { version = "*", features = ["unicode_lines"] }
 ahash = "*"
+lazy_static = "1.4.0"
+validate_issue_codes = { path = "macros/validate_issue_codes" }
 
 [dev-dependencies]
 test-case = "*"
