@@ -1,0 +1,11 @@
+[package]
+name = "validate_issue_codes_internal"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+[dependencies]
+syn = { version = "*", features = ["full", "visit"] }
+quote = "*"
+proc-macro2 = "1.0"
