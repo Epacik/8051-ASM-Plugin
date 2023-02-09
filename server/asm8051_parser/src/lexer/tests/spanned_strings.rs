@@ -5,6 +5,11 @@ use crate::lexer::{
     Position,
     tests::spanned_string
 };
+use std::ops::Range;
+
+pub(super) fn pos(range: Range<usize>, line: usize, columns: Range<usize>) -> Position {
+    Position::new(range, line, columns)
+}
 
 #[test_case(
     "abc cde   dcr xyz",
