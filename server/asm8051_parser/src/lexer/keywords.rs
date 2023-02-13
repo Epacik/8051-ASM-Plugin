@@ -90,7 +90,7 @@ mod registers {
 }
 
 pub(super) fn is_register<S: AsRef<str>>(s: S) -> bool {
-    registers::is_addressing(&s) ||
+    //registers::is_addressing(&s) ||
     registers::is_helper(&s)     ||
     registers::is_port(&s)       ||
     registers::is_special(&s)    ||
@@ -100,7 +100,7 @@ pub(super) fn string_to_register<S: AsRef<str>>(s: S) -> Option<Register> {
 
     if is_register(&s){
         let reg = if registers::is_main(&s) { Register::Main(str_to_main_register(&s)) }
-        else if registers::is_addressing(&s) { Register::Addressing(str_to_addressing_register(&s)) }
+        //else if registers::is_addressing(&s) { Register::Addressing(str_to_addressing_register(&s)) }
         else if registers::is_helper(&s) { Register::Helper(str_to_helper_register(&s)) }
         else if registers::is_port(&s) { Register::Port(str_to_port_register(&s)) }
         else { Register::Special(str_to_special_register(&s)) };

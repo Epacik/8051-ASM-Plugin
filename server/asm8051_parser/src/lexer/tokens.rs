@@ -47,7 +47,7 @@ pub enum Register {
     Special(SpecialRegister),
     Helper(HelperRegister),
     Port(PortRegister),
-    Addressing(AddressingRegister)
+    //Addressing(AddressingRegister)
 }
 
 #[derive(Debug, PartialEq, Clone)]

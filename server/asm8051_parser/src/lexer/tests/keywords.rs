@@ -63,7 +63,7 @@ use crate::lexer::keywords;
 #[test_case("ORG"; "directive ORG")]
 #[test_case("REG"; "directive REG")]
 #[test_case("SET"; "directive SET")]
-#[test_case("@R1"; "register addressing")]
+//#[test_case("@R1"; "register addressing")]
 fn is_keyword_returns_true_for_any_known_instruction_directive_register_or_flag(s: &str) {
     assert!(keywords::is_keyword(s), "Invalid keyword: {} (using a &str)", s);
     let string = String::from(s);
