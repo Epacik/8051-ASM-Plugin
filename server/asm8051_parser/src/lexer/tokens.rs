@@ -1,9 +1,9 @@
 //#region Tokens
-use std::borrow::Borrow;
+use std::{borrow::Borrow, fmt::{Display, self}};
 use super::Position;
 
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(PartialEq, Clone)]
 pub enum Token {
     Keyword(Keyword),
     Label(String),
@@ -16,12 +16,55 @@ pub enum Token {
     Unknown(String),
 }
 
+impl fmt::Debug for Token {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Keyword(arg0) => f.debug_tuple("Keyword").field(arg0).finish(),
+            Self::Label(arg0) => f.debug_tuple("Label").field(arg0).finish(),
+            Self::Address(arg0) => f.debug_tuple("Address").field(arg0).finish(),
+            Self::String(arg0) => f.debug_tuple("String").field(arg0).finish(),
+            Self::Number(arg0) => f.debug_tuple("Number").field(arg0).finish(),
+            Self::ControlCharacter(arg0) => f.debug_tuple("ControlCharacter").field(arg0).finish(),
+            Self::Trivia(arg0) => f.debug_tuple("Trivia").field(arg0).finish(),
+            Self::Other(arg0) => f.debug_tuple("Other").field(arg0).finish(),
+            Self::Unknown(arg0) => f.debug_tuple("Unknown").field(arg0).finish(),
+        }
+    }
+}
+
+impl Display for Token {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Token::Keyword(kw) => write!(f, "Token::Keyword({})", kw),
+            Token::Label(lb)    => write!(f, "Token::Label({})", lb),
+            Token::Address(ad)  => write!(f, "Token::Address({})", ad),
+            Token::String(st)   => write!(f, "Token::String({})", st),
+            Token::Number(nb)   => write!(f, "Token::Number({})", nb),
+            Token::ControlCharacter(cc) => write!(f, "Token::ControlCharacter({})", cc),
+            Token::Trivia(tv)  => write!(f, "Token::Trivia({})", tv),
+            Token::Other(ot)   => write!(f, "Token::Other({})", ot),
+            Token::Unknown(u)  => write!(f, "Token::Unknown({})", u),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum Keyword {
     Instruction(Instruction),
     Register(Register),
     Directive(Directive),
     FlagOrBit(String),
+}
+
+impl Display for Keyword {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Keyword::Instruction(inst) => write!(f, "Keyword::Instruction({})", inst),
+            Keyword::Register(regi)       => write!(f, "Keyword::Register({})", regi),
+            Keyword::Directive(dire)     => write!(f, "Keyword::Directive({})", dire),
+            Keyword::FlagOrBit(flbt)        => write!(f, "Keyword::FlagOrBit({})", flbt),
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -34,11 +77,87 @@ pub enum Instruction {
     XCH, XCHD, XRL,
 }
 
+impl Display for Instruction {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            Instruction::ACALL => "ACALL",
+            Instruction::ADD => "ADD",
+            Instruction::ADDC => "ADDC",
+            Instruction::AJMP => "AJMP",
+            Instruction::ANL => "ANL",
+            Instruction::CJNE => "CJNE",
+            Instruction::CLR => "CLR",
+            Instruction::CPL => "CPL",
+            Instruction::DA => "DA",
+            Instruction::DEC => "DEC",
+            Instruction::DIV => "DIV",
+            Instruction::DJNZ => "DJNZ",
+            Instruction::INC => "INC",
+            Instruction::JB => "JB",
+            Instruction::JBC => "JBC",
+            Instruction::JC => "JC",
+            Instruction::JMP => "JMP",
+            Instruction::JNB => "JNB",
+            Instruction::JNC => "JNC",
+            Instruction::JNZ => "JNZ",
+            Instruction::JZ => "JZ",
+            Instruction::LCALL => "LCALL",
+            Instruction::LJMP => "LJMP",
+            Instruction::MOV => "MOV",
+            Instruction::MOVC => "MOVC",
+            Instruction::MOVX => "MOVX",
+            Instruction::MUL => "MUL",
+            Instruction::NOP => "NOP",
+            Instruction::ORL => "ORL",
+            Instruction::POP => "POP",
+            Instruction::PUSH => "PUSH",
+            Instruction::RET => "RET",
+            Instruction::RETI => "RETI",
+            Instruction::RL => "RL",
+            Instruction::RLC => "RLC",
+            Instruction::RR => "RR",
+            Instruction::RRC => "RRC",
+            Instruction::SETB => "SETB",
+            Instruction::SJMP => "SJMP",
+            Instruction::SUBB => "SUBB",
+            Instruction::SWAP => "SWAP",
+            Instruction::XCH => "XCH",
+            Instruction::XCHD => "XCHD",
+            Instruction::XRL => "XRL",
+        };
+        write!(f, "Instruction::{}", name)
+    }
+}
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum Directive {
     BIT, DB, DW, IF, ELSEIF, ENDIF,
     END, ENDM, EQU, INCDIR, INCLUDE, 
     MACRO, MACEND, ORG, REG, SET,
+}
+
+impl Display for Directive {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            Directive::BIT => "BIT",
+            Directive::DB => "DB",
+            Directive::DW => "DW",
+            Directive::IF => "IF",
+            Directive::ELSEIF => "ELSEIF",
+            Directive::ENDIF => "ENDIF",
+            Directive::END => "END",
+            Directive::ENDM => "ENDM",
+            Directive::EQU => "EQU",
+            Directive::INCDIR => "INCDIR",
+            Directive::INCLUDE => "INCLUDE",
+            Directive::MACRO => "MACRO",
+            Directive::MACEND => "MACEND",
+            Directive::ORG => "ORG",
+            Directive::REG => "REG",
+            Directive::SET => "SET",
+        };
+        write!(f, "Directive::{}", name)
+    }
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -50,11 +169,32 @@ pub enum Register {
     //Addressing(AddressingRegister)
 }
 
+impl Display for Register {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Register::Main(mr)       => write!(f, "Register::Main({})", mr),
+            Register::Special(sr) => write!(f, "Register::Special({})", sr),
+            Register::Helper(hr)   => write!(f, "Register::Helper({})", hr),
+            Register::Port(pr)       => write!(f, "Register::Port({})", pr),
+            //Register::Addressing(_) => write!(f, "Register::Addressing({})", name),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum MainRegister {
     A, B, AB
 }
-
+impl Display for MainRegister {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            MainRegister::A => "A",
+            MainRegister::B => "B",
+            MainRegister::AB => "AB",
+        };
+        write!(f, "MainRegister::{}", name)
+    }
+}
 #[derive(Debug, PartialEq, Clone)]
 pub enum SpecialRegister {
     TL0,  TH0,
@@ -64,11 +204,50 @@ pub enum SpecialRegister {
     PCON, PSW, 
     SBUF, SCON, SP
 }
+impl Display for SpecialRegister {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            SpecialRegister::TL0 => "TL0",
+            SpecialRegister::TH0 => "TH0",
+            SpecialRegister::TL1 => "TL1",
+            SpecialRegister::TH1 => "TH1",
+            SpecialRegister::DPL => "DPL",
+            SpecialRegister::DPH => "DPH",
+            SpecialRegister::DPTR => "DPTR",
+            SpecialRegister::IE => "IE",
+            SpecialRegister::IP => "IP",
+            SpecialRegister::PC => "PC",
+            SpecialRegister::PCON => "PCON",
+            SpecialRegister::PSW => "PSW",
+            SpecialRegister::SBUF => "SBUF",
+            SpecialRegister::SCON => "SCON",
+            SpecialRegister::SP => "SP",
+        };
+        write!(f, "SpecialRegister::{}", name)
+    }
+}
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum HelperRegister {
     R0, R1, R2, R3, R4, R5, R6, R7
 }
+
+impl Display for HelperRegister {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            HelperRegister::R0 => "R0",
+            HelperRegister::R1 => "R1",
+            HelperRegister::R2 => "R2",
+            HelperRegister::R3 => "R3",
+            HelperRegister::R4 => "R4",
+            HelperRegister::R5 => "R5",
+            HelperRegister::R6 => "R6",
+            HelperRegister::R7 => "R7",
+        };
+        write!(f, "HelperRegister::{}", name)
+    }
+}
+
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum AddressingRegister {
@@ -80,6 +259,18 @@ pub enum PortRegister {
     P0, P1, P2, P3
 }
 
+impl Display for PortRegister {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            PortRegister::P0 => "P0",
+            PortRegister::P1 => "P1",
+            PortRegister::P2 => "P2",
+            PortRegister::P3 => "P3",
+        };
+        write!(f, "PortRegister::{}", name)
+    }
+}
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum Number {
     Binary(String),
@@ -88,12 +279,35 @@ pub enum Number {
     Hexadecimal(String)
 }
 
+impl Display for Number {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Number::Binary(num)      => write!(f, "Number::Binary({})", num),
+            Number::Octal(num)       => write!(f, "Number::Octal({})", num),
+            Number::Decimal(num)     => write!(f, "Number::Decimal({})", num),
+            Number::Hexadecimal(num) => write!(f, "Number::Hexadecimal({})", num),
+        }
+    }
+}
+
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum Trivia {
     NewLine(String),
     WhiteSpace(String),
     Comment(String),
 }
+
+impl Display for Trivia {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Trivia::NewLine(cnt)    => write!(f, "Trivia::NewLine({})", cnt),
+            Trivia::WhiteSpace(cnt) => write!(f, "Trivia::WhiteSpace({})", cnt),
+            Trivia::Comment(cnt)    => write!(f, "Trivia::Comment({})", cnt),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum ControlCharacter {
     Arithmetic(Arithmetic),
@@ -101,6 +315,18 @@ pub enum ControlCharacter {
     ArgumentSeparator,
     Parenthesis(Parenthesis),
     Delimiter(Delimiter)
+}
+
+impl Display for ControlCharacter {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ControlCharacter::Arithmetic(cc) => write!(f, "ControlCharacter::Arithmetic({})", cc),
+            ControlCharacter::AddressingModifier => write!(f, "ControlCharacter::AddressingModifier"),
+            ControlCharacter::ArgumentSeparator => write!(f, "ControlCharacter::ArgumentSeparator"),
+            ControlCharacter::Parenthesis(cc) => write!(f, "ControlCharacter::Parenthesis({})", cc),
+            ControlCharacter::Delimiter(cc) => write!(f, "ControlCharacter::Delimiter({})", cc),
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -111,11 +337,34 @@ pub enum Arithmetic {
     Divide,
     Modulo,
 }
+impl Display for Arithmetic {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            Arithmetic::Add => "Add",
+            Arithmetic::Subtract => "Subtract",
+            Arithmetic::Multiply => "Multiply",
+            Arithmetic::Divide => "Divide",
+            Arithmetic::Modulo => "Modulo",
+        };
+        write!(f, "Arithmetic::{}", name)
+    }
+}
+
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Parenthesis {
     Open,
     Close,
+}
+
+impl Display for Parenthesis {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            Parenthesis::Open => "Open",
+            Parenthesis::Close => "Close",
+        };
+        write!(f, "Parenthesis::{}", name)
+    }
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -126,14 +375,34 @@ pub enum Delimiter {
     DoubleQuote,
 }
 
+impl Display for Delimiter {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = match self {
+            Delimiter::CommentStart => "CommentStart",
+            Delimiter::LabelEnd => "LabelEnd",
+            Delimiter::SingleQuote => "SingleQuote",
+            Delimiter::DoubleQuote => "DoubleQuote",
+        };
+        write!(f, "Delimiter::{}", name)
+    }
+}
+
 //#endregion
 
 //#region positioned token
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(PartialEq, Clone)]
 pub struct PositionedToken {
     pub token: Token,
     pub position: Position,
+}
+
+impl fmt::Debug for PositionedToken {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("PositionedToken")
+         .field("token", &self.token)
+         .field("position", &self.position).finish()
+    }
 }
 
 impl std::fmt::Display for PositionedToken {
@@ -278,14 +547,23 @@ macro_rules! Tkn {
     // I'll add things as I go
 
     // Delimiters
-    [Apostrophe]  => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::SingleQuote)) };
-    [SingleQuote] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::SingleQuote)) };
-    [DoubleQuote] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::DoubleQuote)) };
+    [Apostrophe]   => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::SingleQuote)) };
+    [SingleQuote]  => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::SingleQuote)) };
+    [DoubleQuote]  => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::DoubleQuote)) };
+    [Semicolon]    => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::CommentStart))};
+    [CommentStart] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::CommentStart))};
+
+    // Control characters
+    [ArgumentSeparator] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::ArgumentSeparator)};
+    [AddressingModifier] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::AddressingModifier)};
 
 
     // Trivia 
-    [String($s:expr)] => { crate::lexer::tokens::Token::String($s) };
-    [str($s:expr)] => { crate::lexer::tokens::Token::String(std::string::String::from($s)) };
+    [String($s:expr)]     => { crate::lexer::tokens::Token::String($s) };
+    [str($s:expr)]        => { crate::lexer::tokens::Token::String(std::string::String::from($s)) };
+    [Comment($c:expr)]    => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::Comment($c)) };
+    [CommentStr($c:expr)] => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::Comment(std::string::String::from($c))) };
+    [WhiteSpace($c:expr)] => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::WhiteSpace(std::string::String::from($c))) };
 }
 
 //#endregion

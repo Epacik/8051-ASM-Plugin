@@ -6,7 +6,7 @@ use crate::lexer::*;
 #[test]
 fn analize()
 {
-    let (ast, errors) = 
+    let (_ast, _errors) = 
         lexical_analisys(
 r#"    LJMP #1
     LJMP  START
