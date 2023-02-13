@@ -1,7 +1,3 @@
-use std::num::ParseIntError;
-
-use regex::Regex;
-
 use crate::issues::{self, Issue};
 
 use super::tokens::{
