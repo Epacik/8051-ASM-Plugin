@@ -3,22 +3,22 @@ use crate::{lexer::*, Tkn};
 use test_case::test_case;
 use tests::spanned_strings::pos;
 
-// #[test_case(
-//     "'some content'",
-//     vec![
-//         PositionedToken::new(Tkn![Apostrophe], pos(0..0, 0, 0..0)),
-//         PositionedToken::new(Tkn![str("some content")], pos(1..12, 0, 1..12)),
-//         PositionedToken::new(Tkn![Apostrophe], pos(13..13, 0, 13..13)),
-//     ] 
-// ; "is a string with some ascii characters inside with apostrophes" )]
-// #[test_case(
-//     "\"some content\"",
-//     vec![
-//         PositionedToken::new(Tkn![DoubleQuote], pos(0..0, 0, 0..0)),
-//         PositionedToken::new(Tkn![str("some content")], pos(1..12, 0, 1..12)),
-//         PositionedToken::new(Tkn![DoubleQuote], pos(13..13, 0, 13..13)),
-//     ] 
-// ; "is a string with some ascii characters inside with double quotes" )]
+#[test_case(
+    "'some content'",
+    vec![
+        PositionedToken::new(Tkn![Apostrophe], pos(0..0, 0, 0..0)),
+        PositionedToken::new(Tkn![str("some content")], pos(1..12, 0, 1..12)),
+        PositionedToken::new(Tkn![Apostrophe], pos(13..13, 0, 13..13)),
+    ] 
+; "is a string with some ascii characters inside with apostrophes" )]
+#[test_case(
+    "\"some content\"",
+    vec![
+        PositionedToken::new(Tkn![DoubleQuote], pos(0..0, 0, 0..0)),
+        PositionedToken::new(Tkn![str("some content")], pos(1..12, 0, 1..12)),
+        PositionedToken::new(Tkn![DoubleQuote], pos(13..13, 0, 13..13)),
+    ] 
+; "is a string with some ascii characters inside with double quotes" )]
 #[test_case(
     include_str!("test.asm"),
     vec![
