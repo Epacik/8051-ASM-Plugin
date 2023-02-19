@@ -15,7 +15,10 @@
                 "filter": {
                     "name": "asm8051_parser",
                     "kind": "lib"
-                }
+                },
+
+                "env": { "RUSTFLAGS": "-Clinker=ld.mold" }, // Extra environment variables.
+                "problemMatcher": "$rustc",
             },
             "args": [],
             "cwd": "${workspaceFolder}"

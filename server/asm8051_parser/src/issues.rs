@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-#[derive(Hash, Eq, PartialEq, Clone)]
+#[derive(Hash, Eq, PartialEq, Clone, Debug)]
 pub enum IssueType {
     Error,
     Warning,
@@ -24,12 +24,12 @@ use crate::lexer::{
     Position,
 };
 
-#[derive(Hash, Eq, PartialEq, Clone)]
+#[derive(Hash, Eq, PartialEq, Clone, Debug)]
 pub struct IssueInfo(u32, IssueType, String);
 
-impl ToString for IssueInfo {
-    fn to_string(&self) -> String {
-        format!("8051E{:04} ({}): {}", self.0, self.1, self.2)
+impl Display for IssueInfo {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "8051E{:04} ({}): {}", self.0, self.1, self.2 )
     }
 }
 
@@ -74,6 +74,26 @@ impl Issue {
                 .into_iter()
                 .collect::<Vec<Option<char>>>(),
         }
+    }
+
+    pub fn position(&self) -> &Position {
+        &self.span
+    }
+
+    pub fn info(&self) -> &IssueInfo {
+        &self.label
+    }
+
+    pub fn expected(&self) -> &[Option<Token>] {
+        self.expected.as_ref()
+    }
+
+    pub fn found(&self) -> Option<&Token> {
+        self.found.as_ref()
+    }
+
+    pub fn invalid_characters(&self) -> &[Option<char>] {
+        self.invalid_characters.as_ref()
     }
 }
 
@@ -172,19 +192,18 @@ validate_issue_codes::validate_issuecode_uniqueness!(
         issue_info(1001, Error, "unclosed-string")
     }
 
-    pub(crate) fn unclosed_string<S: AsRef<str>>(
+    pub(crate) fn unclosed_string(
         span: Position,
         expected: Token,
-        actual: S,
+        actual: Option<Token>,
     ) -> Issue {
-        let actual = actual.as_ref().to_string();
 
         Issue::unclosed_delimiter(
             span.clone(),
             expected.clone(),
             span,
             expected,
-            Some(Token::Trivia(Trivia::NewLine(actual))),
+            actual,
         )
     }
 

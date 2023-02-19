@@ -2,5 +2,7 @@
     "lldb.displayFormat": "auto",
     "lldb.showDisassembly": "never",
     "lldb.dereferencePointers": true,
-    "lldb.consoleMode": "commands"
+    "lldb.consoleMode": "commands",
+    "C_Cpp.vcpkg.enabled": false,
+    "cmake.buildBeforeRun": false,
 }

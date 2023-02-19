@@ -1,21 +1,18 @@
-use crate::{lexer::*, Tkn};
+use crate::{lexer::*, token, position};
 use test_case::test_case;
-use tests::spanned_strings::pos;
-
-
 
 #[test_case(
     ";some comment",
     vec![
-        PositionedToken::new(Tkn![Semicolon], pos(0..0, 0, 0..0)),
-        PositionedToken::new(Tkn![CommentStr("some comment")], pos(1..12, 0, 1..12)),
+        PositionedToken::new(token![Semicolon], position!(0, 0)),
+        PositionedToken::new(token![Comment("some comment")], position!(1..12, 0)),
     ] 
 ; "is a string of characters starting with a semicolon, endinf with an end of the line of code" )]
 #[test_case(
     ";some 😀😎",
     vec![
-        PositionedToken::new(Tkn![Semicolon], pos(0..0, 0, 0..0)),
-        PositionedToken::new(Tkn![CommentStr("some 😀😎")], pos(1..7, 0, 1..7)),
+        PositionedToken::new(token![Semicolon], position!(0, 0)),
+        PositionedToken::new(token![Comment("some 😀😎")], position!(1..7, 0)),
     ] 
 ; "can even contain some unicode characters" )]
 fn a_valid_comment(src: &str, expected_ast: Vec<PositionedToken>) {
@@ -56,18 +53,18 @@ fn a_valid_comment(src: &str, expected_ast: Vec<PositionedToken>) {
 #[test_case::test_case(
     "    ADD A, @R1 ;some 😀😎",
     vec![
-        PositionedToken::new(Tkn![WhiteSpace("    ")], pos(0..3, 0, 0..3)),
-        PositionedToken::new(Tkn![ADD], pos(4..6, 0, 4..6)),
-        PositionedToken::new(Tkn![WhiteSpace(" ")], pos(7..7, 0, 7..7)),
-        PositionedToken::new(Tkn![A], pos(8..8, 0, 8..8)),
-        PositionedToken::new(Tkn![ArgumentSeparator], pos(9..9, 0, 9..9)),
-        PositionedToken::new(Tkn![WhiteSpace(" ")], pos(10..10, 0, 10..10)),
-        PositionedToken::new(Tkn![AddressingModifier], pos(11..11, 0, 11..11)),
-        PositionedToken::new(Tkn![R1], pos(12..13, 0, 12..13)),
-        PositionedToken::new(Tkn![WhiteSpace(" ")], pos(14..14, 0, 14..14)),
+        PositionedToken::new(token![WhiteSpace("    ")], position!(0..3, 0)),
+        PositionedToken::new(token![ADD], position!(4..6, 0, 4..6)),
+        PositionedToken::new(token![WhiteSpace(" ")], position!(7, 0)),
+        PositionedToken::new(token![A], position!(8, 0)),
+        PositionedToken::new(token![ArgumentSeparator], position!(9, 0)),
+        PositionedToken::new(token![WhiteSpace(" ")], position!(10, 0)),
+        PositionedToken::new(token![AddressingModifier], position!(11, 0)),
+        PositionedToken::new(token![R1], position!(12..13, 0)),
+        PositionedToken::new(token![WhiteSpace(" ")], position!(14, 0)),
 
-        PositionedToken::new(Tkn![Semicolon], pos(15..15, 0, 15..15)),
-        PositionedToken::new(Tkn![CommentStr("some 😀😎")], pos(16..22, 0, 16..22)),
+        PositionedToken::new(token![Semicolon], position!(15, 0)),
+        PositionedToken::new(token![Comment("some 😀😎")], position!(16..22, 0)),
     ] 
 ; "can it parse a simple line of code with some comment at the end?" )]
 fn t1(src: &str, expected_ast: Vec<PositionedToken>) {

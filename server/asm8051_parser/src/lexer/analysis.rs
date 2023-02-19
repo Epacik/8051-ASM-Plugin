@@ -1,5 +1,6 @@
 use crate::issues::{self, Issue};
 
+use super::initial;
 use super::tokens::{
     PositionedToken,
     Token, 
@@ -80,7 +81,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
 
                     //last line
                     let items = match last_item.initial_type {
-                        InitialTokenType::NewLine => &line[(item_index + 1)..(line.len() - 2)],
+                        InitialTokenType::NewLine => &line[(item_index + 1)..(line.len() - 1)],
                         _ => &line[(item_index + 1)..],
                     };
 
@@ -165,7 +166,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                     lexing_issues.push(issues::unclosed_string(
                         item.position.clone(), 
                         delimiter_token.clone(), 
-                        ""));
+                        None));
                     continue;
                 }
                 // second last item in the line
@@ -178,7 +179,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                         lexing_issues.push(issues::unclosed_string(
                             item.position.clone(), 
                             delimiter_token.clone(), 
-                            last.content.clone()));
+                            None));
                         continue;
                     }
                     // we have an empty string
@@ -213,24 +214,34 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 // if someone forgot to place a second " or ' we're just going to grab the whole line
                 // except a newline
                 if is_unclosed {
+                    // get token of 
+                    let expected = delimiter_token.clone();
+
                     let last = the_rest.last().unwrap();
 
                     string_end_index = match last.initial_type {
                         InitialTokenType::NewLine => the_rest.len() - 1,
-                        _ => the_rest.len(),
+                        _ => the_rest.len(), 
                     };
 
-                    // get token of 
-                    let expected = delimiter_token.clone();
-                    
+                    let actual = &the_rest[string_end_index - 1];
+                    let last_char = actual.content.clone().chars().last().unwrap_or_default().to_string();
+
+                    let actual_token = if last.initial_type == InitialTokenType::NewLine 
+                    {
+                        Token::Trivia(Trivia::NewLine(last_char))
+                    }
+                    else {
+                        Token::Other(last_char)
+                    };
+
                     let span = Position::new(
-                        item.position.range.start..(item.position.range.start + string_end_index),
+                        item.position.range.start..(actual.position.range.end),
                         item.position.line, 
-                        item.position.columns.start..(item.position.columns.start + string_end_index));
+                        item.position.columns.start..(actual.position.columns.end));
 
-                    let actual = &the_rest[string_end_index].content.clone();
 
-                    lexing_issues.push(issues::unclosed_string(span, expected, actual));
+                    lexing_issues.push(issues::unclosed_string(span, expected, Some(actual_token)));
                 }
 
                 // grab the content of the string, as well as start and end positions
@@ -281,26 +292,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
             // Labels
             else if item.initial_type == InitialTokenType::Other && item_index == 0 {
 
-                // labels can, depending on the use case, have a colon immidiatelly after, or not have it at all
-                let next = &line[1];
-                let has_colon = next.initial_type == InitialTokenType::Control && next.content == ":";
-
-                // based on existence of that colon we can either include it in currently created token, or not
-                let (content, position) = if has_colon {
-
-                    indices.nth(0);
-
-                    let pos = Position::new(
-                        item.position.range.start..next.position.range.end, 
-                        item.position.line, 
-                        item.position.columns.start..next.position.columns.end);
-                    (item.content.clone(), pos)
-                }
-                else {
-                    (item.content.clone(), item.position.clone())
-                };
-
-                tokens.push(PositionedToken::new(Token::Label(content), position));
+                tokens.push(PositionedToken::new(Token::Label(item.content.clone()), item.position.clone()));
             }
 
             // number
@@ -308,7 +300,8 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 item.initial_type == InitialTokenType::Control && 
                 item_index > 0 && 
                 item.content == "#" &&
-                line.len() >= item_index + 1 {
+                line.len() >= item_index + 1 &&
+                (&line[item_index + 1].content).is_number() {
 
                 let next = &line[item_index + 1];
                 let num = next.content.clone();
@@ -347,16 +340,16 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
 
                 let content = item.content.clone();
                 let token = if content.is_hexadecimal() {
-                    Token::Number(Number::Hexadecimal(content))
+                    Token::Address(Number::Hexadecimal(content))
                 }
                 else if content.is_octal(){
-                    Token::Number(Number::Octal(content))
+                    Token::Address(Number::Octal(content))
                 }
                 else if content.is_binary() {
-                    Token::Number(Number::Octal(content))
+                    Token::Address(Number::Octal(content))
                 }
                 else if content.is_decimal() {
-                    Token::Number(Number::Decimal(content))
+                    Token::Address(Number::Decimal(content))
                 }
                 else {
                     Token::Unknown(content)
@@ -388,13 +381,17 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                     "(" => Token::ControlCharacter(ControlCharacter::Parenthesis(Parenthesis::Open)),
                     ")" => Token::ControlCharacter(ControlCharacter::Parenthesis(Parenthesis::Close)),
                     "," => Token::ControlCharacter(ControlCharacter::ArgumentSeparator),
+                    "." => Token::ControlCharacter(ControlCharacter::AddressingSeparator),
                     "@" => Token::ControlCharacter(ControlCharacter::AddressingModifier),
+                    "#" => Token::ControlCharacter(ControlCharacter::ReferenceModifier),
                     
                     "+" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Add)),
                     "-" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Subtract)),
                     "*" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Multiply)),
                     "/" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Divide)),
                     "%" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Modulo)),
+
+                    ":" => Token::ControlCharacter(ControlCharacter::Delimiter(Delimiter::LabelEnd)),
 
                     _ => {
                         let token = Token::Unknown(content);

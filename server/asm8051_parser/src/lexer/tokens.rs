@@ -48,6 +48,7 @@ impl Display for Token {
     }
 }
 
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum Keyword {
     Instruction(Instruction),
@@ -69,17 +70,18 @@ impl Display for Keyword {
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Instruction {
-    ACALL, ADD, ADDC, AJMP, ANL, CJNE, CLR, CPL,
-    DA, DEC, DIV, DJNZ, INC, JB, JBC, JC, 
-    JMP, JNB, JNC, JNZ, JZ, LCALL, LJMP, MOV,
-    MOVC, MOVX, MUL, NOP, ORL, POP, PUSH, RET,
-    RETI, RL, RLC, RR, RRC, SETB, SJMP, SUBB, SWAP,
-    XCH, XCHD, XRL,
+    CALL, ACALL, ADD, ADDC, AJMP, ANL, CJNE, CLR,
+    CPL, DA, DEC, DIV, DJNZ, INC, JB, JBC, 
+    JC, JMP, JNB, JNC, JNZ, JZ, LCALL, LJMP, 
+    MOV, MOVC, MOVX, MUL, NOP, ORL, POP, PUSH, 
+    RET, RETI, RL, RLC, RR, RRC, SETB, SJMP, 
+    SUBB, SWAP, XCH, XCHD, XRL,
 }
 
 impl Display for Instruction {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let name = match self {
+            Instruction::CALL => "CALL",
             Instruction::ACALL => "ACALL",
             Instruction::ADD => "ADD",
             Instruction::ADDC => "ADDC",
@@ -301,9 +303,9 @@ pub enum Trivia {
 impl Display for Trivia {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Trivia::NewLine(cnt)    => write!(f, "Trivia::NewLine({})", cnt),
-            Trivia::WhiteSpace(cnt) => write!(f, "Trivia::WhiteSpace({})", cnt),
-            Trivia::Comment(cnt)    => write!(f, "Trivia::Comment({})", cnt),
+            Trivia::NewLine(cnt)    => write!(f, "Trivia::NewLine(\"{}\")", cnt),
+            Trivia::WhiteSpace(cnt) => write!(f, "Trivia::WhiteSpace(\"{}\")", cnt),
+            Trivia::Comment(cnt)    => write!(f, "Trivia::Comment(\"{}\")", cnt),
         }
     }
 }
@@ -313,6 +315,9 @@ pub enum ControlCharacter {
     Arithmetic(Arithmetic),
     AddressingModifier,
     ArgumentSeparator,
+    // Colon,
+    AddressingSeparator,
+    ReferenceModifier,
     Parenthesis(Parenthesis),
     Delimiter(Delimiter)
 }
@@ -323,6 +328,9 @@ impl Display for ControlCharacter {
             ControlCharacter::Arithmetic(cc) => write!(f, "ControlCharacter::Arithmetic({})", cc),
             ControlCharacter::AddressingModifier => write!(f, "ControlCharacter::AddressingModifier"),
             ControlCharacter::ArgumentSeparator => write!(f, "ControlCharacter::ArgumentSeparator"),
+            //ControlCharacter::Colon => write!(f, "ControlCharacter::Colon"),
+            ControlCharacter::ReferenceModifier => write!(f, "ControlCharacter::ReferenceModifier"),
+            ControlCharacter::AddressingSeparator => write!(f, "ControlCharacter::AddressingSeparator"),
             ControlCharacter::Parenthesis(cc) => write!(f, "ControlCharacter::Parenthesis({})", cc),
             ControlCharacter::Delimiter(cc) => write!(f, "ControlCharacter::Delimiter({})", cc),
         }
@@ -400,7 +408,7 @@ pub struct PositionedToken {
 impl fmt::Debug for PositionedToken {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("PositionedToken")
-         .field("token", &self.token)
+         .field("token", &self.token.to_string())
          .field("position", &self.position).finish()
     }
 }
@@ -409,11 +417,8 @@ impl std::fmt::Display for PositionedToken {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "{}, range: {}-{}; line: {}; columns: {}-{}",
-            match self.token.borrow() {
-                Token::Label(lb) => format!("Label: {}, range", lb.clone()),
-                _ => todo!(),
-            },
+            "{}, {{range: {}-{}; line: {}; columns: {}-{}}}",
+            self.token.borrow(),
             self.position.range.start,
             self.position.range.end,
             self.position.line,
@@ -432,11 +437,58 @@ impl PositionedToken {
 //#endregion
 
 
+pub mod helpers {
+    use super::{Token, PositionedToken};
+
+    pub fn tokens_to_strings(tokens: &Vec::<Token>) -> Vec::<String> {
+        let mut result = Vec::<String>::new();
+
+
+        for token in tokens {
+            result.push(token.to_string());
+        }
+
+        result
+    }
+
+    pub fn positioned_tokens_to_strings(tokens: &Vec::<PositionedToken>) -> Vec::<String> {
+        let mut result = Vec::<String>::new();
+
+        for token in tokens {
+            result.push(token.to_string());
+        }
+
+        result
+    }
+}
+
+
 //#region Macro
+
 #[macro_export]
-macro_rules! Tkn {
+macro_rules! position {
+    ($range:literal, $line:literal) => {
+        Position::new($range..$range, $line, $range..$range)
+    };
+
+    ($range:literal, $line:literal, $column:literal) => {
+        Position::new($range..$range, $line, $column..$column)
+    };
+
+    ($range:expr, $line:literal) => {
+        Position::new($range, $line, $range)
+    };
+
+    ($range:expr, $line:literal, $column:expr) => {
+        Position::new($range, $line, $column)
+    };
+}
+
+#[macro_export]
+macro_rules! token {
     
     // Instructions
+    [CALL]    => { crate::lexer::tokens::Token::Keyword(crate::lexer::tokens::Keyword::Instruction(crate::lexer::tokens::Instruction::CALL)) };
     [ACALL]   => { crate::lexer::tokens::Token::Keyword(crate::lexer::tokens::Keyword::Instruction(crate::lexer::tokens::Instruction::ACALL)) };
     [ADD]     => { crate::lexer::tokens::Token::Keyword(crate::lexer::tokens::Keyword::Instruction(crate::lexer::tokens::Instruction::ADD)) };
     [ADDC]    => { crate::lexer::tokens::Token::Keyword(crate::lexer::tokens::Keyword::Instruction(crate::lexer::tokens::Instruction::ADDC)) };
@@ -552,18 +604,44 @@ macro_rules! Tkn {
     [DoubleQuote]  => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::DoubleQuote)) };
     [Semicolon]    => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::CommentStart))};
     [CommentStart] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::CommentStart))};
+    [LabelEnd]     => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Delimiter(crate::lexer::tokens::Delimiter::LabelEnd))};
 
     // Control characters
-    [ArgumentSeparator] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::ArgumentSeparator)};
-    [AddressingModifier] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::AddressingModifier)};
+    [ArgumentSeparator]   => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::ArgumentSeparator)};
+    [AddressingModifier]  => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::AddressingModifier)};
+    [AddressingSeparator] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::AddressingSeparator)};
+    [ReferenceModifier]   => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::ReferenceModifier)};
 
+    // Arithmetics 
+    [+] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Arithmetic(crate::lexer::tokens::Arithmetic::Add))};
+    [-] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Arithmetic(crate::lexer::tokens::Arithmetic::Subtract))};
+    [*] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Arithmetic(crate::lexer::tokens::Arithmetic::Multiply))};
+    [/] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Arithmetic(crate::lexer::tokens::Arithmetic::Divide))};
+    [%] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Arithmetic(crate::lexer::tokens::Arithmetic::Modulo))};
 
     // Trivia 
-    [String($s:expr)]     => { crate::lexer::tokens::Token::String($s) };
-    [str($s:expr)]        => { crate::lexer::tokens::Token::String(std::string::String::from($s)) };
-    [Comment($c:expr)]    => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::Comment($c)) };
-    [CommentStr($c:expr)] => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::Comment(std::string::String::from($c))) };
+    [String($s:expr)]     => { crate::lexer::tokens::Token::String(std::string::String::from($s)) };
+    [Comment($c:expr)]    => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::Comment(std::string::String::from($c))) };
     [WhiteSpace($c:expr)] => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::WhiteSpace(std::string::String::from($c))) };
+    [NewLine($c:expr)]    => { crate::lexer::tokens::Token::Trivia(crate::lexer::tokens::Trivia::NewLine(std::string::String::from($c))) };
+
+    // other
+    [Other($s:expr)]      => { crate::lexer::tokens::Token::Other(std::string::String::from($s)) };
+    [Unknown($s:expr)]    => { crate::lexer::tokens::Token::Unknown(std::string::String::from($s)) };
+    [Label($s:expr)]      => { crate::lexer::tokens::Token::Label(std::string::String::from($s)) };
+
+    // address
+    [AddressB($s:expr)]   => { crate::lexer::tokens::Token::Address(crate::lexer::tokens::Number::Binary(std::string::String::from($s))) };
+    [AddressO($s:expr)]   => { crate::lexer::tokens::Token::Address(crate::lexer::tokens::Number::Octal(std::string::String::from($s))) };
+    [AddressD($s:expr)]   => { crate::lexer::tokens::Token::Address(crate::lexer::tokens::Number::Decimal(std::string::String::from($s))) };
+    [AddressH($s:expr)]   => { crate::lexer::tokens::Token::Address(crate::lexer::tokens::Number::Hexadecimal(std::string::String::from($s))) };
+
+    // Numbers
+    [NumberB($s:expr)]    => { crate::lexer::tokens::Token::Number(crate::lexer::tokens::Number::Binary(std::string::String::from($s))) };
+    [NumberO($s:expr)]    => { crate::lexer::tokens::Token::Number(crate::lexer::tokens::Number::Octal(std::string::String::from($s))) };
+    [NumberD($s:expr)]    => { crate::lexer::tokens::Token::Number(crate::lexer::tokens::Number::Decimal(std::string::String::from($s))) };
+    [NumberH($s:expr)]    => { crate::lexer::tokens::Token::Number(crate::lexer::tokens::Number::Hexadecimal(std::string::String::from($s))) };
+
 }
 
 //#endregion

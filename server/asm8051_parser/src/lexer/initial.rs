@@ -39,7 +39,7 @@ fn is_control_char(c: char) -> bool {
         ';' | ':'  => true,
         '"' | '\'' => true,
         '(' | ')'  => true,
-        ','  => true,
+        ',' | '.'  => true,
         '#'  => true,
         '@'  => true,
         '\\' => true,

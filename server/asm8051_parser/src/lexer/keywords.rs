@@ -20,7 +20,7 @@ pub(super) fn is_directive<S: AsRef<str>>(s: S) -> bool {
 
 //#region Instructions
 
-const INSTRUCTIONS: [&str; 44] = [
+const INSTRUCTIONS: [&str; 45] = [
     "ACALL", "ADD",   "ADDC", "AJMP", "ANL",
     "CJNE",  "CLR",   "CPL",  "DA",   "DEC",
     "DIV",   "DJNZ",  "INC",  "JB",   "JBC",
@@ -29,7 +29,7 @@ const INSTRUCTIONS: [&str; 44] = [
     "MOVX",  "MUL",   "NOP",  "ORL",  "POP",
     "PUSH",  "RET",   "RETI", "RL",   "RLC",
     "RR",    "RRC",   "SETB", "SJMP", "SUBB",
-    "SWAP",  "XCH",   "XCHD", "XRL", 
+    "SWAP",  "XCH",   "XCHD", "XRL",  "CALL",
 ];
 
 pub(super) fn is_instruction<S: AsRef<str>>(s: S) -> bool {
@@ -203,6 +203,7 @@ pub(super) fn is_keyword<S: AsRef<str>>(s: S) -> bool {
 
 lazy_static::lazy_static! {
     static ref INSTRUCTION_MAP: HashMap<&'static str, Instruction> = HashMap::from([
+        ("CALL",  Instruction::CALL),
         ("ACALL", Instruction::ACALL),
         ("ADD",   Instruction::ADD),
         ("ADDC",  Instruction::ADDC),
