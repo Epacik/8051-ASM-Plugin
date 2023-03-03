@@ -55,8 +55,10 @@ category-logical         = Instrukcje logiczne
 category-data_transfer   = Instrukcje transferu danych
 
 # errors
-error-document-read = Wystąpił błąd podczas odczytywania dokumentu
-error-outOfRange    = poza zakresem
+error-document-read           = Wystąpił błąd podczas odczytywania dokumentu
+error-outOfRange              = Poza zakresem
+error-invalid-lang-id         = Błędny identyfikator języka
+error-lexical-analysis-failed = Błąd analizy leksykalnej
 
 # hover
 hover-operand                      = operand
@@ -75,3 +77,7 @@ hover-unsetWhen                    = zresetowany gdy
 hover-numberBase-label-binary      = Binarnie
 hover-numberBase-label-decimal     = Dziesiętnie
 hover-numberBase-label-hexadecimal = Szesnastkowo
+## test
+
+unknown-token = unknown-token
+unknown-token = unknown-token

@@ -4,7 +4,7 @@ use std::collections::HashMap;
 
 use crate::lexer::tokens::Directive;
 
-use super::tokens::{Register, Instruction, MainRegister, SpecialRegister, HelperRegister, PortRegister, AddressingRegister};
+use super::tokens::{Register, Instruction, MainRegister, SpecialRegister, HelperRegister, PortRegister};
 
 const DIRECTIVES: [&str; 16] = [
     "BIT", "DB", "DW", "IF", "ELSEIF", "ENDIF",
@@ -49,11 +49,11 @@ fn as_ref_to_vec_chars<S: AsRef<str>>(s: S) -> Vec<char> {
 mod registers {
     use super::as_ref_to_vec_chars;
 
-    pub fn is_addressing<S: AsRef<str>>(s: S) -> bool {
-        let chars = as_ref_to_vec_chars(s);
+    // pub fn is_addressing<S: AsRef<str>>(s: S) -> bool {
+    //     let chars = as_ref_to_vec_chars(s);
         
-        chars.len() == 3 && chars[0] == '@' && chars[1] == 'R' && (chars[2] >= '0' || chars[2] <= '1')
-    }
+    //     chars.len() == 3 && chars[0] == '@' && chars[1] == 'R' && (chars[2] >= '0' || chars[2] <= '1')
+    // }
 
     pub fn is_helper<S: AsRef<str>>(s: S) -> bool {
         let chars = as_ref_to_vec_chars(s);
@@ -112,11 +112,11 @@ pub(super) fn string_to_register<S: AsRef<str>>(s: S) -> Option<Register> {
     }
 }
 
-fn str_to_addressing_register<S: AsRef<str>>(s: &S)-> AddressingRegister {
-    let chars = as_ref_to_vec_chars(&s);
+// fn str_to_addressing_register<S: AsRef<str>>(s: &S)-> AddressingRegister {
+//     let chars = as_ref_to_vec_chars(&s);
 
-    if chars[2] == '0' { AddressingRegister::R0 } else { AddressingRegister::R1 }
-}
+//     if chars[2] == '0' { AddressingRegister::R0 } else { AddressingRegister::R1 }
+// }
 
 fn str_to_port_register<S: AsRef<str>>(s: &S) -> PortRegister {
     let chars = as_ref_to_vec_chars(&s);

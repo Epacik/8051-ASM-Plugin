@@ -1,6 +1,7 @@
 pub mod lexer_old;
 pub mod lexer;
 pub mod issues;
+pub mod i18n;
 
 #[allow(dead_code)]
 fn main() {

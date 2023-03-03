@@ -317,7 +317,7 @@ pub enum ControlCharacter {
     ArgumentSeparator,
     // Colon,
     AddressingSeparator,
-    ReferenceModifier,
+    ImmediateModifier,
     Parenthesis(Parenthesis),
     Delimiter(Delimiter)
 }
@@ -329,7 +329,7 @@ impl Display for ControlCharacter {
             ControlCharacter::AddressingModifier => write!(f, "ControlCharacter::AddressingModifier"),
             ControlCharacter::ArgumentSeparator => write!(f, "ControlCharacter::ArgumentSeparator"),
             //ControlCharacter::Colon => write!(f, "ControlCharacter::Colon"),
-            ControlCharacter::ReferenceModifier => write!(f, "ControlCharacter::ReferenceModifier"),
+            ControlCharacter::ImmediateModifier => write!(f, "ControlCharacter::ImmediateModifier"),
             ControlCharacter::AddressingSeparator => write!(f, "ControlCharacter::AddressingSeparator"),
             ControlCharacter::Parenthesis(cc) => write!(f, "ControlCharacter::Parenthesis({})", cc),
             ControlCharacter::Delimiter(cc) => write!(f, "ControlCharacter::Delimiter({})", cc),
@@ -610,7 +610,7 @@ macro_rules! token {
     [ArgumentSeparator]   => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::ArgumentSeparator)};
     [AddressingModifier]  => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::AddressingModifier)};
     [AddressingSeparator] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::AddressingSeparator)};
-    [ReferenceModifier]   => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::ReferenceModifier)};
+    [ImmediateModifier]   => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::ImmediateModifier)};
 
     // Arithmetics 
     [+] => { crate::lexer::tokens::Token::ControlCharacter(crate::lexer::tokens::ControlCharacter::Arithmetic(crate::lexer::tokens::Arithmetic::Add))};

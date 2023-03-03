@@ -1,7 +1,7 @@
 import * as vscode from "vscode" ;
 import { LanguageClient } from "vscode-languageclient/node";
 import IDocumentation from "./documentation";
-import { nullishableString } from "../miscellaneousTypeAliases";
+import { NullishableString } from "../miscellaneousTypeAliases";
 import DocumentationViewBase from "./documentationViewBase";
 import IOpenDocsArguments from "./IOpenDocsArguments";
 

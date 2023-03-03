@@ -1,5 +1,6 @@
 //#region imports
-use crate::{client_configuration::ClientConfiguration, flags::Locale, localize};
+use crate::{client_configuration::ClientConfiguration, flags::Locale};
+use crate::localize;
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::borrow::Borrow;
@@ -367,13 +368,13 @@ fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> 
         documentation_vector.push(MarkedString::String(tmp));
     }
 
-    let tmp = syntax((mnemonic.clone(), documentation.clone()));
-    if tmp != "" {
-        documentation_vector.push(MarkedString::LanguageString(LanguageString {
-            language: crate::LANG_ID.to_string(),
-            value: tmp.to_string(),
-        }));
-    }
+    // let tmp = syntax((mnemonic.clone(), documentation.clone()));
+    // if tmp != "" {
+    //     documentation_vector.push(MarkedString::LanguageString(LanguageString {
+    //         language: crate::LANG_ID.to_string(),
+    //         value: tmp.to_string(),
+    //     }));
+    // }
 
     let tmp = generate_valid_operands(documentation.valid_operands.clone());
 
@@ -408,6 +409,17 @@ fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> 
 fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
     // split text document into individual lines
     let mut lines = document.borrow().text.lines();
+    // let (tokens, _) = asm8051_parser::lexer::lexical_analisys(document.borrow().text.clone());
+    // let tokens = match tokens {
+    //     Some(s) => s,
+    //     None => vec![],
+    // };
+
+    // let _my_line = tokens.iter()
+    //     .filter(|x| x.position.line as u32 == position.line)
+    //     .collect::<Vec<_>>();
+
+    // let _my_line_str = _my_line.iter().map(|x| x.to_string()).collect::<Vec<_>>();
 
     // go to the line over which user is hovering
     let line_option = lines.nth(position.line as usize);
@@ -802,15 +814,15 @@ bitflags! {
 impl FlagType {
     pub fn label(&self) -> String {
         match self.bits {
-            0 => localize!("flag-parity"),
-            1 => localize!("flag-userDefined"),
-            2 => localize!("flag-overflow"),
-            3 => format!("{} 0", localize!("flag-registerBankSelect")),
-            4 => format!("{} 1", localize!("flag-registerBankSelect")),
-            5 => localize!("flag-flag0"),
-            6 => localize!("flag-auxiliaryCarry"),
-            7 => localize!("flag-carry"),
-            _ => localize!("flag-unknown"),
+            0 => format!("{} [P]", localize!("flag-parity")),
+            1 => format!("{}", localize!("flag-userDefined")),
+            2 => format!("{} [OV]", localize!("flag-overflow")),
+            3 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
+            4 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
+            5 => format!("{} [F0]", localize!("flag-flag0")),
+            6 => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
+            7 => format!("{} [CY]", localize!("flag-carry")),
+            _ => format!("{}", localize!("flag-unknown")),
         }
     }
 }

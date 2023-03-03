@@ -1,6 +1,6 @@
 [package]
 name = "asm8051_parser"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [lib]
@@ -11,8 +11,13 @@ regex = "*"
 string-join = "*"
 ropey =  { version = "*", features = ["unicode_lines"] }
 ahash = "*"
+i18n-embed = { version = "*", features = ["fluent-system", "desktop-requester"]}
+i18n-embed-fl = "*"
+rust-embed = "6"
 lazy_static = "1.4.0"
+once_cell = "1.8.0"
 validate_issue_codes = { path = "macros/validate_issue_codes" }
+
 
 [dev-dependencies]
 test-case = "*"

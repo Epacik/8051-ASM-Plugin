@@ -5,7 +5,7 @@ use crate::lexer::{
     Position,
     tests::spanned_string
 };
-use std::ops::Range;
+
 
 #[test_case(
     "abc cde   dcr xyz",

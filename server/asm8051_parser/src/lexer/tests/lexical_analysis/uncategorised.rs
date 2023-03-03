@@ -1,4 +1,4 @@
-use crate::{lexer::*, token, position, issues};
+use crate::{lexer::*, token, position};
 use test_case::test_case;
 
 
@@ -154,7 +154,7 @@ vec![
     PositionedToken::new(token![WhiteSpace("  ")],   position!(109..110, 8, 5..6)),
     PositionedToken::new(token![R0],                 position!(111..112, 8, 7..8)),
     PositionedToken::new(token![ArgumentSeparator],  position!(113, 8, 9)),
-    PositionedToken::new(token![ReferenceModifier],  position!(114, 8, 10)),
+    PositionedToken::new(token![ImmediateModifier],  position!(114, 8, 10)),
     PositionedToken::new(token![Other("TAB")],       position!(115..117, 8, 11..13)),
     PositionedToken::new(token![NewLine("\n")],      position!(118, 8, 14)),
     
@@ -223,7 +223,7 @@ vec![
     PositionedToken::new(token![WhiteSpace("  ")],     position!(236..237, 17, 6..7)),
     PositionedToken::new(token![R0],                   position!(238..239, 17, 8..9)),
     PositionedToken::new(token![ArgumentSeparator],    position!(240, 17, 10)),
-    PositionedToken::new(token![ReferenceModifier],    position!(241, 17, 11)),
+    PositionedToken::new(token![ImmediateModifier],    position!(241, 17, 11)),
     PositionedToken::new(token![Other("TAB")],         position!(242..244, 17, 12..14)),
     PositionedToken::new(token![+],                    position!(245, 17, 15)),
     PositionedToken::new(token![AddressD("3")],        position!(246, 17, 16)),
@@ -237,7 +237,7 @@ vec![
     PositionedToken::new(token![WhiteSpace("  ")],     position!(257..258, 18, 4..5)),
     PositionedToken::new(token![R0],                   position!(259..260, 18, 6..7)),
     PositionedToken::new(token![ArgumentSeparator],    position!(261, 18, 8)),
-    PositionedToken::new(token![ReferenceModifier],    position!(262, 18, 9)),
+    PositionedToken::new(token![ImmediateModifier],    position!(262, 18, 9)),
     PositionedToken::new(token![Other("TAB")],         position!(263..265, 18, 10..12)),
     PositionedToken::new(token![NewLine("\n")],        position!(266, 18, 13)),
     

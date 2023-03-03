@@ -1,2 +1,2 @@
-export type nullishableString = string | undefined | null;
-export const isNullishOrWhitespace = (str: nullishableString) => str === null || str === undefined || str.trim() === "";
+export type NullishableString = string | undefined | null;
+export const isNullishOrWhitespace = (str: NullishableString) => str === null || str === undefined || str.trim() === "";

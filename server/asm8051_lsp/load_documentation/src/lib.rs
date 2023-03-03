@@ -95,7 +95,7 @@ fn get_project_path() -> String {
 
 #[inline(always)]
 fn add_relative_path_to_language_dir(path: &mut String, lang: String) {
-    if path.ends_with("lsp_server_8051_asm") {
+    if path.ends_with("asm8051_lsp") {
         path.push_str("/load_documentation");
     }
     path.push_str("/");

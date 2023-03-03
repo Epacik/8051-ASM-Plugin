@@ -1,6 +1,5 @@
 use crate::issues::{self, Issue};
 
-use super::initial;
 use super::tokens::{
     PositionedToken,
     Token, 
@@ -279,9 +278,15 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                         PositionedToken::new(
                             delimiter_token.clone(),
                             position));
+
+                    // and skip to the end of the string in line
+                    indices.nth(string_end_index - 1);
                 }
-                // and skip to the end of the string in line
-                indices.nth(string_end_index - 1);
+                else {
+                    // and skip to the end of the string in line
+                    indices.nth(string_end_index - 2);
+                }
+                
 
                 // push escape issues 
                 for issue in escape_issues {
@@ -383,7 +388,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                     "," => Token::ControlCharacter(ControlCharacter::ArgumentSeparator),
                     "." => Token::ControlCharacter(ControlCharacter::AddressingSeparator),
                     "@" => Token::ControlCharacter(ControlCharacter::AddressingModifier),
-                    "#" => Token::ControlCharacter(ControlCharacter::ReferenceModifier),
+                    "#" => Token::ControlCharacter(ControlCharacter::ImmediateModifier),
                     
                     "+" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Add)),
                     "-" => Token::ControlCharacter(ControlCharacter::Arithmetic(Arithmetic::Subtract)),
@@ -446,7 +451,7 @@ fn escape_characters(content: String, position: Position) -> (String, Vec<Issue>
         let ch = chars[index];
 
         let ran = range_start + index;
-        let col = column + index;
+        let col = column + index ;
 
         if ch != '\\' {
             escaped.push(ch);

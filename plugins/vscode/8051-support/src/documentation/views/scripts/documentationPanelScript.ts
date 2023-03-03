@@ -1,8 +1,8 @@
 import IDocumentation from "../../documentation";
-import { nullishableString } from "../../../miscellaneousTypeAliases";
+import { NullishableString } from "../../../miscellaneousTypeAliases";
 import IOpenDocsArguments from "../../IOpenDocsArguments";
 
-const isNullishOrWhitespace = (str: nullishableString) => str === null || str === undefined || str.trim() === "";
+const isNullishOrWhitespace = (str: NullishableString) => str === null || str === undefined || str.trim() === "";
 
 window.addEventListener('message', event => {
     const message = event.data; // The JSON data our extension sent

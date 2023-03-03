@@ -1,4 +1,4 @@
-import { nullishableString } from "../miscellaneousTypeAliases";
+import { NullishableString } from "../miscellaneousTypeAliases";
 
 export default interface IOpenDocsArguments {
     category: string,

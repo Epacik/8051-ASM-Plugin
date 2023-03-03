@@ -21,7 +21,7 @@ import { localize, init as initLocalization }  from 'vscode-nls-i18n';
 import { DocumentationTreeProvider } from './documentation/documentationTreeProvider';
 import IOpenDocsArguments from './documentation/IOpenDocsArguments';
 
-const DEBUG: boolean = process.env.Debug8051Plugin?.trim()?.toLowerCase() == "true";
+const DEBUG: boolean = process.env.Debug8051Plugin?.trim()?.toLowerCase() === "true";
 
 let client: LanguageClient;
 
@@ -70,11 +70,12 @@ function getServerOptions(extensionUri: Uri): ServerOptions {
 		};
 	}
 	else {
-		if(process.platform == "linux") { //there's probably a better way, but I'm lazy
-			ChildProcess.execSync(`chmod +x "${Uri.joinPath(extensionUri, ...["out", "bin", "lsp_server_8051_asm"]).fsPath}"`)
+		let path = Uri.joinPath(extensionUri, ...["out", "bin", "asm8051_lsp"]).fsPath;
+		if(process.platform === "linux") { //there's probably a better way, but I'm lazy
+			ChildProcess.execSync(`chmod +x "${path}"`);
 		}
 		return {
-			command: Uri.joinPath(extensionUri, ...["out", "bin", "lsp_server_8051_asm"]).fsPath,
+			command: path,
 			args: [ "--use-stdio" ],
 		};
 	}

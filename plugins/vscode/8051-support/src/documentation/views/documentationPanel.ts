@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { localize } from "vscode-nls-i18n";
 import IDocumentation from "../documentation";
-import { isNullishOrWhitespace, nullishableString } from "../../miscellaneousTypeAliases";
+import { isNullishOrWhitespace, NullishableString } from "../../miscellaneousTypeAliases";
 import { getWebviewUri } from "../../utilities/getUri";
 import DocumentationViewBase from "../documentationViewBase";
 import { LanguageClient } from "vscode-languageclient/node";
@@ -120,7 +120,7 @@ export class DocumentationPanel extends DocumentationViewBase {
     }
     async #createDocElement(key: string, doc: IDocumentation): Promise<string> {
 
-        const insertSection = (header: nullishableString, value: nullishableString) => {
+        const insertSection = (header: NullishableString, value: NullishableString) => {
             if(isNullishOrWhitespace(value)) return;
             
             if(!isNullishOrWhitespace(header)){
@@ -130,7 +130,7 @@ export class DocumentationPanel extends DocumentationViewBase {
             result += `<p>${value?.trim()}</p>`;
         };
 
-        const getSectionFromParsed = (section: string): nullishableString => {
+        const getSectionFromParsed = (section: string): NullishableString => {
             section = section.toUpperCase();
             const borderChar = '▨';
             if(isNullishOrWhitespace(parsed) || !parsed?.includes(borderChar + section)) return null;
@@ -157,7 +157,7 @@ export class DocumentationPanel extends DocumentationViewBase {
 
         return result + `<div class="doc-spacer"></div>\n\n`;
     }
-    async #parseMarkdown(markdown: nullishableString): Promise<nullishableString> {
+    async #parseMarkdown(markdown: NullishableString): Promise<NullishableString> {
         return await vscode.commands.executeCommand('markdown.api.render', markdown);
     }
 
@@ -167,7 +167,7 @@ export class DocumentationPanel extends DocumentationViewBase {
         const separator = "\n\n";
         const borderChar = '▨';
 
-        const insertSection = (section: string, value: nullishableString, valuePrefix: nullishableString = "", valueSuffix: nullishableString = "") => {
+        const insertSection = (section: string, value: NullishableString, valuePrefix: NullishableString = "", valueSuffix: NullishableString = "") => {
             if(isNullishOrWhitespace(value)) return;
             
             section = section.toUpperCase();

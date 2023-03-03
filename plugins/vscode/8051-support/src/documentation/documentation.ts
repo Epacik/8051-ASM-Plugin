@@ -1,11 +1,11 @@
-import { nullishableString } from "../miscellaneousTypeAliases";
+import { NullishableString } from "../miscellaneousTypeAliases";
 
 export default interface IDocumentation {
-    detail: nullishableString;
-    description: nullishableString,
-    syntax: nullishableString,
-    affected_flags: nullishableString,
-    valid_operands: nullishableString,
+    detail: NullishableString;
+    description: NullishableString,
+    syntax: NullishableString,
+    affected_flags: NullishableString,
+    valid_operands: NullishableString,
     category: string,
     label: string,
 }

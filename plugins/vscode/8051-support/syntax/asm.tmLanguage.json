@@ -7,16 +7,19 @@
 		},
 		{
 			"include": "#strings"
-		},
-		{
+		},{
 			"name": "string.quoted.double.asm",
 			"begin": "\"",
 			"end": "\"",
 			"patterns": [
 				{
 					"name": "constant.character.escape.asm",
-					"match": "\\\\."
-				}
+					"match": "\\\\[abfntv\\'\"]"
+				},
+                {
+                    "name": "constant.character.escape.asm",
+                    "match": "\\\\x[0-9A-Fa-f]{2}"
+                }
 			]
 		},
 		{
@@ -26,12 +29,16 @@
 			"patterns": [
 				{
 					"name": "constant.character.escape.asm",
-					"match": "\\\\."
-				}
+					"match": "\\\\[abfntv\\'\"]"
+				},
+                {
+                    "name": "constant.character.escape.asm",
+                    "match": "\\\\x[0-9A-Fa-f]{2}"
+                }
 			]
 		},
 		{
-			"name":"comment.line",
+			"name":"comment",
 			"match": ";.*$"
 		},
 		{
@@ -39,21 +46,37 @@
 			"match": "(?i)(?<=(LCALL|ACALL|CALL|LJMP|SJMP)\\s*)\\w+"
 		},
 		{
+			"name": "entity.name.function",
+			"match": "(?i)\\b(LCALL|ACALL|CALL|LJMP|SJMP)\\b"
+		},
+		{
 			"name": "keyword.control.asm",
-			"match": "(?i)\\b(NOP|AJMP|LJMP|RR|INC|JBC|ACALL|LCALL|RRC|DEC|JB|RL|ADD|JNB|ACALL|RLC|ADDC|JC|ORL|JNC|ANL|JZ|XRL|JNZ|XRL|JMP|MOV|SJMP|MOVC|DIV|SUBB|MUL|CPL|CJNE|PUSH|CLR|SWAP|XCH|POP|SETB|DA|DJNZ|XCHD|MOVX|ORG|CALL)\\b"
+			"match": "(?i)\\b(NOP|RR|INC|JBC|RRC|DEC|JB|RL|ADD|JNB|ACALL|RLC|ADDC|JC|ORL|JNC|ANL|JZ|XRL|JNZ|XRL|JMP|MOV|SJMP|MOVC|DIV|SUBB|MUL|CPL|CJNE|PUSH|CLR|SWAP|XCH|POP|SETB|DA|DJNZ|XCHD|MOVX)\\b"
+		},
+		{
+			"name": "variable.other.constant",
+			"match": "(@|[+]|-|[/]|[*]|%){1}"
 		},
 		{
 			"name": "keyword.other",
-			"match": "^\\w+:$"
+			"match": "^\\w+(:)?"
 		},
 		
 		{
-			"name": "meta.structure.dictionary.key.python",
+			"name": "variable.parameter",
 			"match": "(?i)\\b(RET|RETI)\\b"
 		},
 		{
 			"name": "entity.name.class",
-			"match": "(?i)@?R[0-7]"
+			"match": "(?i)R[0-7]"
+		},
+		{
+			"name": "entity.name.class",
+			"match": "(?i)P[0-3]"
+		},
+		{
+			"name": "entity.name.class",
+			"match": "(?i)(SBUF|TCON|TMOD|SCON|PCON|IP|IE|DPTR|DPH|DPL|PC|SP)"
 		},
 		{
 			"name": "entity.name.tag",
@@ -65,15 +88,15 @@
 		},
 		{
 			"name":  "variable.name",
-			"match": "#[0-9]\\b"
+			"match": "#[0-9]+\\b"
 		},
 		{
 			"name":  "variable.name",
-			"match": "#[0-9][0-9A-Fa-f][Hh]\\b"
+			"match": "#[0-9]+[0-9A-Fa-f][Hh]\\b"
 		},
 		{
-			"name":	"support.function",
-			"match": "(?i)\\b(ORG|DB|DW|END|EQU|SET|BIT|REG|IF|ELSE|ENDIF|MACRO|ENDM|MACEND|EXITM|INCLUDE|INCDIR)\\b"
+			"name":	"variable.other.constant",
+			"match": "(?i)\\b(ORG|DB|DW|END|EQU|SET|BIT|REG|IF|ELSE|ENDIF|MACRO|ENDM|MACEND|EXITM|$INCLUDE|$INCDIR)\\b"
 		}
 	],
 	"repository": {

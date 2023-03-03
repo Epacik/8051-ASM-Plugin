@@ -1,14 +1,14 @@
 {
 	"folders": [
 		{
-			"path": "lsp_server_8051_asm"
+			"path": "asm8051_lsp"
 		},
 		{
 			"path": "asm8051_parser"
 		}
 	],
 	"settings": {
-		"powershell.cwd": "d:/source/other_repos/8051-ASM-Plugin2/server/asm8051_parser",
+		"powershell.cwd": "d:/source/other_repos/8051-ASM-Plugin2/server/",
 		"rust-analyzer.debug.engineSettings": {
 			"cppdbg": {
 				"miDebuggerPath": "C:/Users/epat/.rustup/toolchains/stable-x86_64-pc-windows-gnu/bin/rust-gdb",
@@ -20,6 +20,7 @@
 					}
 				],
 			}
-		}
+		},
+		"rust-analyzer.debug.engine": "vadimcn.vscode-lldb"
 	}
 }

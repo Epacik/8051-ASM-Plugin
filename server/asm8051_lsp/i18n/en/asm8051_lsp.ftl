@@ -55,8 +55,10 @@ category-logical         = Logical instructions
 category-data_transfer   = Data transfer instructions
 
 # errors
-error-document-read = An error occurred while reading document
-error-outOfRange    = out of range
+error-document-read           = An error occurred while reading document
+error-outOfRange              = out of range
+error-invalid-lang-id         = Invalid language ID
+error-lexical-analysis-failed = Lexical analysis error
 
 # hover
 hover-operand                      = operand

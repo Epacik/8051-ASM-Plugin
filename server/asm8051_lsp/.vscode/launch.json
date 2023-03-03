@@ -7,17 +7,18 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'lsp_server_8051_asm'",
+            "name": "Debug executable 'asm8051_lsp'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=lsp_server_8051_asm",
-                    "--package=lsp_server_8051_asm"
+                    "--bin=asm8051_lsp",
+                    "--package=asm8051_lsp"
                 ],
                 "filter": {
-                    "name": "lsp_server_8051_asm",
+                    "name": "asm8051_lsp",
                     "kind": "bin"
-                }
+                },
+                "problemMatcher": "$rustc",
             },
             "args": [],
             "program": "${cargo:program}",
@@ -26,16 +27,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'lsp_server_8051_asm'",
+            "name": "Debug unit tests in executable 'asm8051_lsp'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=lsp_server_8051_asm",
-                    "--package=lsp_server_8051_asm"
+                    "--bin=asm8051_lsp",
+                    "--package=asm8051_lsp"
                 ],
                 "filter": {
-                    "name": "lsp_server_8051_asm",
+                    "name": "asm8051_lsp",
                     "kind": "bin"
                 }
             },
