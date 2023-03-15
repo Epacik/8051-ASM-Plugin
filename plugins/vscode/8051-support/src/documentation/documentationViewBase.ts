@@ -1,3 +1,4 @@
+'use strict';
 import { LanguageClient } from "vscode-languageclient/node";
 import IDocumentation from "./documentation";
 import { localize } from "vscode-nls-i18n";

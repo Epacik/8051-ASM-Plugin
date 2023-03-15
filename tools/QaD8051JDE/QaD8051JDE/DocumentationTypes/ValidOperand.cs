@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using QaD8051JDE.DocumentationTypes;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace QaD8051JDE;
 
-public class ValidOperand
+public class ValidOperand : IOperand<PossibleOperands>
 {
     [JsonPropertyName("operand")]
-    public PossibleOperands PossibleOperand { get; set; }
+    public PossibleOperands Operand { get; set; }
 
     [JsonPropertyName("when_first_is")]
     public PossibleOperands WhenFirstIs { get; set; } = PossibleOperands.Any;

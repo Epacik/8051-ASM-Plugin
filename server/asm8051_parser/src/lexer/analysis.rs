@@ -138,7 +138,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 // ["][contents of string][newline(optional)] OR ['][contents of string][newline(optional)]
                 // OR ["][newline(optional)] OR ['][newline(optional)] -- this may be a warning or another error as well
 
-                
+
                 // we shouldn't allow missmatched deliminers 
                 let delimiter = &item.content;
                 let delimiter_token = match delimiter.as_str() {

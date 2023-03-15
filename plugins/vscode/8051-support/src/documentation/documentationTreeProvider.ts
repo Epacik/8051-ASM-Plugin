@@ -1,3 +1,4 @@
+'use strict';
 import * as vscode from "vscode" ;
 import { LanguageClient } from "vscode-languageclient/node";
 import IDocumentation from "./documentation";

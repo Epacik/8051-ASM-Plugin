@@ -75,6 +75,7 @@ hover-setWhen                      = ustawiony gdy
 hover-unsetWhen                    = zresetowany gdy
 
 hover-numberBase-label-binary      = Binarnie
+hover-numberBase-label-octal       = Ósemkowo
 hover-numberBase-label-decimal     = Dziesiętnie
 hover-numberBase-label-hexadecimal = Szesnastkowo
 ## test

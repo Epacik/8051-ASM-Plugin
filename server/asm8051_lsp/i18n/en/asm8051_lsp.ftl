@@ -75,5 +75,6 @@ hover-setWhen                      = set when
 hover-unsetWhen                    = unset when
 
 hover-numberBase-label-binary      = Binary
+hover-numberBase-label-octal       = Octal
 hover-numberBase-label-decimal     = Decimal
 hover-numberBase-label-hexadecimal = Hexadecimal

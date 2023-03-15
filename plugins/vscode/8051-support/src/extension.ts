@@ -1,3 +1,4 @@
+'use strict';
 //#region imports
 import { ExtensionContext, workspace, commands, window, MarkdownString, Uri } from 'vscode';
 

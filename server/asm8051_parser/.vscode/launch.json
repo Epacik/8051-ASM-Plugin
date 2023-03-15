@@ -21,7 +21,9 @@
                 "problemMatcher": "$rustc",
             },
             "args": [],
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "sourceLanguages": ["rust"]
         }
+        
     ]
 }

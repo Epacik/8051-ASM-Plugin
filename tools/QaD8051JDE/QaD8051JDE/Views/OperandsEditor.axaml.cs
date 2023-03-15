@@ -34,9 +34,9 @@ namespace QaD8051JDE.Views
         {
             ValidValues.BeginBatchUpdate();
 
-            var items = (ObservableCollection<Operand>)(ValidValues.Items);
+            var items = (ObservableCollection<Operand>)(ValidValues.Items!);
             
-            foreach(IGrouping<PossibleOperands, ValidOperand> item in values.GroupBy(x => x.PossibleOperand))
+            foreach(IGrouping<PossibleOperands, ValidOperand> item in values.GroupBy(x => x.Operand))
             {
                 var operand = new Operand(operandNumber == 0);
                 operand.Set(item);
@@ -56,7 +56,7 @@ namespace QaD8051JDE.Views
         public List<ValidOperand> Get()
         {
             var list = new List<ValidOperand>();
-            var items = (ObservableCollection<Operand>)(ValidValues.Items);
+            var items = (ObservableCollection<Operand>)(ValidValues.Items!);
 
             foreach (Operand item in items)
             {
@@ -69,7 +69,7 @@ namespace QaD8051JDE.Views
         {
             ValidValues.BeginBatchUpdate();
 
-            var items = (ObservableCollection<Operand>)(ValidValues.Items);
+            var items = (ObservableCollection<Operand>)(ValidValues.Items!);
             items.Add(new Operand(operandNumber == 0));
 
             ValidValues.EndBatchUpdate();
@@ -83,29 +83,13 @@ namespace QaD8051JDE.Views
 
             ValidValues.BeginBatchUpdate();
 
-            var items = (ObservableCollection<Operand>)(ValidValues.Items);
+            var items = (ObservableCollection<Operand>)(ValidValues.Items!);
             var item = items.ElementAt(index);
             items.Remove(item);
 
             ValidValues.EndBatchUpdate();
             
         }
-
-
-
-        private TextBlock Title;
-        private RadioButton Selection;
-        private ListBox ValidValues;
         private int operandNumber;
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-
-            Title = this.FindControl<TextBlock>("Title");
-            Selection = this.FindControl<RadioButton>("Selection");
-            ValidValues = this.FindControl<ListBox>("ValidValues");
-            ValidValues.Items = new ObservableCollection<Operand>();
-        }
     }
 }

@@ -127,7 +127,7 @@ impl Display for Instruction {
             Instruction::XCHD => "XCHD",
             Instruction::XRL => "XRL",
         };
-        write!(f, "Instruction::{}", name)
+        write!(f, "{}", name)
     }
 }
 
@@ -158,7 +158,7 @@ impl Display for Directive {
             Directive::REG => "REG",
             Directive::SET => "SET",
         };
-        write!(f, "Directive::{}", name)
+        write!(f, "{}", name)
     }
 }
 
@@ -194,7 +194,7 @@ impl Display for MainRegister {
             MainRegister::B => "B",
             MainRegister::AB => "AB",
         };
-        write!(f, "MainRegister::{}", name)
+        write!(f, "{}", name)
     }
 }
 #[derive(Debug, PartialEq, Clone)]
@@ -225,7 +225,7 @@ impl Display for SpecialRegister {
             SpecialRegister::SCON => "SCON",
             SpecialRegister::SP => "SP",
         };
-        write!(f, "SpecialRegister::{}", name)
+        write!(f, "{}", name)
     }
 }
 
@@ -246,7 +246,7 @@ impl Display for HelperRegister {
             HelperRegister::R6 => "R6",
             HelperRegister::R7 => "R7",
         };
-        write!(f, "HelperRegister::{}", name)
+        write!(f, "{}", name)
     }
 }
 
@@ -269,7 +269,7 @@ impl Display for PortRegister {
             PortRegister::P2 => "P2",
             PortRegister::P3 => "P3",
         };
-        write!(f, "PortRegister::{}", name)
+        write!(f, "{}", name)
     }
 }
 
@@ -425,6 +425,15 @@ impl std::fmt::Display for PositionedToken {
             self.position.columns.start,
             self.position.columns.end
         )
+    }
+}
+
+impl Default for PositionedToken {
+    fn default() -> Self {
+        Self { 
+            token: Token::Unknown(String::new()),
+            position: Position::new(0..0, 0, 0..0)
+        }
     }
 }
 

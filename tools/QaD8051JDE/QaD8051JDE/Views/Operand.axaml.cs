@@ -10,16 +10,8 @@ using System.Linq;
 
 namespace QaD8051JDE.Views;
 
-public class Operand : UserControl
+public partial class Operand : UserControl
 {
-    //private ComboBox When;
-    private ComboBox ValidOperands;
-    private TextBlock Label;
-    private DropDownButton WhenButton;
-    private ListBox WhenListBox;
-    private ToolTip WhenTooltip;
-    private ToolTip ValidOperandsTooltip;
-
     public Operand() : this(false) { }
 
     public Operand(bool hideWhenFirstIs)
@@ -37,30 +29,6 @@ public class Operand : UserControl
             .Where(x => x.Key != PossibleOperands.Any)
             .Select(x => new TextBlock { Text = x.Value, Tag = x.Key });
 
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-        //When          = this.FindControl<ComboBox>("When")             ?? throw new InvalidOperationException(nameof(When) + " not found");
-        ValidOperands        = this.FindControl<ComboBox>("ValidOperands")
-            ?? throw new InvalidOperationException(nameof(ValidOperands) + " not found");
-
-        Label                = this.FindControl<TextBlock>("Label")
-            ?? throw new InvalidOperationException(nameof(Label) + " not found");
-
-        WhenButton           = this.FindControl<DropDownButton>("WhenButton")
-            ?? throw new InvalidOperationException(nameof(WhenButton) + " not found");
-
-        WhenListBox          = this.FindControl<ListBox>("WhenListBox")
-            ?? throw new InvalidOperationException(nameof(WhenListBox) + " not found");
-        WhenListBox.SelectionMode = SelectionMode.Multiple | SelectionMode.Toggle;
-
-        WhenTooltip          = this.FindControl<ToolTip>("WhenTooltip")
-            ?? throw new InvalidOperationException(nameof(WhenTooltip) + " not found");
-
-        ValidOperandsTooltip = this.FindControl<ToolTip>("ValidOperandsTooltip")
-            ?? throw new InvalidOperationException(nameof(ValidOperandsTooltip) + " not found");
     }
 
     public void ValidOperands_SelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -115,7 +83,7 @@ public class Operand : UserControl
         {
             operands.Add(new()
             {
-                PossibleOperand = operand,
+                Operand = operand,
                 WhenFirstIs = (PossibleOperands)selected.Tag!,
             });
         }
@@ -124,7 +92,7 @@ public class Operand : UserControl
         {
             operands.Add(new()
             {
-                PossibleOperand = operand,
+                Operand = operand,
                 WhenFirstIs = PossibleOperands.Any,
             });
         }

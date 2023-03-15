@@ -1,6 +1,8 @@
     LJMP       START             
     ORG       100H
 text EQU "123\x4?565752"
+
+; let's test if that works
 START:
     MOV    R0,#31H             ;adres bufora wyboru wskaźnika        
     MOV    R1,#38H             ;adres bufora danych wskaźnika        
@@ -15,6 +17,8 @@ START:
     ADD A, @R0
     CALL TEST
 
+;is that working?
+;please tell me it is
 TEST:
     MOV @A+DPTR, #43H
     RET

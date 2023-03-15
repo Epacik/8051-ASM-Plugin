@@ -1,3 +1,5 @@
+'use strict';
+
 import * as vscode from "vscode";
 import { localize } from "vscode-nls-i18n";
 import IDocumentation from "../documentation";

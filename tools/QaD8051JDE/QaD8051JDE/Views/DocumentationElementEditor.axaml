@@ -64,6 +64,41 @@
                     </StackPanel>
                 </Expander>
 
+                <Expander Header="Addressing modes">
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Click="AddAddressingModeButton_Click">➕</Button>
+                            <Button Click="RemoveAddressingModeButton_Click" >➖</Button>
+                        </StackPanel>
+                        <StackPanel x:Name="AddressingModesPanel" Orientation="Horizontal" MaxHeight="999999">
+
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Changed Registers">
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Click="AddChangedRegistersButton_Click">➕</Button>
+                            <Button Click="RemoveChangedRegistersButton_Click" >➖</Button>
+                        </StackPanel>
+                        <StackPanel x:Name="AffectedRegistersPanel" Orientation="Horizontal" MaxHeight="999999">
+
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Used Registers">
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Click="AddUsedRegistersButton_Click">➕</Button>
+                            <Button Click="RemoveUsedRegistersButton_Click" >➖</Button>
+                        </StackPanel>
+                        <StackPanel x:Name="UsedRegistersPanel" Orientation="Horizontal" MaxHeight="999999">
+
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
               <StackPanel Orientation="Horizontal"
                           Spacing="5"
                           Margin="0,20,0,0">

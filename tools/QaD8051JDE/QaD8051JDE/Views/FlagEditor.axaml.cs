@@ -34,19 +34,5 @@ namespace QaD8051JDE.Views
         }
 
         public bool IsChecked => Selection.IsChecked == true;
-
-        private RadioButton Selection;
-        private ComboBox Flags;
-        private TextBox WhenSet;
-        private TextBox WhenUnset;
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-
-            Selection = this.FindControl<RadioButton>("Selection");
-            Flags = this.FindControl<ComboBox>("Flags");
-            WhenSet = this.FindControl<TextBox>("WhenSet");
-            WhenUnset = this.FindControl<TextBox>("WhenUnset");
-        }
     }
 }

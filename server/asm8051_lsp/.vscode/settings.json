@@ -1,6 +1,8 @@
 {
-    "lldb.displayFormat": "decimal",
+    "lldb.displayFormat": "auto",
     "lldb.showDisassembly": "never",
-    "lldb.dereferencePointers": false,
-    "lldb.consoleMode": "commands"
+    "lldb.dereferencePointers": true,
+    "lldb.consoleMode": "commands",
+    "C_Cpp.vcpkg.enabled": false,
+    "cmake.buildBeforeRun": false,
 }

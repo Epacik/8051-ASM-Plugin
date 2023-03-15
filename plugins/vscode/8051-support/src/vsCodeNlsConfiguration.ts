@@ -1,3 +1,4 @@
+'use strict';
 export default class VsCodeNlsConfiguration {
     readonly #language: string;
     readonly #languagePackSupport: boolean;

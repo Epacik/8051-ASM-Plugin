@@ -1,3 +1,4 @@
+'use strict';
 import { ClientCapabilities, DocumentSelector, InitializeParams, ServerCapabilities, StaticFeature } from 'vscode-languageclient';
 
 export default class GetAllDocumentationFeature implements StaticFeature {

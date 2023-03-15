@@ -1,6 +1,8 @@
+#![allow(unused_imports, dead_code, unused_variables, unused_mut)]
 //#region imports
 use crate::{client_configuration::ClientConfiguration, flags::Locale};
 use crate::localize;
+use asm8051_parser::lexer::tokens::{Token, Keyword, ControlCharacter, PositionedToken, Register, HelperRegister, Number, Directive, Delimiter, Trivia};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::borrow::Borrow;
@@ -253,43 +255,220 @@ pub(crate) fn documentation(
     _configuration: &ClientConfiguration,
     locale: Locale,
 ) -> Vec<MarkedString> {
-    let symbol = get_symbol(document, position);
 
-    match symbol {
-        Symbol::None => Vec::new(),
-        Symbol::Number(number) => documentation_number(number, locale),
-        Symbol::Label(label, pos) => documentation_label(label, pos, document.borrow()),
-        Symbol::Keyword(mnemonic) => documentation_keyword(mnemonic, locale),
-        Symbol::Constant(label, pos) => documentation_label(label, pos, document.borrow()),
-        Symbol::Macro(label, pos) => documentation_label(label, pos, document.borrow()),
+    let (tokens, _) = asm8051_parser::lexer::lexical_analisys(document.borrow().text.clone());
+    let ast = match tokens {
+        Some(s) => s,
+        None => return Vec::new(),
+    };
+
+    let (token, modifier) = match get_symbol(&ast, position) {
+        Some(sym) => sym,
+        None => return Vec::new(),
+    };
+
+    let mut ast_lines: HashMap<usize, Vec<PositionedToken>> = HashMap::new();
+
+    for token in ast {
+        let line = token.position.line;
+
+        if !ast_lines.contains_key(&line) {
+            ast_lines.insert(line, vec![]);
+        }
+
+        let mut tokens = ast_lines.get_mut(&line).unwrap();
+
+        tokens.push(token.clone());
     }
+    
+    match token.token {
+        Token::Keyword(kw) => documentation_keyword(kw, modifier, &locale),
+        Token::Number(num) => documentation_number(num),
+        Token::Label(lb) => documentation_other(lb, token.position, &ast_lines),
+        Token::Other(ot) => documentation_other(ot, token.position, &ast_lines),
+        _ => Vec::new(),
+    }
+
+    // match symbol {
+    //     Symbol::None => Vec::new(),
+    //     Symbol::Number(number) => documentation_number(number, locale),
+    //     Symbol::Label(label, pos) => documentation_label(label, pos, document.borrow()),
+    //     Symbol::Keyword(mnemonic) => documentation_keyword(mnemonic, locale),
+    //     Symbol::Constant(label, pos) => documentation_label(label, pos, document.borrow()),
+    //     Symbol::Macro(label, pos) => documentation_label(label, pos, document.borrow()),
+    // }
 }
 
-fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> Vec<MarkedString> {
-    if pos == 0 {
-        return Vec::new();
+fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>) -> Vec<MarkedString> {
+    let (is_macro, line) =  is_symbol_macro(label.as_str(), &ast);
+    if is_macro {
+        return documentation_label(&label, line, &ast);
     }
 
-    let lines = document.text.lines();
-    let lines = lines.into_iter().collect::<Vec<&str>>();
-    let prev_text = lines[(pos - 1) as usize];
-    if pos == 0 || !prev_text.trim().starts_with(";") {
-        return Vec::new();
+    let (is_const, line) = is_symbol_constant(label.as_str(), &ast);
+    
+    if is_const {
+        return documentation_label(&label, line, &ast);
     }
 
-    let mut comment_start: u32 = pos - 1;
-    for i in (0..pos).rev() {
-        if !lines[i as usize].trim().starts_with(";") {
-            comment_start = i + 1;
-            break;
+    let (is_label, line) = is_symbol_label(label.as_str(), &ast);
+
+    if is_label {
+        return documentation_label(&label, line, &ast);
+    }
+
+    Vec::new()
+}
+
+
+
+fn is_symbol_macro(label: &str, ast: &HashMap<usize, Vec<PositionedToken>>) -> (bool, i32) {
+
+    let label_token = Token::Label(String::from(label));
+
+    for (line, tokens) in ast {
+        if tokens.len() == 0 {
+            continue;
+        }
+
+        if label_token != tokens[0].token {
+            continue;
+        }
+
+        if tokens_contains_any(&tokens, &[ &Token::Keyword(Keyword::Directive(Directive::MACRO)) ]) {
+            return (true, (*line as i32));
+        }
+
+    }
+
+    (false, 0)
+}
+
+fn is_symbol_label(label: &str, ast: &HashMap<usize, Vec<PositionedToken>>) -> (bool, i32) {
+
+    let label_token = Token::Label(String::from(label));
+
+    for (line, tokens) in ast {
+        if tokens.len() == 0 {
+            continue;
+        }
+
+        if label_token != tokens[0].token {
+            continue;
+        }
+
+        if !tokens_contains_any(&tokens, &[
+             &Token::Keyword(Keyword::Directive(Directive::EQU)),
+             &Token::Keyword(Keyword::Directive(Directive::SET)),
+             &Token::Keyword(Keyword::Directive(Directive::DB)),
+             &Token::Keyword(Keyword::Directive(Directive::DW)),
+             &Token::Keyword(Keyword::Directive(Directive::REG)),
+             &Token::Keyword(Keyword::Directive(Directive::BIT)),
+             &Token::Keyword(Keyword::Directive(Directive::MACRO)),
+        ]) {
+            return (true, (*line as i32));
         }
     }
 
-    if comment_start == pos {
+    (false, 0)
+}
+
+fn is_symbol_constant(label: &str, ast: &HashMap<usize, Vec<PositionedToken>>) -> (bool, i32) {
+    let label = if label.starts_with("#") {
+        let chars = label.borrow().chars().collect::<Vec<char>>();
+        let chars = chars[1..].borrow();
+        String::from_iter(chars)
+    } else {
+        String::from(label.borrow())
+    };
+
+    let label_token = Token::Label(label);
+
+    for (line, tokens) in ast {
+        if tokens.len() == 0 {
+            continue;
+        }
+
+        if label_token != tokens[0].token {
+            continue;
+        }
+
+        if tokens_contains_any(&tokens, &[
+             &Token::Keyword(Keyword::Directive(Directive::EQU)),
+             &Token::Keyword(Keyword::Directive(Directive::SET)),
+             &Token::Keyword(Keyword::Directive(Directive::DB)),
+             &Token::Keyword(Keyword::Directive(Directive::DW)),
+             &Token::Keyword(Keyword::Directive(Directive::REG)),
+             &Token::Keyword(Keyword::Directive(Directive::BIT)),
+        ]) {
+            return (true, (*line as i32));
+        }
+    }
+
+    (false, 0)
+}
+
+fn tokens_contains_any(tokens: &Vec<PositionedToken>, contains: &[&Token]) -> bool {
+    for t in tokens {
+        for c in contains {
+            if &&t.token == c {
+                return true;
+            }
+        }
+    }
+
+    false
+}
+
+fn str_contains_any(string: &str, contains: &[&str], case_sensitive: bool) -> bool {
+    let t = match case_sensitive {
+        false => string.to_lowercase(),
+        true => string.to_string(),
+    };
+    for cont in contains {
+        let c = match case_sensitive {
+            false => cont.to_lowercase(),
+            true => cont.to_string(),
+        };
+
+        if t.contains(&c) {
+            return true;
+        }
+    }
+
+    false
+}
+
+fn documentation_label(label: &String, line: i32, ast: &HashMap<usize, Vec<PositionedToken>>) -> Vec<MarkedString> {
+    if line <= 1 {
         return Vec::new();
     }
 
-    let lines = &lines[(comment_start as usize)..(pos as usize)];
+    let mut index = (line - 1) as usize;
+    let prev_line = match ast.get(&index) {
+        Some(l) => l,
+        None => return Vec::new(),
+    };
+
+    if !is_comment_line(&prev_line) {
+        return Vec::new();
+    }
+
+    let mut string_lines: Vec<String> = Vec::new();
+
+    while let Some(line) = ast.get(&index) {
+        if !is_comment_line(&line) {
+            break;
+        }
+
+        string_lines.push(get_comment_string(&line));
+        if index == 0{
+            break;
+        }
+        index -= 1;
+    }
+
+    string_lines.reverse();
 
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
 
@@ -297,8 +476,8 @@ fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> 
     documentation_vector.push(MarkedString::String(tmp));
 
     let mut tmp = String::new();
-    for line in lines {
-        tmp.push_str(&line.trim()[1..]);
+    for line in string_lines {
+        tmp.push_str(&line.trim());
         tmp.push_str("\n\n");
     }
     documentation_vector.push(MarkedString::String(clean_markdown(&tmp)));
@@ -306,46 +485,117 @@ fn documentation_label(label: String, pos: u32, document: &TextDocumentItem) -> 
     documentation_vector
 }
 
+fn get_comment_string(line: &[PositionedToken]) -> String {
+    if line.len() == 0 {
+        return String::new();
+    }
+
+    panic_on_mismatched_lines(&line);
+
+    let mut string = String::new();
+    for item in line {
+        let content = match &item.token {
+            Token::Trivia(tr) => match tr {
+                Trivia::Comment(cm) => cm.as_str(),
+                _ => "",
+            },
+            _ => "",
+        };
+
+        string.push_str(content);
+    }
+
+    string
+}
+
+fn is_comment_line(line: &[PositionedToken]) -> bool {
+
+    if line.len() == 0 {
+        return false;
+    }
+
+    panic_on_mismatched_lines(line);
+    
+    match &line[0].token {
+        Token::ControlCharacter(cc) => match cc {
+                ControlCharacter::Delimiter(d) => 
+                    match d {
+                        Delimiter::CommentStart => return true,
+                        _ => return false,
+                    },
+                _ => return false,
+            },
+        _ => return false,
+    };
+}
+
+fn panic_on_mismatched_lines(line: &[PositionedToken]) {
+    if line.len() == 0 {
+        return;
+    }
+
+    let line_index = line[0].position.line;
+
+    for item in line {
+        if item.position.line != line_index {
+            panic!("You must provide tokens with matching position.line field");
+        }
+    }
+}
+
 fn clean_markdown(tmp: &str) -> String {
     //TODO: remove command links
     String::from(tmp)
 }
 
-fn documentation_number(number: String, _locale: Locale) -> Vec<MarkedString> {
-    let labels: (String, String, String) = (
+fn documentation_number(number: Number) -> Vec<MarkedString> {
+    let (label_binary, label_octal, label_decimal, label_hex): (String, String, String, String) = (
         localize!("hover-numberBase-label-binary"),
+        localize!("hover-numberBase-label-octal"),
         localize!("hover-numberBase-label-decimal"),
         localize!("hover-numberBase-label-hexadecimal"),
     );
 
-    let parse_result: Result<i32, std::num::ParseIntError> =
-        if number.ends_with("b") || number.ends_with("B") {
-            let n = &number[1..(number.len() - 1)];
-            i32::from_str_radix(n, 2)
-        } else if number.ends_with("h") || number.ends_with("H") {
-            let n = &number[1..(number.len() - 1)];
-            i32::from_str_radix(n, 16)
-        } else {
-            let n = &number[1..];
-            i32::from_str_radix(n, 10)
-        };
+    let parsed = match number {
+        Number::Binary(bin) => i32::from_str_radix(bin.as_str(), 2),
+        Number::Octal(oct) => i32::from_str_radix(oct.as_str(), 8),
+        Number::Decimal(dec) => i32::from_str_radix(dec.as_str(), 10),
+        Number::Hexadecimal(hex) => i32::from_str_radix(hex.as_str(), 16),
+    };
 
-    let value = match parse_result {
+    let value = match parsed {
         Ok(v) => v,
         Err(_) => return Vec::new(),
     };
 
     let string = MarkedString::String(format!(
-        "{}: #{:b}b\n\n{}: #{}\n\n{}: #{:X}h",
-        labels.0, value, labels.1, value, labels.2, value
+        "{}: #{:b}b\n\n{}: #{:o}O\n\n{}: #{}\n\n{}: #{:X}h",
+        label_binary, value, label_octal, value, label_decimal, value, label_hex, value
     ));
     vec![string]
 }
 
-fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> {
-    let documentation = match get_documentation(locale, mnemonic.clone()) {
+fn documentation_keyword(mnemonic: Keyword, modifier: AddressingModifier, locale: &Locale) -> Vec<MarkedString> {
+
+    // get string representation...
+    let string_repr = match mnemonic {
+        Keyword::Instruction(ins) => ins.to_string(),
+        Keyword::Directive(dir) => dir.to_string(),
+        Keyword::FlagOrBit(fob) => fob,
+        Keyword::Register(reg) => match reg {
+            Register::Main(mr) => mr.to_string(),
+            Register::Special(sr) => sr.to_string(),
+            Register::Port(pr) => pr.to_string(),
+            Register::Helper(hr) => match hr {
+                HelperRegister::R0 | HelperRegister::R1 if modifier == AddressingModifier::Yes => format!("@{}", hr.to_string()),
+                 _ => hr.to_string()
+            },
+        },
+    };
+
+    let documentation = match get_documentation(locale, &string_repr) {
         Some(docs) => docs,
-        None => match get_documentation(Locale::ENGLISH, mnemonic.clone()) {
+        None => match get_documentation(&Locale::ENGLISH, &string_repr) {
             Some(docs) => docs,
             None => return <Vec<MarkedString>>::new(),
         },
@@ -353,7 +603,7 @@ fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> 
 
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
 
-    let tmp = format!("**{}**", mnemonic.as_str());
+    let tmp = format!("**{}**", string_repr.as_str());
     documentation_vector.push(MarkedString::String(tmp));
 
     // if documentation.detail != "" {
@@ -399,189 +649,79 @@ fn documentation_keyword(mnemonic: String, locale: Locale) -> Vec<MarkedString> 
         "[{}](command:asm8051.openDocs?%7B%22category%22:%22{}%22,%22item%22:%22{}%22%7D)",
         localize!("hover-goToDocs"),
         documentation.category,
-        mnemonic
+        string_repr
     )));
 
     documentation_vector
 }
 
+#[derive(PartialEq, Eq, PartialOrd, Ord)]
+pub enum AddressingModifier {
+    Yes, No
+}
+
 /// Get the symbol/mnemonic/word over which user is hovering
-fn get_symbol(document: &TextDocumentItem, position: Position) -> Symbol {
+fn get_symbol(document: &Vec<PositionedToken>, position: Position) -> Option<(PositionedToken, AddressingModifier)> {
     // split text document into individual lines
-    let mut lines = document.borrow().text.lines();
-    // let (tokens, _) = asm8051_parser::lexer::lexical_analisys(document.borrow().text.clone());
-    // let tokens = match tokens {
-    //     Some(s) => s,
-    //     None => vec![],
-    // };
+    
+    let current_line = document.iter()
+        .filter(|x| x.position.line as u32 == position.line)
+        .collect::<Vec<_>>();
 
-    // let _my_line = tokens.iter()
-    //     .filter(|x| x.position.line as u32 == position.line)
-    //     .collect::<Vec<_>>();
+    let _my_line_str = current_line.iter().map(|x| x.to_string()).collect::<Vec<_>>();
 
-    // let _my_line_str = _my_line.iter().map(|x| x.to_string()).collect::<Vec<_>>();
+    let mut tok: Option<(&PositionedToken, AddressingModifier)> = Option::None;
 
-    // go to the line over which user is hovering
-    let line_option = lines.nth(position.line as usize);
+    for i in 0..(current_line.len()) {
+        let token = &current_line[i];
+        let _token_str = token.to_string();
 
-    if line_option.is_none() {
-        return Symbol::None;
-    }
-    let chars = line_option.unwrap().chars().collect::<Vec<char>>();
-    let chars_length = chars.len();
+        let col = position.character as usize;
+        let range = &token.position.columns;
+        if range.start <= col && col <= range.end {
+            if token.token == Token::ControlCharacter(ControlCharacter::AddressingModifier) {
+                if i == current_line.len() - 1 {
+                    return Option::None;
+                }
+                else {
+                    tok = Some((&current_line[i + 1], AddressingModifier::Yes));
+                    break 
+                }
+            }
+            else if token.token == Token::ControlCharacter(ControlCharacter::AddressingSeparator) {
+                if i == 0 {
+                    return Option::None;
+                }
+                else {
+                    tok = Some((&current_line[i - 1], AddressingModifier::No));
+                }
+            }
+            else {
+                tok = match token.token.clone() {
+                    Token::Address(_) if i >= 2 && &current_line[i - 1].token == &Token::ControlCharacter(ControlCharacter::AddressingSeparator) 
+                      => Some((&current_line[i - 2], AddressingModifier::No)),
+                    Token::Keyword(kw) => match kw {
+                        Keyword::Register(rg) => match rg {
+                            Register::Helper(hl) => match hl {
+                                HelperRegister::R0 | HelperRegister::R1 if i >= 1 && &current_line[i - 1].token == &Token::ControlCharacter(ControlCharacter::AddressingModifier)
+                                  => Some((token, AddressingModifier::Yes)),
+                                _ => Some((token, AddressingModifier::No)),
+                            },
+                            _ => Some((token, AddressingModifier::No)),
+                        },
+                        _ => Some((token, AddressingModifier::No)),
+                    },
 
-    if position.character >= (chars_length as u32) {
-        return Symbol::None;
-    }
-
-    // Check if we're not in the comment, and return if we are
-    for i in 0..=position.character {
-        if chars[i as usize] == ';' {
-            return Symbol::None;
+                    _ => Some((token, AddressingModifier::No)),
+                };
+            }
         }
     }
 
-    let mut symbol_start_position = 0;
-    let mut symbol_end_position = chars_length as u32;
-
-    // find beginning of the symbol user is hovering over
-    for i in (0..=position.character).rev() {
-        if !is_valid_character(chars[i as usize]) {
-            symbol_start_position = i + 1;
-            break;
-        }
+    match tok {
+        Some((token, modifier)) => Some((token.clone(), modifier)),
+        None => None,
     }
-
-    // find end of the symbol user is hovering over
-    for i in position.character..(chars_length as u32) {
-        if !is_valid_character(chars[i as usize]) {
-            symbol_end_position = i;
-            break;
-        }
-    }
-
-    if symbol_start_position >= symbol_end_position {
-        return Symbol::None;
-    }
-
-    // using locations of beginning and end of the symbol create a String containing it
-    let chars = chars[(symbol_start_position as usize)..(symbol_end_position as usize)].borrow();
-
-    let symbol_text = String::from_iter(chars);
-    let symbol_text_upper = symbol_text.to_uppercase();
-    if DOCUMENTATION[&Locale::ENGLISH].contains_key(&symbol_text_upper) {
-        return Symbol::Keyword(symbol_text);
-    } else if is_symbol_number(&symbol_text) {
-        return Symbol::Number(symbol_text);
-    }
-
-    let sym = is_symbol_constant(&symbol_text, document.borrow());
-    if sym.0 {
-        return Symbol::Constant(symbol_text, sym.1);
-    }
-
-    let sym = is_symbol_macro(&symbol_text, document.borrow());
-    if sym.0 {
-        return Symbol::Macro(symbol_text, sym.1);
-    }
-
-    let sym = is_symbol_label(&symbol_text, document.borrow());
-    if sym.0 {
-        return Symbol::Label(symbol_text, sym.1);
-    }
-
-    Symbol::None
-}
-
-fn is_symbol_number(symbol_text: &str) -> bool {
-    symbol_text.starts_with("#0")
-        || symbol_text.starts_with("#1")
-        || symbol_text.starts_with("#2")
-        || symbol_text.starts_with("#3")
-        || symbol_text.starts_with("#4")
-        || symbol_text.starts_with("#5")
-        || symbol_text.starts_with("#6")
-        || symbol_text.starts_with("#7")
-        || symbol_text.starts_with("#8")
-        || symbol_text.starts_with("#9")
-}
-
-fn is_symbol_macro(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
-    let lines = document.text.lines();
-    let mut line_number: u32 = 0;
-    for line in lines {
-        if line.starts_with(symbol_text) && str_contains_any(line.borrow(), &["MACRO"], false) {
-            return (true, line_number);
-        }
-        line_number = line_number + 1;
-    }
-
-    (false, 0)
-}
-
-fn is_symbol_label(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
-    let lines = document.text.lines();
-    let mut line_number: u32 = 0;
-    for line in lines {
-        if line.starts_with(symbol_text)
-            && !str_contains_any(
-                line.borrow(),
-                &["EQU", "SET", "DB", "DW", "REG", "BIT", "MACRO"],
-                false,
-            )
-        {
-            return (true, line_number);
-        }
-        line_number = line_number + 1;
-    }
-
-    (false, 0)
-}
-
-fn is_symbol_constant(symbol_text: &str, document: &TextDocumentItem) -> (bool, u32) {
-    let symbol_text2 = if symbol_text.starts_with("#") {
-        let chars = symbol_text.borrow().chars().collect::<Vec<char>>();
-        let chars = chars[1..].borrow();
-        String::from_iter(chars)
-    } else {
-        String::from(symbol_text.borrow())
-    };
-
-    let lines = document.text.lines();
-    let mut line_number: u32 = 0;
-    for line in lines {
-        if (line.starts_with(symbol_text) || line.starts_with(symbol_text2.as_str()))
-            && str_contains_any(
-                line.borrow(),
-                &["EQU", "SET", "DB", "DW", "REG", "BIT"],
-                false,
-            )
-        {
-            return (true, line_number);
-        }
-        line_number = line_number + 1;
-    }
-
-    (false, 0)
-}
-
-fn str_contains_any(string: &str, contains: &[&str], case_sensitive: bool) -> bool {
-    let t = match case_sensitive {
-        false => string.to_lowercase(),
-        true => string.to_string(),
-    };
-    for cont in contains {
-        let c = match case_sensitive {
-            false => cont.to_lowercase(),
-            true => cont.to_string(),
-        };
-
-        if t.contains(&c) {
-            return true;
-        }
-    }
-
-    false
 }
 
 fn is_valid_character(character: char) -> bool {
@@ -589,13 +729,13 @@ fn is_valid_character(character: char) -> bool {
     IS_VALID_CHARACTER_REGEX.is_match(text.as_str())
 }
 
-fn get_documentation(_locale: Locale, _mnemonic: String) -> Option<Documentation> {
+fn get_documentation(_locale: &Locale, _mnemonic: &String) -> Option<Documentation> {
     let docs = match DOCUMENTATION.get(_locale.borrow()) {
         Some(doc) => doc,
         None => return None,
     };
 
-    let doc = match docs.get(&String::from(_mnemonic)) {
+    let doc = match docs.get(_mnemonic) {
         Some(d) => d,
         None => return None,
     };

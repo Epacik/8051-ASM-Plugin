@@ -86,7 +86,7 @@ public partial class DocumentationElementEditor : UserControl
             .Select(
                 x => ((OperandsEditor)x)
                     .Get()
-                    .OrderBy(x => x.PossibleOperand.ToString())
+                    .OrderBy(x => x.Operand.ToString())
                     .ToList())
             .ToList();
 
@@ -152,22 +152,30 @@ public partial class DocumentationElementEditor : UserControl
         }
     }
 
-    private StackPanel AffectedFlagsPanel;
-    private StackPanel OperandsPanel;
-    private ToggleSwitch DontGenerateSyntax;
-    private ToggleSwitch DontDuplicate;
-    private TextBlock SavedText;
-    private DispatcherTimer? _timer;
-
-    private void InitializeComponent()
+    private void AddAddressingModeButton_Click(object sender, RoutedEventArgs args)
     {
-        AvaloniaXamlLoader.Load(this);
-        AffectedFlagsPanel = this.FindControl<StackPanel>("AffectedFlagsPanel");
-        OperandsPanel = this.FindControl<StackPanel>("OperandsPanel");
-        DontGenerateSyntax = this.FindControl<ToggleSwitch>("DontGenerateSyntax");
-        DontDuplicate = this.FindControl<ToggleSwitch>("DontDuplicate");
 
-        SavedText = this.FindControl<TextBlock>("SavedText");
     }
-}
 
+    private void RemoveAddressingModeButton_Click(object sender, RoutedEventArgs args)
+    {
+
+    }
+
+    private void RemoveChangedRegistersButton_Click(object sender, RoutedEventArgs args)
+    {
+    }
+
+    private void AddChangedRegistersButton_Click(object sender, RoutedEventArgs args)
+    {
+    }
+
+    private void AddUsedRegistersButton_Click(object sender, RoutedEventArgs args)
+    {
+    }
+    private void RemoveUsedRegistersButton_Click(object sender, RoutedEventArgs args)
+    {
+    }
+
+    private DispatcherTimer? _timer;
+}

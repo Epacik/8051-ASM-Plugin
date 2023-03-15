@@ -185,10 +185,5 @@ namespace QaD8051JDE.Views
             }
             viewModel.Editor = null;
         }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
     }
 }
