@@ -1,5 +1,7 @@
     LJMP       START             
     ORG       100H
+
+; lol it works!
 text EQU "123\x4?565752"
 
 ; let's test if that works
