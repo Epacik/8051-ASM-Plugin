@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using QaD8051JDE.ViewModels;
 using System;
 using System.IO;
 using System.Linq;
@@ -13,14 +14,11 @@ namespace QaD8051JDE.Views
 {
     public partial class MainWindow : Window
     {
-        readonly ViewModels.MainWindowViewModel viewModel = new();
+        private ViewModels.MainWindowViewModel? ViewModel => DataContext as ViewModels.MainWindowViewModel;
         public MainWindow()
         {
-            DataContext = viewModel;
+            DataContext = new ViewModels.MainWindowViewModel();
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
 
             _ = SelectFolder();
 
@@ -32,14 +30,14 @@ namespace QaD8051JDE.Views
             if(e.Key == Avalonia.Input.Key.S &&
                e.KeyModifiers == Avalonia.Input.KeyModifiers.Control)
             {
-                viewModel?.FilesList?.Save();
+                //ViewModel?.FilesList?.Save();
             }
         }
 
         private async Task SelectFolder()
         {
             string? path = null;
-            if (Application.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime && lifetime.Args.Length > 0)
+            if (Application.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime && lifetime.Args!.Length > 0)
             {
                 path = lifetime.Args[0];
             }
@@ -49,7 +47,7 @@ namespace QaD8051JDE.Views
                 {
                     Title = "Select folder containing documentation",
                 });
-                if(dialog?.FirstOrDefault()?.TryGetUri(out Uri? uri) ?? false)
+                if (dialog?.FirstOrDefault()?.TryGetUri(out Uri? uri) ?? false)
                 {
                     path = uri.LocalPath;
                 }
@@ -61,37 +59,31 @@ namespace QaD8051JDE.Views
                 return;
             }
 
-            viewModel.LanguageDirectories = Directory.GetDirectories(path)
-                .Select(x => new TextBlock { Text = Path.GetFileName(x), Tag = x})
+            ViewModel.LanguageDirectories = Directory.GetDirectories(path)
+                .Select(x => new NamedItemViewModel<string>(Path.GetFileName(x), x))
                 .ToArray();
 
         }
 
-        private void DirectoryContents_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var lang = ((e.AddedItems[0] as TextBlock)?.Tag as string ?? "");
-            var list = new FilesList(lang);
+        //private void DirectoryContents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    var lang = ((e.AddedItems[0] as NamedItemViewModel)?.Path as string ?? "");
+        //    var list = new FilesListViewModel(lang);
 
-            if(viewModel.FilesList is not null)
-            {
-                viewModel.FilesList.SelectedNameChanged -= List_SelectedNameChanged;
-            }
+        //    if(ViewModel?.FilesList is not null)
+        //    {
+        //       // ViewModel.FilesList.SelectedNameChanged -= List_SelectedNameChanged;
+        //    }
 
-            viewModel.FilesList = list;
+        //    ViewModel!.FilesList = list;
 
-            list.SelectedNameChanged += List_SelectedNameChanged;
-            viewModel.Title = (e.AddedItems[0] as TextBlock)?.Text ?? "";
-        }
+        //    //list.SelectedNameChanged += List_SelectedNameChanged;
+        //    ViewModel?.SetTitle((e.AddedItems[0] as TextBlock)?.Text ?? "");
+        //}
 
         private void List_SelectedNameChanged(object? sender, string e)
         {
-            viewModel.Title = (viewModel.SelectedLanguage?.Text ?? "") + " - " + e;
+            //ViewModel?.SetTitle((ViewModel?.SelectedLanguage?.Name ?? "") + " - " + e);
         }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
-
     }
 }

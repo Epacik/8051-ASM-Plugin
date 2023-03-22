@@ -4,17 +4,32 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using QaD8051JDE.DocumentationTypes;
-using ReactiveUI;
 
 namespace QaD8051JDE.ViewModels;
 
-public class OperandViewModel<TJsonWrapper, TEnum> : ReactiveObject
+public class OperandEditorViewModel : OperandEditorViewModel<ValidOperand, PossibleOperands>
+{
+    public OperandEditorViewModel(
+        bool hideWhenFirstIs,
+        IDictionary<PossibleOperands, string> labels,
+        Func<KeyValuePair<PossibleOperands, string>, bool> labelsFilter,
+        PossibleOperands defaultValue) 
+        : base(hideWhenFirstIs, labels, labelsFilter, defaultValue)
+    {
+    }
+}
+
+public abstract partial class OperandEditorViewModel<TJsonWrapper, TEnum> : ObservableObject
     where TJsonWrapper : class, IOperand<TEnum>, new()
-    where TEnum : struct, IConvertible, IEquatable<TEnum> // enum? xD
+    where TEnum : struct, IConvertible // enum? xD
 
 {
-    public OperandViewModel(
+    private readonly TEnum _defaultValue;
+    private Func<KeyValuePair<TEnum, string>, bool> _labelsFilter;
+
+    public OperandEditorViewModel(
         bool hideWhenFirstIs,
         IDictionary<TEnum, string> labels,
         Func<KeyValuePair<TEnum, string>, bool> labelsFilter,
@@ -25,40 +40,28 @@ public class OperandViewModel<TJsonWrapper, TEnum> : ReactiveObject
             throw new InvalidOperationException($"{nameof(TEnum)} must be an enum");
         }
 
-        LabelsFilter = labelsFilter;
+        _labelsFilter = labelsFilter;
         _defaultValue = defaultValue;
         HideWhenFirstIs = hideWhenFirstIs;
 
-        ValidLabels = new ObservableCollection<KeyValuePair<TEnum, string>>(labels);
-        _whenFirstIsCollection = new ObservableCollection<KeyValuePair<TEnum, string>>(labels.Where(LabelsFilter));
+        LabelsCollection = new ObservableCollection<KeyValuePair<TEnum, string>>(labels);
+        _whenFirstIsCollection = new ObservableCollection<KeyValuePair<TEnum, string>>(labels.Where(_labelsFilter));
         _selectedWhenFirstIsLabels = new();
     }
 
+    [ObservableProperty]
     private bool _hideWhenFirstIs = false;
 
-    public Func<KeyValuePair<TEnum, string>, bool> LabelsFilter { get; }
-    public bool HideWhenFirstIs
-    {
-        get => _hideWhenFirstIs;
-        set => this.RaiseAndSetIfChanged(ref _hideWhenFirstIs, value, nameof(HideWhenFirstIs));
-    }
+    [ObservableProperty]
     private ObservableCollection<KeyValuePair<TEnum, string>>? _labelsCollection;
-    public ObservableCollection<KeyValuePair<TEnum, string>>? ValidLabels
-    {
-        get => _labelsCollection;
-        set => this.RaiseAndSetIfChanged(ref _labelsCollection, value);
-    }
 
+    [ObservableProperty]
     private ObservableCollection<KeyValuePair<TEnum, string>> _selectedWhenFirstIsLabels;
-    public ObservableCollection<KeyValuePair<TEnum, string>> SelectedWhenFirstIsLabels
+
+    partial void OnSelectedWhenFirstIsLabelsChanged(ObservableCollection<KeyValuePair<TEnum, string>> value)
     {
-        get => _selectedWhenFirstIsLabels;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedWhenFirstIsLabels, value);
-            this.RaisePropertyChanged(nameof(WhenButtonContent));
-            this.RaisePropertyChanged(nameof(WhenButtonTooltipContent));
-        }
+        OnPropertyChanged(nameof(WhenButtonContent));
+        OnPropertyChanged(nameof(WhenButtonTooltipContent));
     }
 
     public string WhenButtonContent
@@ -71,27 +74,16 @@ public class OperandViewModel<TJsonWrapper, TEnum> : ReactiveObject
         ? "Any"
         : string.Join("\n", SelectedWhenFirstIsLabels?.Select(x => x.Value) ?? Array.Empty<string>());
 
+
+    [ObservableProperty]
     private ObservableCollection<KeyValuePair<TEnum, string>> _whenFirstIsCollection;
-    public ObservableCollection<KeyValuePair<TEnum, string>> WhenFirstIsCollection
-    { 
-        get => _whenFirstIsCollection; 
-        private set => this.RaiseAndSetIfChanged(ref _whenFirstIsCollection, value);
-    }
 
+    [ObservableProperty]
     private int _validLabelSelectedIndex;
-    private readonly TEnum _defaultValue;
-
-    public int ValidLabelSelectedIndex
-    {
-        get => _validLabelSelectedIndex;
-        set => this.RaiseAndSetIfChanged(ref _validLabelSelectedIndex, value);
-    }
-
-
 
     public void Set(IGrouping<TEnum, TJsonWrapper> group)
     {
-        ValidLabelSelectedIndex = ValidLabels!
+        ValidLabelSelectedIndex = LabelsCollection!
             .Select((e, p) => (e, p))
             .FirstOrDefault(x => x.e.Key.Equals(group.Key)).p;
 
@@ -110,7 +102,7 @@ public class OperandViewModel<TJsonWrapper, TEnum> : ReactiveObject
     {
         List<TJsonWrapper> result = new();
 
-        var operand = ValidLabels[ValidLabelSelectedIndex].Key;
+        var operand = LabelsCollection![ValidLabelSelectedIndex].Key;
 
         foreach (var (value, _) in SelectedWhenFirstIsLabels)
         {

@@ -30,14 +30,13 @@
         <ScrollViewer Grid.Row="1">
             <ListBox x:Name="DirectoryContents"
                      Items="{Binding LanguageDirectories}"
-                     SelectionChanged="DirectoryContents_SelectionChanged"
                      SelectedItem="{Binding SelectedLanguage}"
                      SelectionMode="Single"
                      Background="#fafafa">
             </ListBox>
         </ScrollViewer>
         
-        <ContentControl Content="{Binding FilesList}" Grid.Column="1" Grid.RowSpan="2"/>
+        <ContentControl Content="{Binding FileList}" Grid.Column="1" Grid.RowSpan="2"/>
     </Grid>
 
 </Window>

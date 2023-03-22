@@ -12,6 +12,12 @@ public class ValidOperand : IOperand<PossibleOperands>
     [JsonPropertyName("when_first_is")]
     public PossibleOperands WhenFirstIs { get; set; } = PossibleOperands.Any;
 
+    public void Deconstruct(out PossibleOperands operand, out PossibleOperands whenFirstIs)
+    {
+        operand = Operand;
+        whenFirstIs = WhenFirstIs;
+    }
+
     public static readonly Dictionary<PossibleOperands, string> Labels = new()
     {
         [PossibleOperands.Any]                          = "Any",

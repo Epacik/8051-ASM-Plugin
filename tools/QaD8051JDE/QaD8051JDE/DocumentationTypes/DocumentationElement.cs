@@ -12,7 +12,7 @@ public class DocumentationElement
     public string? Description { get; set; }
 
     [JsonPropertyName("valid_operands")]
-    public List<List<ValidOperand>> ValidOperands { get; set; }
+    public List<List<ValidOperand>>? ValidOperands { get; set; }
 
     [JsonPropertyName("affected_flags")]
     public List<Flag>? AffectedFlags { get; set; }
@@ -38,4 +38,26 @@ public class DocumentationElement
 
     [JsonPropertyName("label")]
     public string? Label { get; set; }
+
+    public void Deconstruct(
+        out string? detail,
+        out string? description,
+        out List<List<ValidOperand>>? validOperands,
+        out List<Flag>? affectedFlags,
+        out bool dontGenerateSyntax,
+        out bool dontDuplicate,
+        out string prefix,
+        out bool prefixRequired,
+        out string? label)
+    {
+        detail = Detail;
+        description = Description;
+        validOperands = ValidOperands;
+        affectedFlags = AffectedFlags;
+        dontGenerateSyntax = DontGenerateSyntax;
+        dontDuplicate = DontDuplicate;
+        prefix = Prefix ?? "";
+        prefixRequired = PrefixRequired;
+        label = Label;
+    }
 }

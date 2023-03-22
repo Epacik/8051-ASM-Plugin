@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"  
+             x:Class="QaD8051JDE.Views.ValidOperandView">
+
+    <StackPanel Orientation="Horizontal" Spacing="5" Margin="5">
+        <ComboBox 
+            Items="{Binding OperandOptions}"
+            SelectedItem="{Binding Operand}"
+            Width="200"
+            HorizontalContentAlignment="Left">
+          <ToolTip.Tip>
+            <ToolTip Content="{Binding OperandTooltip}"/>
+          </ToolTip.Tip>
+        </ComboBox>
+        <TextBlock
+            VerticalAlignment="Center" 
+            IsVisible="{Binding !HideWhenFirstIs}"
+            Text="When first is"/>
+        
+      <DropDownButton
+          ClickMode="Press"
+          IsVisible="{Binding !HideWhenFirstIs}"
+          Content="{Binding ButtonContent}"
+          Width="200">
+        <DropDownButton.Flyout>
+          <Flyout>
+            <ListBox 
+                SelectionMode="Multiple,Toggle"
+                Items="{Binding WhenFirstIsOptions}"
+                SelectedItems="{Binding WhenFirstIs}"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+          </Flyout>
+        </DropDownButton.Flyout>
+        <ToolTip.Tip>
+          <ToolTip Content="{Binding TooltipContent}"/>
+        </ToolTip.Tip>
+      </DropDownButton>
+    </StackPanel>
+</UserControl>

@@ -5,10 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:QaD8051JDE.Views;assembly=QaD8051JDE"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
-             x:Class="QaD8051JDE.Views.DocumentationElementEditor">
+             x:Class="QaD8051JDE.Views.DocumentationElementEditorView">
 
     <!--<Design.DataContext>
-        <vm:DocumentationElementEditor/>
+        <vm:DocumentationElementEditorView/>
     </Design.DataContext>-->
 
     <Grid ShowGridLines="True">
@@ -17,8 +17,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="5, 0">
-            <Button Click="SaveButtonClick">💾</Button>
-            <Button Click="RefreshButtonClick">↩️</Button>
+            <Button >💾</Button>
+            <Button >↩️</Button>
             <ToggleSwitch Margin="20,0,0,0" OnContent="Don't generate syntax" OffContent="Generate syntax" x:Name="DontGenerateSyntax"/>
             <ToggleSwitch Margin="20,0,0,0" OnContent="Don't duplicate in all documentation" OffContent="Duplicate in all documentation" x:Name="DontDuplicate"/>
         </StackPanel>
@@ -42,45 +42,67 @@
                 <Expander Header="Affected Flags" HorizontalContentAlignment="Stretch">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal">
-                            <Button Click="AddFlagButton_Click">➕</Button>
-                            <Button Click="RemoveFlagButton_Click" >➖</Button>
+                            <Button Command="{Binding AddAffectedFlag}">➕</Button>
+                            <Button Command="{Binding RemoveAffectedFlag}">➖</Button>
                         </StackPanel>
-                        <StackPanel x:Name="AffectedFlagsPanel">
-                            
-                        </StackPanel>
+                        <ListBox 
+                            x:Name="AffectedFlagsPanel"
+                            Items="{Binding AffectedFlags}"
+                            SelectedItem="{Binding SelectedFlag}"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
                     </StackPanel>
                 </Expander>
 
 
                 <Expander Header="Valid operands" MaxHeight="999999">
+                    <Expander.Styles>
+                        <Styles>
+                            <Style Selector="ListBoxItem" >
+                                <Setter Property="VerticalAlignment" Value="Top"/>
+                            </Style>
+                        </Styles>
+                    </Expander.Styles>
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal">
-                            <Button Click="AddOperandButton_Click">➕</Button>
-                            <Button Click="RemoveOperandButton_Click" >➖</Button>
+                            <Button Command="{Binding AddValidOperandPosition}">➕</Button>
+                            <Button Command="{Binding RemoveValidOperandPosition}">➖</Button>
                         </StackPanel>
-                      <StackPanel x:Name="OperandsPanel" Orientation="Horizontal" MaxHeight="999999">
 
-                      </StackPanel>
+                        <ListBox
+                            Items="{Binding ValidOperands}"
+                            SelectedItem="{Binding SelectedValidOperands}"
+                            VerticalAlignment="Top"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="5"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
                     </StackPanel>
                 </Expander>
 
                 <Expander Header="Addressing modes">
                     <StackPanel HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal">
-                            <Button Click="AddAddressingModeButton_Click">➕</Button>
-                            <Button Click="RemoveAddressingModeButton_Click" >➖</Button>
-                        </StackPanel>
-                        <StackPanel x:Name="AddressingModesPanel" Orientation="Horizontal" MaxHeight="999999">
-
-                        </StackPanel>
+                        <ListBox 
+                            Items="{Binding AddressingModes}"
+                            SelectedItems="{Binding SelectedAddressingModes}"/>
                     </StackPanel>
                 </Expander>
 
                 <Expander Header="Changed Registers">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal">
-                            <Button Click="AddChangedRegistersButton_Click">➕</Button>
-                            <Button Click="RemoveChangedRegistersButton_Click" >➖</Button>
+                            <Button >➕</Button>
+                            <Button >➖</Button>
                         </StackPanel>
                         <StackPanel x:Name="AffectedRegistersPanel" Orientation="Horizontal" MaxHeight="999999">
 
@@ -91,8 +113,8 @@
                 <Expander Header="Used Registers">
                     <StackPanel HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal">
-                            <Button Click="AddUsedRegistersButton_Click">➕</Button>
-                            <Button Click="RemoveUsedRegistersButton_Click" >➖</Button>
+                            <Button >➕</Button>
+                            <Button >➖</Button>
                         </StackPanel>
                         <StackPanel x:Name="UsedRegistersPanel" Orientation="Horizontal" MaxHeight="999999">
 

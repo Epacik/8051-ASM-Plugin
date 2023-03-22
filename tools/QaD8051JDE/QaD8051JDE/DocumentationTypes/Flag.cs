@@ -12,4 +12,11 @@ public class Flag
 
     [JsonPropertyName("when_unset")]
     public string? WhenUnset { get; set; }
+
+    public void Deconstruct(out FlagType flagType, out string? whenSet, out string? whenUnset)
+    {
+        flagType = FlagType;
+        whenSet = WhenSet;
+        whenUnset = WhenUnset;
+    }
 }

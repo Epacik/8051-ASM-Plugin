@@ -1,33 +1,51 @@
 ﻿using Avalonia.Controls;
-using ReactiveUI;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
-internal class DocumentationElementListViewModel : ReactiveObject
+public partial class DocumentationElementListViewModel : ObservableObject
 {
-    private TextBlock[]? elements;
-    public TextBlock[]? Elements
+    [ObservableProperty]
+    private NamedItemViewModel<DocumentationElement>[]? _elements;
+
+    [ObservableProperty]
+    private NamedItemViewModel<DocumentationElement>? _selectedElement;
+
+    [ObservableProperty]
+    private DocumentationElementEditorViewModel? _editor;
+
+    private readonly string _filePath;
+
+    public DocumentationElementListViewModel(string filePath)
     {
-        get => elements;
-        set => this.RaiseAndSetIfChanged(ref elements, value);
+        _filePath = filePath;
+        LoadJson();
     }
 
-    private TextBlock? selectedElement;
-    public TextBlock? SelectedElement
+    private void LoadJson()
     {
-        get => selectedElement;
-        set => this.RaiseAndSetIfChanged(ref selectedElement, value);
+        var content = File.ReadAllText(_filePath);
+        Elements = JsonSerializer
+            .Deserialize<Dictionary<string, DocumentationElement>>(content)?
+            .Select(x => new NamedItemViewModel<DocumentationElement>(x.Key, x.Value))?
+            .ToArray();
     }
 
-    private Views.DocumentationElementEditor? editor;
-    public Views.DocumentationElementEditor? Editor
+    partial void OnSelectedElementChanged(NamedItemViewModel<DocumentationElement>? value)
     {
-        get => editor;
-        set => this.RaiseAndSetIfChanged(ref editor, value);
+        if (value is null)
+        {
+            Editor = null;
+            return;
+        }
+
+        Editor = new DocumentationElementEditorViewModel(value.Item);
     }
 }
 

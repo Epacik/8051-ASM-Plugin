@@ -1,34 +1,47 @@
 using Avalonia.Controls;
-using ReactiveUI;
+using CommunityToolkit.Mvvm.ComponentModel;
+using QaD8051JDE.ViewModels;
+using System.ComponentModel;
 
 namespace QaD8051JDE.ViewModels;
-public class MainWindowViewModel : ReactiveObject
+public partial class MainWindowViewModel : ObservableObject
 {
-    private TextBlock[]? languageDirectories;
-    public TextBlock[]? LanguageDirectories
+    [ObservableProperty]
+    private NamedItemViewModel<string>[]? _languageDirectories;
+
+    [ObservableProperty]
+    private NamedItemViewModel<string>? _selectedLanguage;
+
+    [ObservableProperty]
+    private FilesListViewModel? _fileList;
+
+    public string Title => "QaD8051JDE: ";
+
+    partial void OnSelectedLanguageChanged(NamedItemViewModel<string>? value)
     {
-        get => languageDirectories;
-        set => this.RaiseAndSetIfChanged(ref languageDirectories, value);
+        if (FileList is not null)
+        {
+            FileList.PropertyChanged -= FilesList_PropertyChanged;
+        }
+
+        if (value is null)
+        {
+            FileList = null;
+            OnPropertyChanged(nameof(Title));
+            return;
+        }
+
+        FileList = new(value.Item!);
+        FileList.PropertyChanged += FilesList_PropertyChanged;
+
+        OnPropertyChanged(nameof(Title));
     }
 
-    private TextBlock? selectedLanguage;
-    public TextBlock? SelectedLanguage
+    private void FilesList_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        get => selectedLanguage;
-        set => this.RaiseAndSetIfChanged(ref selectedLanguage, value);
-    }
-
-    private Views.FilesList? filesList;
-    public Views.FilesList? FilesList
-    {
-        get => filesList;
-        set => this.RaiseAndSetIfChanged(ref filesList, value);
-    }
-
-    private string? title;
-    public string? Title
-    {
-        get => "QaD8051JDE: " + title;
-        set => this.RaiseAndSetIfChanged(ref title, value);
+        if (e.PropertyName == nameof(FilesListViewModel.SelectedCategory)) 
+        {
+            OnPropertyChanged(nameof(Title));
+        }
     }
 }

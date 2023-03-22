@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace QaD8051JDE.DocumentationTypes
 {
     public interface IOperand<TEnum>
-        where TEnum : struct, IConvertible, IEquatable<TEnum>
+        where TEnum : struct, IConvertible
     {
         TEnum Operand { get; set; }
         TEnum WhenFirstIs { get; set; }

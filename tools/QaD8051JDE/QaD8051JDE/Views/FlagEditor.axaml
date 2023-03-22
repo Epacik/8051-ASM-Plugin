@@ -3,14 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="190"
-             x:Class="QaD8051JDE.Views.FlagEditor">
+             x:Class="QaD8051JDE.Views.FlagEditorView">
     <StackPanel Margin="5">
-        <RadioButton x:Name="Selection" GroupName="FlagEditorGroup"/>
+        <Rectangle Height="20" Width="5"/>
         <TextBlock>Flag</TextBlock>
-        <ComboBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" x:Name="Flags"></ComboBox>
+        <ComboBox
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Left"
+            Items="{Binding AllFlags}"
+            SelectedItem="{Binding FlagType}"/>
         <TextBlock>When set</TextBlock>
-        <TextBox x:Name="WhenSet"></TextBox>
+        <TextBox Text="{Binding WhenSet}"/>
         <TextBlock>When unset (optional)</TextBlock>
-        <TextBox x:Name="WhenUnset"></TextBox>
+        <TextBox Text="{Binding WhenUnset}" />
     </StackPanel>
 </UserControl>

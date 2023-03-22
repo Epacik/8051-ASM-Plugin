@@ -1,7 +1,10 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using CommunityToolkit.Mvvm.ComponentModel;
 using QaD8051JDE.ViewModels;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace QaD8051JDE;
 
@@ -9,8 +12,16 @@ public class ViewLocator : IDataTemplate
 {
     public IControl Build(object data)
     {
-        var name = data.GetType().FullName!.Replace("ViewModel", "View");
+        var dataType = data.GetType();
+
+        var name = dataType.FullName!.Replace("ViewModel", "View");
         var type = Type.GetType(name);
+
+        if (type is null && name.Contains("`"))
+        {
+            name = name.Split("`")[0];
+            type = Type.GetType(name);
+        }
 
         if (type != null)
         {
@@ -24,7 +35,7 @@ public class ViewLocator : IDataTemplate
 
     public bool Match(object data)
     {
-        return data is ViewModelBase;
+        return data is ObservableObject;
     }
 }
 

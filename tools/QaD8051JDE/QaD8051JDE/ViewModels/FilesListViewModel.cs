@@ -1,32 +1,46 @@
 ﻿using Avalonia.Controls;
-using ReactiveUI;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
-internal class FilesListViewModel : ReactiveObject
+public partial class FilesListViewModel : ObservableObject
 {
-    private TextBlock[]? categories;
-    public TextBlock[]? Categories
+    private readonly string _languagePath;
+    [ObservableProperty]
+    private NamedItemViewModel<string>[]? _categories;
+
+    [ObservableProperty]
+    private NamedItemViewModel<string>? _selectedCategory;
+
+    [ObservableProperty]
+    private DocumentationElementListViewModel? _documentationElements;
+
+    public FilesListViewModel(string languagePath)
     {
-        get => categories;
-        set => this.RaiseAndSetIfChanged(ref categories, value);
+        _languagePath = languagePath;
+        Load(languagePath);
     }
 
-    private TextBlock? selectedCategory;
-    public TextBlock? SelectedCategory
+    partial void OnSelectedCategoryChanged(NamedItemViewModel<string>? value)
     {
-        get => selectedCategory;
-        set => this.RaiseAndSetIfChanged(ref selectedCategory, value);
+        if (value is null)
+        {
+            DocumentationElements = null;
+            return;
+        }
+
+        DocumentationElements = new DocumentationElementListViewModel(value.Item!);
     }
 
-    private Views.DocumentationElementList? docElements;
-    public Views.DocumentationElementList? DocumentationElements
+    private void Load(string lang)
     {
-        get => docElements;
-        set => this.RaiseAndSetIfChanged(ref docElements, value);
+        var files = Directory.GetFiles(lang!);
+        Categories = files.Select(x => new NamedItemViewModel<string>(Path.GetFileName(x), x))
+            .ToArray();
     }
 }

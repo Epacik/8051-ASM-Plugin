@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="QaD8051JDE.Views.DocumentationElementList">
+             x:Class="QaD8051JDE.Views.DocumentationElementListView">
 
     <Design.DataContext>
         <vm:DocumentationElementListViewModel/>
@@ -22,15 +22,14 @@
 
         <StackPanel Orientation="Horizontal" Background="#e2e2e2">
             <TextBlock Text="Elements" VerticalAlignment="Center" Margin="10"/>
-            <Button Click="AddMnemonicButtonClick">➕</Button>
-            <Button Click="RemoveMnemonicButtonClick">➖</Button>
-            <Button Click="EditMnemonicButtonClick">✏️</Button>
+            <Button >➕</Button>
+            <Button >➖</Button>
+            <Button >✏️</Button>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1">
             <ListBox x:Name="ElementList"
                      Items="{Binding Elements}"
-                     SelectionChanged="ElementList_SelectionChanged"
                      SelectedItem="{Binding SelectedElement}"
                      SelectionMode="Single" 
                      Background="#eaeaea">

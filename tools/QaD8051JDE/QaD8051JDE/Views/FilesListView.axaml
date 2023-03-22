@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="QaD8051JDE.Views.FilesList">
+             x:Class="QaD8051JDE.Views.FilesListView">
     <Design.DataContext>
         <vm:FilesListViewModel/>
     </Design.DataContext>
@@ -21,15 +21,14 @@
 
         <StackPanel Orientation="Horizontal" Background="#eaeaea">
             <TextBlock Text="Categories" VerticalAlignment="Center" Margin="10"/>
-            <Button Click="AddFileButtonClick">➕</Button>
-            <Button Click="RemoveFileButtonClick">➖</Button>
-            <Button Click="EditFileNameButtonClick">✏️</Button>
+            <Button >➕</Button>
+            <Button >➖</Button>
+            <Button >✏️</Button>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1">
             <ListBox x:Name="CategoryList"
                      Items="{Binding Categories}"
-                     SelectionChanged="CategoryList_SelectionChanged"
                      SelectedItem="{Binding SelectedCategory}"
                      SelectionMode="Single"
                      Background="#f2f2f2">
