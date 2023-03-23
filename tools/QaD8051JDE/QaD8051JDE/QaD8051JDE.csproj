@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net6.0;</TargetFrameworks>
@@ -19,7 +19,7 @@
     <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.0-preview1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="FluentAvaloniaUI" Version="2.0.0-preview1" />
-    <PackageReference Include="Mapster" Version="7.4.0-pre06" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
     <PackageReference Include="MessageBox.Avalonia" Version="2.2.0" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>

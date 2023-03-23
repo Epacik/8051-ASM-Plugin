@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using QaD8051JDE.ViewModels;
 using System;
@@ -12,30 +13,46 @@ public class ViewLocator : IDataTemplate
 {
     public IControl Build(object data)
     {
-        var dataType = data.GetType();
-
-        var name = dataType.FullName!.Replace("ViewModel", "View");
-        var type = Type.GetType(name);
-
-        if (type is null && name.Contains("`"))
+        try
         {
-            name = name.Split("`")[0];
-            type = Type.GetType(name);
+            var dataType = data.GetType();
+
+            var name = dataType.FullName!.Replace("ViewModel", "View");
+            var type = Type.GetType(name);
+
+            if (type is null && name.Contains("`"))
+            {
+                name = name.Split("`")[0];
+                type = Type.GetType(name);
+            }
+
+            if (type != null)
+            {
+                return (Control)Activator.CreateInstance(type)!;
+            }
+            else
+            {
+                return new TextBlock { Text = "Not Found: " + name };
+            }
         }
-
-        if (type != null)
+        catch (Exception ex)
         {
-            return (Control)Activator.CreateInstance(type)!;
-        }
-        else
-        {
-            return new TextBlock { Text = "Not Found: " + name };
+            var stack = new StackPanel();
+            stack.Children.Add(new TextBlock 
+            { 
+                Text = "An exception occured while locating the view", 
+                Foreground = Brushes.DarkRed,
+                FontWeight = FontWeight.SemiBold,
+                FontSize = 20,
+            });
+            stack.Children.Add(new TextBox { Text = ex.ToString(), IsReadOnly = true });
+            return stack;
         }
     }
 
-    public bool Match(object data)
+    public bool Match(object? data)
     {
-        return data is ObservableObject;
+        return data is BaseViewModel;
     }
 }
 

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
-public partial class FilesListViewModel : ObservableObject
+public partial class FilesListViewModel : BaseViewModel
 {
     private readonly string _languagePath;
     [ObservableProperty]

@@ -9,7 +9,7 @@ public enum PossibleOperands
     Data16                       = 4,
     InternalRamAddress           = 5,
     AddressInR0OrR1              = 6,
-    RegistersRX                  = 7,
+    HelperRegisters              = 7,
     CarryFlag                    = 8,
     BitAddress                   = 9,
     NegatedBitAddress            = 10,

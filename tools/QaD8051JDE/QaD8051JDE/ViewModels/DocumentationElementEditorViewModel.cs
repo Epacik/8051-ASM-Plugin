@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
 
-public partial class DocumentationElementEditorViewModel : ObservableObject
+public partial class DocumentationElementEditorViewModel : BaseViewModel
 {
     public DocumentationElementEditorViewModel(DocumentationElement? item)
     {
@@ -24,8 +24,6 @@ public partial class DocumentationElementEditorViewModel : ObservableObject
 
         ValidOperands = new(validOperands!.Select((x, p) => new ValidOperandPositionViewModel(x, p)));
         AffectedFlags = new(affectedFlags!.Select(x => new FlagEditorViewModel(x)));
-
-
     }
 
     [ObservableProperty]
@@ -93,5 +91,60 @@ public partial class DocumentationElementEditorViewModel : ObservableObject
 
         ValidOperands?.Remove(SelectedValidOperands);
         SelectedValidOperands = null;
+    }
+
+    public DocumentationElement AsDocumentationElement()
+    {
+        var element = new DocumentationElement
+        {
+            Detail = Detail,
+            Description = Description,
+            DontDuplicate = DontDuplicate,
+            DontGenerateSyntax = DontGenerateSyntax,
+            Prefix = Prefix,
+            PrefixRequired = PrefixRequired,
+            Label = Label,
+            ValidOperands = new(),
+            AffectedFlags = new(
+                AffectedFlags
+                !.Select(flag => new Flag
+            {
+                FlagType = flag.FlagType.Item,
+                WhenSet = flag.WhenSet,
+                WhenUnset = flag.WhenUnset,
+            })),
+        };
+
+        foreach (var position in ValidOperands!)
+        {
+            var operandList = new List<ValidOperand>();
+
+            foreach (var operand in position.Operands!)
+            {
+                if (operand.WhenFirstIs?.Count == 0)
+                {
+                    operandList.Add(new ValidOperand
+                    {
+                        Operand = operand.Operand.Item,
+                        WhenFirstIs = PossibleOperands.Any,
+                    });
+                }
+                else
+                {
+                    foreach (var wfi in operand.WhenFirstIs!)
+                    {
+                        operandList.Add(new ValidOperand
+                        {
+                            Operand = operand.Operand.Item,
+                            WhenFirstIs = wfi.Item
+                        });
+                    }
+                }
+            }
+
+            element.ValidOperands.Add(operandList);
+        }
+
+        return element;
     }
 }

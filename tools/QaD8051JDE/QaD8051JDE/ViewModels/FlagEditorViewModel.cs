@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
 
-public partial class FlagEditorViewModel : ObservableObject
+public partial class FlagEditorViewModel : BaseViewModel
 {
     [ObservableProperty]
     private NamedItemViewModel<FlagType>[]? _allFlags;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
 
-public partial class ValidOperandPositionViewModel : ObservableObject
+public partial class ValidOperandPositionViewModel : BaseViewModel
 {
     public ValidOperandPositionViewModel(IEnumerable<ValidOperand> operands, int position)
     {

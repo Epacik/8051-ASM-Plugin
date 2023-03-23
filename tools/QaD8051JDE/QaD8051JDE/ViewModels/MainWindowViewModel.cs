@@ -4,7 +4,7 @@ using QaD8051JDE.ViewModels;
 using System.ComponentModel;
 
 namespace QaD8051JDE.ViewModels;
-public partial class MainWindowViewModel : ObservableObject
+public partial class MainWindowViewModel : BaseViewModel
 {
     [ObservableProperty]
     private NamedItemViewModel<string>[]? _languageDirectories;

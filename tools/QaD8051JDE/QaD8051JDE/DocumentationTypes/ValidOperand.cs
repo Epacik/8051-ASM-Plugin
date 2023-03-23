@@ -27,7 +27,7 @@ public class ValidOperand : IOperand<PossibleOperands>
         [PossibleOperands.Data16]                       = "16 bit data (e.g. #2DCh)",
         [PossibleOperands.InternalRamAddress]           = "Internal RAM Address",
         [PossibleOperands.AddressInR0OrR1]              = "Address stored in @R0 or @R1",
-        [PossibleOperands.RegistersRX]                  = "Registers R0 trough R7",
+        [PossibleOperands.HelperRegisters]              = "Registers R0 trough R7",
         [PossibleOperands.CarryFlag]                    = "The Carry flag",
         [PossibleOperands.BitAddress]                   = "Address to a Bit",
         [PossibleOperands.NegatedBitAddress]            = "Address to a Negated Bit",

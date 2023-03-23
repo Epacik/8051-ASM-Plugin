@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
 
-public partial class NamedItemViewModel<T> : ObservableObject, IEquatable<NamedItemViewModel<T>?>
+public partial class NamedItemViewModel<T> : BaseViewModel, IEquatable<NamedItemViewModel<T>?>
 {
     [ObservableProperty]
     private string? _name;

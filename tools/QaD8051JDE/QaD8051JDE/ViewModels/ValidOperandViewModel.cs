@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
 
-public partial class ValidOperandViewModel : ObservableObject
+public partial class ValidOperandViewModel : BaseViewModel
 {
     [ObservableProperty]
     private IEnumerable<NamedItemViewModel<PossibleOperands>> _operandOptions;

@@ -17,8 +17,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="5, 0">
-            <Button >💾</Button>
-            <Button >↩️</Button>
+            <Button Command="{Binding $parent[local:DocumentationElementListView].DataContext.SaveJson}">💾</Button>
+            <Button Command="{Binding $parent[local:DocumentationElementListView].DataContext.RevertJson}">↩️</Button>
             <ToggleSwitch Margin="20,0,0,0" OnContent="Don't generate syntax" OffContent="Generate syntax" x:Name="DontGenerateSyntax"/>
             <ToggleSwitch Margin="20,0,0,0" OnContent="Don't duplicate in all documentation" OffContent="Duplicate in all documentation" x:Name="DontDuplicate"/>
         </StackPanel>

@@ -1,24 +1,25 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Mapster;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace QaD8051JDE.ViewModels;
-public partial class DocumentationElementListViewModel : ObservableObject
+public partial class DocumentationElementListViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private NamedItemViewModel<DocumentationElement>[]? _elements;
+    private NamedItemViewModel<DocumentationElementEditorViewModel>[]? _elements;
 
     [ObservableProperty]
-    private NamedItemViewModel<DocumentationElement>? _selectedElement;
+    private NamedItemViewModel<DocumentationElementEditorViewModel>? _selectedElement;
 
-    [ObservableProperty]
-    private DocumentationElementEditorViewModel? _editor;
+    private DocumentationElementEditorViewModel? Editor => SelectedElement?.Item;
 
     private readonly string _filePath;
 
@@ -31,21 +32,52 @@ public partial class DocumentationElementListViewModel : ObservableObject
     private void LoadJson()
     {
         var content = File.ReadAllText(_filePath);
-        Elements = JsonSerializer
-            .Deserialize<Dictionary<string, DocumentationElement>>(content)?
-            .Select(x => new NamedItemViewModel<DocumentationElement>(x.Key, x.Value))?
-            .ToArray();
+        Dictionary<string, DocumentationElement>? deserialized = null;
+        try
+        {
+            deserialized = JsonSerializer.Deserialize<Dictionary<string, DocumentationElement>>(content);
+        }
+        catch
+        {
+            deserialized = JsonSerializer.Deserialize<Dictionary<string, DocumentationElement>>(content, _options);
+        }
+        Elements = deserialized?
+            .Select(x => new NamedItemViewModel<DocumentationElementEditorViewModel>(
+                x.Key,
+                new DocumentationElementEditorViewModel(x.Value)))
+            ?.ToArray();
     }
 
-    partial void OnSelectedElementChanged(NamedItemViewModel<DocumentationElement>? value)
+    private readonly static JsonSerializerOptions _options = new JsonSerializerOptions
     {
-        if (value is null)
+        WriteIndented = true,
+        Converters =
         {
-            Editor = null;
-            return;
+            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
         }
+    };
+    public void SaveJson()
+    {
+        if (Elements is null)
+            return;
 
-        Editor = new DocumentationElementEditorViewModel(value.Item);
+        var elements = Elements!.ToDictionary(
+            key => key.Name ?? "LOST",
+            value => value.Item!.AsDocumentationElement());
+
+        var content = JsonSerializer.Serialize(elements, _options);
+        File.WriteAllText(_filePath, content);
+        LoadJson();
+    }
+
+    public void RevertJson()
+    {
+        LoadJson();
+    }
+
+    partial void OnSelectedElementChanged(NamedItemViewModel<DocumentationElementEditorViewModel>? value)
+    {
+        OnPropertyChanged(nameof(Editor));
     }
 }
 
