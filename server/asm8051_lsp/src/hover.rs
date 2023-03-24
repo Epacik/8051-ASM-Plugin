@@ -79,7 +79,7 @@ fn syntax_two_operands(
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
-            if operand1.when_first_is() != PossibleOperand::ANY
+            if operand1.when_first_is() != PossibleOperand::Any
                 && operand1.when_first_is() != operand0.operand()
             {
                 continue;
@@ -128,13 +128,13 @@ fn syntax_three_operands(
 
     for operand0 in operands0.clone() {
         for operand1 in operands1.clone() {
-            if operand1.when_first_is() != PossibleOperand::ANY
+            if operand1.when_first_is() != PossibleOperand::Any
                 && operand1.when_first_is() != operand0.operand()
             {
                 continue;
             }
             for operand2 in operands2.clone() {
-                if operand2.when_first_is() != PossibleOperand::ANY
+                if operand2.when_first_is() != PossibleOperand::Any
                     && operand2.when_first_is() != operand0.operand()
                 {
                     continue;
@@ -212,7 +212,7 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
             result.push_str("\n");
         }
     } else {
-        let mut filtered: Vec<Vec<i32>> = Vec::new();
+        let mut filtered: Vec<Vec<PossibleOperand>> = Vec::new();
         for i in 0..operands.len() {
             let inner = &operands[i];
             filtered.push(Vec::new());
@@ -232,7 +232,7 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
             for operand in filtered[i].clone() {
                 result.push_str(" - ");
                 result.push_str(
-                    PossibleOperand::from_bits_truncate(operand)
+                    operand
                         .label()
                         .as_str(),
                 );
@@ -814,7 +814,7 @@ impl Documentation {
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize, Default, Clone)]
 pub struct Flag {
-    pub flag: i32,
+    pub flag: FlagType,
     pub when_set: std::string::String,
     pub when_unset: std::string::String,
 }
@@ -822,12 +822,12 @@ pub struct Flag {
 #[allow(dead_code)]
 impl Flag {
     pub fn flag(&self) -> FlagType {
-        FlagType::from_bits_truncate(self.flag)
+        self.flag
     }
 
     pub fn new(flag: FlagType) -> Flag {
         Flag {
-            flag: flag.bits,
+            flag: flag,
             when_set: String::from(""),
             when_unset: String::from(""),
         }
@@ -835,7 +835,7 @@ impl Flag {
 
     pub fn new_with_messages(flag: FlagType, when_set: &str, when_unset: &str) -> Flag {
         Flag {
-            flag: flag.bits,
+            flag: flag,
             when_set: String::from(when_set),
             when_unset: String::from(when_unset),
         }
@@ -843,7 +843,7 @@ impl Flag {
 
     pub fn from_i32(flag: i32) -> Flag {
         Flag {
-            flag,
+            flag: flag.try_into().unwrap(),
             when_set: String::from(""),
             when_unset: String::from(""),
         }
@@ -851,7 +851,7 @@ impl Flag {
 
     pub fn from_i32_with_messages(flag: i32, when_set: &str, when_unset: &str) -> Flag {
         Flag {
-            flag,
+            flag: flag.try_into().unwrap(),
             when_set: String::from(when_set),
             when_unset: String::from(when_unset),
         }
@@ -861,38 +861,39 @@ impl Flag {
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize, Default, Clone, Copy)]
 pub struct ValidOperand {
-    pub operand: i32,
-    pub when_first_is: i32,
+    pub operand: PossibleOperand,
+    pub when_first_is: PossibleOperand,
 }
 
 #[allow(dead_code)]
 impl ValidOperand {
     pub fn operand(&self) -> PossibleOperand {
-        PossibleOperand::from_bits_truncate(self.operand)
+        self.operand
     }
 
     pub fn when_first_is(&self) -> PossibleOperand {
-        PossibleOperand::from_bits_truncate(self.when_first_is)
+        self.when_first_is
     }
 
     pub fn new(operand: PossibleOperand, when_first_is: Option<PossibleOperand>) -> ValidOperand {
         ValidOperand {
-            operand: operand.bits,
-            when_first_is: when_first_is.unwrap_or(PossibleOperand::ANY).bits,
+            operand: operand,
+            when_first_is: when_first_is.unwrap_or(PossibleOperand::Any),
         }
     }
 
     pub fn from_i32(operand: i32, when_first_is: Option<i32>) -> ValidOperand {
         let when_first_is = when_first_is.unwrap_or(0);
-        let max = PossibleOperand::all().bits();
-        let min = PossibleOperand::empty().bits();
 
-        if operand > max || operand < min {
-            panic!("operand was {}", localize!("error-outOfRange"))
-        }
-        if when_first_is > max || when_first_is < min {
-            panic!("when_first_is {}", localize!("error-outOfRange"))
-        }
+        let operand = match operand.try_into() {
+            Ok(op) => op,
+            Err(_) => panic!("operand was {}", localize!("error-outOfRange")),
+        };
+
+        let when_first_is = match when_first_is.try_into() {
+            Ok(wfi) => wfi,
+            Err(_) => panic!("when_first_is {}", localize!("error-outOfRange")),
+        };
 
         ValidOperand {
             operand,
@@ -905,99 +906,163 @@ impl ValidOperand {
     }
 }
 
-bitflags! {
-    #[derive(serde::Deserialize, Default)]
-    pub struct FlagType: i32 {
-        const PARITY                = 0;
-        const USER_DEFINED          = 1;
-        const OVERFLOW              = 2;
-        const REGISTER_BANK_SELECT0 = 3;
-        const REGISTER_BANK_SELECT1 = 4;
-        const FLAG0                 = 5;
-        const AUXILIARY_CARRY       = 6;
-        const CARRY                 = 7;
-    }
-
-    #[derive(serde::Deserialize, Default)]
-    pub struct PossibleOperand: i32 {
-        const ANY                              = 0;
-        const CODE_ADDRESS                     = 1;
-        const LABEL                            = 2;
-        const DATA                             = 3;
-        const DATA16                           = 4;
-        const INTERNAL_RAM_ADDRESS             = 5;
-        const ADDRESS_IN_R0_OR_R1              = 6;
-        const REGISTERS_RX                     = 7;
-        const CARRY_FLAG                       = 8;
-        const BIT_ADDRESS                      = 9;
-        const NEGATED_BIT_ADDRESS              = 10;
-        const RELATIVE_ADDRESS                 = 11;
-        const ACCUMULATOR                      = 12;
-        const ACCUMULATOR_AND_B                = 13;
-        const ADDRESS_IN_ACCUMULATOR_PLUS_DPTR = 14;
-        const DPTR                             = 15;
-        const ADDRESS_IN_DPTR                  = 16;
-        const ADDRESS_IN_ACCUMULATOR_PLUS_PC   = 17;
-
-        const ABSOLUTE_ADDRESS                 = 18;
-
-        const HEX_NUMBER                       = 100;
-        const BINARY_NUMBER                    = 101;
-        const DECIMAL_NUMBER                   = 102;
-        const ASCII_CHARACTERS                 = 103;
 
 
+#[derive(serde::Deserialize)]
+#[derive(serde::Serialize)]
+#[derive(PartialEq)]
+#[derive(Clone)]
+#[derive(Copy)]
+#[derive(Default)]
+pub enum FlagType {
+    #[default]
+    Parity              = 0,
+    UserDefined         = 1,
+    Overflow            = 2,
+    RegisterBankSelect0 = 3,
+    RegisterBankSelect1 = 4,
+    Flag0               = 5,
+    AuxiliaryCarry      = 6,
+    Carry               = 7
+}
+
+impl TryFrom<i32> for FlagType {
+    type Error = ();
+
+    fn try_from(value: i32) -> Result<Self, Self::Error> {
+        match value {
+            x if x == FlagType::Parity              as i32 => Ok(FlagType::Parity              ),
+            x if x == FlagType::UserDefined         as i32 => Ok(FlagType::UserDefined         ),
+            x if x == FlagType::Overflow            as i32 => Ok(FlagType::Overflow            ),
+            x if x == FlagType::RegisterBankSelect0 as i32 => Ok(FlagType::RegisterBankSelect0 ),
+            x if x == FlagType::RegisterBankSelect1 as i32 => Ok(FlagType::RegisterBankSelect1 ),
+            x if x == FlagType::Flag0               as i32 => Ok(FlagType::Flag0               ),
+            x if x == FlagType::AuxiliaryCarry      as i32 => Ok(FlagType::AuxiliaryCarry      ),
+            x if x == FlagType::Carry               as i32 => Ok(FlagType::Carry               ),
+            _ => Err(()),
+        }
     }
 }
 
-#[allow(dead_code)]
+
 impl FlagType {
     pub fn label(&self) -> String {
-        match self.bits {
-            0 => format!("{} [P]", localize!("flag-parity")),
-            1 => format!("{}", localize!("flag-userDefined")),
-            2 => format!("{} [OV]", localize!("flag-overflow")),
-            3 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
-            4 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
-            5 => format!("{} [F0]", localize!("flag-flag0")),
-            6 => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
-            7 => format!("{} [CY]", localize!("flag-carry")),
-            _ => format!("{}", localize!("flag-unknown")),
+        match self {
+            FlagType::Parity => format!("{} [P]", localize!("flag-parity")),
+            FlagType::UserDefined => format!("{}", localize!("flag-userDefined")),
+            FlagType::Overflow => format!("{} [OV]", localize!("flag-overflow")),
+            FlagType::RegisterBankSelect0 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
+            FlagType::RegisterBankSelect1 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
+            FlagType::Flag0 => format!("{} [F0]", localize!("flag-flag0")),
+            FlagType::AuxiliaryCarry => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
+            FlagType::Carry => format!("{} [CY]", localize!("flag-carry")),
+        }
+    }
+}
+
+#[derive(serde::Deserialize)]
+#[derive(serde::Serialize)]
+#[derive(PartialEq)]
+#[derive(Clone)]
+#[derive(Copy)]
+#[derive(Default)]
+pub enum PossibleOperand {
+    #[default]
+    Any                          = 0,
+    CodeAddress                  = 1,
+    Label                        = 2,
+    Data                         = 3,
+    Data16                       = 4,
+    InternalRamAddress           = 5,
+    AddressinR0orR1              = 6,
+    HelperRegisters              = 7,
+    CarryFlag                    = 8,
+    BitAddress                   = 9,
+    NegatedBitAddress            = 10,
+    RelativeAddress              = 11,
+    Accumulator                  = 12,
+    AccumulatorAndB              = 13,
+    AddressInAccumulatorPlusDptr = 14,
+    Dptr                         = 15,
+    AddressInDptr                = 16,
+    AddressInAccumulatorPlusPC   = 17,
+    AbsoluteAddress              = 18,
+    RegisterB                    = 19,
+    Dpl                          = 20,
+    Dph                          = 21,
+
+    HexNumber                    = 100,
+    BinaryNumber                 = 101,
+    DecimalNumber                = 102,
+    AsciiCharacters              = 103,
+}
+
+impl TryFrom<i32> for PossibleOperand {
+    type Error = ();
+
+    fn try_from(value: i32) -> Result<Self, Self::Error> {
+        match value {
+            x if x == PossibleOperand::Any                          as i32 => Ok(PossibleOperand::Any                         ),
+            x if x == PossibleOperand::CodeAddress                  as i32 => Ok(PossibleOperand::CodeAddress                 ),
+            x if x == PossibleOperand::Label                        as i32 => Ok(PossibleOperand::Label                       ),
+            x if x == PossibleOperand::Data                         as i32 => Ok(PossibleOperand::Data                        ),
+            x if x == PossibleOperand::Data16                       as i32 => Ok(PossibleOperand::Data16                      ),
+            x if x == PossibleOperand::InternalRamAddress           as i32 => Ok(PossibleOperand::InternalRamAddress          ),
+            x if x == PossibleOperand::AddressinR0orR1              as i32 => Ok(PossibleOperand::AddressinR0orR1             ),
+            x if x == PossibleOperand::HelperRegisters              as i32 => Ok(PossibleOperand::HelperRegisters             ),
+            x if x == PossibleOperand::CarryFlag                    as i32 => Ok(PossibleOperand::CarryFlag                   ),
+            x if x == PossibleOperand::BitAddress                   as i32 => Ok(PossibleOperand::BitAddress                  ),
+            x if x == PossibleOperand::NegatedBitAddress            as i32 => Ok(PossibleOperand::NegatedBitAddress           ),
+            x if x == PossibleOperand::RelativeAddress              as i32 => Ok(PossibleOperand::RelativeAddress             ),
+            x if x == PossibleOperand::Accumulator                  as i32 => Ok(PossibleOperand::Accumulator                 ),
+            x if x == PossibleOperand::AccumulatorAndB              as i32 => Ok(PossibleOperand::AccumulatorAndB             ),
+            x if x == PossibleOperand::AddressInAccumulatorPlusDptr as i32 => Ok(PossibleOperand::AddressInAccumulatorPlusDptr),
+            x if x == PossibleOperand::Dptr                         as i32 => Ok(PossibleOperand::Dptr                        ),
+            x if x == PossibleOperand::AddressInDptr                as i32 => Ok(PossibleOperand::AddressInDptr               ),
+            x if x == PossibleOperand::AddressInAccumulatorPlusPC   as i32 => Ok(PossibleOperand::AddressInAccumulatorPlusPC  ),
+            x if x == PossibleOperand::AbsoluteAddress              as i32 => Ok(PossibleOperand::AbsoluteAddress             ),
+            x if x == PossibleOperand::RegisterB                    as i32 => Ok(PossibleOperand::RegisterB                   ),
+            x if x == PossibleOperand::Dpl                          as i32 => Ok(PossibleOperand::Dpl                         ),
+            x if x == PossibleOperand::Dph                          as i32 => Ok(PossibleOperand::Dph                         ),
+            x if x == PossibleOperand::HexNumber                    as i32 => Ok(PossibleOperand::HexNumber                   ),
+            x if x == PossibleOperand::BinaryNumber                 as i32 => Ok(PossibleOperand::BinaryNumber                ),
+            x if x == PossibleOperand::DecimalNumber                as i32 => Ok(PossibleOperand::DecimalNumber               ),
+            x if x == PossibleOperand::AsciiCharacters              as i32 => Ok(PossibleOperand::AsciiCharacters             ),
+            _ => Err(()),
         }
     }
 }
 
 impl PossibleOperand {
     pub fn label(&self) -> String {
-        match self.bits {
-            0 => localize!("operand-any"),
-            1 => localize!("operand-codeAddress"),
-            2 => localize!("operand-label"),
-            3 => localize!("operand-byte"),
-            4 => localize!("operand-twoBytes"),
-            5 => localize!("operand-internalRamAddress"),
-            6 => localize!("operand-indirectR0OrR1"),
-            7 => localize!("operand-helperRegister"),
-            8 => localize!("operand-carryFlag"),
-            9 => localize!("operand-bitAddress"),
-            10 => localize!("operand-negatedBitAddress"),
-            11 => localize!("operand-relativeAddress"),
-            12 => localize!("operand-A"),
-            13 => localize!("operand-AB"),
-            14 => localize!("operand-A_DPTR"),
-            15 => localize!("operand-DPTR"),
-            16 => localize!("operand-indirectDPTR"),
-            17 => localize!("operand-indirectA_PC"),
-            18 => localize!("operand-absoluteAddress"),
-            19 => localize!("operand-B"),
-            20 => localize!("operand-DPL"),
-            21 => localize!("operand-DPH"),
+        match self {
+            PossibleOperand::Any => localize!("operand-any"),
+            PossibleOperand::CodeAddress => localize!("operand-codeAddress"),
+            PossibleOperand::Label => localize!("operand-label"),
+            PossibleOperand::Data => localize!("operand-byte"),
+            PossibleOperand::Data16 => localize!("operand-twoBytes"),
+            PossibleOperand::InternalRamAddress => localize!("operand-internalRamAddress"),
+            PossibleOperand::AddressinR0orR1 => localize!("operand-indirectR0OrR1"),
+            PossibleOperand::HelperRegisters => localize!("operand-helperRegister"),
+            PossibleOperand::CarryFlag => localize!("operand-carryFlag"),
+            PossibleOperand::BitAddress => localize!("operand-bitAddress"),
+            PossibleOperand::NegatedBitAddress => localize!("operand-negatedBitAddress"),
+            PossibleOperand::RelativeAddress => localize!("operand-relativeAddress"),
+            PossibleOperand::Accumulator => localize!("operand-A"),
+            PossibleOperand::AccumulatorAndB => localize!("operand-AB"),
+            PossibleOperand::AddressInAccumulatorPlusDptr => localize!("operand-A_DPTR"),
+            PossibleOperand::Dptr => localize!("operand-DPTR"),
+            PossibleOperand::AddressInDptr => localize!("operand-indirectDPTR"),
+            PossibleOperand::AddressInAccumulatorPlusPC => localize!("operand-indirectA_PC"),
+            PossibleOperand::AbsoluteAddress => localize!("operand-absoluteAddress"),
+            PossibleOperand::RegisterB => localize!("operand-B"),
+            PossibleOperand::Dpl => localize!("operand-DPL"),
+            PossibleOperand::Dph => localize!("operand-DPH"),
 
-            100 => localize!("operand-hex"),
-            101 => localize!("operand-bin"),
-            102 => localize!("operand-dec"),
-            103 => localize!("operand-ascii"),
-            _ => localize!("operand-unknown"),
+            PossibleOperand::HexNumber => localize!("operand-hex"),
+            PossibleOperand::BinaryNumber => localize!("operand-bin"),
+            PossibleOperand::DecimalNumber => localize!("operand-dec"),
+            PossibleOperand::AsciiCharacters => localize!("operand-ascii"),
         }
     }
 
@@ -1005,33 +1070,34 @@ impl PossibleOperand {
         let r_address = format!("@R{}", i.unwrap_or(0));
         let r = format!("R{}", i.unwrap_or(0));
         let label = localize!("operand-example-label");
-        (match self.bits {
-            1 => "23H",
-            2 => label.as_str(),
-            3 => "#32H",
-            4 => "#5C6H",
-            5 => "23H",
-            6 => r_address.as_str(),
-            7 => r.as_str(),
-            8 => "C",
-            9 => "23H",
-            10 => "/23H",
-            11 => "23H",
-            12 => "A",
-            13 => "AB",
-            14 => "@A+DPTR",
-            15 => "DPTR",
-            16 => "@DPTR",
-            17 => "@A+PC",
-            18 => "100h",
-            19 => "B",
-            20 => "DPL",
-            21 => "DPH",
 
-            100 => "56h",
-            101 => "010101011b",
-            102 => "63",
-            103 => "'Lorem ipsum'",
+        (match self {
+            PossibleOperand::CodeAddress => "23H",
+            PossibleOperand::Label => label.as_str(),
+            PossibleOperand::Data => "#32H",
+            PossibleOperand::Data16 => "#5C6H",
+            PossibleOperand::InternalRamAddress => "23H",
+            PossibleOperand::AddressinR0orR1 => r_address.as_str(),
+            PossibleOperand::HelperRegisters => r.as_str(),
+            PossibleOperand::CarryFlag => "C",
+            PossibleOperand::BitAddress => "23H",
+            PossibleOperand::NegatedBitAddress => "/23H",
+            PossibleOperand::RelativeAddress => "23H",
+            PossibleOperand::Accumulator => "A",
+            PossibleOperand::AccumulatorAndB => "AB",
+            PossibleOperand::AddressInAccumulatorPlusDptr => "@A+DPTR",
+            PossibleOperand::Dptr => "DPTR",
+            PossibleOperand::AddressInDptr => "@DPTR",
+            PossibleOperand::AddressInAccumulatorPlusPC => "@A+PC",
+            PossibleOperand::AbsoluteAddress => "100h",
+            PossibleOperand::RegisterB => "B",
+            PossibleOperand::Dpl => "DPL",
+            PossibleOperand::Dph => "DPH",
+
+            PossibleOperand::HexNumber => "56h",
+            PossibleOperand::BinaryNumber => "010101011b",
+            PossibleOperand::DecimalNumber => "63",
+            PossibleOperand::AsciiCharacters => "'Lorem ipsum'",
             _ => "",
         })
         .to_string()
