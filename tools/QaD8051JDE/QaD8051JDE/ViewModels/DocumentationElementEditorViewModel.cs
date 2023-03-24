@@ -24,6 +24,21 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
 
         ValidOperands = new(validOperands!.Select((x, p) => new ValidOperandPositionViewModel(x, p)));
         AffectedFlags = new(affectedFlags!.Select(x => new FlagEditorViewModel(x)));
+
+        AddressingModes = new List<NamedItemViewModel<AddressingMode>>
+        {
+            new("Implied", AddressingMode.Implied),
+            new("Immediate", AddressingMode.Immediate),
+            new("Register", AddressingMode.Register),
+            new("Direct", AddressingMode.Direct),
+            new("Register Indirect", AddressingMode.RegisterIndirect),
+            new("Indexed", AddressingMode.Indexed),
+        };
+
+        foreach (var mode in AddressingModes.Where(x => item.AddressingModes?.Contains(x.Item) == true))
+        {
+            SelectedAddressingModes.Add(mode);
+        }
     }
 
     [ObservableProperty]
@@ -63,7 +78,7 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
     private IEnumerable<NamedItemViewModel<AddressingMode>> _addressingModes;
 
     [ObservableProperty]
-    private ObservableCollection<NamedItemViewModel<AddressingMode>> _selectedAddressingModes;
+    private ObservableCollection<NamedItemViewModel<AddressingMode>> _selectedAddressingModes = new();
 
     public void AddAffectedFlag()
     {
@@ -93,6 +108,7 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
         SelectedValidOperands = null;
     }
 
+
     public DocumentationElement AsDocumentationElement()
     {
         var element = new DocumentationElement
@@ -113,6 +129,7 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
                 WhenSet = flag.WhenSet,
                 WhenUnset = flag.WhenUnset,
             })),
+            AddressingModes = new(SelectedAddressingModes.Select(x => x.Item)),
         };
 
         foreach (var position in ValidOperands!)

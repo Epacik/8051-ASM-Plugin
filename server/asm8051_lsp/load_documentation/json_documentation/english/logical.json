@@ -5,46 +5,46 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 8,
-          "when_first_is": 0
+          "operand": "carryFlag",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 12,
-          "when_first_is": 5
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 6,
-          "when_first_is": 12
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 9,
-          "when_first_is": 8
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
         },
         {
-          "operand": 3,
-          "when_first_is": 5
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 3,
-          "when_first_is": 12
+          "operand": "data",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 10,
-          "when_first_is": 8
+          "operand": "negatedBitAddress",
+          "when_first_is": "carryFlag"
         },
         {
-          "operand": 7,
-          "when_first_is": 12
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
         }
       ]
     ],
@@ -52,7 +52,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "ORL": {
     "detail": "Bitwise OR",
@@ -60,46 +62,46 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 8,
-          "when_first_is": 0
+          "operand": "carryFlag",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 12,
-          "when_first_is": 5
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 6,
-          "when_first_is": 12
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 9,
-          "when_first_is": 8
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
         },
         {
-          "operand": 3,
-          "when_first_is": 5
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 3,
-          "when_first_is": 12
+          "operand": "data",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 10,
-          "when_first_is": 8
+          "operand": "negatedBitAddress",
+          "when_first_is": "carryFlag"
         },
         {
-          "operand": 7,
-          "when_first_is": 12
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
         }
       ]
     ],
@@ -107,7 +109,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "XRL": {
     "detail": "Bitwise XOR",
@@ -115,46 +119,46 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 8,
-          "when_first_is": 0
+          "operand": "carryFlag",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 12,
-          "when_first_is": 5
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 6,
-          "when_first_is": 12
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 9,
-          "when_first_is": 8
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
         },
         {
-          "operand": 3,
-          "when_first_is": 5
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 3,
-          "when_first_is": 12
+          "operand": "data",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 10,
-          "when_first_is": 8
+          "operand": "negatedBitAddress",
+          "when_first_is": "carryFlag"
         },
         {
-          "operand": 7,
-          "when_first_is": 12
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
         }
       ]
     ],
@@ -162,7 +166,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "CLR": {
     "detail": "Clear",
@@ -170,16 +176,16 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 8,
-          "when_first_is": 0
+          "operand": "carryFlag",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -187,7 +193,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "CPL": {
     "detail": "Complement",
@@ -195,16 +203,16 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 8,
-          "when_first_is": 0
+          "operand": "carryFlag",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -212,7 +220,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RL": {
     "detail": "Rotate left",
@@ -220,8 +230,8 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -229,7 +239,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RLC": {
     "detail": "Rotate left trough Carry flag",
@@ -237,14 +249,14 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "",
         "when_unset": ""
       }
@@ -252,7 +264,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RR": {
     "detail": "Rotate right",
@@ -260,8 +274,8 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -269,7 +283,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RRC": {
     "detail": "Rotate right trough Carry flag",
@@ -277,14 +293,14 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "",
         "when_unset": ""
       }
@@ -292,7 +308,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "SWAP": {
     "detail": "Swap nibbles of the Accumulator",
@@ -300,8 +318,8 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -309,7 +327,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "SETB": {
     "detail": "Set Bit",
@@ -317,12 +337,12 @@
     "valid_operands": [
       [
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 8,
-          "when_first_is": 0
+          "operand": "carryFlag",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -330,6 +350,8 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using QaD8051JDE.DocumentationTypes;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace QaD8051JDE;
@@ -38,6 +39,9 @@ public class DocumentationElement
 
     [JsonPropertyName("label")]
     public string? Label { get; set; }
+
+    [JsonPropertyName("addressingModes")]
+    public List<AddressingMode>? AddressingModes { get; set; }
 
     public void Deconstruct(
         out string? detail,

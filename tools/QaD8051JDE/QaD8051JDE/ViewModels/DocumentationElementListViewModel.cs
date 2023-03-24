@@ -80,4 +80,3 @@ public partial class DocumentationElementListViewModel : BaseViewModel
         OnPropertyChanged(nameof(Editor));
     }
 }
-

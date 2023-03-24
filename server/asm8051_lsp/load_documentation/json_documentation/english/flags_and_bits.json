@@ -7,7 +7,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "TR0;TR1": {
     "detail": "Timer Run",
@@ -17,7 +19,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "IE0;IE1": {
     "detail": "External interrupt",
@@ -27,7 +31,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "IT0;IT1": {
     "detail": "Exterial interrupt type ",
@@ -37,7 +43,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "CY;PSW.7": {
     "detail": "Carry flag",
@@ -47,7 +55,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "AC;PSW.6": {
     "detail": "Auxiliary carry flag",
@@ -57,7 +67,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "F0;PSW.5": {
     "detail": "General purpose flag",
@@ -67,7 +79,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RS1;PSW.4;RS0;PSW.3": {
     "detail": "Register bank selector",
@@ -77,7 +91,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "OV;PSW.2": {
     "detail": "Overflow flag",
@@ -87,7 +103,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "PSW.1": {
     "detail": "User defined bit",
@@ -97,7 +115,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "P;PSW.0": {
     "detail": "Parity flag",
@@ -107,6 +127,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }

@@ -5,210 +5,202 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 8,
-          "when_first_is": 0
+          "operand": "carryFlag",
+          "when_first_is": "any"
         },
         {
-          "operand": 21,
-          "when_first_is": 0
+          "operand": "dph",
+          "when_first_is": "any"
         },
         {
-          "operand": 20,
-          "when_first_is": 0
+          "operand": "dpl",
+          "when_first_is": "any"
         },
         {
-          "operand": 15,
-          "when_first_is": 0
+          "operand": "dptr",
+          "when_first_is": "any"
         },
         {
-          "operand": 15,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "registerB",
+          "when_first_is": "any"
         },
         {
-          "operand": 19,
-          "when_first_is": 0
-        },
-        {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 12,
-          "when_first_is": 6
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 12,
-          "when_first_is": 7
+          "operand": "accumulator",
+          "when_first_is": "addressInR0OrR1"
         },
         {
-          "operand": 12,
-          "when_first_is": 5
+          "operand": "accumulator",
+          "when_first_is": "helperRegisters"
         },
         {
-          "operand": 12,
-          "when_first_is": 19
+          "operand": "accumulator",
+          "when_first_is": "registerB"
         },
         {
-          "operand": 12,
-          "when_first_is": 21
+          "operand": "accumulator",
+          "when_first_is": "dpl"
         },
         {
-          "operand": 12,
-          "when_first_is": 20
+          "operand": "accumulator",
+          "when_first_is": "dph"
         },
         {
-          "operand": 6,
-          "when_first_is": 12
+          "operand": "addressInR0OrR1",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 6,
-          "when_first_is": 5
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 6,
-          "when_first_is": 19
+          "operand": "addressInR0OrR1",
+          "when_first_is": "registerB"
         },
         {
-          "operand": 6,
-          "when_first_is": 21
+          "operand": "addressInR0OrR1",
+          "when_first_is": "dpl"
         },
         {
-          "operand": 6,
-          "when_first_is": 20
+          "operand": "addressInR0OrR1",
+          "when_first_is": "dph"
         },
         {
-          "operand": 9,
-          "when_first_is": 8
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
         },
         {
-          "operand": 8,
-          "when_first_is": 9
+          "operand": "carryFlag",
+          "when_first_is": "bitAddress"
         },
         {
-          "operand": 3,
-          "when_first_is": 6
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 3,
-          "when_first_is": 12
+          "operand": "data",
+          "when_first_is": "addressInR0OrR1"
         },
         {
-          "operand": 3,
-          "when_first_is": 7
+          "operand": "data",
+          "when_first_is": "helperRegisters"
         },
         {
-          "operand": 3,
-          "when_first_is": 5
+          "operand": "data",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 3,
-          "when_first_is": 19
+          "operand": "data",
+          "when_first_is": "registerB"
         },
         {
-          "operand": 3,
-          "when_first_is": 21
+          "operand": "data",
+          "when_first_is": "dpl"
         },
         {
-          "operand": 3,
-          "when_first_is": 20
+          "operand": "data",
+          "when_first_is": "dph"
         },
         {
-          "operand": 4,
-          "when_first_is": 15
+          "operand": "data16",
+          "when_first_is": "dptr"
         },
         {
-          "operand": 4,
-          "when_first_is": 15
+          "operand": "internalRamAddress",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 5,
-          "when_first_is": 6
+          "operand": "internalRamAddress",
+          "when_first_is": "addressInR0OrR1"
         },
         {
-          "operand": 5,
-          "when_first_is": 12
+          "operand": "internalRamAddress",
+          "when_first_is": "helperRegisters"
         },
         {
-          "operand": 5,
-          "when_first_is": 7
+          "operand": "internalRamAddress",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 5,
-          "when_first_is": 5
+          "operand": "internalRamAddress",
+          "when_first_is": "registerB"
         },
         {
-          "operand": 5,
-          "when_first_is": 19
+          "operand": "internalRamAddress",
+          "when_first_is": "dpl"
         },
         {
-          "operand": 5,
-          "when_first_is": 21
+          "operand": "internalRamAddress",
+          "when_first_is": "dph"
         },
         {
-          "operand": 5,
-          "when_first_is": 20
+          "operand": "registerB",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 19,
-          "when_first_is": 12
+          "operand": "registerB",
+          "when_first_is": "addressInR0OrR1"
         },
         {
-          "operand": 19,
-          "when_first_is": 6
+          "operand": "registerB",
+          "when_first_is": "helperRegisters"
         },
         {
-          "operand": 19,
-          "when_first_is": 5
+          "operand": "registerB",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 19,
-          "when_first_is": 7
+          "operand": "registerB",
+          "when_first_is": "dpl"
         },
         {
-          "operand": 19,
-          "when_first_is": 21
+          "operand": "registerB",
+          "when_first_is": "dph"
         },
         {
-          "operand": 19,
-          "when_first_is": 20
+          "operand": "helperRegisters",
+          "when_first_is": "internalRamAddress"
         },
         {
-          "operand": 7,
-          "when_first_is": 12
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 7,
-          "when_first_is": 5
+          "operand": "helperRegisters",
+          "when_first_is": "registerB"
         },
         {
-          "operand": 7,
-          "when_first_is": 19
+          "operand": "helperRegisters",
+          "when_first_is": "dpl"
         },
         {
-          "operand": 7,
-          "when_first_is": 21
-        },
-        {
-          "operand": 7,
-          "when_first_is": 20
+          "operand": "helperRegisters",
+          "when_first_is": "dph"
         }
       ]
     ],
@@ -216,7 +208,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "MOVC": {
     "detail": "Przenie\u015B z Kodu",
@@ -224,18 +218,18 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 14,
-          "when_first_is": 0
+          "operand": "addressInAccumulatorPlusDPTR",
+          "when_first_is": "any"
         },
         {
-          "operand": 17,
-          "when_first_is": 0
+          "operand": "addressInAccumulatorPlusPC",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -243,7 +237,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "MOVX": {
     "detail": "Przenie\u015B dane pomi\u0119dzy pami\u0119ci\u0105 zewn\u0119trzn\u0105 a Akumulatorem",
@@ -251,34 +247,34 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 16,
-          "when_first_is": 0
+          "operand": "addressInDPTR",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 12,
-          "when_first_is": 16
+          "operand": "accumulator",
+          "when_first_is": "addressInR0OrR1"
         },
         {
-          "operand": 12,
-          "when_first_is": 6
+          "operand": "accumulator",
+          "when_first_is": "addressInDPTR"
         },
         {
-          "operand": 16,
-          "when_first_is": 12
+          "operand": "addressInDPTR",
+          "when_first_is": "accumulator"
         },
         {
-          "operand": 6,
-          "when_first_is": 12
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
         }
       ]
     ],
@@ -286,7 +282,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "PUSH": {
     "detail": "Wstaw na stos",
@@ -294,8 +292,8 @@
     "valid_operands": [
       [
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -303,7 +301,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "POP": {
     "detail": "Zdejmij ze stosu",
@@ -311,8 +311,8 @@
     "valid_operands": [
       [
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -320,7 +320,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "XCH": {
     "detail": "Zamie\u0144 bajty",
@@ -328,22 +330,22 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -351,7 +353,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "XCHD": {
     "detail": "Zamie\u0144 cyfr\u0119",
@@ -359,14 +363,14 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -374,6 +378,8 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }

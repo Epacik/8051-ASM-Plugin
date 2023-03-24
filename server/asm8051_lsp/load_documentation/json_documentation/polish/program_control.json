@@ -5,8 +5,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -14,7 +14,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "ACALL": {
     "detail": "Wywo\u0142anie absolutne",
@@ -22,8 +24,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -31,7 +33,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "LCALL": {
     "detail": "Wywo\u0142anie d\u0142ugie",
@@ -39,8 +43,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -48,7 +52,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RET": {
     "detail": "Wr\u00F3\u0107 z podprogramu",
@@ -58,7 +64,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RETI": {
     "detail": "Wr\u00F3\u0107 z przerwania",
@@ -68,7 +76,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "AJMP": {
     "detail": "Skok Absolutny",
@@ -76,8 +86,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -85,7 +95,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "LJMP": {
     "detail": "Skok D\u0142ugi",
@@ -93,8 +105,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -102,7 +114,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "SJMP": {
     "detail": "Skok kr\u00F3tki",
@@ -110,8 +124,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -119,7 +133,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JMP": {
     "detail": "Skok",
@@ -127,12 +143,12 @@
     "valid_operands": [
       [
         {
-          "operand": 14,
-          "when_first_is": 0
+          "operand": "addressInAccumulatorPlusDPTR",
+          "when_first_is": "any"
         },
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -140,7 +156,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "CJNE": {
     "detail": "Por\u00F3wnaj i skocz je\u015Bli nie jest r\u00F3wne",
@@ -148,38 +166,38 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 12
+          "operand": "internalRamAddress",
+          "when_first_is": "accumulator"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "warto\u015B\u0107 pierwszego operandu jest mniejsza ni\u017C warto\u015B\u0107 drugiego",
         "when_unset": ""
       }
@@ -187,7 +205,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DJNZ": {
     "detail": "Dekrementuj i skocz je\u015Bli nie jest zerem",
@@ -195,18 +215,18 @@
     "valid_operands": [
       [
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -214,7 +234,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JB": {
     "detail": "Skocz je\u015Bli bit jest ustawiony",
@@ -222,14 +244,14 @@
     "valid_operands": [
       [
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -237,7 +259,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JBC": {
     "detail": "Skocz je\u015Bli bit nie jest ustawiony i wyczy\u015B\u0107 bit",
@@ -245,14 +269,14 @@
     "valid_operands": [
       [
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -260,7 +284,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JC": {
     "detail": "Skocz je\u015Bli flaga Przeniesienia jest ustawiona",
@@ -268,8 +294,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -277,7 +303,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JNC": {
     "detail": "Skocz je\u015Bli flaga Przeniesienia nie jest ustawiona",
@@ -285,8 +313,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -294,7 +322,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JNB": {
     "detail": "Skocz je\u015Bli bit nie jest ustawiony",
@@ -302,14 +332,14 @@
     "valid_operands": [
       [
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -317,7 +347,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JZ": {
     "detail": "Skocz je\u015Bli Akumulator jest r\u00F3wny zero",
@@ -325,8 +357,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -334,7 +366,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JNZ": {
     "detail": "Skocz je\u015Bli Akumulator nie jest r\u00F3wny zero",
@@ -342,8 +376,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -351,7 +385,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "NOP": {
     "detail": "Brak Operacji",
@@ -361,6 +397,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }

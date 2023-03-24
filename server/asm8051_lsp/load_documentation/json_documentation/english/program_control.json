@@ -5,8 +5,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -14,7 +14,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "ACALL": {
     "detail": "Absolute Call",
@@ -22,8 +24,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -31,7 +33,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "LCALL": {
     "detail": "Long Call",
@@ -39,8 +43,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -48,7 +52,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RET": {
     "detail": "Return from subroutine",
@@ -58,7 +64,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "RETI": {
     "detail": "Return from interrupt",
@@ -68,7 +76,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "AJMP": {
     "detail": "Absolute Jump",
@@ -76,8 +86,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -85,7 +95,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "LJMP": {
     "detail": "Long Jump",
@@ -93,8 +105,8 @@
     "valid_operands": [
       [
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -102,7 +114,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "SJMP": {
     "detail": "Short Jump",
@@ -110,8 +124,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -119,7 +133,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JMP": {
     "detail": "Jump",
@@ -127,12 +143,12 @@
     "valid_operands": [
       [
         {
-          "operand": 14,
-          "when_first_is": 0
+          "operand": "addressInAccumulatorPlusDPTR",
+          "when_first_is": "any"
         },
         {
-          "operand": 1,
-          "when_first_is": 0
+          "operand": "codeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -140,7 +156,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "CJNE": {
     "detail": "Compare and jump if not equal",
@@ -148,38 +166,38 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 12
+          "operand": "internalRamAddress",
+          "when_first_is": "accumulator"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "value of a first operand is less than value of a second operand",
         "when_unset": ""
       }
@@ -187,7 +205,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DJNZ": {
     "detail": "Decrement and jump if not zero",
@@ -195,18 +215,18 @@
     "valid_operands": [
       [
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -214,7 +234,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JB": {
     "detail": "Jump if bit set",
@@ -222,14 +244,14 @@
     "valid_operands": [
       [
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -237,7 +259,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JBC": {
     "detail": "Jump if bit set and clear it",
@@ -245,14 +269,14 @@
     "valid_operands": [
       [
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -260,7 +284,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JC": {
     "detail": "Jump if Carry set",
@@ -268,8 +294,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -277,7 +303,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JNC": {
     "detail": "Jump if Carry not set",
@@ -285,8 +313,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -294,7 +322,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JNB": {
     "detail": "Jump if bit not set",
@@ -302,14 +332,14 @@
     "valid_operands": [
       [
         {
-          "operand": 9,
-          "when_first_is": 0
+          "operand": "bitAddress",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -317,7 +347,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JZ": {
     "detail": "Jump if Accumulator is zero",
@@ -325,8 +357,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -334,7 +366,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "JNZ": {
     "detail": "Jump if Accumulator is not zero",
@@ -342,8 +376,8 @@
     "valid_operands": [
       [
         {
-          "operand": 11,
-          "when_first_is": 0
+          "operand": "relativeAddress",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -351,7 +385,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "NOP": {
     "detail": "No Operation",
@@ -361,6 +397,8 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }

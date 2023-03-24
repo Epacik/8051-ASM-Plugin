@@ -92,9 +92,12 @@
 
                 <Expander Header="Addressing modes">
                     <StackPanel HorizontalAlignment="Stretch">
-                        <ListBox 
+                        <ListBox
                             Items="{Binding AddressingModes}"
-                            SelectedItems="{Binding SelectedAddressingModes}"/>
+                            SelectedItems="{Binding SelectedAddressingModes}"
+                            SelectionMode="Toggle,Multiple">
+                            
+                        </ListBox>
                     </StackPanel>
                 </Expander>
 

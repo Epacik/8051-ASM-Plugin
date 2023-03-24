@@ -7,7 +7,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "WRITE_DATA": {
     "detail": "Wypisz znak na ekranie LCD",
@@ -17,7 +19,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "WRITE_HEX": {
     "detail": "Wypisz liczb\u0119 szesnastkow\u0105 na ekranie LCD",
@@ -27,7 +31,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "WRITE_INSTR": {
     "detail": "Wy\u015Blij instrukcj\u0119 do ekranu LCD",
@@ -37,7 +43,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "LCD_INIT": {
     "detail": "Inicjalizuj ekran LCD",
@@ -47,7 +55,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "LCD_OFF": {
     "detail": "Wy\u0142\u0105cz ekran LCD",
@@ -57,7 +67,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "LCD_CLR": {
     "detail": "Wyczy\u015B\u0107 ekran LCD",
@@ -67,7 +79,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DELAY_US": {
     "detail": "Op\u00F3\u017Anienie w mikrosekundach",
@@ -77,7 +91,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DELAY_MS": {
     "detail": "Op\u00F3\u017Anienie w milisekundach",
@@ -87,7 +103,9 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DELAY_100MS": {
     "detail": "Op\u00F3\u017Anienie w setkach milisekund",
@@ -97,7 +115,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "WAIT_ENTER": {
     "detail": "Zaczekaj na klawisz ENTER",
@@ -107,7 +127,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "WAIT_ENTER_NW": {
     "detail": "Zaczekaj na klawisz ENTER",
@@ -117,7 +139,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "TEST_ENTER": {
     "detail": "Czy Enter jest wci\u015Bni\u0119ty",
@@ -125,7 +149,7 @@
     "valid_operands": [],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "Klawisz nie jest wci\u015Bni\u0119ty",
         "when_unset": "Klawisz jest wci\u015Bni\u0119ty"
       }
@@ -133,7 +157,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "WAIT_ENT_ESC": {
     "detail": "Zaczekaj na klawisz ENTER lub ESC",
@@ -141,7 +167,7 @@
     "valid_operands": [],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "Esc zosta\u0142 wci\u015Bni\u0119ty",
         "when_unset": "Enter zosta\u0142 wci\u015Bni\u0119ty"
       }
@@ -149,7 +175,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "WAIT_KEY": {
     "detail": "Zaczekaj na wci\u015Bni\u0119cie klawisza",
@@ -159,7 +187,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "GET_NUM": {
     "detail": "Otrzymaj numer BCD",
@@ -167,7 +197,7 @@
     "valid_operands": [],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "Enter zosta\u0142 wci\u015Bni\u0119ty",
         "when_unset": "u\u017Cytkownik wpisa\u0142 4 cyfry, lub wcisn\u0105\u0142 Esc"
       }
@@ -175,7 +205,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "BCD_HEX": {
     "detail": "Konwertuj BCD do liczby szesnastkowej",
@@ -185,7 +217,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "HEX_BCD": {
     "detail": "Konwertuj liczb\u0119 szesnastkow\u0105 do postaci BCD",
@@ -195,7 +229,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "MUL_2_2": {
     "detail": "Pomn\u00F3\u017C dwa dwubajtowe liczby",
@@ -205,7 +241,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "MUL_3_1": {
     "detail": "Pomn\u00F3\u017C trzybajtow\u0105 liczb\u0119 przez jednobajtow\u0105 liczb\u0119",
@@ -215,7 +253,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DIV_2_1": {
     "detail": "Podziel dwubajtow\u0105 liczb\u0119 przez jednobajtow\u0105 liczb\u0119",
@@ -225,7 +265,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DIV_4_2": {
     "detail": "Podziel czterobajtow\u0105 liczb\u0119 przez dwubajtow\u0105 liczb\u0119",
@@ -235,6 +277,8 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }

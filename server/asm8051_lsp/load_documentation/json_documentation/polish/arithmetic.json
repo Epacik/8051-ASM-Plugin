@@ -5,42 +5,42 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "wynik skutkuje w przepe\u0142nieniu warto\u015Bci bajta ze znakiem ( z 127 do -128) ",
         "when_unset": ""
       },
       {
-        "flag": 6,
+        "flag": "auxiliaryCarry",
         "when_set": "wynik skutkuje przeniesieniem mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       }
@@ -48,7 +48,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "ADDC": {
     "detail": "Dodaj do Akumulatora z Flag\u0105 Przeniesienia",
@@ -56,42 +58,42 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "wynik skutkuje przepe\u0142nieniem warto\u015Bci bajta ze znakiem ( z 127 do -128) ",
         "when_unset": ""
       },
       {
-        "flag": 6,
+        "flag": "auxiliaryCarry",
         "when_set": "wynik skutkuje przeniesieniem mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       }
@@ -99,7 +101,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "SUBB": {
     "detail": "Odejmij od Akumulatora z Po\u017Cyczeniem",
@@ -107,42 +111,42 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "wynik skutkuje przepe\u0142nieniem warto\u015Bci bajta ze znakiem ( z -128 do 127) ",
         "when_unset": ""
       },
       {
-        "flag": 6,
+        "flag": "auxiliaryCarry",
         "when_set": "wynik skutkuje po\u017Cyczk\u0105 mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "warto\u015B\u0107 operandu jest wi\u0119ksza ni\u017C warto\u015B\u0107 przechowywana w Akumulatorze",
         "when_unset": ""
       }
@@ -150,7 +154,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "INC": {
     "detail": "Inkrementuj rejestr",
@@ -158,24 +164,24 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 15,
-          "when_first_is": 0
+          "operand": "dptr",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -183,7 +189,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DEC": {
     "detail": "Dekrementuj rejestr",
@@ -191,20 +199,20 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -212,7 +220,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "MUL": {
     "detail": "Pomn\u00F3\u017C warto\u015Bci Akumulatora i rejestru B",
@@ -220,19 +230,19 @@
     "valid_operands": [
       [
         {
-          "operand": 13,
-          "when_first_is": 0
+          "operand": "accumulatorAndB",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "",
         "when_unset": "zawsze"
       }
@@ -240,7 +250,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DIV": {
     "detail": "Podziel warto\u015B\u0107 Akumulatora przez warto\u015B\u0107 rejestru B",
@@ -248,8 +260,8 @@
     "valid_operands": [
       [
         {
-          "operand": 13,
-          "when_first_is": 0
+          "operand": "accumulatorAndB",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -257,7 +269,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DA": {
     "detail": "Popraw warto\u015B\u0107 w Akumulatorze (BCD)",
@@ -265,14 +279,14 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "wynik jest wi\u0119kszy ni\u017C 100",
         "when_unset": ""
       }
@@ -280,6 +294,8 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }

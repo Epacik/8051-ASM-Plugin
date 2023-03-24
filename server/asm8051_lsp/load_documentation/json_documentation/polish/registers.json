@@ -8,7 +8,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "B": {
     "detail": "Rejestr B",
@@ -19,7 +20,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "PSW": {
     "detail": "S\u0142owo Stanu Programu",
@@ -30,7 +32,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "@R0;@R1": {
     "detail": "Rejestr",
@@ -41,7 +44,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "TCON": {
     "detail": "Rejestr kontroli Czasomierza",
@@ -52,7 +56,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "R0;R1;R2;R3;R4;R5;R6;R7": {
     "detail": "Rejestr pomocniczy",
@@ -63,7 +68,8 @@
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
     "prefix_required": false,
-    "label": "Rejestry pomocnicze R0 do R7"
+    "label": "Rejestry pomocnicze R0 do R7",
+    "addressingModes": []
   },
   "DPTR": {
     "detail": "Wska\u017Anik danych",
@@ -74,7 +80,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "PC": {
     "detail": "Licznik Programu",
@@ -85,7 +92,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "SP": {
     "detail": "Wska\u017Anik Stosu",
@@ -96,7 +104,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "P0;P1;P2;P3;P0.0;P1.0;P2.0;P3.0;P0.1;P1.1;P2.1;P3.1;P0.2;P1.2;P2.2;P3.2;P0.3;P1.3;P2.3;P3.3;P0.4;P1.4;P2.4;P3.4;P0.5;P1.5;P2.5;P3.5;P0.6;P1.6;P2.6;P3.6;P0.7;P1.7;P2.7;P3.7;": {
     "detail": "Port register",
@@ -107,7 +116,8 @@
     "dont_duplicate_in_all_docs": true,
     "prefix": "",
     "prefix_required": false,
-    "label": "Rejestry port\u00F3w P0 do P3"
+    "label": "Rejestry port\u00F3w P0 do P3",
+    "addressingModes": []
   },
   "TMOD": {
     "detail": "Tryb Czasomierza",
@@ -118,7 +128,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "DPL": {
     "detail": "M\u0142odszy bajt Wska\u017Anika Danych",
@@ -129,7 +140,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "DPH": {
     "detail": "Starszy bajt Wska\u017Anika Danych",
@@ -140,7 +152,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "PCON": {
     "detail": "Kontrola Zasilania",
@@ -151,7 +164,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "SCON": {
     "detail": "Kontrola portu szeregowego",
@@ -162,7 +176,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "IE": {
     "detail": "Kontrola Przerwa\u0144",
@@ -173,7 +188,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "IP": {
     "detail": "Priorytet Przerwa\u0144",
@@ -184,7 +200,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "SBUF": {
     "detail": "Bufor Portu Szeregowego",
@@ -195,7 +212,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "TL0": {
     "detail": "M\u0142odszy bajt Czasomierza 0",
@@ -206,7 +224,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "TH0": {
     "detail": "Starszy bajt Czasomierza 0",
@@ -217,7 +236,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "TL1": {
     "detail": "M\u0142odszy bajt Czasomierza 1",
@@ -228,7 +248,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "TH1": {
     "detail": "Timer 1 High",
@@ -239,7 +260,8 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   },
   "AB": {
     "detail": "Akumulator i rejestr B",
@@ -250,6 +272,7 @@
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
     "prefix_required": false,
-    "label": null
+    "label": null,
+    "addressingModes": []
   }
 }

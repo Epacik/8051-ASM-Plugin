@@ -5,42 +5,42 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "set when a value of a signed addition or subtraction rolls over from 127 to -128",
         "when_unset": ""
       },
       {
-        "flag": 6,
+        "flag": "auxiliaryCarry",
         "when_set": "result in carry between bit 3 and 4",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "result exceedes 255",
         "when_unset": ""
       }
@@ -48,7 +48,14 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": [
+      "implied",
+      "immediate",
+      "registerIndirect",
+      "direct"
+    ]
   },
   "ADDC": {
     "detail": "Add to Accumulator with Carry flag",
@@ -56,42 +63,42 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "set when a value of a signed addition or subtraction rolls over from 127 to -128",
         "when_unset": ""
       },
       {
-        "flag": 6,
+        "flag": "auxiliaryCarry",
         "when_set": "result in carry between bit 3 and 4",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "result exceedes 255",
         "when_unset": ""
       }
@@ -99,7 +106,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "SUBB": {
     "detail": "Subtract from Accumulator With Borrow",
@@ -107,42 +116,42 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ],
       [
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 3,
-          "when_first_is": 0
+          "operand": "data",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "result overflows signed byte value (-128 to 127)",
         "when_unset": ""
       },
       {
-        "flag": 6,
+        "flag": "auxiliaryCarry",
         "when_set": "lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of the Accumulator",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "value stored in operand was greater than value stored in the Accumulator",
         "when_unset": ""
       }
@@ -150,7 +159,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "INC": {
     "detail": "Increment register",
@@ -158,24 +169,24 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 15,
-          "when_first_is": 0
+          "operand": "dptr",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -183,7 +194,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DEC": {
     "detail": "Decrement register",
@@ -191,20 +204,20 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         },
         {
-          "operand": 6,
-          "when_first_is": 0
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
         },
         {
-          "operand": 5,
-          "when_first_is": 0
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
         },
         {
-          "operand": 7,
-          "when_first_is": 0
+          "operand": "helperRegisters",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -212,7 +225,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "MUL": {
     "detail": "Multiply Accumulator by B",
@@ -220,19 +235,19 @@
     "valid_operands": [
       [
         {
-          "operand": 13,
-          "when_first_is": 0
+          "operand": "accumulatorAndB",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 2,
+        "flag": "overflow",
         "when_set": "result exceeds 255",
         "when_unset": ""
       },
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "",
         "when_unset": "always"
       }
@@ -240,7 +255,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DIV": {
     "detail": "Divide Accumulator by B register",
@@ -248,8 +265,8 @@
     "valid_operands": [
       [
         {
-          "operand": 13,
-          "when_first_is": 0
+          "operand": "accumulatorAndB",
+          "when_first_is": "any"
         }
       ]
     ],
@@ -257,7 +274,9 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   },
   "DA": {
     "detail": "Decimal adjust Accumulator",
@@ -265,14 +284,14 @@
     "valid_operands": [
       [
         {
-          "operand": 12,
-          "when_first_is": 0
+          "operand": "accumulator",
+          "when_first_is": "any"
         }
       ]
     ],
     "affected_flags": [
       {
-        "flag": 7,
+        "flag": "carry",
         "when_set": "resulting BCD number exceeds 100",
         "when_unset": ""
       }
@@ -280,6 +299,8 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix": "",
-    "prefix_required": false
+    "prefix_required": false,
+    "label": null,
+    "addressingModes": []
   }
 }
