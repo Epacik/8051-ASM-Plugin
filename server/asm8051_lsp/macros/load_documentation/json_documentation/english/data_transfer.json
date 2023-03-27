@@ -210,7 +210,12 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
   },
   "MOVC": {
     "detail": "Move from Code",
@@ -224,7 +229,7 @@
       ],
       [
         {
-          "operand": "addressInAccumulatorPlusDPTR",
+          "operand": "addressInAccumulatorPlusDptr",
           "when_first_is": "any"
         },
         {
@@ -239,7 +244,10 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "register",
+      "indexed"
+    ]
   },
   "MOVX": {
     "detail": "Move between external memory and the accumulator",
@@ -251,7 +259,7 @@
           "when_first_is": "any"
         },
         {
-          "operand": "addressInDPTR",
+          "operand": "addressInDptr",
           "when_first_is": "any"
         },
         {
@@ -266,10 +274,10 @@
         },
         {
           "operand": "accumulator",
-          "when_first_is": "addressInDPTR"
+          "when_first_is": "addressInDptr"
         },
         {
-          "operand": "addressInDPTR",
+          "operand": "addressInDptr",
           "when_first_is": "accumulator"
         },
         {
@@ -284,7 +292,10 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "register",
+      "registerIndirect"
+    ]
   },
   "PUSH": {
     "detail": "Push onto stack",
@@ -303,7 +314,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "POP": {
     "detail": "Pop from stack",
@@ -322,7 +335,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "XCH": {
     "detail": "Exchange bytes",
@@ -355,7 +370,11 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
   },
   "XCHD": {
     "detail": "Exchange digit",
@@ -380,6 +399,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "register",
+      "registerIndirect"
+    ]
   }
 }

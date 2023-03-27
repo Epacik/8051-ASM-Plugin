@@ -28,6 +28,10 @@ public partial class FilesListViewModel : BaseViewModel
 
     partial void OnSelectedCategoryChanged(NamedItemViewModel<string>? value)
     {
+        if (DocumentationElements is not null)
+        {
+            DocumentationElements.PropertyChanged -= DocumentationElements_PropertyChanged;
+        }
         if (value is null)
         {
             DocumentationElements = null;
@@ -35,6 +39,12 @@ public partial class FilesListViewModel : BaseViewModel
         }
 
         DocumentationElements = new DocumentationElementListViewModel(value.Item!);
+        DocumentationElements.PropertyChanged += DocumentationElements_PropertyChanged;
+    }
+
+    private void DocumentationElements_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        OnPropertyChanged(nameof(DocumentationElements));
     }
 
     private void Load(string lang)

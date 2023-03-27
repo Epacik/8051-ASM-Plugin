@@ -68,6 +68,7 @@ hover-operand2                     = operand2
 hover-Operand__cap                 = Operand
 hover-validOperands                = Dozwolone operandy
 hover-affectedFlags                = Zmodyfikowane flagi
+hover-addressingModes              = Tryby adresowania
 
 hover-goToDocs                     = Przejdź do dokumentacji
 

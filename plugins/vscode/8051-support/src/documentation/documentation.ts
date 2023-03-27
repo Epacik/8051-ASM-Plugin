@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 'use strict';
 import { NullishableString } from "../miscellaneousTypeAliases";
 
@@ -9,4 +10,5 @@ export default interface IDocumentation {
     valid_operands: NullishableString,
     category: string,
     label: string,
+    addressing_modes: NullishableString,
 }

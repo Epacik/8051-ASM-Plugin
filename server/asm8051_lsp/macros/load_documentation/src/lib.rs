@@ -1,4 +1,6 @@
 use std::borrow::Borrow;
+mod types;
+use types::*;
 
 static DOCUMENTATION_DIR: &str = "json_documentation";
 
@@ -38,23 +40,24 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
         for (key, value) in docs {
 
             let item = match parse_to_documentation(value, file_path.to_str().unwrap()) {
-                Some(value) => value,
+                Some(value) => value.clone(),
                 None => continue,
             };
 
-            let detail = item.detail; 
-            let description = item.description;
+            let detail = item.detail.clone(); 
+            let description = item.description.clone();
             let affected_flags = parse_affected_flags(item.affected_flags.borrow());
             let valid_operands = parse_valid_operands(item.valid_operands.borrow());
             let category = filename.strip_suffix(".json");
             let dont_generate_syntax = item.dont_generate_syntax;
             let dont_duplicate_in_all_docs = item.dont_duplicate_in_all_docs;
-            let prefix = item.prefix;
+            let prefix = item.prefix.clone();
             let prefix_required = item.prefix_required;
-            let label = match item.label {
+            let label = match item.label.clone() {
                 Some(value) => quote::quote!(std::option::Option::Some(std::string::String::from(#value))),
                 None => quote::quote!(std::option::Option::None),
             };
+            let addressing_modes = parse_addressing_modes(&item);
 
             for partial_key in key.split(";") { 
                 let pkey = partial_key.trim();
@@ -70,10 +73,9 @@ fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
                     prefix: std::string::String::from(#prefix),
                     prefix_required: #prefix_required,
                     label: #label,
+                    addressing_modes: std::vec::Vec::from([#(#addressing_modes),*]),
                  })});
             }
-
-            
         }
     }
 
@@ -96,7 +98,7 @@ fn get_project_path() -> String {
 #[inline(always)]
 fn add_relative_path_to_language_dir(path: &mut String, lang: String) {
     if path.ends_with("asm8051_lsp") {
-        path.push_str("/load_documentation");
+        path.push_str("/macros/load_documentation");
     }
     path.push_str("/");
     path.push_str(DOCUMENTATION_DIR);
@@ -180,14 +182,17 @@ fn parse_to_documentation(value: serde_json::Value, filepath: &str) -> Option<Do
 fn parse_affected_flags(flags: &std::vec::Vec<Flag>) -> Vec<proc_macro2::TokenStream> {
     let mut affected_flags: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
     for flag in flags {
+
+        let mut fl = String::from("crate::hover::FlagType::");
+        fl.push_str(capitalize(&flag.flag).as_str());
         
-        let bit = flag.flag;
+        let fl: proc_macro2::TokenStream = fl.parse().unwrap();
         let when_set = flag.when_set.clone();
         let when_unset = flag.when_unset.clone();
 
         affected_flags.push(quote::quote! {(
             crate::hover::Flag {
-                flag: #bit,
+                flag: #fl,
                 when_set: std::string::String::from(#when_set),
                 when_unset: std::string::String::from(#when_unset),
             }
@@ -202,8 +207,16 @@ fn parse_valid_operands(vo: &Vec<Vec<ValidOperand>>) -> Vec<proc_macro2::TokenSt
     for operands in vo {
         let mut op: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
         for operand in operands {
-            let o = operand.operand;
-            let when = operand.when_first_is;
+
+            let mut o = String::from("crate::hover::PossibleOperand::");
+            o.push_str(capitalize(&operand.operand).as_str());
+
+            let o: proc_macro2::TokenStream  = o.parse().unwrap();
+
+            let mut when = String::from("crate::hover::PossibleOperand::");
+            when.push_str(capitalize(&operand.when_first_is).as_str());
+            let when: proc_macro2::TokenStream  = when.parse().unwrap();
+
             op.push(quote::quote! {(
                 crate::hover::ValidOperand {
                     operand: #o,
@@ -217,31 +230,33 @@ fn parse_valid_operands(vo: &Vec<Vec<ValidOperand>>) -> Vec<proc_macro2::TokenSt
     }
     valid_operands
 }
-#[allow(dead_code)]
-#[derive(serde::Deserialize, Default, Clone, Debug)]
-struct Documentation {
-    pub detail: std::string::String,
-    pub description: std::string::String,
-    pub valid_operands: std::vec::Vec<std::vec::Vec<ValidOperand>>,
-    pub affected_flags: std::vec::Vec<Flag>,
-    pub dont_generate_syntax: bool,
-    pub dont_duplicate_in_all_docs: bool,
-    pub prefix: std::string::String,
-    pub prefix_required: bool,
-    pub label: Option<String>,
+
+fn parse_addressing_modes(item: &Documentation) -> Vec<proc_macro2::TokenStream> {
+
+    let modes = match &item.addressing_modes {
+        Some(am) => am,
+        None => return vec![],
+    };
+
+    let mut addressing_modes: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
+
+    for mode in modes {
+        let mut m = String::from("crate::hover::AddressingMode::");
+        m.push_str(capitalize(&mode).as_str());
+
+        let m: proc_macro2::TokenStream = m.parse().unwrap();
+
+        addressing_modes.push(m);
+    }
+ 
+    addressing_modes
 }
 
-#[allow(dead_code)]
-#[derive(serde::Deserialize, Default, Clone, Debug)]
-struct Flag {
-    pub flag: i32,
-    pub when_set: std::string::String,
-    pub when_unset: std::string::String,
-}
-
-#[allow(dead_code)]
-#[derive(serde::Deserialize, Default, Clone, Debug)]
-struct ValidOperand {
-    pub operand: i32,
-    pub when_first_is: i32,
+fn capitalize<S: AsRef<str>>(s: S) -> String {
+    let s = s.as_ref();
+    let mut c = s.chars();
+    match c.next() {
+        None => String::new(),
+        Some(f) => f.to_uppercase().collect::<String>() + c.as_str(),
+    }
 }

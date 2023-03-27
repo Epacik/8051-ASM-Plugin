@@ -15,7 +15,12 @@ public partial class MainWindowViewModel : BaseViewModel
     [ObservableProperty]
     private FilesListViewModel? _fileList;
 
-    public string Title => "QaD8051JDE: ";
+    public string Title => 
+        ("QaD8051JDE: " + 
+        (SelectedLanguage?.Name ?? "") + "/" +
+        (FileList?.SelectedCategory?.Name ?? "") + "/" + 
+        (FileList?.DocumentationElements?.SelectedElement?.Name ?? ""))
+        .Trim('/', ':', ' ');
 
     partial void OnSelectedLanguageChanged(NamedItemViewModel<string>? value)
     {
@@ -39,9 +44,12 @@ public partial class MainWindowViewModel : BaseViewModel
 
     private void FilesList_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(FilesListViewModel.SelectedCategory)) 
+        switch (e.PropertyName)
         {
-            OnPropertyChanged(nameof(Title));
+            case nameof(FilesListViewModel.SelectedCategory):
+            case nameof(FilesListViewModel.DocumentationElements):
+                OnPropertyChanged(nameof(Title));
+                break;
         }
     }
 }

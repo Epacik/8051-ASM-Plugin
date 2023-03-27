@@ -143,7 +143,7 @@
     "valid_operands": [
       [
         {
-          "operand": "addressInAccumulatorPlusDPTR",
+          "operand": "addressInAccumulatorPlusDptr",
           "when_first_is": "any"
         },
         {

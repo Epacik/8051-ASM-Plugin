@@ -153,30 +153,5 @@ public partial class DocumentationElementEditorView : UserControl
     //    //}
     //}
 
-    //private void AddAddressingModeButton_Click(object sender, RoutedEventArgs args)
-    //{
-
-    //}
-
-    //private void RemoveAddressingModeButton_Click(object sender, RoutedEventArgs args)
-    //{
-
-    //}
-
-    //private void RemoveChangedRegistersButton_Click(object sender, RoutedEventArgs args)
-    //{
-    //}
-
-    //private void AddChangedRegistersButton_Click(object sender, RoutedEventArgs args)
-    //{
-    //}
-
-    //private void AddUsedRegistersButton_Click(object sender, RoutedEventArgs args)
-    //{
-    //}
-    //private void RemoveUsedRegistersButton_Click(object sender, RoutedEventArgs args)
-    //{
-    //}
-
-    private DispatcherTimer? _timer;
+    
 }

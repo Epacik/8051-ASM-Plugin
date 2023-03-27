@@ -39,7 +39,8 @@ export default class DocumentationViewBase {
 
         for (const key of keys) {
             const item = docs.get(key);
-            if(item === undefined) continue;
+            if (item === undefined) 
+                continue;
 
             result.push([key, item]);
         }
@@ -54,8 +55,10 @@ export default class DocumentationViewBase {
         
         if(sortFunction === undefined){
             sortFunction = (a, b): number => {
-                if(a[1] < b[1]) return -1;
-                else if (a[1] > b[1]) return 1;
+                if(a[1] < b[1]) 
+                    return -1;
+                else if (a[1] > b[1]) 
+                    return 1;
                 return 0;
             };
         }
@@ -71,16 +74,17 @@ export default class DocumentationViewBase {
         
         for (const [key, label] of keys) {
             const doc = docs.get(key);
-            if(doc === undefined) continue;
+            if(doc === undefined) 
+                continue;
 
-            sorted.push([key, label, doc])
+            sorted.push([key, label, doc]);
         }
 
         return sorted;
     }
 
     protected async getDocumentation(): Promise<([key: string, label: string, entries: ([name: string, data: IDocumentation])[]])[]> {
-        const rawDocs = await this.#client.sendRequest("documentation/getAll")
+        const rawDocs = await this.#client.sendRequest("documentation/getAll");
         const docs: Map<string, IDocumentation> = this.objectToMap(rawDocs);
         const categorized = this.categorize(this.sortDocs(docs));
         return this.sortCategories(categorized);

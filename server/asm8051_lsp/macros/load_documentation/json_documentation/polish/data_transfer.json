@@ -210,7 +210,12 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressingModes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
   },
   "MOVC": {
     "detail": "Przenie\u015B z Kodu",
@@ -224,7 +229,7 @@
       ],
       [
         {
-          "operand": "addressInAccumulatorPlusDPTR",
+          "operand": "addressInAccumulatorPlusDptr",
           "when_first_is": "any"
         },
         {
@@ -239,7 +244,10 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+        "register",
+        "indexed"
+      ]
   },
   "MOVX": {
     "detail": "Przenie\u015B dane pomi\u0119dzy pami\u0119ci\u0105 zewn\u0119trzn\u0105 a Akumulatorem",
@@ -251,7 +259,7 @@
           "when_first_is": "any"
         },
         {
-          "operand": "addressInDPTR",
+          "operand": "addressInDptr",
           "when_first_is": "any"
         },
         {
@@ -266,10 +274,10 @@
         },
         {
           "operand": "accumulator",
-          "when_first_is": "addressInDPTR"
+          "when_first_is": "addressInDptr"
         },
         {
-          "operand": "addressInDPTR",
+          "operand": "addressInDptr",
           "when_first_is": "accumulator"
         },
         {
@@ -284,7 +292,10 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+        "register",
+        "registerIndirect"
+      ]
   },
   "PUSH": {
     "detail": "Wstaw na stos",
@@ -303,7 +314,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressingModes": [
+        "direct"
+    ]
   },
   "POP": {
     "detail": "Zdejmij ze stosu",
@@ -322,7 +335,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressingModes": [
+        "direct"
+    ]
   },
   "XCH": {
     "detail": "Zamie\u0144 bajty",
@@ -355,7 +370,11 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+        "register",
+        "direct",
+        "registerIndirect"
+      ]
   },
   "XCHD": {
     "detail": "Zamie\u0144 cyfr\u0119",
@@ -380,6 +399,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+        "register",
+        "registerIndirect"
+      ]
   }
 }

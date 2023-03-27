@@ -16,7 +16,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "ACALL": {
     "detail": "Absolute Call",
@@ -35,7 +37,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "LCALL": {
     "detail": "Long Call",
@@ -54,7 +58,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "RET": {
     "detail": "Return from subroutine",
@@ -66,7 +72,7 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": []
   },
   "RETI": {
     "detail": "Return from interrupt",
@@ -78,7 +84,7 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": []
   },
   "AJMP": {
     "detail": "Absolute Jump",
@@ -97,7 +103,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "LJMP": {
     "detail": "Long Jump",
@@ -116,7 +124,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "register"
+    ]
   },
   "SJMP": {
     "detail": "Short Jump",
@@ -135,7 +145,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "JMP": {
     "detail": "Jump",
@@ -143,7 +155,7 @@
     "valid_operands": [
       [
         {
-          "operand": "addressInAccumulatorPlusDPTR",
+          "operand": "addressInAccumulatorPlusDptr",
           "when_first_is": "any"
         },
         {
@@ -158,7 +170,10 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct",
+      "indexed"
+    ]
   },
   "CJNE": {
     "detail": "Compare and jump if not equal",
@@ -207,7 +222,12 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
   },
   "DJNZ": {
     "detail": "Decrement and jump if not zero",
@@ -236,7 +256,10 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "register",
+      "direct"
+    ]
   },
   "JB": {
     "detail": "Jump if bit set",
@@ -261,7 +284,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "JBC": {
     "detail": "Jump if bit set and clear it",
@@ -286,7 +311,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "JC": {
     "detail": "Jump if Carry set",
@@ -305,7 +332,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "JNC": {
     "detail": "Jump if Carry not set",
@@ -324,7 +353,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "JNB": {
     "detail": "Jump if bit not set",
@@ -349,7 +380,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "JZ": {
     "detail": "Jump if Accumulator is zero",
@@ -368,7 +401,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "JNZ": {
     "detail": "Jump if Accumulator is not zero",
@@ -387,7 +422,9 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": [
+      "direct"
+    ]
   },
   "NOP": {
     "detail": "No Operation",
@@ -399,6 +436,6 @@
     "prefix": "",
     "prefix_required": false,
     "label": null,
-    "addressingModes": []
+    "addressing_modes": []
   }
 }

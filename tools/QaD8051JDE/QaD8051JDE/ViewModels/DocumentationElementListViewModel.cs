@@ -23,6 +23,8 @@ public partial class DocumentationElementListViewModel : BaseViewModel
 
     private readonly string _filePath;
 
+    public event EventHandler? Saved;
+
     public DocumentationElementListViewModel(string filePath)
     {
         _filePath = filePath;
@@ -68,6 +70,13 @@ public partial class DocumentationElementListViewModel : BaseViewModel
         var content = JsonSerializer.Serialize(elements, _options);
         File.WriteAllText(_filePath, content);
         LoadJson();
+
+        Saved?.Invoke(this, EventArgs.Empty);
+
+        foreach (var element in Elements)
+        {
+            element.IsDirty = false;
+        }
     }
 
     public void RevertJson()

@@ -9,6 +9,7 @@
     <AvaloniaResource Include="Assets\**" />
     <Folder Include="Models\" />
     <None Remove=".gitignore" />
+    <None Remove="ViewModels\NamedItemViewModel.cs~RFc0790a7.TMP" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.0-preview1" />

@@ -30,7 +30,7 @@ namespace QaD8051JDE.Views
             if(e.Key == Avalonia.Input.Key.S &&
                e.KeyModifiers == Avalonia.Input.KeyModifiers.Control)
             {
-                //ViewModel?.FilesList?.Save();
+                ViewModel?.FileList?.DocumentationElements?.SaveJson();
             }
         }
 

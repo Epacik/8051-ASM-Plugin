@@ -2,7 +2,7 @@
   "profiles": {
     "QaD8051JDE": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\source\\other_repos\\8051-ASM-Plugin2\\server\\asm8051_lsp\\load_documentation\\json_documentation"
+      "commandLineArgs": "D:\\source\\other_repos\\8051-ASM-Plugin2\\server\\asm8051_lsp\\macros\\load_documentation\\json_documentation"
     }
   }
 }

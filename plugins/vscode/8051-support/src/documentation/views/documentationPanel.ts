@@ -33,7 +33,7 @@ export class DocumentationPanel extends DocumentationViewBase {
     public static render(extensionUri: vscode.Uri, client: LanguageClient, args?: IOpenDocsArguments) {
         if (DocumentationPanel.currentPanel) {
             DocumentationPanel.currentPanel._panel.reveal(vscode.ViewColumn.Active);
-            if(args !== undefined)
+            if (args !== undefined)
                 DocumentationPanel.currentPanel.show(args);
         }
         else { 
@@ -123,10 +123,11 @@ export class DocumentationPanel extends DocumentationViewBase {
     async #createDocElement(key: string, doc: IDocumentation): Promise<string> {
 
         const insertSection = (header: NullishableString, value: NullishableString) => {
-            if(isNullishOrWhitespace(value)) return;
+            if(isNullishOrWhitespace(value)) 
+                return;
             
             if(!isNullishOrWhitespace(header)){
-                result += `<h5>${header?.trim()}</h5>`
+                result += `<h5>${header?.trim()}</h5>`;
             }
 
             result += `<p>${value?.trim()}</p>`;
@@ -135,7 +136,8 @@ export class DocumentationPanel extends DocumentationViewBase {
         const getSectionFromParsed = (section: string): NullishableString => {
             section = section.toUpperCase();
             const borderChar = '▨';
-            if(isNullishOrWhitespace(parsed) || !parsed?.includes(borderChar + section)) return null;
+            if(isNullishOrWhitespace(parsed) || !parsed?.includes(borderChar + section)) 
+                return null;
            
             let startIndex = parsed.indexOf(borderChar + section);
             let endIndex = parsed.lastIndexOf(section + borderChar);
@@ -145,7 +147,7 @@ export class DocumentationPanel extends DocumentationViewBase {
             endIndex = result.lastIndexOf('\n');
 
             return result.slice(startIndex, endIndex).replace("\n", "").trim();
-        }
+        };
 
         let result = `<h3 class="doc-mnemonic" id="${key}">${doc.label}</h3>`;
         
@@ -153,9 +155,10 @@ export class DocumentationPanel extends DocumentationViewBase {
         let parsed = await this.#parseMarkdown(markdown);
 
         insertSection(null, getSectionFromParsed("desc"));
-        insertSection(localize("asm8051.views.documentationPanel.sections.syntax"),        getSectionFromParsed("syntax"));
-        insertSection(localize("asm8051.views.documentationPanel.sections.validOperands"), getSectionFromParsed("valid_operands"));
-        insertSection(localize("asm8051.views.documentationPanel.sections.affectedFlags"), getSectionFromParsed("affected_flags"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.syntax"),          getSectionFromParsed("syntax"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.addressingModes"), getSectionFromParsed("addressing_modes"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.validOperands"),   getSectionFromParsed("valid_operands"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.affectedFlags"),   getSectionFromParsed("affected_flags"));
 
         return result + `<div class="doc-spacer"></div>\n\n`;
     }

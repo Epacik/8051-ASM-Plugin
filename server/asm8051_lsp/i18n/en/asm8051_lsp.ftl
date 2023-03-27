@@ -68,6 +68,7 @@ hover-operand2                     = operand2
 hover-Operand__cap                 = Operand
 hover-validOperands                = Valid operands
 hover-affectedFlags                = Affected flags
+hover-addressingModes              = Addressing modes
 
 hover-goToDocs                     = Go to documentation
 

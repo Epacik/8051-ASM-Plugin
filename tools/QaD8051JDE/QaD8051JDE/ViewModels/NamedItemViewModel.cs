@@ -15,10 +15,23 @@ public partial class NamedItemViewModel<T> : BaseViewModel, IEquatable<NamedItem
     [ObservableProperty]
     private T? _item;
 
+    [ObservableProperty]
+    private bool _isDirty;
+
     public NamedItemViewModel(string name, T item)
     {
         Name = name;
         Item = item;
+
+        if (item is BaseViewModel bvm)
+        {
+            bvm.PropertyChanged += Bvm_PropertyChanged;
+        }
+    }
+
+    private void Bvm_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        IsDirty = true;
     }
 
     public override bool Equals(object? obj)

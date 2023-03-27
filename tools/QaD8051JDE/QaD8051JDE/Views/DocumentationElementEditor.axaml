@@ -19,16 +19,17 @@
         <StackPanel Orientation="Horizontal" Margin="5, 0">
             <Button Command="{Binding $parent[local:DocumentationElementListView].DataContext.SaveJson}">💾</Button>
             <Button Command="{Binding $parent[local:DocumentationElementListView].DataContext.RevertJson}">↩️</Button>
-            <ToggleSwitch Margin="20,0,0,0" OnContent="Don't generate syntax" OffContent="Generate syntax" x:Name="DontGenerateSyntax"/>
-            <ToggleSwitch Margin="20,0,0,0" OnContent="Don't duplicate in all documentation" OffContent="Duplicate in all documentation" x:Name="DontDuplicate"/>
+            <ToggleSwitch
+                Margin="20,0,0,0"
+                OnContent="Don't generate syntax"
+                OffContent="Generate syntax"
+                IsChecked="{Binding DontGenerateSyntax}"/>
+            <ToggleSwitch 
+                Margin="20,0,0,0"
+                OnContent="Don't duplicate in all documentation"
+                OffContent="Duplicate in all documentation"
+                IsChecked="{Binding DontDuplicate}"/>
         </StackPanel>
-      <TextBlock VerticalAlignment="Center"
-                 Margin="5,0"
-                 HorizontalAlignment="Right"
-                 IsVisible="False"
-                 x:Name="SavedText">
-        Saved
-      </TextBlock>
         
         <ScrollViewer Grid.Row="1" Margin="5">
             <StackPanel >

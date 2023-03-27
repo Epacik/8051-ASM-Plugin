@@ -37,5 +37,15 @@
         </ScrollViewer>
 
         <ContentControl Content="{Binding Editor}" Grid.Column="1" Grid.RowSpan="2"/>
+
+        <TextBlock
+            VerticalAlignment="Center"
+            Margin="5,0"
+            HorizontalAlignment="Right"
+            IsVisible="False"
+            Grid.Column="1"
+            x:Name="SavedText">
+            Saved
+        </TextBlock>
     </Grid>
 </UserControl>

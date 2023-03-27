@@ -1,12 +1,11 @@
 using Avalonia.Controls;
 
-namespace QaD8051JDE.Views
+namespace QaD8051JDE.Views;
+
+public partial class NamedItemView : UserControl
 {
-    public partial class NamedItemView : UserControl
+    public NamedItemView()
     {
-        public NamedItemView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

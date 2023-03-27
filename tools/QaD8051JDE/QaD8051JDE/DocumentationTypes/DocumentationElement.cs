@@ -40,7 +40,7 @@ public class DocumentationElement
     [JsonPropertyName("label")]
     public string? Label { get; set; }
 
-    [JsonPropertyName("addressingModes")]
+    [JsonPropertyName("addressing_modes")]
     public List<AddressingMode>? AddressingModes { get; set; }
 
     public void Deconstruct(

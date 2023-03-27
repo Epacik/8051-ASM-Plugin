@@ -496,22 +496,23 @@ impl Backend {
         let mut already_added = Vec::<String>::new();
         let mut map = serde_json::Map::new();
 
-        for pair in docs {
+        for (key, docs) in docs {
             let obj = serde_json::json!({
-                "detail": pair.1.detail,
-                "description": pair.1.description,
-                "syntax": hover::syntax(pair.clone()),
-                "affected_flags": hover::generate_affected_flags(pair.clone().1.affected_flags),
-                "valid_operands": hover::generate_valid_operands(pair.clone().1.valid_operands),
-                "category": pair.1.category,
-                "label": match pair.1.label { Some(value) => value, None => pair.0.clone(), },
+                "detail": docs.detail,
+                "description": docs.description,
+                "syntax": hover::syntax((key.clone(), docs.clone())),
+                "affected_flags": hover::generate_affected_flags(&docs.affected_flags),
+                "valid_operands": hover::generate_valid_operands(&docs.valid_operands),
+                "category": docs.category,
+                "label": match docs.label { Some(value) => value, None => key.clone(), },
+                "addressing_modes": hover::generate_addressing_modes(&docs.addressing_modes),
             });
-            if !pair.1.dont_duplicate_in_all_docs {
-                map.insert(pair.0, obj);
-            } else if pair.1.dont_duplicate_in_all_docs && !already_added.contains(&pair.1.full_key)
+            if !docs.dont_duplicate_in_all_docs {
+                map.insert(key, obj);
+            } else if docs.dont_duplicate_in_all_docs && !already_added.contains(&docs.full_key)
             {
-                map.insert(pair.1.full_key.clone(), obj);
-                already_added.push(pair.1.full_key);
+                map.insert(docs.full_key.clone(), obj);
+                already_added.push(docs.full_key);
             }
         }
 

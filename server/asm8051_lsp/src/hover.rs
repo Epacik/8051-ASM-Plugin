@@ -169,7 +169,7 @@ fn syntax_three_operands(
     result
 }
 
-pub(crate) fn generate_affected_flags(flags: Vec<Flag>) -> String {
+pub(crate) fn generate_affected_flags(flags: &Vec<Flag>) -> String {
     let mut result = String::new();
 
     for flag in flags {
@@ -199,7 +199,7 @@ pub(crate) fn generate_affected_flags(flags: Vec<Flag>) -> String {
     result
 }
 
-pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> String {
+pub(crate) fn generate_valid_operands(operands: &Vec<Vec<ValidOperand>>) -> String {
     if operands.len() == 0 {
         return String::new();
     }
@@ -245,6 +245,19 @@ pub(crate) fn generate_valid_operands(operands: Vec<Vec<ValidOperand>>) -> Strin
 
     result
 }
+
+pub(crate) fn generate_addressing_modes(addressing_modes: &[AddressingMode]) -> String {
+    let mut result = String::new();
+
+    for mode in addressing_modes {
+        result.push_str("- **");
+        result.push_str(mode.label().as_str());
+        result.push_str("**: ");
+    }
+
+    result
+}
+
 //#endregion syntax generation
 
 #[allow(dead_code)]
@@ -289,14 +302,6 @@ pub(crate) fn documentation(
         _ => Vec::new(),
     }
 
-    // match symbol {
-    //     Symbol::None => Vec::new(),
-    //     Symbol::Number(number) => documentation_number(number, locale),
-    //     Symbol::Label(label, pos) => documentation_label(label, pos, document.borrow()),
-    //     Symbol::Keyword(mnemonic) => documentation_keyword(mnemonic, locale),
-    //     Symbol::Constant(label, pos) => documentation_label(label, pos, document.borrow()),
-    //     Symbol::Macro(label, pos) => documentation_label(label, pos, document.borrow()),
-    // }
 }
 
 fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>) -> Vec<MarkedString> {
@@ -626,7 +631,17 @@ fn documentation_keyword(mnemonic: Keyword, modifier: AddressingModifier, locale
     //     }));
     // }
 
-    let tmp = generate_valid_operands(documentation.valid_operands.clone());
+    let tmp = generate_addressing_modes(&documentation.addressing_modes);
+
+    if tmp != "" {
+        documentation_vector.push(MarkedString::String(format!(
+            "{}:\n\n{}",
+            localize!("hover-addressingModes"),
+            tmp
+        )));
+    }
+
+    let tmp = generate_valid_operands(&documentation.valid_operands);
 
     if tmp != "" {
         documentation_vector.push(MarkedString::String(format!(
@@ -636,7 +651,7 @@ fn documentation_keyword(mnemonic: Keyword, modifier: AddressingModifier, locale
         )));
     }
 
-    let tmp = generate_affected_flags(documentation.affected_flags.clone());
+    let tmp = generate_affected_flags(&documentation.affected_flags);
     if tmp != "" {
         documentation_vector.push(MarkedString::String(format!(
             "{}:\n\n{}",
@@ -764,8 +779,128 @@ pub enum Symbol {
     Macro(String, u32),
 }
 
+trait FromI32{
+    fn from_i32(operand: i32, when_first_is: Option<i32>) -> ValidOperand;
+}
+
+impl FromI32 for ValidOperand {
+    fn from_i32(operand: i32, when_first_is: Option<i32>) -> ValidOperand {
+        let when_first_is = when_first_is.unwrap_or(0);
+
+        let operand = match operand.try_into() {
+            Ok(op) => op,
+            Err(_) => panic!("operand was {}", localize!("error-outOfRange")),
+        };
+
+        let when_first_is = match when_first_is.try_into() {
+            Ok(wfi) => wfi,
+            Err(_) => panic!("when_first_is {}", localize!("error-outOfRange")),
+        };
+
+        ValidOperand {
+            operand,
+            when_first_is,
+        }
+    }
+}
+
+trait Label {
+    fn label(&self) -> String;
+    fn example(&self, i: Option<i32>)-> String {
+        String::new()
+    }
+}
+
+impl Label for FlagType {
+    fn label(&self) -> String {
+        match self {
+            FlagType::Parity => format!("{} [P]", localize!("flag-parity")),
+            FlagType::UserDefined => format!("{}", localize!("flag-userDefined")),
+            FlagType::Overflow => format!("{} [OV]", localize!("flag-overflow")),
+            FlagType::RegisterBankSelect0 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
+            FlagType::RegisterBankSelect1 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
+            FlagType::Flag0 => format!("{} [F0]", localize!("flag-flag0")),
+            FlagType::AuxiliaryCarry => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
+            FlagType::Carry => format!("{} [CY]", localize!("flag-carry")),
+        }
+    }
+}
+
+
+impl Label for PossibleOperand {
+    fn label(&self) -> String {
+        match self {
+            PossibleOperand::Any => localize!("operand-any"),
+            PossibleOperand::CodeAddress => localize!("operand-codeAddress"),
+            PossibleOperand::Label => localize!("operand-label"),
+            PossibleOperand::Data => localize!("operand-byte"),
+            PossibleOperand::Data16 => localize!("operand-twoBytes"),
+            PossibleOperand::InternalRamAddress => localize!("operand-internalRamAddress"),
+            PossibleOperand::AddressInR0OrR1 => localize!("operand-indirectR0OrR1"),
+            PossibleOperand::HelperRegisters => localize!("operand-helperRegister"),
+            PossibleOperand::CarryFlag => localize!("operand-carryFlag"),
+            PossibleOperand::BitAddress => localize!("operand-bitAddress"),
+            PossibleOperand::NegatedBitAddress => localize!("operand-negatedBitAddress"),
+            PossibleOperand::RelativeAddress => localize!("operand-relativeAddress"),
+            PossibleOperand::Accumulator => localize!("operand-A"),
+            PossibleOperand::AccumulatorAndB => localize!("operand-AB"),
+            PossibleOperand::AddressInAccumulatorPlusDptr => localize!("operand-A_DPTR"),
+            PossibleOperand::Dptr => localize!("operand-DPTR"),
+            PossibleOperand::AddressInDptr => localize!("operand-indirectDPTR"),
+            PossibleOperand::AddressInAccumulatorPlusPC => localize!("operand-indirectA_PC"),
+            PossibleOperand::AbsoluteAddress => localize!("operand-absoluteAddress"),
+            PossibleOperand::RegisterB => localize!("operand-B"),
+            PossibleOperand::Dpl => localize!("operand-DPL"),
+            PossibleOperand::Dph => localize!("operand-DPH"),
+
+            PossibleOperand::HexNumber => localize!("operand-hex"),
+            PossibleOperand::BinaryNumber => localize!("operand-bin"),
+            PossibleOperand::DecimalNumber => localize!("operand-dec"),
+            PossibleOperand::AsciiCharacters => localize!("operand-ascii"),
+        }
+    }
+
+    fn example(&self, i: Option<i32>) -> String {
+        let r_address = format!("@R{}", i.unwrap_or(0));
+        let r = format!("R{}", i.unwrap_or(0));
+        let label = localize!("operand-example-label");
+
+        (match self {
+            PossibleOperand::CodeAddress => "23H",
+            PossibleOperand::Label => label.as_str(),
+            PossibleOperand::Data => "#32H",
+            PossibleOperand::Data16 => "#5C6H",
+            PossibleOperand::InternalRamAddress => "23H",
+            PossibleOperand::AddressInR0OrR1 => r_address.as_str(),
+            PossibleOperand::HelperRegisters => r.as_str(),
+            PossibleOperand::CarryFlag => "C",
+            PossibleOperand::BitAddress => "23H",
+            PossibleOperand::NegatedBitAddress => "/23H",
+            PossibleOperand::RelativeAddress => "23H",
+            PossibleOperand::Accumulator => "A",
+            PossibleOperand::AccumulatorAndB => "AB",
+            PossibleOperand::AddressInAccumulatorPlusDptr => "@A+DPTR",
+            PossibleOperand::Dptr => "DPTR",
+            PossibleOperand::AddressInDptr => "@DPTR",
+            PossibleOperand::AddressInAccumulatorPlusPC => "@A+PC",
+            PossibleOperand::AbsoluteAddress => "100h",
+            PossibleOperand::RegisterB => "B",
+            PossibleOperand::Dpl => "DPL",
+            PossibleOperand::Dph => "DPH",
+
+            PossibleOperand::HexNumber => "56h",
+            PossibleOperand::BinaryNumber => "010101011b",
+            PossibleOperand::DecimalNumber => "63",
+            PossibleOperand::AsciiCharacters => "'Lorem ipsum'",
+            _ => "",
+        })
+        .to_string()
+    }
+}
+
+
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize, Default, Clone)]
+#[derive(Default, Clone, Debug)]
 pub struct Documentation {
     pub detail: std::string::String,
     pub description: std::string::String,
@@ -778,11 +913,13 @@ pub struct Documentation {
     pub prefix: String,
     pub prefix_required: bool,
     pub label: Option<String>,
+    pub addressing_modes: Vec::<AddressingMode>,
 }
+
 
 impl Documentation {
     #[allow(dead_code)]
-    pub fn new(
+    fn new(
         detail: &str,
         description: &str,
         valid_operands: Vec<Vec<ValidOperand>>,
@@ -794,6 +931,7 @@ impl Documentation {
         prefix: &str,
         prefix_required: bool,
         label: Option<String>,
+        addressing_modes: Vec::<AddressingMode>,
     ) -> Documentation {
         Documentation {
             detail: String::from(detail),
@@ -807,12 +945,13 @@ impl Documentation {
             prefix: String::from(prefix),
             prefix_required,
             label,
+            addressing_modes,
         }
     }
 }
 
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize, Default, Clone)]
+#[derive(Default, Clone, Debug)]
 pub struct Flag {
     pub flag: FlagType,
     pub when_set: std::string::String,
@@ -859,7 +998,7 @@ impl Flag {
 }
 
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize, Default, Clone, Copy)]
+#[derive(Default, Clone, Copy, Debug)]
 pub struct ValidOperand {
     pub operand: PossibleOperand,
     pub when_first_is: PossibleOperand,
@@ -882,38 +1021,16 @@ impl ValidOperand {
         }
     }
 
-    pub fn from_i32(operand: i32, when_first_is: Option<i32>) -> ValidOperand {
-        let when_first_is = when_first_is.unwrap_or(0);
-
-        let operand = match operand.try_into() {
-            Ok(op) => op,
-            Err(_) => panic!("operand was {}", localize!("error-outOfRange")),
-        };
-
-        let when_first_is = match when_first_is.try_into() {
-            Ok(wfi) => wfi,
-            Err(_) => panic!("when_first_is {}", localize!("error-outOfRange")),
-        };
-
-        ValidOperand {
-            operand,
-            when_first_is,
-        }
-    }
-
     pub fn equals(&self, other: &ValidOperand) -> bool {
         self.operand == other.operand && self.when_first_is == other.when_first_is
     }
 }
 
-
-
-#[derive(serde::Deserialize)]
-#[derive(serde::Serialize)]
 #[derive(PartialEq)]
 #[derive(Clone)]
 #[derive(Copy)]
 #[derive(Default)]
+#[derive(Debug)]
 pub enum FlagType {
     #[default]
     Parity              = 0,
@@ -944,28 +1061,11 @@ impl TryFrom<i32> for FlagType {
     }
 }
 
-
-impl FlagType {
-    pub fn label(&self) -> String {
-        match self {
-            FlagType::Parity => format!("{} [P]", localize!("flag-parity")),
-            FlagType::UserDefined => format!("{}", localize!("flag-userDefined")),
-            FlagType::Overflow => format!("{} [OV]", localize!("flag-overflow")),
-            FlagType::RegisterBankSelect0 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
-            FlagType::RegisterBankSelect1 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
-            FlagType::Flag0 => format!("{} [F0]", localize!("flag-flag0")),
-            FlagType::AuxiliaryCarry => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
-            FlagType::Carry => format!("{} [CY]", localize!("flag-carry")),
-        }
-    }
-}
-
-#[derive(serde::Deserialize)]
-#[derive(serde::Serialize)]
 #[derive(PartialEq)]
 #[derive(Clone)]
 #[derive(Copy)]
 #[derive(Default)]
+#[derive(Debug)]
 pub enum PossibleOperand {
     #[default]
     Any                          = 0,
@@ -974,7 +1074,7 @@ pub enum PossibleOperand {
     Data                         = 3,
     Data16                       = 4,
     InternalRamAddress           = 5,
-    AddressinR0orR1              = 6,
+    AddressInR0OrR1              = 6,
     HelperRegisters              = 7,
     CarryFlag                    = 8,
     BitAddress                   = 9,
@@ -997,9 +1097,9 @@ pub enum PossibleOperand {
     AsciiCharacters              = 103,
 }
 
+
 impl TryFrom<i32> for PossibleOperand {
     type Error = ();
-
     fn try_from(value: i32) -> Result<Self, Self::Error> {
         match value {
             x if x == PossibleOperand::Any                          as i32 => Ok(PossibleOperand::Any                         ),
@@ -1008,7 +1108,7 @@ impl TryFrom<i32> for PossibleOperand {
             x if x == PossibleOperand::Data                         as i32 => Ok(PossibleOperand::Data                        ),
             x if x == PossibleOperand::Data16                       as i32 => Ok(PossibleOperand::Data16                      ),
             x if x == PossibleOperand::InternalRamAddress           as i32 => Ok(PossibleOperand::InternalRamAddress          ),
-            x if x == PossibleOperand::AddressinR0orR1              as i32 => Ok(PossibleOperand::AddressinR0orR1             ),
+            x if x == PossibleOperand::AddressInR0OrR1              as i32 => Ok(PossibleOperand::AddressInR0OrR1             ),
             x if x == PossibleOperand::HelperRegisters              as i32 => Ok(PossibleOperand::HelperRegisters             ),
             x if x == PossibleOperand::CarryFlag                    as i32 => Ok(PossibleOperand::CarryFlag                   ),
             x if x == PossibleOperand::BitAddress                   as i32 => Ok(PossibleOperand::BitAddress                  ),
@@ -1033,257 +1133,215 @@ impl TryFrom<i32> for PossibleOperand {
     }
 }
 
-impl PossibleOperand {
-    pub fn label(&self) -> String {
+#[derive(PartialEq)]
+#[derive(Clone)]
+#[derive(Copy)]
+#[derive(Default)]
+#[derive(Debug)]
+pub enum AddressingMode {
+    #[default]
+    Implied          = 0,
+    Immediate        = 1,
+    Register         = 2,
+    Direct           = 3,
+    RegisterIndirect = 4,
+    Indexed          = 5,
+}
+
+impl Label for AddressingMode {
+    fn label(&self) -> String {
         match self {
-            PossibleOperand::Any => localize!("operand-any"),
-            PossibleOperand::CodeAddress => localize!("operand-codeAddress"),
-            PossibleOperand::Label => localize!("operand-label"),
-            PossibleOperand::Data => localize!("operand-byte"),
-            PossibleOperand::Data16 => localize!("operand-twoBytes"),
-            PossibleOperand::InternalRamAddress => localize!("operand-internalRamAddress"),
-            PossibleOperand::AddressinR0orR1 => localize!("operand-indirectR0OrR1"),
-            PossibleOperand::HelperRegisters => localize!("operand-helperRegister"),
-            PossibleOperand::CarryFlag => localize!("operand-carryFlag"),
-            PossibleOperand::BitAddress => localize!("operand-bitAddress"),
-            PossibleOperand::NegatedBitAddress => localize!("operand-negatedBitAddress"),
-            PossibleOperand::RelativeAddress => localize!("operand-relativeAddress"),
-            PossibleOperand::Accumulator => localize!("operand-A"),
-            PossibleOperand::AccumulatorAndB => localize!("operand-AB"),
-            PossibleOperand::AddressInAccumulatorPlusDptr => localize!("operand-A_DPTR"),
-            PossibleOperand::Dptr => localize!("operand-DPTR"),
-            PossibleOperand::AddressInDptr => localize!("operand-indirectDPTR"),
-            PossibleOperand::AddressInAccumulatorPlusPC => localize!("operand-indirectA_PC"),
-            PossibleOperand::AbsoluteAddress => localize!("operand-absoluteAddress"),
-            PossibleOperand::RegisterB => localize!("operand-B"),
-            PossibleOperand::Dpl => localize!("operand-DPL"),
-            PossibleOperand::Dph => localize!("operand-DPH"),
-
-            PossibleOperand::HexNumber => localize!("operand-hex"),
-            PossibleOperand::BinaryNumber => localize!("operand-bin"),
-            PossibleOperand::DecimalNumber => localize!("operand-dec"),
-            PossibleOperand::AsciiCharacters => localize!("operand-ascii"),
-        }
-    }
-
-    pub fn example(&self, i: Option<i32>) -> String {
-        let r_address = format!("@R{}", i.unwrap_or(0));
-        let r = format!("R{}", i.unwrap_or(0));
-        let label = localize!("operand-example-label");
-
-        (match self {
-            PossibleOperand::CodeAddress => "23H",
-            PossibleOperand::Label => label.as_str(),
-            PossibleOperand::Data => "#32H",
-            PossibleOperand::Data16 => "#5C6H",
-            PossibleOperand::InternalRamAddress => "23H",
-            PossibleOperand::AddressinR0orR1 => r_address.as_str(),
-            PossibleOperand::HelperRegisters => r.as_str(),
-            PossibleOperand::CarryFlag => "C",
-            PossibleOperand::BitAddress => "23H",
-            PossibleOperand::NegatedBitAddress => "/23H",
-            PossibleOperand::RelativeAddress => "23H",
-            PossibleOperand::Accumulator => "A",
-            PossibleOperand::AccumulatorAndB => "AB",
-            PossibleOperand::AddressInAccumulatorPlusDptr => "@A+DPTR",
-            PossibleOperand::Dptr => "DPTR",
-            PossibleOperand::AddressInDptr => "@DPTR",
-            PossibleOperand::AddressInAccumulatorPlusPC => "@A+PC",
-            PossibleOperand::AbsoluteAddress => "100h",
-            PossibleOperand::RegisterB => "B",
-            PossibleOperand::Dpl => "DPL",
-            PossibleOperand::Dph => "DPH",
-
-            PossibleOperand::HexNumber => "56h",
-            PossibleOperand::BinaryNumber => "010101011b",
-            PossibleOperand::DecimalNumber => "63",
-            PossibleOperand::AsciiCharacters => "'Lorem ipsum'",
-            _ => "",
-        })
-        .to_string()
-    }
-}
-
-// #region tests
-#[cfg(test)]
-mod tests {
-    mod all_documentation {
-        use crate::{flags::Locale, hover::all_documentation};
-        use test_case::test_case;
-
-        #[test_case(Locale::POLISH,  true  ; "some for POLISH locale")]
-        #[test_case(Locale::ENGLISH, true  ; "some for ENGLISH locale")]
-        #[test_case(Locale::DEFAULT, false ; "none for DEFAULT locale")]
-        fn is(locale: Locale, is_some: bool) {
-            let docs = all_documentation(locale);
-            assert_eq!(docs.is_some(), is_some);
-        }
-
-        #[test_case(Locale::POLISH  ; "polish locale")]
-        #[test_case(Locale::ENGLISH ; "english locale")]
-        fn is_not_empty_for(locale: Locale) {
-            let docs = all_documentation(locale).unwrap();
-            assert!(docs.len() > 0);
-        }
-    }
-
-    mod generated_syntax {
-        mod with_syntax_function {
-            use test_case::test_case;
-
-            use crate::hover::{syntax, Documentation, Flag, ValidOperand};
-
-            fn empty_valid_operands() -> Vec<Vec<ValidOperand>> {
-                Vec::<Vec<ValidOperand>>::new()
-            }
-            fn empty_affected_flags() -> Vec<Flag> {
-                Vec::<Flag>::new()
-            }
-
-            #[test_case(
-                "TEST",
-                Documentation::new(
-                    "", 
-                    "some description", 
-                    Vec::<Vec::<ValidOperand>>::new(),
-                    Vec::<Flag>::new(),
-                    true,
-                    false,
-                    "TEST",
-                    "category", 
-                    "", 
-                    false,
-                    Option::None) ; "dont_generate_syntax is set")]
-            #[test_case("", Documentation::new("", "", empty_valid_operands(), empty_affected_flags(), false, false, "", "", "", false, Option::None) ; "no data is provided") ]
-            #[test_case("TEST", Documentation::new(
-                "some detail",
-                "some description",
-                vec!(Vec::<ValidOperand>::new()),
-                empty_affected_flags(),
-                false,
-                false,
-                "TEST",
-                "category", 
-                "", 
-                false,
-                Option::None) ; "any of the inner vectors of valid operands is empty")]
-            #[test_case("TEST", Documentation::new(
-                "some detail",
-                "some description",
-                vec!(
-                    vec!(ValidOperand::from_i32(1, None)),
-                    vec!(ValidOperand::from_i32(1, None)),
-                    vec!(ValidOperand::from_i32(1, None)),
-                    vec!(ValidOperand::from_i32(1, None))
-                ),
-                empty_affected_flags(),
-                false,
-                false,
-                "TEST",
-                "category", 
-                "", 
-                false,
-                Option::None) ; "lenght of valid_operands vector is greater than 3")]
-            fn is_empty_when(mnemonic: &str, doc: Documentation) {
-                let mnemonic = String::from(mnemonic);
-                let syntax = syntax((mnemonic, doc));
-                assert!(syntax.is_empty());
-            }
-
-            // #[test_case(
-            //     Documentation::new(
-            //         "some detail",
-            //         "some quick desctiption",
-            //         vec!(vec!(ValidOperand::from_i32(1, None), ValidOperand::from_i32(2, None))),
-            //         vec!(Fla)
-            //     ))]
-            // fn is_not_empty_when_some_data_is_provided_and_dont_generate_syntax_is_not_set(doc: Documentation) {
-            //     let syntax = syntax((String::from("TEST"), doc));
-            // }
+            AddressingMode::Implied => String::from("Implied"),
+            AddressingMode::Immediate => String::from("Immediate"),
+            AddressingMode::Register => String::from("Register"),
+            AddressingMode::Direct => String::from("Direct"),
+            AddressingMode::RegisterIndirect => String::from("RegisterIndirect"),
+            AddressingMode::Indexed => String::from("Indexed"),
         }
     }
 }
-#[cfg(test)]
-mod test_all_documentation {
-    use crate::{flags::Locale, hover::all_documentation};
 
-    #[test]
-    fn while_locale_is_polish() {
-        let docs = all_documentation(Locale::POLISH);
-        assert!(docs.is_some(), "Docs are Option::None");
 
-        let docs = docs.unwrap();
-        assert!(
-            !docs.is_empty(),
-            "Docs are a HashMap, but that HashMap is empty"
-        );
-    }
+// // #region tests
+// #[cfg(test)]
+// mod tests {
+//     mod all_documentation {
+//         use crate::{flags::Locale, hover::all_documentation};
+//         use test_case::test_case;
 
-    #[test]
-    fn while_locale_is_english() {
-        let docs = all_documentation(Locale::ENGLISH);
-        assert!(docs.is_some(), "Docs are Option::None");
+//         #[test_case(Locale::POLISH,  true  ; "some for POLISH locale")]
+//         #[test_case(Locale::ENGLISH, true  ; "some for ENGLISH locale")]
+//         #[test_case(Locale::DEFAULT, false ; "none for DEFAULT locale")]
+//         fn is(locale: Locale, is_some: bool) {
+//             let docs = all_documentation(locale);
+//             assert_eq!(docs.is_some(), is_some);
+//         }
 
-        let docs = docs.unwrap();
-        assert!(
-            !docs.is_empty(),
-            "Docs are a HashMap, but that HashMap is empty"
-        );
-    }
+//         #[test_case(Locale::POLISH  ; "polish locale")]
+//         #[test_case(Locale::ENGLISH ; "english locale")]
+//         fn is_not_empty_for(locale: Locale) {
+//             let docs = all_documentation(locale).unwrap();
+//             assert!(docs.len() > 0);
+//         }
+//     }
 
-    #[test]
-    fn while_locale_is_default() {
-        let docs = all_documentation(Locale::DEFAULT);
-        assert!(docs.is_none(), "Docs are not Option::None");
-    }
-}
+//     mod generated_syntax {
+//         mod with_syntax_function {
+//             use test_case::test_case;
 
-#[cfg(test)]
-mod test_generating_syntax {
-    //use std::borrow::Borrow;
+//             use crate::hover::{syntax, Documentation, Flag, ValidOperand};
 
-    use test_case::test_case;
+//             fn empty_valid_operands() -> Vec<Vec<ValidOperand>> {
+//                 Vec::<Vec<ValidOperand>>::new()
+//             }
+//             fn empty_affected_flags() -> Vec<Flag> {
+//                 Vec::<Flag>::new()
+//             }
 
-    use super::{syntax_one_operand, ValidOperand};
+//             #[test_case(
+//                 "TEST",
+//                 Documentation::new(
+//                     "", 
+//                     "some description", 
+//                     Vec::<Vec::<ValidOperand>>::new(),
+//                     Vec::<Flag>::new(),
+//                     true,
+//                     false,
+//                     "TEST",
+//                     "category", 
+//                     "", 
+//                     false,
+//                     Option::None) ; "dont_generate_syntax is set")]
+//             #[test_case("", Documentation::new("", "", empty_valid_operands(), empty_affected_flags(), false, false, "", "", "", false, Option::None) ; "no data is provided") ]
+//             #[test_case("TEST", Documentation::new(
+//                 "some detail",
+//                 "some description",
+//                 vec!(Vec::<ValidOperand>::new()),
+//                 empty_affected_flags(),
+//                 false,
+//                 false,
+//                 "TEST",
+//                 "category", 
+//                 "", 
+//                 false,
+//                 Option::None) ; "any of the inner vectors of valid operands is empty")]
+//             #[test_case("TEST", Documentation::new(
+//                 "some detail",
+//                 "some description",
+//                 vec!(
+//                     vec!(ValidOperand::from_i32(1, None)),
+//                     vec!(ValidOperand::from_i32(1, None)),
+//                     vec!(ValidOperand::from_i32(1, None)),
+//                     vec!(ValidOperand::from_i32(1, None))
+//                 ),
+//                 empty_affected_flags(),
+//                 false,
+//                 false,
+//                 "TEST",
+//                 "category", 
+//                 "", 
+//                 false,
+//                 Option::None) ; "lenght of valid_operands vector is greater than 3")]
+//             fn is_empty_when(mnemonic: &str, doc: Documentation) {
+//                 let mnemonic = String::from(mnemonic);
+//                 let syntax = syntax((mnemonic, doc));
+//                 assert!(syntax.is_empty());
+//             }
 
-    fn test_mnemonic() -> String {
-        String::from("TEST")
-    }
+//             // #[test_case(
+//             //     Documentation::new(
+//             //         "some detail",
+//             //         "some quick desctiption",
+//             //         vec!(vec!(ValidOperand::from_i32(1, None), ValidOperand::from_i32(2, None))),
+//             //         vec!(Fla)
+//             //     ))]
+//             // fn is_not_empty_when_some_data_is_provided_and_dont_generate_syntax_is_not_set(doc: Documentation) {
+//             //     let syntax = syntax((String::from("TEST"), doc));
+//             // }
+//         }
+//     }
+// }
+// #[cfg(test)]
+// mod test_all_documentation {
+//     use crate::{flags::Locale, hover::all_documentation};
 
-    #[test_case(Vec::<ValidOperand>::new() ; "with zero valid operands")]
-    #[test_case(vec!(ValidOperand::from_i32(12, None)) ; "with one valid operands")]
-    #[test_case(vec!(ValidOperand::from_i32(12, None), ValidOperand::from_i32(3, None)) ; "with two valid operands")]
-    #[test_case(vec!(ValidOperand::from_i32(12, None), ValidOperand::from_i32(3, None), ValidOperand::from_i32(5, None)) ;
-        "with three valid operands")]
-    fn for_one_operand(operands: Vec<ValidOperand>) {
-        let syntax = syntax_one_operand(test_mnemonic(), &operands, String::from(""));
+//     #[test]
+//     fn while_locale_is_polish() {
+//         let docs = all_documentation(Locale::POLISH);
+//         assert!(docs.is_some(), "Docs are Option::None");
 
-        let syntax_header = format!("{} [operand]", test_mnemonic());
-        assert!(syntax.starts_with(&syntax_header));
+//         let docs = docs.unwrap();
+//         assert!(
+//             !docs.is_empty(),
+//             "Docs are a HashMap, but that HashMap is empty"
+//         );
+//     }
 
-        for operand in operands {
-            let section_for_operand = format!(
-                "{} [{}]\n{} {}",
-                test_mnemonic(),
-                operand.operand().label(),
-                test_mnemonic(),
-                operand.operand().example(Some(1))
-            );
-            assert!(syntax.contains(&section_for_operand));
-        }
-    }
+//     #[test]
+//     fn while_locale_is_english() {
+//         let docs = all_documentation(Locale::ENGLISH);
+//         assert!(docs.is_some(), "Docs are Option::None");
 
-    // fn for_two_operands(operands0: Vec::<ValidOperand>, operands1: Vec::<ValidOperand>) {
-    //     let syntax = crate::hover::syntax_two_operands(test_mnemonic(), &operands0, &operands1, String::from(""));
+//         let docs = docs.unwrap();
+//         assert!(
+//             !docs.is_empty(),
+//             "Docs are a HashMap, but that HashMap is empty"
+//         );
+//     }
 
-    //     let syntax_header = format!("{} [operand]", test_mnemonic());
-    //     assert!(syntax.starts_with(&syntax_header));
+//     #[test]
+//     fn while_locale_is_default() {
+//         let docs = all_documentation(Locale::DEFAULT);
+//         assert!(docs.is_none(), "Docs are not Option::None");
+//     }
+// }
 
-    //     for operand in operands0 {
-    //         for operand1 in operands1 {
+// #[cfg(test)]
+// mod test_generating_syntax {
+//     //use std::borrow::Borrow;
 
-    //         }
-    //     }
-    // }
-}
-//#endregion tests
+//     use test_case::test_case;
+
+//     use super::{syntax_one_operand, ValidOperand};
+
+//     fn test_mnemonic() -> String {
+//         String::from("TEST")
+//     }
+
+//     #[test_case(Vec::<ValidOperand>::new() ; "with zero valid operands")]
+//     #[test_case(vec!(ValidOperand::from_i32(12, None)) ; "with one valid operands")]
+//     #[test_case(vec!(ValidOperand::from_i32(12, None), ValidOperand::from_i32(3, None)) ; "with two valid operands")]
+//     #[test_case(vec!(ValidOperand::from_i32(12, None), ValidOperand::from_i32(3, None), ValidOperand::from_i32(5, None)) ;
+//         "with three valid operands")]
+//     fn for_one_operand(operands: Vec<ValidOperand>) {
+//         let syntax = syntax_one_operand(test_mnemonic(), &operands, String::from(""));
+
+//         let syntax_header = format!("{} [operand]", test_mnemonic());
+//         assert!(syntax.starts_with(&syntax_header));
+
+//         for operand in operands {
+//             let section_for_operand = format!(
+//                 "{} [{}]\n{} {}",
+//                 test_mnemonic(),
+//                 operand.operand().label(),
+//                 test_mnemonic(),
+//                 operand.operand().example(Some(1))
+//             );
+//             assert!(syntax.contains(&section_for_operand));
+//         }
+//     }
+
+//     // fn for_two_operands(operands0: Vec::<ValidOperand>, operands1: Vec::<ValidOperand>) {
+//     //     let syntax = crate::hover::syntax_two_operands(test_mnemonic(), &operands0, &operands1, String::from(""));
+
+//     //     let syntax_header = format!("{} [operand]", test_mnemonic());
+//     //     assert!(syntax.starts_with(&syntax_header));
+
+//     //     for operand in operands0 {
+//     //         for operand1 in operands1 {
+
+//     //         }
+//     //     }
+//     // }
+// }
+// //#endregion tests

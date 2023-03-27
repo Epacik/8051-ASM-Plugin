@@ -4,5 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="QaD8051JDE.Views.NamedItemView">
-  <TextBlock Text="{Binding Name}"/>
+    <StackPanel Orientation="Horizontal">
+        <!--<TextBlock Text="* " IsVisible="{Binding IsDirty}"/>-->
+        <TextBlock Text="{Binding Name}"/>
+    </StackPanel>
 </UserControl>
