@@ -62,7 +62,7 @@ function getServerOptions(extensionUri: Uri): ServerOptions {
 	if (DEBUG) {
 		return () => {
 
-			let socket = net.connect({ port: 8050, });
+			let socket = net.connect({ port: 8050, timeout: 30000 });
 			let result: StreamInfo = {
 				writer: socket,
 				reader: socket
@@ -78,6 +78,9 @@ function getServerOptions(extensionUri: Uri): ServerOptions {
 		return {
 			command: path,
 			args: [ "--use-stdio" ],
+            options: {
+                shell: false,
+            }
 		};
 	}
 }

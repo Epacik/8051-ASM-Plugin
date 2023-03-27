@@ -47,6 +47,14 @@ operand-unknown            = [UNKNOWN]
 
 operand-example-label      = LABEL
 
+# addressing modes
+addressingMode-Implied          = Implied
+addressingMode-Immediate        = Immediate
+addressingMode-Register         = Register
+addressingMode-Direct           = Direct
+addressingMode-RegisterIndirect = RegisterIndirect
+addressingMode-Indexed          = Indexed
+
 # categories
 category-registers       = Registers
 category-program_control = Program control instructions

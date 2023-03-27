@@ -20,5 +20,6 @@
   "asm8051.views.documentationPanel.categories.dsm51": "DSM-51",
   "asm8051.views.documentationPanel.sections.syntax": "Syntax",
   "asm8051.views.documentationPanel.sections.validOperands": "Valid operands",
-  "asm8051.views.documentationPanel.sections.affectedFlags": "Affected flags"
+  "asm8051.views.documentationPanel.sections.affectedFlags": "Affected flags",
+  "asm8051.views.documentationPanel.sections.addressingModes": "Addressing modes"
 }

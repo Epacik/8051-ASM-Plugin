@@ -250,9 +250,9 @@ pub(crate) fn generate_addressing_modes(addressing_modes: &[AddressingMode]) -> 
     let mut result = String::new();
 
     for mode in addressing_modes {
-        result.push_str("- **");
+        result.push_str("- ");
         result.push_str(mode.label().as_str());
-        result.push_str("**: ");
+        result.push_str("\n");
     }
 
     result
@@ -269,7 +269,7 @@ pub(crate) fn documentation(
     locale: Locale,
 ) -> Vec<MarkedString> {
 
-    let (tokens, _) = asm8051_parser::lexer::lexical_analisys(document.borrow().text.clone());
+    let (tokens, _) = asm8051_parser::lexer::lexical_analisys(&document.borrow().text);
     let ast = match tokens {
         Some(s) => s,
         None => return Vec::new(),
@@ -811,94 +811,6 @@ trait Label {
     }
 }
 
-impl Label for FlagType {
-    fn label(&self) -> String {
-        match self {
-            FlagType::Parity => format!("{} [P]", localize!("flag-parity")),
-            FlagType::UserDefined => format!("{}", localize!("flag-userDefined")),
-            FlagType::Overflow => format!("{} [OV]", localize!("flag-overflow")),
-            FlagType::RegisterBankSelect0 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
-            FlagType::RegisterBankSelect1 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
-            FlagType::Flag0 => format!("{} [F0]", localize!("flag-flag0")),
-            FlagType::AuxiliaryCarry => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
-            FlagType::Carry => format!("{} [CY]", localize!("flag-carry")),
-        }
-    }
-}
-
-
-impl Label for PossibleOperand {
-    fn label(&self) -> String {
-        match self {
-            PossibleOperand::Any => localize!("operand-any"),
-            PossibleOperand::CodeAddress => localize!("operand-codeAddress"),
-            PossibleOperand::Label => localize!("operand-label"),
-            PossibleOperand::Data => localize!("operand-byte"),
-            PossibleOperand::Data16 => localize!("operand-twoBytes"),
-            PossibleOperand::InternalRamAddress => localize!("operand-internalRamAddress"),
-            PossibleOperand::AddressInR0OrR1 => localize!("operand-indirectR0OrR1"),
-            PossibleOperand::HelperRegisters => localize!("operand-helperRegister"),
-            PossibleOperand::CarryFlag => localize!("operand-carryFlag"),
-            PossibleOperand::BitAddress => localize!("operand-bitAddress"),
-            PossibleOperand::NegatedBitAddress => localize!("operand-negatedBitAddress"),
-            PossibleOperand::RelativeAddress => localize!("operand-relativeAddress"),
-            PossibleOperand::Accumulator => localize!("operand-A"),
-            PossibleOperand::AccumulatorAndB => localize!("operand-AB"),
-            PossibleOperand::AddressInAccumulatorPlusDptr => localize!("operand-A_DPTR"),
-            PossibleOperand::Dptr => localize!("operand-DPTR"),
-            PossibleOperand::AddressInDptr => localize!("operand-indirectDPTR"),
-            PossibleOperand::AddressInAccumulatorPlusPC => localize!("operand-indirectA_PC"),
-            PossibleOperand::AbsoluteAddress => localize!("operand-absoluteAddress"),
-            PossibleOperand::RegisterB => localize!("operand-B"),
-            PossibleOperand::Dpl => localize!("operand-DPL"),
-            PossibleOperand::Dph => localize!("operand-DPH"),
-
-            PossibleOperand::HexNumber => localize!("operand-hex"),
-            PossibleOperand::BinaryNumber => localize!("operand-bin"),
-            PossibleOperand::DecimalNumber => localize!("operand-dec"),
-            PossibleOperand::AsciiCharacters => localize!("operand-ascii"),
-        }
-    }
-
-    fn example(&self, i: Option<i32>) -> String {
-        let r_address = format!("@R{}", i.unwrap_or(0));
-        let r = format!("R{}", i.unwrap_or(0));
-        let label = localize!("operand-example-label");
-
-        (match self {
-            PossibleOperand::CodeAddress => "23H",
-            PossibleOperand::Label => label.as_str(),
-            PossibleOperand::Data => "#32H",
-            PossibleOperand::Data16 => "#5C6H",
-            PossibleOperand::InternalRamAddress => "23H",
-            PossibleOperand::AddressInR0OrR1 => r_address.as_str(),
-            PossibleOperand::HelperRegisters => r.as_str(),
-            PossibleOperand::CarryFlag => "C",
-            PossibleOperand::BitAddress => "23H",
-            PossibleOperand::NegatedBitAddress => "/23H",
-            PossibleOperand::RelativeAddress => "23H",
-            PossibleOperand::Accumulator => "A",
-            PossibleOperand::AccumulatorAndB => "AB",
-            PossibleOperand::AddressInAccumulatorPlusDptr => "@A+DPTR",
-            PossibleOperand::Dptr => "DPTR",
-            PossibleOperand::AddressInDptr => "@DPTR",
-            PossibleOperand::AddressInAccumulatorPlusPC => "@A+PC",
-            PossibleOperand::AbsoluteAddress => "100h",
-            PossibleOperand::RegisterB => "B",
-            PossibleOperand::Dpl => "DPL",
-            PossibleOperand::Dph => "DPH",
-
-            PossibleOperand::HexNumber => "56h",
-            PossibleOperand::BinaryNumber => "010101011b",
-            PossibleOperand::DecimalNumber => "63",
-            PossibleOperand::AsciiCharacters => "'Lorem ipsum'",
-            _ => "",
-        })
-        .to_string()
-    }
-}
-
-
 #[allow(dead_code)]
 #[derive(Default, Clone, Debug)]
 pub struct Documentation {
@@ -1043,6 +955,21 @@ pub enum FlagType {
     Carry               = 7
 }
 
+impl Label for FlagType {
+    fn label(&self) -> String {
+        match self {
+            FlagType::Parity => format!("{} [P]", localize!("flag-parity")),
+            FlagType::UserDefined => format!("{}", localize!("flag-userDefined")),
+            FlagType::Overflow => format!("{} [OV]", localize!("flag-overflow")),
+            FlagType::RegisterBankSelect0 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
+            FlagType::RegisterBankSelect1 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
+            FlagType::Flag0 => format!("{} [F0]", localize!("flag-flag0")),
+            FlagType::AuxiliaryCarry => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
+            FlagType::Carry => format!("{} [CY]", localize!("flag-carry")),
+        }
+    }
+}
+
 impl TryFrom<i32> for FlagType {
     type Error = ();
 
@@ -1097,6 +1024,76 @@ pub enum PossibleOperand {
     AsciiCharacters              = 103,
 }
 
+impl Label for PossibleOperand {
+    fn label(&self) -> String {
+        match self {
+            PossibleOperand::Any => localize!("operand-any"),
+            PossibleOperand::CodeAddress => localize!("operand-codeAddress"),
+            PossibleOperand::Label => localize!("operand-label"),
+            PossibleOperand::Data => localize!("operand-byte"),
+            PossibleOperand::Data16 => localize!("operand-twoBytes"),
+            PossibleOperand::InternalRamAddress => localize!("operand-internalRamAddress"),
+            PossibleOperand::AddressInR0OrR1 => localize!("operand-indirectR0OrR1"),
+            PossibleOperand::HelperRegisters => localize!("operand-helperRegister"),
+            PossibleOperand::CarryFlag => localize!("operand-carryFlag"),
+            PossibleOperand::BitAddress => localize!("operand-bitAddress"),
+            PossibleOperand::NegatedBitAddress => localize!("operand-negatedBitAddress"),
+            PossibleOperand::RelativeAddress => localize!("operand-relativeAddress"),
+            PossibleOperand::Accumulator => localize!("operand-A"),
+            PossibleOperand::AccumulatorAndB => localize!("operand-AB"),
+            PossibleOperand::AddressInAccumulatorPlusDptr => localize!("operand-A_DPTR"),
+            PossibleOperand::Dptr => localize!("operand-DPTR"),
+            PossibleOperand::AddressInDptr => localize!("operand-indirectDPTR"),
+            PossibleOperand::AddressInAccumulatorPlusPC => localize!("operand-indirectA_PC"),
+            PossibleOperand::AbsoluteAddress => localize!("operand-absoluteAddress"),
+            PossibleOperand::RegisterB => localize!("operand-B"),
+            PossibleOperand::Dpl => localize!("operand-DPL"),
+            PossibleOperand::Dph => localize!("operand-DPH"),
+
+            PossibleOperand::HexNumber => localize!("operand-hex"),
+            PossibleOperand::BinaryNumber => localize!("operand-bin"),
+            PossibleOperand::DecimalNumber => localize!("operand-dec"),
+            PossibleOperand::AsciiCharacters => localize!("operand-ascii"),
+        }
+    }
+
+    fn example(&self, i: Option<i32>) -> String {
+        let r_address = format!("@R{}", i.unwrap_or(0));
+        let r = format!("R{}", i.unwrap_or(0));
+        let label = localize!("operand-example-label");
+
+        (match self {
+            PossibleOperand::CodeAddress => "23H",
+            PossibleOperand::Label => label.as_str(),
+            PossibleOperand::Data => "#32H",
+            PossibleOperand::Data16 => "#5C6H",
+            PossibleOperand::InternalRamAddress => "23H",
+            PossibleOperand::AddressInR0OrR1 => r_address.as_str(),
+            PossibleOperand::HelperRegisters => r.as_str(),
+            PossibleOperand::CarryFlag => "C",
+            PossibleOperand::BitAddress => "23H",
+            PossibleOperand::NegatedBitAddress => "/23H",
+            PossibleOperand::RelativeAddress => "23H",
+            PossibleOperand::Accumulator => "A",
+            PossibleOperand::AccumulatorAndB => "AB",
+            PossibleOperand::AddressInAccumulatorPlusDptr => "@A+DPTR",
+            PossibleOperand::Dptr => "DPTR",
+            PossibleOperand::AddressInDptr => "@DPTR",
+            PossibleOperand::AddressInAccumulatorPlusPC => "@A+PC",
+            PossibleOperand::AbsoluteAddress => "100h",
+            PossibleOperand::RegisterB => "B",
+            PossibleOperand::Dpl => "DPL",
+            PossibleOperand::Dph => "DPH",
+
+            PossibleOperand::HexNumber => "56h",
+            PossibleOperand::BinaryNumber => "010101011b",
+            PossibleOperand::DecimalNumber => "63",
+            PossibleOperand::AsciiCharacters => "'Lorem ipsum'",
+            _ => "",
+        })
+        .to_string()
+    }
+}
 
 impl TryFrom<i32> for PossibleOperand {
     type Error = ();
@@ -1151,12 +1148,12 @@ pub enum AddressingMode {
 impl Label for AddressingMode {
     fn label(&self) -> String {
         match self {
-            AddressingMode::Implied => String::from("Implied"),
-            AddressingMode::Immediate => String::from("Immediate"),
-            AddressingMode::Register => String::from("Register"),
-            AddressingMode::Direct => String::from("Direct"),
-            AddressingMode::RegisterIndirect => String::from("RegisterIndirect"),
-            AddressingMode::Indexed => String::from("Indexed"),
+            AddressingMode::Implied          => localize!("addressingMode-Implied"),
+            AddressingMode::Immediate        => localize!("addressingMode-Immediate"),
+            AddressingMode::Register         => localize!("addressingMode-Register"),
+            AddressingMode::Direct           => localize!("addressingMode-Direct"),
+            AddressingMode::RegisterIndirect => localize!("addressingMode-RegisterIndirect"),
+            AddressingMode::Indexed          => localize!("addressingMode-Indexed"),
         }
     }
 }

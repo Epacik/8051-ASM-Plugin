@@ -46,6 +46,14 @@ operand-unknown            = [NIEZNANY]
 
 operand-example-label      = ETYKIETA
 
+# addressing modes
+addressingMode-Implied          = Domniemany
+addressingMode-Immediate        = Natychmiastowy
+addressingMode-Register         = Rejestrowy
+addressingMode-Direct           = Bezpośredni 
+addressingMode-RegisterIndirect = Rejestrowy Pośredni
+addressingMode-Indexed          = Indeksowy
+
 
 # categories
 category-registers       = Rejestry

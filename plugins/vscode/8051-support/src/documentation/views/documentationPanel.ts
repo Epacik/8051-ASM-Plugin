@@ -127,7 +127,7 @@ export class DocumentationPanel extends DocumentationViewBase {
                 return;
             
             if(!isNullishOrWhitespace(header)){
-                result += `<h5>${header?.trim()}</h5>`;
+                result += `<h4>${header?.trim()}</h4>`;
             }
 
             result += `<p>${value?.trim()}</p>`;
@@ -188,6 +188,7 @@ export class DocumentationPanel extends DocumentationViewBase {
         insertSection("syntax", doc.syntax, "```asm8051\n", "\n```");
         insertSection("valid_operands", doc.valid_operands);
         insertSection("affected_flags", doc.affected_flags);
+        insertSection("addressing_modes", doc.addressing_modes);
 
         return result;
     }

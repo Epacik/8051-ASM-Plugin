@@ -20,5 +20,6 @@
   "asm8051.views.documentationPanel.categories.dsm51": "DSM-51",
   "asm8051.views.documentationPanel.sections.syntax": "Składnia",
   "asm8051.views.documentationPanel.sections.validOperands": "Dozwolone operandy",
-  "asm8051.views.documentationPanel.sections.affectedFlags": "Zmodyfikowane flagi"
+  "asm8051.views.documentationPanel.sections.affectedFlags": "Zmodyfikowane flagi",
+  "asm8051.views.documentationPanel.sections.addressingModes": "Tryby adresowania"
 }
