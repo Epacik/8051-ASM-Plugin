@@ -46,11 +46,11 @@ enum Targets {
     All       = (1 + 2 + 4);
 }
 
-if ($null -eq $Targets || $Targets.Count -eq 0) {
-    $Targets = [Targets]::All;
+$targetsToBuild = if ($null -eq $Targets || $Targets.Count -eq 0) {
+    [Targets]::All;
 }
 else {
-    $Targets = [Targets]$Targets;
+    [Targets]$Targets;
 }
 
 Set-Location "$PSScriptRoot";
@@ -108,7 +108,7 @@ Set-Location "$PSScriptRoot";
 
 #region build server
 
-Write-Output "Building language server for $Targets"
+Write-Output "Building language server for $targetsToBuild"
 $buildBin = if ($UseCargo) { "cargo" } else { "cross" };
 
 $binaries = @(
@@ -127,7 +127,7 @@ if ($Clean) {
 foreach ($binary in $binaries) {
     $target, $osTriple, $exeName, $os, $_ = $binary;
     
-    if ($Targets.HasFlag($target)) {
+    if ($targetsToBuild.HasFlag($target)) {
         Write-Output "Building for $osTriple";
         &"$buildBin build -r --target $osTriple";
         Write-Output "`n`n";
@@ -140,12 +140,12 @@ Set-Location $PSScriptRoot
 #region make vsix's
 
 Set-Location $vscodePluginDir
-Write-Output "Packaging plugin for $Targets"
+Write-Output "Packaging plugin for $targetsToBuild"
 
 foreach ($binary in $binaries) {
     $target, $osTriple, $exeName, $os, $_ = $binary;
 
-    if ($Targets.HasFlag($target)) { 
+    if ($targetsToBuild.HasFlag($target)) { 
         Write-Output "Building for $osTriple";
         Copy-Item "$serverDir/target/$osTriple/release/$exeName" -Destination "$vscodePluginDir/out/bin/$exeName" 
         Invoke-Expression -Command "vsce.ps1 package --target $os --pre-release --out `"$outDir/asm8051_$os-$version.vsix`""
