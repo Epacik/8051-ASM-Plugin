@@ -8,6 +8,7 @@ import { getWebviewUri } from "../../utilities/getUri";
 import DocumentationViewBase from "../documentationViewBase";
 import { LanguageClient } from "vscode-languageclient/node";
 import IOpenDocsArguments from "../IOpenDocsArguments";
+import { ClientState } from "../../clientState";
 
 
 export class DocumentationPanel extends DocumentationViewBase {
@@ -15,7 +16,7 @@ export class DocumentationPanel extends DocumentationViewBase {
     private readonly _panel: vscode.WebviewPanel;
     private _disposables: vscode.Disposable[] = [];
     
-    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, client: LanguageClient, args?: IOpenDocsArguments) {
+    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, client: ClientState, args?: IOpenDocsArguments) {
         super(client);
         console.log(localize('asm8051.views.documentationPanel.creatingView'));
         this._panel = panel;
@@ -30,11 +31,11 @@ export class DocumentationPanel extends DocumentationViewBase {
     }
 
 
-    public static render(extensionUri: vscode.Uri, client: LanguageClient, args?: IOpenDocsArguments) {
+    public static render(extensionUri: vscode.Uri, client: ClientState, args?: IOpenDocsArguments) {
         if (DocumentationPanel.currentPanel) {
             DocumentationPanel.currentPanel._panel.reveal(vscode.ViewColumn.Active);
             if (args !== undefined)
-                DocumentationPanel.currentPanel.show(args);
+                {DocumentationPanel.currentPanel.show(args);}
         }
         else { 
             const title = localize("asm8051.views.documentationPanel.title");
@@ -124,7 +125,7 @@ export class DocumentationPanel extends DocumentationViewBase {
 
         const insertSection = (header: NullishableString, value: NullishableString) => {
             if(isNullishOrWhitespace(value)) 
-                return;
+                {return;}
             
             if(!isNullishOrWhitespace(header)){
                 result += `<h4>${header?.trim()}</h4>`;
@@ -137,7 +138,7 @@ export class DocumentationPanel extends DocumentationViewBase {
             section = section.toUpperCase();
             const borderChar = '▨';
             if(isNullishOrWhitespace(parsed) || !parsed?.includes(borderChar + section)) 
-                return null;
+                {return null;}
            
             let startIndex = parsed.indexOf(borderChar + section);
             let endIndex = parsed.lastIndexOf(section + borderChar);
@@ -173,7 +174,7 @@ export class DocumentationPanel extends DocumentationViewBase {
         const borderChar = '▨';
 
         const insertSection = (section: string, value: NullishableString, valuePrefix: NullishableString = "", valueSuffix: NullishableString = "") => {
-            if(isNullishOrWhitespace(value)) return;
+            if(isNullishOrWhitespace(value)) {return;}
             
             section = section.toUpperCase();
             result += 

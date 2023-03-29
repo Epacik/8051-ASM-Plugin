@@ -1,16 +1,17 @@
 'use strict';
 import * as vscode from "vscode" ;
-import { LanguageClient } from "vscode-languageclient/node";
+import { LanguageClient, State } from "vscode-languageclient/node";
 import IDocumentation from "./documentation";
 import { NullishableString } from "../miscellaneousTypeAliases";
 import DocumentationViewBase from "./documentationViewBase";
 import IOpenDocsArguments from "./IOpenDocsArguments";
+import { ClientState } from "../clientState";
 
 export class DocumentationTreeProvider extends DocumentationViewBase implements vscode.TreeDataProvider<TreeItem>  {
 
     #data: TreeItem[] | undefined;
 
-    constructor(client: LanguageClient) {
+    constructor(client: ClientState) {
         super(client);
         this.#refresh.bind(this);
         vscode.commands.registerCommand("asm8051.refreshDocsTree", () => this.#onDidChangeTreeData.fire());
@@ -23,13 +24,14 @@ export class DocumentationTreeProvider extends DocumentationViewBase implements 
     }
 
     getChildren(element?: TreeItem|undefined): vscode.ProviderResult<TreeItem[]> {
-    if (element === undefined) {
-        if(this.#data === undefined) {
-            return this.#refresh();
+        if (element === undefined) {
+            if(this.#data === undefined) {
+                return this.#refresh();
+            }
+            return this.#data;
         }
-        return this.#data;
-    }
-    return element.children;
+        return element.children;
+        
     }
 
     async #refresh(): Promise<TreeItem[]> {
@@ -77,7 +79,7 @@ class TreeCommand implements vscode.Command {
     constructor(title: string, command: string, arg?: IOpenDocsArguments) {
         this.title     = title;
         this.command   = command;
-        this.arguments = [arg]
+        this.arguments = [arg];
     }
     title: string;
     command: string;
