@@ -1,5 +1,11 @@
 ## Release Notes
 
+### 0.2.1
+
+- Optimizing size of plugin
+
+- fixed failure to load documentation list in a sidebar
+
 ### 0.2.0
 
 - A lexer was added to improve parsing edited documents

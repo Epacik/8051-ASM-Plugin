@@ -42,6 +42,7 @@ Opening "8051 Documentation" side panel too soon after launch may result in empt
 ### 0.2.1
 
 - Optimizing size of plugin
+- fixed failure to load documentation list in a sidebar
 
 ### 0.2.0
 
