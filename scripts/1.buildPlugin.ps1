@@ -11,9 +11,6 @@ param (
     [Parameter(HelpMessage="Stops script from rebuilding a LSP Server")]
     [switch]$DontRebuildServer,
 
-    [Parameter(HelpMessage="Cleans the server target dir")]
-    [switch]$Clean,
-
     [Parameter(HelpMessage="Build release version")]
     [switch]$Release,
 
@@ -22,7 +19,10 @@ param (
     [string[]]$Targets,
 
     [Parameter(HelpMessage="Use cargo instead of cross")]
-    [switch]$UseCargo
+    [switch]$UseCargo,
+
+    [Parameter(HelpMessage="Publish packages")]
+    [switch]$Publish
 )
 
 function Remove-AllItems ([string] $directory) {
@@ -70,8 +70,15 @@ $minor = $version.Minor;
 $patch = $version.Build;
 
 # inc
-if ($IncrementMajor) { $major = ($major + 1) }
-if ($IncrementMinor) { $minor = ($minor + 1) }
+if ($IncrementMajor) { 
+    $major = ($major + 1);
+    $minor = 0;
+    $patch = 0;
+}
+if ($IncrementMinor) { 
+    $minor = ($minor + 1) 
+    $patch = 0;
+}
 if ($IncrementPatch) { $patch = ($patch + 1) }
 
 # convert back to string
@@ -93,6 +100,7 @@ Remove-AllItems $outDir
 #create vscode plugin out dir
 New-item -ItemType Directory -Path $vscodeOutDir -Force
 Remove-AllItems $vscodeOutDir
+New-item -ItemType Directory -Path "$vscodeOutDir/bin" -Force
 
 #region build typescript
 
@@ -106,10 +114,11 @@ Set-Location "$PSScriptRoot";
 
 #endregion
 
-#region build server
+#region build server and make vsix's
 
-Write-Output "Building language server for $targetsToBuild"
+Write-Output "Building language server, and packaging for $targetsToBuild"
 $buildBin = if ($UseCargo) { "cargo" } else { "cross" };
+$targetDir = if ($Release) { "release" } else { "debug" };
 
 $binaries = @(
     @([Targets]::Windows64, "x86_64-pc-windows-gnu", "asm8051_lsp.exe", "win32-x64"),
@@ -119,15 +128,16 @@ $binaries = @(
 
 Set-Location $serverDir
 
-if ($Clean) {
-    Write-Output "Cleaning server"
-    &"$buildBin clean"
-}
-
 foreach ($binary in $binaries) {
     $target, $osTriple, $exeName, $os, $_ = $binary;
     
     if ($targetsToBuild.HasFlag($target)) {
+        
+        Set-Location $serverDir
+
+        Write-Output "Cleaning server"
+        &"$buildBin" clean
+
         Write-Output "Building for $osTriple";
         if ($Release) {
             &"$buildBin" build --release --target $osTriple;
@@ -136,31 +146,22 @@ foreach ($binary in $binaries) {
             &"$buildBin" build --target $osTriple;
         }
         Write-Output "`n`n";
-    }
-}
 
-Set-Location $PSScriptRoot
-#endregion
+        Set-Location $vscodePluginDir
 
-#region make vsix's
+        Write-Host "`n Exe path: $serverDir/target/$osTriple/$targetDir/$exeName"
 
-Set-Location $vscodePluginDir
-Write-Output "Packaging plugin for $targetsToBuild"
-
-$targetDir = if($Release) { "release" } else { "debug" };
-
-foreach ($binary in $binaries) {
-    $target, $osTriple, $exeName, $os, $_ = $binary;
-
-    if ($targetsToBuild.HasFlag($target)) { 
-        Write-Output "Building for $osTriple";
-
-        Copy-Item "$serverDir/target/$osTriple/$targetDir/$exeName" -Destination "$vscodePluginDir/out/bin/$exeName" 
-        vsce package --target $os --pre-release --out "$outDir/asm8051_$os-$version.vsix"
+        Copy-Item "$serverDir/target/$osTriple/$targetDir/$exeName" -Destination "$vscodePluginDir/out/bin/" -Force
+        $outPath = "$outDir/asm8051_$os-$version.vsix"
+        vsce package --target $os --pre-release --out $outPath
         Remove-Item "$vscodePluginDir/out/bin/$exeName"
+        
+        if ($Publish) {
+            Write-Host "Publishing for $os"
+            vsce publish --packagePath $outPath --no-update-package-json --no-git-tag-version --noVerify
+        }
     }
 }
 
 Set-Location $PSScriptRoot
-
 #endregion
