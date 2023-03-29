@@ -107,7 +107,7 @@ New-item -ItemType Directory -Path "$vscodeOutDir/bin" -Force
 Write-Output "Building typescript for plugin, and copying styles"
 
 Set-Location $vscodePluginDir
-yarn
+npm install
 tsc
 Copy-Item -Recurse -Path "$vscodePluginDir/src/documentation/views/styles" -Destination "$vscodePluginDir/out/documentation/views/styles"
 Set-Location "$PSScriptRoot";
