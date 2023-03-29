@@ -147,12 +147,15 @@ Set-Location $PSScriptRoot
 Set-Location $vscodePluginDir
 Write-Output "Packaging plugin for $targetsToBuild"
 
+$targetDir = if($Release) { "release" } else { "debug" };
+
 foreach ($binary in $binaries) {
     $target, $osTriple, $exeName, $os, $_ = $binary;
 
     if ($targetsToBuild.HasFlag($target)) { 
         Write-Output "Building for $osTriple";
-        Copy-Item "$serverDir/target/$osTriple/release/$exeName" -Destination "$vscodePluginDir/out/bin/$exeName" 
+
+        Copy-Item "$serverDir/target/$osTriple/$targetDir/$exeName" -Destination "$vscodePluginDir/out/bin/$exeName" 
         vsce package --target $os --pre-release --out "$outDir/asm8051_$os-$version.vsix"
         Remove-Item "$vscodePluginDir/out/bin/$exeName"
     }
