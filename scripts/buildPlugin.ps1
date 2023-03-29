@@ -129,7 +129,7 @@ foreach ($binary in $binaries) {
     
     if ($targetsToBuild.HasFlag($target)) {
         Write-Output "Building for $osTriple";
-        &"$buildBin build -r --target $osTriple";
+        &"$buildBin" build -r --target $osTriple;
         Write-Output "`n`n";
     }
 }
