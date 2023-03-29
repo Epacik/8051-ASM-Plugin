@@ -31,15 +31,23 @@ foreach($dir in @("$PSScriptRoot/out/bin", "$PSScriptRoot/../out")) {
     }
 }
 
+Invoke-Expression -Command "yarn"
+Invoke-Expression -Command "$PSScriptRoot/node_modules/typescript/bin/tsc"
+if (Test-Path -Path "$PSScriptRoot/out/documentation/views/styles") {
+    Remove-item -Recurse -Force "$PSScriptRoot/out/documentation/views/styles"
+}
+Copy-Item -Recurse -Path "$PSScriptRoot/src/documentation/views/styles" -Destination "$PSScriptRoot/out/documentation/views/styles"
+
+
 if (-Not ($DontRebuildServer)) {
     #build server
-    Invoke-Expression -Command "$PSScriptRoot/../../../scripts/buildReleaseServer.ps1 $(if($Clean) { "-Clean" })"
+    Invoke-Expression -Command "$PSScriptRoot/../../../scripts/buildReleaseServer.ps1 -BuildFor Linux64,Windows32,Windows64 $(if($Clean) { "-Clean" })" -Verbose
 }
 
 $binaries = @(
-    @("x86_64-pc-windows-gnu", "lsp_server_8051_asm.exe", "win32-x64"), # windows 64 bit
-    @("i686-pc-windows-gnu", "lsp_server_8051_asm.exe", "win32-ia32"),    # windows 32 bit
-    @("x86_64-unknown-linux-gnu", "lsp_server_8051_asm", "linux-x64")       # linux 64 bit
+    @("x86_64-pc-windows-gnu", "asm8051_lsp.exe", "win32-x64"), # windows 64 bit
+    @("i686-pc-windows-gnu", "asm8051_lsp.exe", "win32-ia32"),    # windows 32 bit
+    @("x86_64-unknown-linux-gnu", "asm8051_lsp", "linux-x64")       # linux 64 bit
 )
 
 # build vsix
@@ -47,7 +55,7 @@ foreach($bins in $binaries) {
     $dir    = $bins[0]
     $bin    = $bins[1]
     $target = $bins[2]
-    Copy-Item "$PSScriptRoot/../../../server/lsp_server_8051_asm/target/$dir/release/$bin" -Destination "$PSScriptRoot/out/bin/$bin" 
+    Copy-Item "$PSScriptRoot/../../../server/asm8051_lsp/target/$dir/release/$bin" -Destination "$PSScriptRoot/out/bin/$bin" 
 
     Invoke-Expression -Command "vsce.ps1 package --target $target --pre-release --out `"$PSScriptRoot/../out/asm8051_$target-$version.vsix`""
 

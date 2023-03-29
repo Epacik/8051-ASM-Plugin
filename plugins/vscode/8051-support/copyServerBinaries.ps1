@@ -1,6 +1,6 @@
 Write-Output "copying server"
 try {
-    $process = Get-Process -Name "lsp_server_8051_asm" 
+    $process = Get-Process -Name "asm8051_lsp" 
     if($null -ne $process){
         Stop-Process -InputObject $process
     }
@@ -10,11 +10,11 @@ catch {}
 
 if ($IsLinux) {
     
-    Copy-Item "$PSScriptRoot/../../../server/lsp_server_8051_asm/target/x86_64-unknown-linux-gnu/release/lsp_server_8051_asm" "$PSScriptRoot/out/bin/lsp_server_8051_asm" 
+    Copy-Item "$PSScriptRoot/../../../server/asm8051_lsp/target/x86_64-unknown-linux-gnu/release/asm8051_lsp" "$PSScriptRoot/out/bin/asm8051_lsp" 
 }
 elseif ($IsWindows && [System.Environment]::Is64BitOperatingSystem) {
-    Copy-Item "$PSScriptRoot/../../../server/lsp_server_8051_asm/target/x86_64-pc-windows-gnu/release/lsp_server_8051_asm.exe" "$PSScriptRoot/out/bin/lsp_server_8051_asm.exe" 
+    Copy-Item "$PSScriptRoot/../../../server/asm8051_lsp/target/x86_64-pc-windows-gnu/release/asm8051_lsp.exe" "$PSScriptRoot/out/bin/asm8051_lsp.exe" 
 }
 elseif ($IsWindows) {
-    Copy-Item "$PSScriptRoot/../../../server/lsp_server_8051_asm/target/i686-pc-windows-gnu/release/lsp_server_8051_asm.exe" "$PSScriptRoot/out/bin/lsp_server_8051_asm.exe" 
+    Copy-Item "$PSScriptRoot/../../../server/asm8051_lsp/target/i686-pc-windows-gnu/release/asm8051_lsp.exe" "$PSScriptRoot/out/bin/asm8051_lsp.exe" 
 }

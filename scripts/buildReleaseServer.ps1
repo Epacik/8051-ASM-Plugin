@@ -29,29 +29,29 @@ foreach ($target in $BuildFor) {
 
 $location = Get-Location
 
-Set-Location "$PSScriptRoot/../server/lsp_server_8051_asm"
+Set-Location "$PSScriptRoot/../server/asm8051_lsp"
 
 if($Clean){
-    Invoke-Expression -Command "cross clean"
+    Invoke-Expression -Command "cargo clean"
 }
 
 if ($targets | HasTarget Windows64 ) {
     Write-Output "Building for x86_64-pc-windows-gnu"
-    cross build -r --target x86_64-pc-windows-gnu
+    cargo build -r --target x86_64-pc-windows-gnu
     Write-Output ""
     Write-Output ""
 }
 
 if ($targets | HasTarget Windows32) {
     Write-Output "Building for i686-pc-windows-gnu"
-    cross build -r --target i686-pc-windows-gnu
+    cargo build -r --target i686-pc-windows-gnu
     Write-Output ""
     Write-Output ""
 }
 
 if ($targets | HasTarget Linux64) {
     Write-Output "Building for x86_64-unknown-linux-gnu"
-    cross build -r --target x86_64-unknown-linux-gnu
+    cargo build -r --target x86_64-unknown-linux-gnu
     Write-Output ""
     Write-Output ""
 }
