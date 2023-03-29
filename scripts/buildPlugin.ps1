@@ -153,7 +153,7 @@ foreach ($binary in $binaries) {
     if ($targetsToBuild.HasFlag($target)) { 
         Write-Output "Building for $osTriple";
         Copy-Item "$serverDir/target/$osTriple/release/$exeName" -Destination "$vscodePluginDir/out/bin/$exeName" 
-        Invoke-Expression -Command "vsce.ps1 package --target $os --pre-release --out `"$outDir/asm8051_$os-$version.vsix`""
+        vsce package --target $os --pre-release --out "$outDir/asm8051_$os-$version.vsix"
         Remove-Item "$vscodePluginDir/out/bin/$exeName"
     }
 }
