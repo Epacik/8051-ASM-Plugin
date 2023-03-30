@@ -1,5 +1,8 @@
 ## Release Notes
 
+### 0.2.6
+
+ - Fixed script a documentation page script
 
 ### 0.2.3
 
