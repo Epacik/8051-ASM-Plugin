@@ -151,10 +151,11 @@ foreach ($binary in $binaries) {
 
         Write-Host "`n Exe path: $serverDir/target/$osTriple/$targetDir/$exeName"
 
-        Copy-Item "$serverDir/target/$osTriple/$targetDir/$exeName" -Destination "$vscodePluginDir/out/bin/" -Force
+        New-item -ItemType Directory -Path "$vscodeOutDir/bin" -Force
+        Copy-Item "$serverDir/target/$osTriple/$targetDir/$exeName" -Destination "$vscodeOutDir/bin/" -Force
         $outPath = "$outDir/asm8051_$os-$version.vsix"
         vsce package --target $os --pre-release --out $outPath
-        Remove-Item "$vscodePluginDir/out/bin/$exeName"
+        Remove-Item "$vscodeOutDir/bin/$exeName"
         
         if ($Publish) {
             Write-Host "Publishing for $os"

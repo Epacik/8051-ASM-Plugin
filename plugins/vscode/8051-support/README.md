@@ -39,10 +39,13 @@ Opening "8051 Documentation" side panel too soon after launch may result in empt
 
 ## Release Notes
 
+<<<<<<< HEAD
 ### 0.2.3
 
 - fixed parsing non-decimal numbers
 
+=======
+>>>>>>> main
 ### 0.2.2
 
 - Optimizing size of plugin
