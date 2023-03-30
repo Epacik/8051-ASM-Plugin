@@ -39,7 +39,11 @@ Opening "8051 Documentation" side panel too soon after launch may result in empt
 
 ## Release Notes
 
-### 0.2.1
+### 0.2.3
+
+- fixed parsing non-decimal numbers
+
+### 0.2.2
 
 - Optimizing size of plugin
 - fixed failure to load documentation list in a sidebar
