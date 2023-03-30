@@ -108,7 +108,7 @@ Write-Output "Building typescript for plugin, and copying styles"
 
 Set-Location $vscodePluginDir
 npm install
-tsc
+npx webpack
 Copy-Item -Recurse -Path "$vscodePluginDir/src/documentation/views/styles" -Destination "$vscodePluginDir/out/documentation/views/styles"
 Set-Location "$PSScriptRoot";
 
