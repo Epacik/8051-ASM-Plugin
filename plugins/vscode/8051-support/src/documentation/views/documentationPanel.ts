@@ -80,7 +80,7 @@ export class DocumentationPanel extends DocumentationViewBase {
         const scriptUri = getWebviewUri(webview, extensionUri, [ "out", "documentation", "views", "scripts", "documentationPanelScript.js" ]);
 
         const title = localize("asm8051.views.documentationPanel.title");
-        return /*html*/ `
+        const html = /*html*/ `
           <!DOCTYPE html>
           <html lang="en">
             <head>
@@ -98,10 +98,12 @@ export class DocumentationPanel extends DocumentationViewBase {
               </section>
               ${args !== undefined ? `<script defer>window.initialElement = ${JSON.stringify(args)};</script>` : ""}
 
-              <script>${panelScript}"</script>
+              <script defer>${panelScript}</script>
             </body>
           </html>
         `;
+
+        return html;
     }
 
     async #createDocsList(categorizedDocs: ([key: string, label: string, entries: ([name: string, data: IDocumentation])[]])[]): Promise<string> {
