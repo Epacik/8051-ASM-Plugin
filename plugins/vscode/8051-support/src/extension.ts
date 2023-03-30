@@ -1,26 +1,17 @@
 'use strict';
 //#region imports
-import { ExtensionContext, workspace, commands, window, MarkdownString, Uri } from 'vscode';
-
-import { Trace } from 'vscode-jsonrpc';
+import { ExtensionContext, workspace, Uri } from 'vscode';
 
 import {
-	Executable,
 	LanguageClient,
 	LanguageClientOptions,
 	ServerOptions,
-	StreamInfo,
-	TransportKind
-} from 'vscode-languageclient/node';
+	StreamInfo} from 'vscode-languageclient/node';
 
 import * as ChildProcess from "child_process";
 
 import * as net from 'net';
-import { DocumentationPanel } from './documentation/views/documentationPanel';
-import IDocumentation from './documentation/documentation';
 import { localize, init as initLocalization }  from 'vscode-nls-i18n';
-import { DocumentationTreeProvider } from './documentation/documentationTreeProvider';
-import IOpenDocsArguments from './documentation/IOpenDocsArguments';
 import { ClientState } from './clientState';
 
 const DEBUG: boolean = process.env.Debug8051Plugin?.trim()?.toLowerCase() === "true";

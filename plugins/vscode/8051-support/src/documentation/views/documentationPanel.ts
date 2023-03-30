@@ -10,6 +10,8 @@ import { LanguageClient } from "vscode-languageclient/node";
 import IOpenDocsArguments from "../IOpenDocsArguments";
 import { ClientState } from "../../clientState";
 
+import panelStyle from "./styles/documentationPanel.css";
+import panelScript from "./scripts/documentationPanelScript.jsa";
 
 export class DocumentationPanel extends DocumentationViewBase {
     public static currentPanel: DocumentationPanel | undefined;
@@ -77,8 +79,6 @@ export class DocumentationPanel extends DocumentationViewBase {
 
         const scriptUri = getWebviewUri(webview, extensionUri, [ "out", "documentation", "views", "scripts", "documentationPanelScript.js" ]);
 
-        const cssUri = getWebviewUri(webview, extensionUri, [ "src", "documentation", "views", "styles", "documentationPanel.css" ]);
-
         const title = localize("asm8051.views.documentationPanel.title");
         return /*html*/ `
           <!DOCTYPE html>
@@ -86,9 +86,9 @@ export class DocumentationPanel extends DocumentationViewBase {
             <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <link rel="stylesheet" href="${cssUri}">
               <script type="module" src="${toolkitUri}"></script>
               <script>window.exports = {};</script>
+              <style>${panelStyle}</style>
             </head>
             <body>
               <h1 class="documentationHeader">${title}</h1>
@@ -98,7 +98,7 @@ export class DocumentationPanel extends DocumentationViewBase {
               </section>
               ${args !== undefined ? `<script defer>window.initialElement = ${JSON.stringify(args)};</script>` : ""}
 
-              <script src="${scriptUri}"></script>
+              <script>${panelScript}"</script>
             </body>
           </html>
         `;

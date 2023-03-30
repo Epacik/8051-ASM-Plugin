@@ -14,8 +14,8 @@ export class ClientState {
         this.#context = context;
         this.#isReady = false;
         
-        client.trace = Trace.Verbose;
-        client.onReady().then(x => this.#isReady = true);
+        client.setTrace(Trace.Verbose);
+        //client.onReady().then(x => this.#isReady = true);
 
         window.registerTreeDataProvider("asm8051-docs-list", new DocumentationTreeProvider(this));
         this.#showPane = commands.registerCommand("asm8051.openDocs", (args?: IOpenDocsArguments) => this.openDocsCommand(context, args));
@@ -23,7 +23,7 @@ export class ClientState {
 
     public async getClient() : Promise<LanguageClient> {
         if (!this.#isReady){
-            await this.#client.onReady();
+            //await this.#client.onReady();
         }
 
         return this.#client;
@@ -34,7 +34,8 @@ export class ClientState {
     }
     
     start() {
-        this.#context.subscriptions.push(this.#client.start(), this.#showPane);
+        this.#client.start();
+        this.#context.subscriptions.push(this.#showPane);
     }
     stop() {
         this.#client.stop();

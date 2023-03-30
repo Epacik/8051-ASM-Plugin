@@ -18,7 +18,7 @@
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
-			"preLaunchTask": "tsc"
+			"preLaunchTask": "build"
 		},
 		{
 			"name": "Run Extension",

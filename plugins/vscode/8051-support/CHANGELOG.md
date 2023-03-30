@@ -6,6 +6,8 @@
 
 - fixed failure to load documentation list in a sidebar
 
+- packaging language server with webpack
+
 ### 0.2.0
 
 - A lexer was added to improve parsing edited documents

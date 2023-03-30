@@ -3,6 +3,11 @@
 {
 	"version": "2.0.0",
 	"tasks": [
+        {
+            "label": "build",
+            "type": "npm",
+            "script": "compile"
+        },
 		{
 			"type": "typescript",
 			"label": "tsc",
@@ -17,7 +22,7 @@
 			"label": "copyServer",
 			"command": "pwsh",
 			"args": ["./copyServerBinaries.ps1"],
-			"dependsOn":["tsc"]
+			"dependsOn":["build"]
 		}
 	]
 }
