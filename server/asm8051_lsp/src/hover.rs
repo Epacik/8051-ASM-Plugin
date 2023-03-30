@@ -574,7 +574,7 @@ fn documentation_number(number: Number) -> Vec<MarkedString> {
     };
 
     let string = MarkedString::String(format!(
-        "{}: #{:b}b\n\n{}: #{:o}O\n\n{}: #{}\n\n{}: #{:X}h",
+        "{}: #{:b}B\n\n{}: #{:o}O\n\n{}: #{}\n\n{}: #{:X}H",
         label_binary, value, label_octal, value, label_decimal, value, label_hex, value
     ));
     vec![string]

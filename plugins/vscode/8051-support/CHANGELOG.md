@@ -1,6 +1,11 @@
 ## Release Notes
 
-### 0.2.1
+
+### 0.2.3
+
+- fixed parsing non-decimal numbers
+
+### 0.2.2
 
 - Optimizing size of plugin
 

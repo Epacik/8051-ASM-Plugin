@@ -312,13 +312,13 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 let num = next.content.clone();
 
                 let token = if num.is_hexadecimal() {
-                    Token::Number(Number::Hexadecimal(num))
+                    Token::Number(Number::Hexadecimal(strip_number_suffix(num)))
                 }
                 else if num.is_octal() {
-                    Token::Number(Number::Octal(num))
+                    Token::Number(Number::Octal(strip_number_suffix(num)))
                 }
                 else if num.is_binary() {
-                    Token::Number(Number::Octal(num))
+                    Token::Number(Number::Binary(strip_number_suffix(num)))
                 }
                 else if num.is_decimal() {
                     Token::Number(Number::Decimal(num))
@@ -345,13 +345,13 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
 
                 let content = item.content.clone();
                 let token = if content.is_hexadecimal() {
-                    Token::Address(Number::Hexadecimal(content))
+                    Token::Address(Number::Hexadecimal(strip_number_suffix(content)))
                 }
                 else if content.is_octal(){
-                    Token::Address(Number::Octal(content))
+                    Token::Address(Number::Octal(strip_number_suffix(content)))
                 }
                 else if content.is_binary() {
-                    Token::Address(Number::Octal(content))
+                    Token::Address(Number::Binary(strip_number_suffix(content)))
                 }
                 else if content.is_decimal() {
                     Token::Address(Number::Decimal(content))
@@ -531,6 +531,16 @@ fn escape_characters(content: String, position: Position) -> (String, Vec<Issue>
     }
 
     (escaped, issues)
+}
+
+fn strip_number_suffix(number: String) -> String {
+    if number == String::from("") || number.ends_with(|c| c != 'h' && c != 'H' && c != 'o' && c != 'O' && c != 'b' && c != 'B') {
+        return number;
+    }
+    let mut number = number.clone();
+    number.pop();
+
+    number
 }
 
 fn string_to_keyword(content: String) -> Keyword {
