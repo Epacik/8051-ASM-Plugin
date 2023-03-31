@@ -1,0 +1,90 @@
+{
+    "TF0;TF1": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "TR0;TR1": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "IE0;IE1": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "IT0;IT1": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "CY;PSW.7": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": true,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "AC;PSW.6": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": true,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "F0;PSW.5": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": true,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "RS1;PSW.4;RS0;PSW.3": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": true,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "OV;PSW.2": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": true,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "PSW.1": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "P;PSW.0": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    }
+}

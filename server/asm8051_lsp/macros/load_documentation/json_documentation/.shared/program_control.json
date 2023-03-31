@@ -1,0 +1,361 @@
+{
+    "CALL": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "codeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "ACALL": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "codeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "LCALL": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "codeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "RET": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": []
+    },
+    "RETI": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": []
+    },
+    "AJMP": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "codeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "LJMP": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "codeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "register"
+        ]
+    },
+    "SJMP": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "JMP": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "addressInAccumulatorPlusDptr",
+                    "when_first_is": "any"
+                },
+                {
+                    "operand": "codeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct",
+            "indexed"
+        ]
+    },
+    "CJNE": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "accumulator",
+                    "when_first_is": "any"
+                },
+                {
+                    "operand": "addressInR0OrR1",
+                    "when_first_is": "any"
+                },
+                {
+                    "operand": "helperRegisters",
+                    "when_first_is": "any"
+                }
+            ],
+            [
+                {
+                    "operand": "data",
+                    "when_first_is": "any"
+                },
+                {
+                    "operand": "internalRamAddress",
+                    "when_first_is": "accumulator"
+                }
+            ],
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [
+            "carry"
+        ],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "immediate",
+            "register",
+            "direct",
+            "registerIndirect"
+        ]
+    },
+    "DJNZ": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "internalRamAddress",
+                    "when_first_is": "any"
+                },
+                {
+                    "operand": "helperRegisters",
+                    "when_first_is": "any"
+                }
+            ],
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "register",
+            "direct"
+        ]
+    },
+    "JB": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "bitAddress",
+                    "when_first_is": "any"
+                }
+            ],
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "JBC": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "bitAddress",
+                    "when_first_is": "any"
+                }
+            ],
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "JC": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "JNC": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "JNB": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "bitAddress",
+                    "when_first_is": "any"
+                }
+            ],
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "JZ": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "JNZ": {
+        "valid_operands": [
+            [
+                {
+                    "operand": "relativeAddress",
+                    "when_first_is": "any"
+                }
+            ]
+        ],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": [
+            "direct"
+        ]
+    },
+    "NOP": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressing_modes": []
+    }
+}

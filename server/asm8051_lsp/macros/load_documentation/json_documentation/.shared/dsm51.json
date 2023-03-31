@@ -1,0 +1,184 @@
+{
+    "WRITE_TEXT": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "WRITE_DATA": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "WRITE_HEX": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "WRITE_INSTR": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "LCD_INIT": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "LCD_OFF": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "LCD_CLR": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "DELAY_US": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "DELAY_MS": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": true,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "DELAY_100MS": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "WAIT_ENTER": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "WAIT_ENTER_NW": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "TEST_ENTER": {
+        "valid_operands": [],
+        "affected_flags": [
+            "carry"
+        ],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "WAIT_ENT_ESC": {
+        "valid_operands": [],
+        "affected_flags": [
+            "carry"
+        ],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "WAIT_KEY": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "GET_NUM": {
+        "valid_operands": [],
+        "affected_flags": [
+            "carry"
+        ],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "BCD_HEX": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "HEX_BCD": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "MUL_2_2": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "MUL_3_1": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "DIV_2_1": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    },
+    "DIV_4_2": {
+        "valid_operands": [],
+        "affected_flags": [],
+        "dont_generate_syntax": false,
+        "dont_duplicate_in_all_docs": false,
+        "prefix_required": false,
+        "addressingModes": []
+    }
+}
