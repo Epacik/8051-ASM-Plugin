@@ -22,6 +22,8 @@ public partial class MainWindowViewModel : BaseViewModel
         (FileList?.DocumentationElements?.SelectedElement?.Name ?? ""))
         .Trim('/', ':', ' ');
 
+    public string SharedPath { get; internal set; }
+
     partial void OnSelectedLanguageChanged(NamedItemViewModel<string>? value)
     {
         if (FileList is not null)
@@ -36,7 +38,7 @@ public partial class MainWindowViewModel : BaseViewModel
             return;
         }
 
-        FileList = new(value.Item!);
+        FileList = new(value.Item!, SharedPath);
         FileList.PropertyChanged += FilesList_PropertyChanged;
 
         OnPropertyChanged(nameof(Title));

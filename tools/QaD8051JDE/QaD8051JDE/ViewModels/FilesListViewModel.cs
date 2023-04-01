@@ -1,32 +1,36 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
+using QaD8051JDE.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CategoryViewModel = QaD8051JDE.ViewModels.NamedItemViewModel<QaD8051JDE.Models.PartialDocumentationListItemModel>;
 
 namespace QaD8051JDE.ViewModels;
 public partial class FilesListViewModel : BaseViewModel
 {
     private readonly string _languagePath;
+    private readonly string _sharedPath;
     [ObservableProperty]
-    private NamedItemViewModel<string>[]? _categories;
+    private CategoryViewModel[]? _categories;
 
     [ObservableProperty]
-    private NamedItemViewModel<string>? _selectedCategory;
+    private CategoryViewModel? _selectedCategory;
 
     [ObservableProperty]
     private DocumentationElementListViewModel? _documentationElements;
 
-    public FilesListViewModel(string languagePath)
+    public FilesListViewModel(string languagePath, string sharedPath)
     {
         _languagePath = languagePath;
-        Load(languagePath);
+        _sharedPath = sharedPath;
+        Load(languagePath, _sharedPath);
     }
 
-    partial void OnSelectedCategoryChanged(NamedItemViewModel<string>? value)
+    partial void OnSelectedCategoryChanged(CategoryViewModel? value)
     {
         if (DocumentationElements is not null)
         {
@@ -47,10 +51,16 @@ public partial class FilesListViewModel : BaseViewModel
         OnPropertyChanged(nameof(DocumentationElements));
     }
 
-    private void Load(string lang)
+    private void Load(string langPath, string sharedPath)
     {
-        var files = Directory.GetFiles(lang!);
-        Categories = files.Select(x => new NamedItemViewModel<string>(Path.GetFileName(x), x))
+        var files = Directory.GetFiles(langPath!).Select(f => Path.GetFileName(f));
+        var sharedFiles = Directory.GetFiles(sharedPath).Select(f => Path.GetFileName(f));
+
+        Categories = files
+            .Concat(sharedFiles)
+            .Distinct()
+            .OrderBy(x => x)
+            .Select(x => new CategoryViewModel(x, new(x, sharedPath, langPath)))
             .ToArray();
     }
 }

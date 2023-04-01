@@ -59,9 +59,12 @@ namespace QaD8051JDE.Views
                 return;
             }
 
-            ViewModel.LanguageDirectories = Directory.GetDirectories(path)
+            ViewModel!.LanguageDirectories = Directory.GetDirectories(path)
                 .Select(x => new NamedItemViewModel<string>(Path.GetFileName(x), x))
+                .Where(x => x.Name != ".shared")
                 .ToArray();
+
+            ViewModel!.SharedPath = Path.Combine(path, ".shared");
 
         }
 
