@@ -1,199 +1,199 @@
 {
-    "ORG": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "absoluteAddress",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "DB": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "asciiCharacters",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "binaryNumber",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "decimalNumber",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "hexNumber",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "END": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "EQU": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "data",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "SET": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "data",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "DW": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "asciiCharacters",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "binaryNumber",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "decimalNumber",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "hexNumber",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "BIT": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "bitAddress",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "REG": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "IF": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "ELSE": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "ENDIF": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "MACRO": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "ENDM;MACEND": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": true,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "INCLUDE": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    },
-    "INCDIR": {
-        "valid_operands": [],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressingModes": []
-    }
+  "ORG": {
+    "valid_operands": [
+      [
+        {
+          "operand": "absoluteAddress",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "DB": {
+    "valid_operands": [
+      [
+        {
+          "operand": "asciiCharacters",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "binaryNumber",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "decimalNumber",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "hexNumber",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "END": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "EQU": {
+    "valid_operands": [
+      [
+        {
+          "operand": "data",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "SET": {
+    "valid_operands": [
+      [
+        {
+          "operand": "data",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "DW": {
+    "valid_operands": [
+      [
+        {
+          "operand": "asciiCharacters",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "binaryNumber",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "decimalNumber",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "hexNumber",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "BIT": {
+    "valid_operands": [
+      [
+        {
+          "operand": "bitAddress",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "REG": {
+    "valid_operands": [
+      [
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "IF": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "ELSE": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "ENDIF": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "MACRO": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "ENDM;MACEND": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "INCLUDE": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "INCDIR": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  }
 }

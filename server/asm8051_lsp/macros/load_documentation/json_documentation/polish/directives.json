@@ -2,258 +2,106 @@
   "ORG": {
     "detail": "Pocz\u0105tek",
     "description": "Definiuje wzgl\u0119dn\u0105 pozycj\u0119 kodu lub danych nast\u0119puj\u0105cych po tej dyrektywie.\r\n\r\nAdres musi zosta\u0107 podany jako liczba (dziesi\u0119tna b\u0105d\u017A szesnastkowa) lub jako proste wyra\u017Cenie bez niekompletnych referencji.\r\n\r\nW wyra\u017Ceniu mog\u0105 by\u0107 u\u017Cyte etykiety, adresy lub \u0027$\u0027 w celu uzyskania obecnej lokalizacji kodu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "absoluteAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DB": {
     "detail": "Zdefiniuj Bajt",
     "description": "Zdefiniuj Bajt.\r\n\r\nAlokuje bajt, lub wiele bajt\u00F3w, w pami\u0119ci.\r\n\r\nDane mog\u0105 by\u0107 zdefiniowane w postaci liczby binarnej, dziesi\u0119tnej, szesnastkowej, lub jako tekst ASCII.\r\n\r\nPojedyncza etykieta mo\u017Ce by\u0107 u\u017Cyta do zdefiniowania wielu sta\u0142ych liczbowych, umieszczaj\u0105c je po przecinku.\r\n\r\nKolejne liczby, oraz litery w tek\u015Bcie ASCII, mog\u0105 by\u0107 u\u017Cyte za pomoc\u0105 sk\u0142adni \u0060ETYKIETA\u002BN\u0060 gdzie N jest indeksem numeru kt\u00F3ry chcesz u\u017Cy\u0107.\r\n\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "asciiCharacters",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "binaryNumber",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "decimalNumber",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "hexNumber",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "ETYKIETA: ",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "END": {
     "detail": "Koniec modu\u0142u",
     "description": "Sygnalizuje koniec modu\u0142u.\r\n\r\nWszystko co znajduje si\u0119 po tej dyrektywie jest zignorowane.\r\n\r\nJe\u015Bli w pliku brakuje tej dyrektywy koniec pliku jest uznany za koniec modu\u0142u.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "EQU": {
     "detail": "Zdefiniuj sta\u0142\u0105",
     "description": "Definiuje sta\u0142\u0105 bez zabierania miejsca w pami\u0119ci programu.\r\n\r\nKa\u017Cde u\u017Cycie sta\u0142ej zostanie zast\u0105pione podczas asemblacji.\r\n\r\nWarto\u015B\u0107 sta\u0142ej nie mo\u017Ce by\u0107 zmieniona w dalszej cz\u0119\u015Bci pliku.\r\nAby zdefiniowa\u0107 sta\u0142\u0105 kt\u00F3r\u0105 mo\u017Cna zredefiniowa\u0107 nale\u017Cy u\u017Cy\u0107 dyrektywy SET.\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "NAZWA_STALEJ ",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "SET": {
     "detail": "Zdefiniuj lub redefiniuj sta\u0142\u0105",
     "description": "Definiuje sta\u0142\u0105 bez zabierania miejsca w pami\u0119ci programu.\r\n\r\nKa\u017Cde u\u017Cycie sta\u0142ej zostanie zast\u0105pione podczas asemblacji.\r\n\r\nWarto\u015B\u0107 sta\u0142ej mo\u017Ce by\u0107 zmieniona w dalszej cz\u0119\u015Bci pliku.\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "NAZWA_STALEJ ",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DW": {
     "detail": "Zdefiniuj S\u0142owo",
     "description": "Zdefiniuj S\u0142owo.\r\n\r\nAlokuje dwa bajty bajt, lub ich wielokrotno\u015B\u0107, w pami\u0119ci.\r\n\r\nDane mog\u0105 by\u0107 zdefiniowane w postaci liczby binarnej, dziesi\u0119tnej, szesnastkowej, lub jako tekst ASCII.\r\n\r\nPojedyncza etykieta mo\u017Ce by\u0107 u\u017Cyta do zdefiniowania wielu sta\u0142ych liczbowych, umieszczaj\u0105c je po przecinku.\r\n\r\nKolejne liczby, oraz litery w tek\u015Bcie ASCII, mog\u0105 by\u0107 u\u017Cyte za pomoc\u0105 sk\u0142adni \u0060ETYKIETA\u002BN\u0060 gdzie N jest indeksem numeru kt\u00F3ry chcesz u\u017Cy\u0107.\r\n\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "asciiCharacters",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "binaryNumber",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "decimalNumber",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "hexNumber",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "ETYKIETA: ",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "BIT": {
     "detail": "Zdefiniuj adres bitu",
     "description": "Zdefiniuj adres bitu.\r\n\r\nDefiniuje sta\u0142\u0105, kt\u00F3ra mo\u017Ce by\u0107 u\u017Cyta zamiast adresu bitu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "ETYKIETA ",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "REG": {
     "detail": "Zdefiniuj symbol rejestru",
     "description": "Zdefiniuj symbol rejestru.\r\n\r\nDefiniuje sta\u0142\u0105 kt\u00F3ra mo\u017Ce by\u0107 u\u017Cyta zamiast rejestru, lub adresu do wewn\u0119trznej pami\u0119ci. ",
-    "valid_operands": [
-      [
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "ETYKIETA ",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "IF": {
     "detail": "Asemblacja warunkowa",
     "description": "Asemblacja warunkowa.\r\n\r\nJe\u015Bli warunek zostanie zewaluowane jako TRUE (warto\u015B\u0107 inna ni\u017C 0) instrukcje wewn\u0105trz bloku IF zostan\u0105 zasemblowane.\r\n\r\nBlok IF zaczyna si\u0119 od dyrektywy IF i ko\u0144czy si\u0119 albo dyrektyw\u0105 ELSE lub ENDIF.\r\n\r\nJe\u015Bli zostanie u\u017Cyta dyrektywa ELSE instrukcje pomi\u0119dzy ELSE oraz ENDIF \r\n\r\nzostan\u0105 zasemblowane gdy warunek dyrektywy IF zostanie zewaluowany do FALSE (warto\u015B\u0107 r\u00F3wna 0).",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "ELSE": {
     "detail": "Alternatywna asemblacja warunkowa",
     "description": "Alternatywna asemblacja warunkowa.\r\n\r\nU\u017Cywane wraz z dyrektyw\u0105 ID.\r\n\r\nInstrukcje pomi\u0119dzy ELSE oraz ENDIF \r\n\r\nzostan\u0105 zasemblowane gdy warunek dyrektywy IF, poprzedzaj\u0105cej dyrektyw\u0119 ELSE, zostanie zewaluowany do FALSE (warto\u015B\u0107 r\u00F3wna 0).",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "ENDIF": {
     "detail": "Koniec asemblacji warunkowej",
     "description": "Koniec asemblacji warunkowej.\r\n\r\nU\u017Cywana do zako\u0144czenia bloku dyurektyw IF lub ELSE.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "MACRO": {
     "detail": "Makro",
     "description": "Pozwala na zdefiniowanie fragment\u00F3w kodu z parametrami kt\u00F3re mog\u0105 by\u0107 u\u017Cywane w podobny spos\u00F3b do standardowych mnemonik\u00F3w.\r\n\r\nBlok dyrektywy MACRO musi by\u0107 zako\u0144czony dyrektyw\u0105 ENDM lub dyrektyw\u0105 MACEND.\r\n\r\nWielko\u015B\u0107 liter w nazwach parametr\u00F3w jest brana pod uwag\u0119.\r\n\r\n\u0060\u0060\u0060\r\nNAZWA MACRO %PAR1, %PAR2\r\n\tINC %PAR1\r\n\tDEC %PAR2\r\n\tENDM\r\n\u0060\u0060\u0060",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "NAZWA_MAKRA ",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "ENDM;MACEND": {
     "detail": "Koniec makra",
     "description": "Definiuje koniec bloku dyrektywy MACRO",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "INCLUDE": {
     "detail": "Include a file",
     "description": "Include a file.\r\nInserts source code defined in another file into the current one.\r\nThis directive is typically used to import files with macro definitions, variables, and declarations or definitions of subroutines.\r\nIt may also be used to import files with assembly code",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "INCDIR": {
     "detail": "",
     "description": "",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   }
 }

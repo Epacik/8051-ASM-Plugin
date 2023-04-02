@@ -1,250 +1,250 @@
 {
-    "ADD": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ],
-            [
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [
-            "overflow",
-            "auxiliaryCarry",
-            "carry"
-        ],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "immediate",
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "ADDC": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ],
-            [
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [
-            "overflow",
-            "auxiliaryCarry",
-            "carry"
-        ],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "immediate",
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "SUBB": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ],
-            [
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [
-            "overflow",
-            "auxiliaryCarry",
-            "carry"
-        ],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "immediate",
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "INC": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "dptr",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "DEC": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "MUL": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulatorAndB",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [
-            "overflow",
-            "carry"
-        ],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    },
-    "DIV": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulatorAndB",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    },
-    "DA": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [
-            "carry"
-        ],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    }
+  "ADD": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [
+      "overflow",
+      "auxiliaryCarry",
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "ADDC": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [
+      "overflow",
+      "auxiliaryCarry",
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "SUBB": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [
+      "overflow",
+      "auxiliaryCarry",
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "INC": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "dptr",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "DEC": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "MUL": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulatorAndB",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [
+      "overflow",
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  },
+  "DIV": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulatorAndB",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  },
+  "DA": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  }
 }

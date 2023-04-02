@@ -1,338 +1,338 @@
 {
-    "ANL": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "carryFlag",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                }
-            ],
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "internalRamAddress"
-                },
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "accumulator"
-                },
-                {
-                    "operand": "bitAddress",
-                    "when_first_is": "carryFlag"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "internalRamAddress"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "accumulator"
-                },
-                {
-                    "operand": "negatedBitAddress",
-                    "when_first_is": "carryFlag"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "accumulator"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "immediate",
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "ORL": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "carryFlag",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                }
-            ],
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "internalRamAddress"
-                },
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "accumulator"
-                },
-                {
-                    "operand": "bitAddress",
-                    "when_first_is": "carryFlag"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "internalRamAddress"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "accumulator"
-                },
-                {
-                    "operand": "negatedBitAddress",
-                    "when_first_is": "carryFlag"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "accumulator"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "immediate",
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "XRL": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "carryFlag",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "internalRamAddress",
-                    "when_first_is": "any"
-                }
-            ],
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "internalRamAddress"
-                },
-                {
-                    "operand": "addressInR0OrR1",
-                    "when_first_is": "accumulator"
-                },
-                {
-                    "operand": "bitAddress",
-                    "when_first_is": "carryFlag"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "internalRamAddress"
-                },
-                {
-                    "operand": "data",
-                    "when_first_is": "accumulator"
-                },
-                {
-                    "operand": "negatedBitAddress",
-                    "when_first_is": "carryFlag"
-                },
-                {
-                    "operand": "helperRegisters",
-                    "when_first_is": "accumulator"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "immediate",
-            "register",
-            "direct",
-            "registerIndirect"
-        ]
-    },
-    "CLR": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "bitAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "carryFlag",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register",
-            "direct"
-        ]
-    },
-    "CPL": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "bitAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "carryFlag",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register",
-            "direct"
-        ]
-    },
-    "RL": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    },
-    "RLC": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [
-            "carry"
-        ],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    },
-    "RR": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    },
-    "RRC": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [
-            "carry"
-        ],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    },
-    "SWAP": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "accumulator",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "register"
-        ]
-    },
-    "SETB": {
-        "valid_operands": [
-            [
-                {
-                    "operand": "bitAddress",
-                    "when_first_is": "any"
-                },
-                {
-                    "operand": "carryFlag",
-                    "when_first_is": "any"
-                }
-            ]
-        ],
-        "affected_flags": [],
-        "dont_generate_syntax": false,
-        "dont_duplicate_in_all_docs": false,
-        "prefix_required": false,
-        "addressing_modes": [
-            "direct"
-        ]
-    }
+  "ANL": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "negatedBitAddress",
+          "when_first_is": "carryFlag"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "ORL": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "negatedBitAddress",
+          "when_first_is": "carryFlag"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "XRL": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "negatedBitAddress",
+          "when_first_is": "carryFlag"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "CLR": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "bitAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "direct"
+    ]
+  },
+  "CPL": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "bitAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "direct"
+    ]
+  },
+  "RL": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  },
+  "RLC": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  },
+  "RR": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  },
+  "RRC": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  },
+  "SWAP": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register"
+    ]
+  },
+  "SETB": {
+    "valid_operands": [
+      [
+        {
+          "operand": "bitAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "direct"
+    ]
+  }
 }

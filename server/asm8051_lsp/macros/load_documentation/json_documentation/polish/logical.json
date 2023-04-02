@@ -2,389 +2,88 @@
   "ANL": {
     "detail": "Bitowy AND",
     "description": "Przeprowadza bitow\u0105 operacj\u0119 AND pomi\u0119dzy operandami.\r\n\r\nNie wp\u0142ywa na warto\u015B\u0107 drugiego operandu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "negatedBitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "accumulator"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "immediate",
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "ORL": {
     "detail": "Bitowy OR",
     "description": "Przeprowadza bitow\u0105 operacj\u0119 OR pomi\u0119dzy operandami.\r\n\r\nNie wp\u0142ywa na warto\u015B\u0107 drugiego operandu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "negatedBitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "accumulator"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "immediate",
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "XRL": {
     "detail": "Bitowy XOR",
     "description": "Przeprowadza bitow\u0105 operacj\u0119 XOR pomi\u0119dzy operandami.\r\n\r\nNie wp\u0142ywa na warto\u015B\u0107 drugiego operandu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "negatedBitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "accumulator"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "immediate",
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "CLR": {
     "detail": "Wyczy\u015B\u0107",
     "description": "Czy\u015Bci (ustawia na 0) warto\u015B\u0107 Akumulatora, flagi Przeniesienia, lub bitu w pami\u0119ci RAM.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "direct"
-      ]
+    "label": null
   },
   "CPL": {
     "detail": "Uzupe\u0142nij",
     "description": "Uzupe\u0142nia (odwraca) warto\u015B\u0107 Akumulatora, flagi Przeniesienia, lub bitu w pami\u0119ci RAM\r\n\r\nFlaga Przeniesienia lub bit w pami\u0119ci RAM zostanie:\r\n - zresetowana (0) je\u015Bli by\u0142a ustawiona (1)\r\n - ustawiona (1) je\u015Bli by\u0142a zresetowana (0)\r\n\r\nKa\u017Cdy bit w Akumulatorze jest poddany temu samemu dzia\u0142aniu co flaga Przeniesienia lub bit w pami\u0119ci RAM.\r\n\r\n\u003E Je\u015Bli warto\u015B\u0107 Akumulatora wynosi\u0142a 10101001, zostanie ona zmieniona na 01010110\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "direct"
-      ]
+    "label": null
   },
   "RL": {
     "detail": "Obr\u00F3\u0107 w lewo",
     "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w lewo.\r\n\r\nWarto\u015B\u0107 najstarszego bitu jest przeniesiona do najm\u0142odszego bitu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register"
-      ]
+    "label": null
   },
   "RLC": {
     "detail": "Obr\u00F3\u0107 w lewo za po\u015Brednictwem flagi Przeniesienia",
     "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w lewo za po\u015Brednictwem flagi Przeniesienia.\r\n\r\nWarto\u015B\u0107 flagi Przeniesienia jest przeniesiona do najm\u0142odszego bitu.\r\n\r\nWarto\u015B\u0107 najstarszego bitu jest przeniesiona do flagi Przeniesienia.\r\n\r\nTa operacja mo\u017Ce by\u0107 u\u017Cyta do prostego mno\u017Cenia przez 2.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register"
-      ]
+    "label": null
   },
   "RR": {
     "detail": "Obr\u00F3\u0107 w prawo",
     "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w prawo.\r\n\r\nWarto\u015B\u0107 najm\u0142odszego bitu jest przeniesiona do najstarszego bitu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register"
-      ]
+    "label": null
   },
   "RRC": {
     "detail": "Obr\u00F3\u0107 w prawo za po\u015Brednictwem flagi Przeniesienia",
     "description": "Przesuwa warto\u015Bci bit\u00F3w przechowywanych w Akumulatorze w prawo za po\u015Brednictwem flagi Przeniesienia.\r\n\r\nWarto\u015B\u0107 flagi Przeniesienia jest przeniesiona do najstarszego bitu.\r\n\r\nWarto\u015B\u0107 najm\u0142odszego bitu jest przeniesiona do flagi Przeniesienia.\r\n\r\nTa operacja mo\u017Ce by\u0107 u\u017Cyta do prostego dzielenia przez 2.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register"
-      ]
+    "label": null
   },
   "SWAP": {
     "detail": "Zamie\u0144 p\u00F3\u0142bajty Akumulatora",
     "description": "Zamienia miejscami starszy p\u00F3\u0142bajt z m\u0142odszym p\u00F3\u0142bajtem.\r\n\r\nEfekt ko\u0144cowy jest taki sam jak obr\u00F3cenie warto\u015Bci Akumulatora 4 razy.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register"
-      ]
+    "label": null
   },
   "SETB": {
     "detail": "Ustaw bit",
     "description": "Ustawia (1) warto\u015B\u0107 flagi przeniesienia, lub bitu w pami\u0119ci RAM.",
-    "valid_operands": [
-      [
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "direct"
-      ]
+    "label": null
   }
 }

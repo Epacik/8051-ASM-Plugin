@@ -27,7 +27,7 @@ public partial class FilesListViewModel : BaseViewModel
     {
         _languagePath = languagePath;
         _sharedPath = sharedPath;
-        Load(languagePath, _sharedPath);
+        Load(languagePath, sharedPath);
     }
 
     partial void OnSelectedCategoryChanged(CategoryViewModel? value)

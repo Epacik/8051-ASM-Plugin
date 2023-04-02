@@ -2,406 +2,50 @@
   "MOV": {
     "detail": "Przenie\u015B dane",
     "description": "Przenie\u015B dane z drugiego operandu do pierwszego.\r\n\r\nOba operandy musz\u0105 znajdowa\u0107 si\u0119 w wewn\u0119trznej pami\u0119ci RAM.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dph",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dpl",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "bitAddress"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "data16",
-          "when_first_is": "dptr"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "dph"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": [
-      "immediate",
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "MOVC": {
     "detail": "Przenie\u015B z Kodu",
     "description": "Przenie\u015B dane z okre\u015Blonego adresu do Akumulatora.\r\n\r\nAdres jest obliczony dodaj\u0105c obecn\u0105 warto\u015B\u0107 w Akumulatorze do DPTR lub PC.\r\n\r\nPC jest inkrementowany przed dodawaniem.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInAccumulatorPlusDptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInAccumulatorPlusPC",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "indexed"
-      ]
+    "label": null
   },
   "MOVX": {
     "detail": "Przenie\u015B dane pomi\u0119dzy pami\u0119ci\u0105 zewn\u0119trzn\u0105 a Akumulatorem",
     "description": "Przenie\u015B dane pomi\u0119dzy pami\u0119ci\u0105 zewn\u0119trzn\u0105 a Akumulatorem.\r\n\r\nU\u017Cywa 8 lub 16 bitowego adresu do pami\u0119ci zewn\u0119trznej.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInDptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "addressInDptr"
-        },
-        {
-          "operand": "addressInDptr",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "accumulator"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "PUSH": {
     "detail": "Wstaw na stos",
     "description": "Inkrementuje Wska\u017Anik Stosu i umieszcza przekazan\u0105 wasto\u015B\u0107 w pod adresem wskazywanym przez Wska\u017Anik stosu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": [
-        "direct"
-    ]
+    "label": null
   },
   "POP": {
     "detail": "Zdejmij ze stosu",
     "description": "Sk\u0142aduje warto\u015B\u0107 wskazywan\u0105 przez Wska\u017Anik Stosu pod podanym adresem i dekrementuje Wska\u017Anik Stosu.",
-    "valid_operands": [
-      [
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": [
-        "direct"
-    ]
+    "label": null
   },
   "XCH": {
     "detail": "Zamie\u0144 bajty",
     "description": "Zamienia miejscami warto\u015B\u0107 Akumulatora i warto\u015B\u0107 operandu.\r\n\r\nPo wykonaniu tej operacji warto\u015B\u0107, kt\u00F3ra znajdowa\u0142a si\u0119 w operandzie b\u0119dzie znajdowa\u0107 w Akumulatorze,\r\n\r\na warto\u015B\u0107, kt\u00F3ra znajdowa\u0142a si\u0119 w Akumulatorze znajdzie si\u0119 w operandzie.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "XCHD": {
     "detail": "Zamie\u0144 cyfr\u0119",
     "description": "Zamienia miejscami dolne p\u00F3\u0142bajty (bity 0-3) Akumulatora i operandu.\r\n\r\nDolny p\u00F3\u0142bajt, kt\u00F3ry znajdowa\u0142 si\u0119 w Akumulatorze znajdzie si\u0119 w operandzie, \r\n\r\nnatomiast dolny p\u00F3\u0142bajt, kt\u00F3ry znajdowa\u0142 si\u0119 w operandzie znajdzie si\u0119 w Akumulatorze.\r\n\r\nTa operacja nie wp\u0142ywa na g\u00F3rne p\u00F3\u0142bajty (bity 4-7).",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "registerIndirect"
-      ]
+    "label": null
   }
 }

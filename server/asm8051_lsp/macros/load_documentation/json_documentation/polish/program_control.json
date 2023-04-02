@@ -2,403 +2,139 @@
   "CALL": {
     "detail": "Wywo\u0142aj podprogram",
     "description": "Wywo\u0142uje podprogram.\r\n\r\nUstawia warto\u015B\u0107 Licznika Programu (PC) na warto\u015B\u0107 nast\u0119pnej instrukcji, nast\u0119pnie umieszcza j\u0105 na stosie. \r\n\r\nNajm\u0142odszy bajt jest wstawiony jako pierwszy, nast\u0119pnie wstawiony zostaje najstarszy bajt.\r\n\r\nNast\u0119pnie warto\u015B\u0107 Licznika Programu (PC) jest aktualizowania by wskazywa\u0142a na adres podprogramu.\r\n\r\n**Ta instrukcja jest symbolem zast\u0119pczym. W procesie asemblacji jest u\u017Cyte ACALL lub LCALL, w zale\u017Cno\u015Bci kt\u00F3re z nich pasuje do sytuacji**\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "codeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "ACALL": {
     "detail": "Wywo\u0142anie absolutne",
     "description": "Wywp\u0142uje podprogram w zakresie 2K bloku pami\u0119ci.\r\n\r\nUstawia warto\u015B\u0107 Licznika Programu (PC) na warto\u015B\u0107 nast\u0119pnej instrukcji, nast\u0119pnie umieszcza j\u0105 na stosie. \r\n\r\nNajm\u0142odszy bajt jest wstawiony jako pierwszy, nast\u0119pnie wstawiony zostaje najstarszy bajt.\r\n\r\nNast\u0119pnie najm\u0142odszy bajt Licznika Programu (PC) jest zast\u0105piona m\u0142odszym bajtem adresu instrukcji ACALL,\r\n\r\na trzy najm\u0142odsze bity (0-2) starszego bajtu Licznika Programu (PC) bitami identyfikuj\u0105cymi stron\u0119.\r\n\r\nPozosta\u0142e bity najstarszego bajtu pozostaj\u0105 bez zmian.",
-    "valid_operands": [
-      [
-        {
-          "operand": "codeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "LCALL": {
     "detail": "Wywo\u0142anie d\u0142ugie",
     "description": "Wywo\u0142uje podprogram.\r\n\r\nUstawia warto\u015B\u0107 Licznika Programu (PC) na warto\u015B\u0107 nast\u0119pnej instrukcji, nast\u0119pnie umieszcza j\u0105 na stosie. \r\n\r\nNajm\u0142odszy bajt jest wstawiony jako pierwszy, nast\u0119pnie wstawiony zostaje najstarszy bajt.\r\n\r\nNast\u0119pnie warto\u015B\u0107 Licznika Programu (PC) jest aktualizowania by wskazywa\u0142a na adres podprogramu.\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "codeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "RET": {
     "detail": "Wr\u00F3\u0107 z podprogramu",
     "description": "Powraca z podprogramu wywo\u0142anego przez instrukcje LCALL lub ACALL.\r\n\r\nZdejmuje dwa bajty ze stosu a nast\u0119pnie umieszcza je w Liczniku Programu (PC).\r\n\r\nNajm\u0142odszy bajt jest zdj\u0119ty jako pierwszy.\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "RETI": {
     "detail": "Wr\u00F3\u0107 z przerwania",
     "description": "Aktywuje przerwania o mniejszym lub tym samym priorytecie jak ten z kt\u00F3regoprogram powraca,\r\n\r\nnast\u0119pnie zdejmuje dwa bajty ze stosu a nast\u0119pnie umieszcza je w Liczniku Programu (PC).\r\n\r\nNajm\u0142odszy bajt jest zdj\u0119ty jako pierwszy.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "AJMP": {
     "detail": "Skok Absolutny",
     "description": "Skacze do adresu w zasi\u0119gu 2K bloku pami\u0119ci.\r\n\r\nNajm\u0142odszy bajt Licznika Programu (PC) jest zast\u0105piona m\u0142odszym bajtem adresu instrukcji AJMP,\r\n\r\na trzy najm\u0142odsze bity (0-2) starszego bajtu Licznika Programu (PC) bitami identyfikuj\u0105cymi stron\u0119.\r\n\r\nPozosta\u0142e bity najstarszego bajtu pozostaj\u0105 bez zmian.",
-    "valid_operands": [
-      [
-        {
-          "operand": "codeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "LJMP": {
     "detail": "Skok D\u0142ugi",
     "description": "Skacze do podanego adresu.\r\n\r\nWarto\u015B\u0107 Licznika Programu (PC) jest aktualizowania by wskazywa\u0142a na podany adres.",
-    "valid_operands": [
-      [
-        {
-          "operand": "codeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "SJMP": {
     "detail": "Skok kr\u00F3tki",
     "description": "Skacze do adresu relatywnego.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JMP": {
     "detail": "Skok",
     "description": "Skocz do adresu.\r\n\r\nJe\u015Bli podany operand to @A\u002BDPTR, skacze do adresu b\u0119d\u0105cego sum\u0105 warto\u015Bci Akumulatora i DPTR.\r\n\r\nW przeciwnym wypadku jest traktowany jako AJMP, LJMP, lub SJMP.",
-    "valid_operands": [
-      [
-        {
-          "operand": "addressInAccumulatorPlusDptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "codeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "CJNE": {
     "detail": "Por\u00F3wnaj i skocz je\u015Bli nie jest r\u00F3wne",
     "description": "Skacze do relatywnego adresu, je\u015Bli warto\u015Bci dw\u00F3ch pierwszych operand\u00F3w nie s\u0105 r\u00F3wne, w przeciwnym wypadku kontynuuje do nast\u0119pnej instrukcji.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "accumulator"
-        }
-      ],
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "warto\u015B\u0107 pierwszego operandu jest mniejsza ni\u017C warto\u015B\u0107 drugiego",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DJNZ": {
     "detail": "Dekrementuj i skocz je\u015Bli nie jest zerem",
     "description": "Dekrementuje warto\u015B\u0107 operandu o 1.\r\n\r\nJe\u015Bli wynik tego dzia\u0142ania nie jest r\u00F3wny 0 skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JB": {
     "detail": "Skocz je\u015Bli bit jest ustawiony",
     "description": "Je\u015Bli podany bit jest ustawiony (1) skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JBC": {
     "detail": "Skocz je\u015Bli bit nie jest ustawiony i wyczy\u015B\u0107 bit",
     "description": "Je\u015Bli podany bit jest ustawiony (1), czy\u015Bci go i skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JC": {
     "detail": "Skocz je\u015Bli flaga Przeniesienia jest ustawiona",
     "description": "Je\u015Bli flaga Przeniesienia jest ustawiona (1) skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JNC": {
     "detail": "Skocz je\u015Bli flaga Przeniesienia nie jest ustawiona",
     "description": "Je\u015Bli flaga Przeniesienia nie jest ustawiona (0) skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JNB": {
     "detail": "Skocz je\u015Bli bit nie jest ustawiony",
     "description": "Je\u015Bli podany bit nie jest ustawiony (0) skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JZ": {
     "detail": "Skocz je\u015Bli Akumulator jest r\u00F3wny zero",
     "description": "Je\u015Bli warto\u015B\u0107 Akumulatora jest r\u00F3wna 0, skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "JNZ": {
     "detail": "Skocz je\u015Bli Akumulator nie jest r\u00F3wny zero",
     "description": "Je\u015Bli warto\u015B\u0107 Akumulatora nie jest r\u00F3wna 0, skacze do relatywnego adresu, w przeciwnym wypadku kontynuuje.\r\n\r\nPodany adres jest traktowany jako bajt ze znakiem (od -128 do 127),\r\n\r\nkt\u00F3ry zostaje dodany do warto\u015Bci Licznika Programu (PC).",
-    "valid_operands": [
-      [
-        {
-          "operand": "relativeAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "NOP": {
     "detail": "Brak Operacji",
     "description": "Nie robi nic przez jeden cykl zegarowy.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   }
 }

@@ -2,277 +2,162 @@
   "A": {
     "detail": "Akumulator",
     "description": "8 bitowy rejestr u\u017Cywany g\u0142\u00F3wnie do operacji artymetycznych, logicznych, i przesy\u0142u danych.\r\n\r\nTrafiaj\u0105 do niego wyniki wi\u0119kszo\u015Bci operacji przeprowadzanych przez ALU.\r\n\r\nAkumulator jest adresowany bitowo i bajtowo.\r\n\r\nJego adres to 0E0h",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "B": {
     "detail": "Rejestr B",
     "description": "8 bitowy rejestr u\u017Cywany w po\u0142\u0105czeniu z Akumulatorem w operacjach mno\u017Cenia (MUL) i dzielenia (DIV).\r\n\r\nPodczas mno\u017Cenia rejestr B przechowuje mno\u017Cnik, a po pomno\u017Ceniu zawiera starszy bajt wyniku.\r\n\r\nPodczas dzielenia rejestr B przechowuje dzielnik, a po wykonaniu operacji  przechowuj\u0119 reszt\u0119 z dzielenia.\r\n\r\nJest adresowany bitowo i bajtowo.\r\n\r\nJego adres to 0F0h.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "PSW": {
     "detail": "S\u0142owo Stanu Programu",
     "description": "8 bitowy rejestr zawieraj\u0105cy informacje o obecnym stanie CPU\r\n - CY / PSW.7: flaga Przeniesienia - Ustawiana gdy wynik dzia\u0142ania przekroczy 255 lub gdy podczas dodawania odjemnik jest wi\u0119kszy od odjemnej.\r\n - AC / PSW.6: pomocnicza flaga Przeniesienia - U\u017Cywana do operacji na liczbach BCD. Ustawiana kiedy podczas dodawania lub odejmowania wyst\u0105pi przeniesienie lub po\u017Cyczka mi\u0119dzy bitami 3 i 4.\r\n - F0 / PSW.5: flaga Og\u00F3lnego Przeznaczenia - Przeznaczenie mo\u017Ce by\u0107 okre\u015Blone przez programist\u0119\r\n - RS1 / PSW.4: selektor Banku Rejestr\u00F3w bit 1\r\n - RS0 / PSW.3: selektor Banku Rejestr\u00F3w bit 0\r\n - OV / PSW.2: flaga Przepe\u0142nienia - ustawiona gdy wynik dodawania lub odejmowania ze znakiem przekroczy mi\u0119dzy -128 a 127.\r\n - PSW.1: bit definiowany przez u\u017Cytkownika - Przeznaczenie mo\u017Ce by\u0107 okre\u015Blone przez programist\u0119\r\n - P / PSW.0: flaga Parzysto\u015Bci - Informuje, \u017Ce w Akumulatorze znajduje si\u0119 parzysta ilo\u015B\u0107 ustawionych bit\u00F3w",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "@R0;@R1": {
     "detail": "Rejestr",
     "description": "Rejestr pomocniczy zawieraj\u0105cy adres pami\u0119ci.\r\n\r\nU\u017Cywany do adresowania po\u015Bredniego.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "TCON": {
     "detail": "Rejestr kontroli Czasomierza",
     "description": "8 bitowy rejestr u\u017Cywany do kontroli dw\u00F3ch wbudowanych czasomierzy.\r\n\r\n| ***Bit***   | TCON.7 | TCON.6 | TCON.5 | TCON.4 | TCON.3     | TCON.2 | TCON.1     | TCON.0 |\r\n| ----------- | ------ | ------ | ------ | ------ | ---------- | ------ | ---------- | ------ |\r\n| ***Nazwa*** | TF1    | TR1    | TF0    | TR0    | IE1 (INT1) | IT1    | IE0 (INT0) | IT0    |\r\n\r\n - TF0/TF1 - Przepe\u0142nienie Czasomierza - Ustawiany gdy czasomierz si\u0119 przepe\u0142nia (przej\u015Bcie mi\u0119dzy wszystkimi maj\u0105cymi warto\u015B\u0107 1, do wszystkich bit\u00F3w maj\u0105cych warto\u015Bc 0). Wyczyszczony po wykonaniu odpowiedniego wektoru przerwania (Czasomierz 0: 000Bh, Czasomierz 1: 001Bh)\r\n - TR0/TR1 - Uruchom Czasomierz - Je\u015Bli jest ustawiony (1) czasomierz odlicza, je\u015Bli jest zresetowany (0) czasomierz jest zatrzymany.\r\n - IE0/IE1 - Przerwanie Zewn\u0119trzne - Ustawiony (1) po przej\u015Bciu mi\u0119dzy stanem wysokim a niskim na porcie 3.2 (IE0) lub 3.3 (IE1), resetowany po wykonaniu odpowiedniego wektora przerwania (Przerwanie Zewn\u0119trzne 0: 0003h, Przerwanie Zewn\u0119trzne 1: 0013h)\r\n - IT0/IT1 - Rodzaj Przerwania Zewn\u0119trznego - Je\u015Bli jest ustawiony (1) przerwania b\u0119d\u0105 generowane podczas przej\u015Bcia mi\u0119dzy stanem wysokim a niskim na porcie 3.2 (IE0) lub 3.3 (IE1), je\u015Bli zresetowany (0) przerwanie b\u0119dzie generowane podczas sygna\u0142u niskiego na porcie 3.2 (IE0) lub 3.3 (IE1).\r\n\r\n\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "R0;R1;R2;R3;R4;R5;R6;R7": {
     "detail": "Rejestr pomocniczy",
     "description": "Rejestr pomociczy zazwyczaj u\u017Cywany do przechowywania tymczasowych danych.\r\n\r\nMo\u017Ce by\u0107 u\u017Cyty jako jeden z operand\u00F3w w wielu instrukcjach.\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": true,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": "Rejestry pomocnicze R0 do R7",
-    "addressingModes": []
+    "label": "Rejestry pomocnicze R0 do R7"
   },
   "DPTR": {
     "detail": "Wska\u017Anik danych",
     "description": "16 bitowy rejestr, dost\u0119pny dla u\u017Cytkownika, zaprojektowany do przechowywania adresu do pami\u0119ci zewn\u0119trznej (RAM lub ROM).\r\n\r\nMo\u017Ce by\u0107 u\u017Cyty jako dwa 8 bitowe rejestry, DPL (Data Pointer Low - M\u0142odszy bajt Wska\u017Anika Danych) i DPH (Data Pointer High - Starszy bajt Wska\u017Anika Danych).",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "PC": {
     "detail": "Licznik Programu",
     "description": "16 bitowy rejestr zawieraj\u0105cy adres do nast\u0119pnej instrukcji jaka ma zosta\u0107 wykonana.\r\n\r\nLicznik programu jest inkrementowany podczas ka\u017Cdej wykonywanej instrukcji o wielko\u015B\u0107 wykonywanej instrukcji.\r\n\r\nWarto\u015B\u0107 mo\u017Ce by\u0107 modyfikowana instrukcjami Kontroli Programu.\r\n\r\nPo resecie b\u0119dzie ustawiony na 0h, co oznacza, \u017Ce CPU oczekuje tam pierwszej instrukcji do wykonania.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "SP": {
     "detail": "Wska\u017Anik Stosu",
     "description": "8 bitowy rejestr zawieraj\u0105cy adres do szczytu Stosu.\r\n\r\nPodczas wk\u0142adania warto\u015Bci na stos, jest on inkrementowany **przed** umieszczeniem danych.\r\n\r\nPodczas zdejmowania warto\u015Bci ze stosu, jest on dekrementowany **po** zdj\u0119ciu danych.\r\n\r\n\r\nPocz\u0105tkowa warto\u015B\u0107 to 07h.\r\n\r\nWarto\u015B\u0107 mo\u017Ce by\u0107 modyfkowana przez: PUSH, POP, ACALL, LCALL, RET i RETI",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "P0;P1;P2;P3;P0.0;P1.0;P2.0;P3.0;P0.1;P1.1;P2.1;P3.1;P0.2;P1.2;P2.2;P3.2;P0.3;P1.3;P2.3;P3.3;P0.4;P1.4;P2.4;P3.4;P0.5;P1.5;P2.5;P3.5;P0.6;P1.6;P2.6;P3.6;P0.7;P1.7;P2.7;P3.7;": {
     "detail": "Port register",
     "description": "8 bitowy rejestr We/Wy u\u017Cywany do kontroli port\u00F3w We/Wy o tych samych nazwach.\r\n\r\nKa\u017Cdy bit odpowiada jednemu pinowi w kontrolerze 8051.\r\n\r\nKa\u017Cdy pin mo\u017Ce by\u0107 ustawiony jako wej\u015Bcie lub wyj\u015Bcie.\r\n\r\nAby zmieni\u0107 tryb bitu nale\u017Cy wpisa\u0107 do niego dane.\r\n\r\nJe\u015Bli bit zostanie ustawiony (1), pin b\u0119dzie skonfigurowany jak wej\u015Bciem. Je\u015Bli zostanie zresetowany (0) pin zostanie zkonfigurowany jako wyj\u015Bcie.\r\n\r\nZmieni to tak\u017Ce stan pinu, ustawienie go zmieni stan na wysoki (5V), a zresetowanie go zmieni stan na niski (0V).\r\n\r\nAdresy rejestr\u00F3w port\u00F3w:\r\n - P0: 80H\r\n - P1: 90H \r\n - P2: A0H\r\n - P3: B0H",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": true,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": "Rejestry port\u00F3w P0 do P3",
-    "addressingModes": []
+    "label": "Rejestry port\u00F3w P0 do P3"
   },
   "TMOD": {
     "detail": "Tryb Czasomierza",
     "description": "8 bitowy rejestr kontroluj\u0105ce Tryby Pracy wbudowanych czasomierzy.\r\n\r\nWy\u017Cszy p\u00F3\u0142bajt kontroluje Czasomierz 1 (T1), a ni\u017Cszy kontroluje Czasomierz 0 (T0).\r\n - Brama, bit 3 dla T0 lub 7 dla T1: je\u015Bli zresetowany (0) TR0/TR1 musi by\u0107 ustawiony. Je\u015Bli ustawiony (1) TR0/TR1 musi by\u0107 ustawiony i sygna\u0142 INT0/INT1 musi by\u0107 wysoki.\r\n - C/T, bit 2 dla T0 lub 6 dla T1: je\u015Bli zresetowany (tryb czasomierza) czasomierz liczy impulsy wewn\u0119trznego oscylatora. Je\u015Bli ustawiony (tryb licznika) liczy pulsy z pinu P3.4 dla T0 lub P3.5 dla T1.\r\n - T0M1/T1M1, bit 1 dla T0 lub 5 dla T1: wyb\u00F3r trybu pracy licznika. Bit 1\r\n - T0M0/T1M0, bit 0 dla T0 lub 4 dla T1: wyb\u00F3r trybu pracy licznika. Bit 0\r\n\r\n#### Tryby pracy:\r\n##### Tryb 0 (T0M1/T1M1 = 0, T0M0/T1M0 = 0): tryb 13 bitowy - czasomierze s\u0105 niezale\u017Cne od siebie\r\nRejestr czasomierza jest skonfigurowany jako 13 bitowy rejestr sk\u0142adaj\u0105cy si\u0119 z TH0/TH1 oraz 5 najm\u0142odszych bit\u00F3w TL0/TL1.\r\n\r\nTrzy najstarsze bity rejestr\u00F3w TL0/TL1 powinny by\u0107 zignorowane.\r\n\r\nUstawienie (1) TR0/TR1 nie zresetuje licznika.\r\n\r\nPrzerwanie czasomierza (TF0/TF1) jest ustawione gdy warto\u015B\u0107 przejdzie z maksymalnej warto\u015Bci (1FFFh) do najmniejszej warto\u015Bci (0h).\r\n\r\n###### Tryb 1 (T0M1/T1M1 = 1, T0M0/T1M0 = 0): tryb 16 bitowy - czasomierze s\u0105 niezale\u017Cne od siebie\r\nPodobny do trybu 0, ale wszystkie bity z TH0/TH1 i TL0/TL1 s\u0105 wykorzystane\r\n\r\nPrzerwanie czasomierza (TF0/TF1) jest ustawione gdy warto\u015B\u0107 przejdzie z maksymalnej warto\u015Bci (0FFFFh) do najmniejszej warto\u015Bci (0h).\r\n\r\n###### Tryb 2 (T0M1/T1M1 = 0, T0M0/T1M0 = 1): tryb 8 bitowy z auto-prze\u0142adowaniem - czasomierze s\u0105 niezale\u017Cne od siebie\r\nRejestr czasomierza jest skonfigurowany jako 8 bitowy licznik.\r\n\r\nRejestr TH0/TH1 przechowuje warto\u015B\u0107 kt\u00F3ra b\u0119dzie za\u0142adowana do TL0/TL1 po przepe\u0142nieniu.\r\n\r\nPrzerwanie czasomierza (TF0/TF1) jest ustawione gdy warto\u015B\u0107 przejdzie z maksymalnej warto\u015Bci (0FFh) do najmniejszej warto\u015Bci (0h).\r\n\r\n###### Tryb 3 (T0M1/T1M1 = 1, T0M0/T1M0 = 1): Tryb podzielony - czasomierze **nie s\u0105** niezale\u017Cne od siebie\r\nOba czasomierze s\u0105 u\u017Cywane w tym samym czasie, Czasomierz 0 liczy warto\u015B\u0107 TL0, a Czasomierz 1 liczy warto\u015B\u0107 TH0.\r\n\r\nCzasomierz 1 nie mo\u017Ce zosta\u0107 zatrzymany niezale\u017Cnie od czasomierza 0, ale mo\u017Ce zosta\u0107 umieszczony w trybach od 0 do 2.\r\n\r\nPrzerwanie czasomierza (TF0/TF1) jest ustawione gdy warto\u015B\u0107 przejdzie z maksymalnej warto\u015Bci (0FFh) do najmniejszej warto\u015Bci (0h).\r\n\r\n\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DPL": {
     "detail": "M\u0142odszy bajt Wska\u017Anika Danych",
     "description": "M\u0142odszy bajt Wska\u017Anika Danych (DPTR) \r\nAdres: 82H",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DPH": {
     "detail": "Starszy bajt Wska\u017Anika Danych",
     "description": "Starszy bajt Wska\u017Anika Danych (DPTR) \r\nAdres: 83H",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "PCON": {
     "detail": "Kontrola Zasilania",
     "description": "**NIE jest adresowalny bitowo**\r\n8 bitowy rejestr do kontroli stanu zasilania mikrokontrolera 8051.\r\n - Pin 0 (IDL) kontroluje stan wstrzymania, w kt\u00F3rym CPU nie b\u0119dzie otrzymywa\u0107 sygna\u0142u zegarowego, urz\u0105dzenia peryferyjne b\u0119d\u0105 ten sygna\u0142 otrzymywa\u0107. Mo\u017Ce zosta\u0107 wy\u0142\u0105czony przerwaniem lub resetem sprz\u0119towym.\r\n - Pin 1 (PD) kontroluje stan Wy\u0142\u0105czenia, w kt\u00F3rym oscylator wytwarzaj\u0105cy sygna\u0142 zegarowy zostanie zatrzymany, a napi\u0119cie systemu spadnie do 2V. Mo\u017Ce zosta\u0107 wy\u0142\u0105czony resetem sprz\u0119towym.\r\n\r\nPoza bitami kontroluj\u0105cymi zasilanie PCON zawiera\r\n - dwie flagi og\u00F3lnego przeznaczenia, bity 2 (GF0) i 3 (GF1)\r\n - bit kontroluj\u0105cy szybko\u015B\u0107 transmisji portu Szeregowego, bit 7 (SMOD) - je\u015Bli jest ustawiony (1) szybko\u015B\u0107 jest zwi\u0119kszona dwukrotnie \r\n\r\nAdres: 87H\r\n\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "SCON": {
     "detail": "Kontrola portu szeregowego",
     "description": "8 bitowy rejestr s\u0142u\u017C\u0105cy do kontroli portu Szeregowego\r\n\r\n| ***Bit***   | SCON.7 | SCON.6 | SCON.5 | SCON.4 | SCON.3 | SCON.2 | SCON.1 | SCON.0 |\r\n| ----------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Nazwa*** | SM0    | SM1    | SM2    | REN    | TB8    | RB8    | RI     | TI     |\r\n\r\nBits description:\r\n - SM0/SM1 - Wyb\u00F3r trybu pracy\r\n - SM2 - Konfiguruje komunikacj\u0119 multiprocesorow\u0105 dla tryb\u00F3w 2 i 3, oraz wykrywanie bitu stopu dla trybu 1 (dla trybu 0 powinien by\u0107 0)\r\n - REN - W\u0142\u0105cza odbiornik \r\n - TB8 - 9 bit danych do wys\u0142ania w trybie 2 lub 3\r\n - RB8 - 9 bit odebranych danych w trybe 2 lub 3\r\n - RI - Przerwanie odbiornika, ustawiony gdy dane s\u0105 odebrane, resetowany manualnie\r\n - TI - Przerwanie nadajnika, ustawiony po wys\u0142aniu danych, resetowany manualnie\r\n\r\nAdres: 98H\r\n\r\nTryby pracy:\r\n - Tryb 0 (SM0 = 0, SM1 = 0) \r\n\t- synchroniczny tryb 8 bitowy z rejestrem przestawnym i sta\u0142\u0105 szybko\u015Bci\u0105 przesy\u0142u: cz\u0119stotliwo\u015B\u0107 oscylatora / 12\r\n - Tryb 1 (SM0 = 0, SM1 = 1) \r\n\t- asynchroniczny tryb 8 bitowy UART z szybko\u015Bci\u0105 przesy\u0142u ustawion\u0105 za pomoc\u0105 Czasomierza1\r\n\t- je\u015Bli SM2 jest ustawiony RI jest ustawiany tylko po otrzymaniu poprawnego bitu stopu\r\n - Tryb 2 (SM0 = 1, SM1 = 0) \r\n\t- synchroniczny tryb 9 bitowy z Komunikacj\u0105 Wieloprocesorow\u0105 ze sta\u0142\u0105 szybko\u015Bci\u0105 przesy\u0142u: cz\u0119stotliwo\u015B\u0107 oscylatora / 32 lub cz\u0119stotliwo\u015B\u0107 oscylatora / 64\r\n    - SM2 jest\r\n\t\t- ustawiony - otrzymana transmisja jest adresem urz\u0105dzenia\r\n        - zresetowany - otrzymana transmisja jest danymi \r\n- Tryb 3 (SM0 = 1, SM1 = 1) \r\n\t- synchroniczny tryb 9 bitowy z Komunikacj\u0105 Wieloprocesorow\u0105 z szybko\u015Bci\u0105 przesy\u0142u ustawion\u0105 za pomoc\u0105 Czasomierza1\r\n    - SM2 jest\r\n\t\t- ustawiony - otrzymana transmisja jest adresem urz\u0105dzenia\r\n        - zresetowany - otrzymana transmisja jest danymi \r\n    ",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "IE": {
     "detail": "Kontrola Przerwa\u0144",
     "description": "8 bitowy rejestr kontroluj\u0105cy przerwania, kt\u00F3re s\u0105 w\u0142\u0105czone.\r\n\r\nW\u0142\u0105czenie przerwania odbywa si\u0119 poprzez ustawienie odpowiadaj\u0105cemu mu bitowi, z pomini\u0119ciem bitu 7, EA/IE.7.\r\n\r\nJe\u015Bli bit 7 jest zresetowany (0) wszystkie przerwania s\u0105 wy\u0142\u0105czone, w przeciwnym wypadku przerwania mog\u0105 by\u0107 w\u0142\u0105czone pojedynczo.\r\n\r\n| ***Bit***    | IE.7   | IE.6   | IE.5   | IE.4   | IE.3   | IE.2   | IE.1   | IE.0   |\r\n| ------------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Nazwa***  | EA     | -      | ET2    | ES     | ET1    | EX1    | ET0    | EX0    |\r\n| ***Wektor*** | -      | -      | -      | 0023h  | 001Bh  | 0013h  | 000Bh  | 0003h  |\r\n\r\nPrzerwania:\r\n - ET2 - Przerwanie Czasomierza 2 (8052)\r\n - ES  - Przerwanie portu szeregowego\r\n - ET1 - Przerwanie przepe\u0142nienia Czasomierza 1\r\n - EX1 - Przerwanie zewn\u0119trzne 1\r\n - ET0 - Przerwanie przepe\u0142nienia Czasomierza 0\r\n - EX0 - Przerwanie zewn\u0119trzne 0\r\n\r\n**Bit 7 jest adresowalny bitowo**\r\nBit 6, jest zarezerwowany.\r\n\r\nAdres A8H\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "IP": {
     "detail": "Priorytet Przerwa\u0144",
     "description": "8 bit register used to control priority of interrupts.\r\nIf bit is set, the correspondings interrupts priority is set to high, otherwise is set to low.\r\n\r\n| ***Bit***    | IP.7   | IP.6   | IP.5   | IP.4   | IP.3   | IP.2   | IP.1   | IP.0   |\r\n| ------------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |\r\n| ***Nazwa***  | -      | -      | PT2    | PS     | PT1    | PX1    | PT0    | PX0    |\r\n\r\nInterrupts:\r\n - PT2 - Priorytet Przepe\u0142nienia Czasomierza 2 (8052)\r\n - PS  - Priorytet Przerwania Portu Szeregowego\r\n - PT1 - Priorytet Przepe\u0142nienia Czasomierza 1\r\n - PX1 - Priorytet Przerwania Zewn\u0119trznego 1\r\n - PT0 - Priorytet Przepe\u0142nienia Czasomierza 0\r\n - PX0 - Priorytet Przerwania Zewn\u0119trznego 0\r\n\r\nBity 6 i 7 s\u0105 zarezerwowane.\r\n\r\nAdres: B8H\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "SBUF": {
     "detail": "Bufor Portu Szeregowego",
     "description": "8 bitowy rejestr b\u0119d\u0105cy buforem przesy\u0142ania lub odbierania danych za pomoc\u0105 portu szeregowego.\r\n\r\nW rzeczywisto\u015Bci s\u0105 to dwa rejestry ukrywaj\u0105ce si\u0119 pod t\u0105 sam\u0105 nazw\u0105.\r\n - przy zapisie danych do SBUF dane zostan\u0105 przekazane do buforu wysy\u0142ania, co r\u00F3wnie\u017C zainicjuje wys\u0142anie danych\r\n - przy odczycie danych z SBUF dane zostan\u0105 przekazane z buforu odbierania\r\n\r\nAdres: 99H\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "TL0": {
     "detail": "M\u0142odszy bajt Czasomierza 0",
     "description": "M\u0142odszy bajt Czasomierza 0\r\n\r\nAdres: 8AH\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "TH0": {
     "detail": "Starszy bajt Czasomierza 0",
     "description": "Starszy bajt Czasomierza 0\r\n\r\nAdres: 8CH\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "TL1": {
     "detail": "M\u0142odszy bajt Czasomierza 1",
     "description": "M\u0142odszy bajt Czasomierza 1\r\n\r\nAdres: 8BH\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "TH1": {
     "detail": "Timer 1 High",
     "description": "Higher byte of the Timer 1\r\n\r\nLocated at address 8DH\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "AB": {
     "detail": "Akumulator i rejestr B",
     "description": "Po\u0142\u0105czenie Akumulatora i rejestru B u\u017Cywane do mno\u017Cenia i dzielenia\r\n\r\n[Akumulator](command:asm8051.openDocs?%7B%22category%22:%22registers%22,%22item%22:%22A%22%7D)\r\n[Rejestr B](command:asm8051.openDocs?%7B%22category%22:%22registers%22,%22item%22:%22B%22%7D)",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   }
 }
