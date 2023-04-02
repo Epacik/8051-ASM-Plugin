@@ -2,329 +2,110 @@
   "ADD": {
     "detail": "Add to Accumulator",
     "description": "Adds a byte value to a value stored in the accumulator, and stores the results back in the accumulator.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "set when a value of a signed addition or subtraction rolls over from 127 to -128",
         "when_unset": ""
       },
-      {
-        "flag": "auxiliaryCarry",
+      "auxiliaryCarry": {
         "when_set": "result in carry between bit 3 and 4",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "result exceedes 255",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "immediate",
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "ADDC": {
     "detail": "Add to Accumulator with Carry flag",
     "description": "Adds a byte value and a carry flag to the accumulator, and stores the results in the accumulator.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "set when a value of a signed addition or subtraction rolls over from 127 to -128",
         "when_unset": ""
       },
-      {
-        "flag": "auxiliaryCarry",
+      "auxiliaryCarry": {
         "when_set": "result in carry between bit 3 and 4",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "result exceedes 255",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "immediate",
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "SUBB": {
     "detail": "Subtract from Accumulator With Borrow",
     "description": "Subtract the value of operand and the Carry (Borrow) Flag from the value of the Accumulator, \r\n\r\nand stores the results in the accumulator.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "result overflows signed byte value (-128 to 127)",
         "when_unset": ""
       },
-      {
-        "flag": "auxiliaryCarry",
+      "auxiliaryCarry": {
         "when_set": "lower nibble of operand (bits 0 trough 3) was greater than value of lower nibble of the Accumulator",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "value stored in operand was greater than value stored in the Accumulator",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "immediate",
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "INC": {
     "detail": "Increment register",
     "description": "Increments register or data in internal RAM by 1,\r\n\r\nIf initial value equals 255 (FFh), or 65535 in case of DPTR (FFFFh), value is reset to 0.\r\n\r\nCarry flag is **not** set when that happens.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "DEC": {
     "detail": "Decrement register",
     "description": "Decrements register or data in internal RAM by 1,\r\n\r\nIf initial value equals 0 value is reset to 255 (FFh).\r\n\r\nCarry flag is **not** set when that happens.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "MUL": {
     "detail": "Multiply Accumulator by B",
     "description": "Multiplies value stored in the Accumulator by a value stored in B register.\r\n\r\nResult is split into two bytes.\r\n\r\nThe most significant byte is stored in the B register.\r\n\r\nThe least significant byte is stored in the Accumulator.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulatorAndB",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "result exceeds 255",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "",
         "when_unset": "always"
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register"
-    ]
+    "label": null
   },
   "DIV": {
     "detail": "Divide Accumulator by B register",
     "description": "Devides value stored in the Accumulator by a value stored in B register.\r\n\r\nResult is split into two bytes.\r\n\r\nA quotient is stored in the Accumulator.\r\n\r\nA remainder is stored in the B register.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulatorAndB",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register"
-    ]
+    "label": null
   },
   "DA": {
     "detail": "Decimal adjust Accumulator",
     "description": "Adjusts value stored in the Accumulator to a BCD encoded number, after two BCD number were added.\r\n - 6h is added if lower nibble of the Accumulator is greater than 9 or if Auxiliary Carry flag is set.\r\n - 60h is added if higher nibble is greater than 9 (or in other words, if initial value of accumulator was greater than 90H) or if the Carry flag is set after previous operation.\r\n\r\nIn short this operation adds 00H, 06H, 60H, or 66H, based of values of Accumulartor and PSW.\r\n\r\n**This instruction does not convert hexadecimal value to a BCD encoded value, and it does not apply to BCD subtraction**",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "resulting BCD number exceeds 100",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register"
-    ]
+    "label": null
   }
 }

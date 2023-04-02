@@ -1,0 +1,379 @@
+{
+  "MOV": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "bitAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "dph",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "dpl",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "dptr",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "registerB",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "accumulator",
+          "when_first_is": "addressInR0OrR1"
+        },
+        {
+          "operand": "accumulator",
+          "when_first_is": "helperRegisters"
+        },
+        {
+          "operand": "accumulator",
+          "when_first_is": "registerB"
+        },
+        {
+          "operand": "accumulator",
+          "when_first_is": "dpl"
+        },
+        {
+          "operand": "accumulator",
+          "when_first_is": "dph"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "registerB"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "dpl"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "dph"
+        },
+        {
+          "operand": "bitAddress",
+          "when_first_is": "carryFlag"
+        },
+        {
+          "operand": "carryFlag",
+          "when_first_is": "bitAddress"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "addressInR0OrR1"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "helperRegisters"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "registerB"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "dpl"
+        },
+        {
+          "operand": "data",
+          "when_first_is": "dph"
+        },
+        {
+          "operand": "data16",
+          "when_first_is": "dptr"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "addressInR0OrR1"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "helperRegisters"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "registerB"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "dpl"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "dph"
+        },
+        {
+          "operand": "registerB",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "registerB",
+          "when_first_is": "addressInR0OrR1"
+        },
+        {
+          "operand": "registerB",
+          "when_first_is": "helperRegisters"
+        },
+        {
+          "operand": "registerB",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "registerB",
+          "when_first_is": "dpl"
+        },
+        {
+          "operand": "registerB",
+          "when_first_is": "dph"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "internalRamAddress"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "registerB"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "dpl"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "dph"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "immediate",
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "MOVC": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "addressInAccumulatorPlusDptr",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "addressInAccumulatorPlusPC",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "indexed"
+    ]
+  },
+  "MOVX": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "addressInDptr",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "addressInR0OrR1"
+        },
+        {
+          "operand": "accumulator",
+          "when_first_is": "addressInDptr"
+        },
+        {
+          "operand": "addressInDptr",
+          "when_first_is": "accumulator"
+        },
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "accumulator"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "registerIndirect"
+    ]
+  },
+  "PUSH": {
+    "valid_operands": [
+      [
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "direct"
+    ]
+  },
+  "POP": {
+    "valid_operands": [
+      [
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "direct"
+    ]
+  },
+  "XCH": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "internalRamAddress",
+          "when_first_is": "any"
+        },
+        {
+          "operand": "helperRegisters",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "direct",
+      "registerIndirect"
+    ]
+  },
+  "XCHD": {
+    "valid_operands": [
+      [
+        {
+          "operand": "accumulator",
+          "when_first_is": "any"
+        }
+      ],
+      [
+        {
+          "operand": "addressInR0OrR1",
+          "when_first_is": "any"
+        }
+      ]
+    ],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": [
+      "register",
+      "registerIndirect"
+    ]
+  }
+}

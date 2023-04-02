@@ -1,0 +1,184 @@
+{
+  "WRITE_TEXT": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "WRITE_DATA": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "WRITE_HEX": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "WRITE_INSTR": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "LCD_INIT": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "LCD_OFF": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "LCD_CLR": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "DELAY_US": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "DELAY_MS": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": true,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "DELAY_100MS": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "WAIT_ENTER": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "WAIT_ENTER_NW": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "TEST_ENTER": {
+    "valid_operands": [],
+    "affected_flags": [
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "WAIT_ENT_ESC": {
+    "valid_operands": [],
+    "affected_flags": [
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "WAIT_KEY": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "GET_NUM": {
+    "valid_operands": [],
+    "affected_flags": [
+      "carry"
+    ],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "BCD_HEX": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "HEX_BCD": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "MUL_2_2": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "MUL_3_1": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "DIV_2_1": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  },
+  "DIV_4_2": {
+    "valid_operands": [],
+    "affected_flags": [],
+    "dont_generate_syntax": false,
+    "dont_duplicate_in_all_docs": false,
+    "prefix_required": false,
+    "addressing_modes": []
+  }
+}

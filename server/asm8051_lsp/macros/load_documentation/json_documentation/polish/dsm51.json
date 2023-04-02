@@ -2,283 +2,170 @@
   "WRITE_TEXT": {
     "detail": "Wypisz tekst na ekranie LCD",
     "description": "Wypisz tekst zako\u0144czony symbolem NULL (00000000B) na ekranie LCD.\r\n\r\nAdres tekstu jest przekazany za pomoc\u0105 rejestru DPTR.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "WRITE_DATA": {
     "detail": "Wypisz znak na ekranie LCD",
     "description": "Wypisuje znak bajt przechowywany w Akumulatorze na ekranie LCD jako znak ASCII.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "WRITE_HEX": {
     "detail": "Wypisz liczb\u0119 szesnastkow\u0105 na ekranie LCD",
     "description": "Wypisuje bajt przechowywany w Akumulatorze na ekranie LCD jako liczb\u0119 szesnastkow\u0105.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "WRITE_INSTR": {
     "detail": "Wy\u015Blij instrukcj\u0119 do ekranu LCD",
     "description": "Wysy\u0142a bajt przechowywany w Akumulatorze do ekranu LCD jako instrukcj\u0119 do wykonania.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "LCD_INIT": {
     "detail": "Inicjalizuj ekran LCD",
     "description": "Inicjalizuje ekran LCD.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "LCD_OFF": {
     "detail": "Wy\u0142\u0105cz ekran LCD",
     "description": "Wy\u0142\u0105cza ekran LCD.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "LCD_CLR": {
     "detail": "Wyczy\u015B\u0107 ekran LCD",
     "description": "Wyszy\u015B\u0107 ekran LCD i przesu\u0144 kursor na pocz\u0105tek.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DELAY_US": {
     "detail": "Op\u00F3\u017Anienie w mikrosekundach",
     "description": "Zatrzymuje wykonywanie programu przez ilo\u015B\u0107 czasy, w mikrosekundach, obliczon\u0105 za pomoc\u0105 wzoru\r\n\r\n\u0060(A * 2 \u002B 6) * 12 / 11.0592\u0060 [\u03BCs] \r\n\r\ngdzie A jest warto\u015Bci\u0105 przechowywan\u0105 w Akumulatorze.\r\n\r\nCzas oczekiwania b\u0119dzie wynosi\u0142 od 6.5 \u03BCs do 559.9 \u03BCs.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DELAY_MS": {
     "detail": "Op\u00F3\u017Anienie w milisekundach",
     "description": "Zatrzymuje wykonywanie programu na czas, w milisekundach, przechowywany w Akumulatorze.\r\n\r\nWykonywanie b\u0119dzie zatrzymane na 256 ms je\u015Bli warto\u015B\u0107 przechowywana w Akumulatorze jest r\u00F3wna 0.\r\n\r\nCzas oczekiwania b\u0119dzie wynosi\u0142 od 1 ms do 256 ms.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DELAY_100MS": {
     "detail": "Op\u00F3\u017Anienie w setkach milisekund",
     "description": "Zatrzymuje wykonywanie programu na czas, w milisekundach, przechowywany w Akumulatorze, pomno\u017Conej przez 100.\r\n\r\nWykonywanie b\u0119dzie zatrzymane na for 25.6 s je\u015Bli warto\u015B\u0107 przechowywana w Akumulatorze jest r\u00F3wna 0.\r\n\r\nCzas oczekiwania b\u0119dzie wynosi\u0142 od 100 ms do 25.6 s.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "WAIT_ENTER": {
     "detail": "Zaczekaj na klawisz ENTER",
     "description": "Wypisuje \u0022PRESS ENTER...\u0022 na ekranie LCD i czeka a\u017C u\u017Cytkownik wci\u015Bnie przycisk Enter",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "WAIT_ENTER_NW": {
     "detail": "Zaczekaj na klawisz ENTER",
     "description": "Czeka a\u017C u\u017Cytkownik wci\u015Bnie przycisk Enter bez wypisywania tekstu na ekranie LCD.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "TEST_ENTER": {
     "detail": "Czy Enter jest wci\u015Bni\u0119ty",
     "description": "Sprawdza czy klawisz Enter jest wci\u015Bni\u0119ty",
-    "valid_operands": [],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "Klawisz nie jest wci\u015Bni\u0119ty",
         "when_unset": "Klawisz jest wci\u015Bni\u0119ty"
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "WAIT_ENT_ESC": {
     "detail": "Zaczekaj na klawisz ENTER lub ESC",
     "description": "Czeka a\u017C u\u017Cytkownik wci\u015Bnie klawisz Enter lub ESC.",
-    "valid_operands": [],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "Esc zosta\u0142 wci\u015Bni\u0119ty",
         "when_unset": "Enter zosta\u0142 wci\u015Bni\u0119ty"
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "WAIT_KEY": {
     "detail": "Zaczekaj na wci\u015Bni\u0119cie klawisza",
     "description": "Czeka a\u017C u\u017Cytkownik wci\u015Bnie dowolny przycisk na klawiaturze matrycowej.\r\n\r\nNumer wci\u015Bni\u0119tego klawisza jest umieszczony w Akumulatorze.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "GET_NUM": {
     "detail": "Otrzymaj numer BCD",
     "description": "Popro\u015B u\u017Cytkownika o wpisanie 4 cyft zakodowanych w formacie BCD i umie\u015B\u0107 je pod adresem wskazanym przez rejestr @R0\r\n\r\nAby zako\u0144czy\u0107 wpisywanie cyfr u\u017Cytkownik mo\u017Ce\r\n - Wcisn\u0105\u0107 Enter\r\n - Wcisn\u0105\u0107 Esc\r\n - Wpisa\u0107 4 cyfry",
-    "valid_operands": [],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "Enter zosta\u0142 wci\u015Bni\u0119ty",
         "when_unset": "u\u017Cytkownik wpisa\u0142 4 cyfry, lub wcisn\u0105\u0142 Esc"
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "BCD_HEX": {
     "detail": "Konwertuj BCD do liczby szesnastkowej",
     "description": "Konwertuje dwubajtow\u0105 liczb\u0119 zakodowan\u0105 w formie BCD, kt\u00F3ra jest przechowywana pod adresem wskazanym przez rejestr @R0\r\n\r\ndo postaci szesnastkowej. Wynik tej operacji jest zapisany do adresu wskazanego przez rejestr @R0 jako dwa bajty.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "HEX_BCD": {
     "detail": "Konwertuj liczb\u0119 szesnastkow\u0105 do postaci BCD",
     "description": "Konwertuje dwubajtow\u0105 liczb\u0119 szesnastkow\u0105 przechowywan\u0105 pod adresem wskazanym przez rejestr @R0 do trybajtowej liczby w formacie BCD.\r\n\r\nWynik jest zapisany w miejscu wskazanym przez rejestr @R0.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "MUL_2_2": {
     "detail": "Pomn\u00F3\u017C dwa dwubajtowe liczby",
     "description": "Mno\u017Cy dwubajtow\u0105 liczb\u0119 wskazan\u0105 przez rejestr @R0 \r\n\r\nz dwubajtow\u0105 liczb\u0105 przechowywan\u0105 w rejestrze B (starszy bajt) oraz Akumulatorze (m\u0142odszy bajt).\r\n\r\nWynik dzia\u0142ania b\u0119dzie przechowany jako czterobajtowa liczba w miejscu wskazanym przez rejestr @R0.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "MUL_3_1": {
     "detail": "Pomn\u00F3\u017C trzybajtow\u0105 liczb\u0119 przez jednobajtow\u0105 liczb\u0119",
     "description": "Mno\u017Cy trzybajtow\u0105 liczb\u0119 przechowywan\u0105 pod adresem wskazanym przez rejestr @R0 \r\nz liczb\u0105 przechowywan\u0105 w Akumulatorze.\r\n\r\nWynik b\u0119dzie przechowany jako czterobajtowa liczba w miejscu wskazanym przez rejestr @R0.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DIV_2_1": {
     "detail": "Podziel dwubajtow\u0105 liczb\u0119 przez jednobajtow\u0105 liczb\u0119",
     "description": "Dzieli dwubajtow\u0105 liczb\u0119 przechowywan\u0105 pod adresem wskazanym przez rejestr @R0\r\nprzez liczb\u0119 przechowywan\u0105 w rejestrze B.\r\n\r\nWynik zostanie zapisany jako dwubajtowa liczba w miejscu wskazywanym przez rejestr @R0, \r\n\r\nnatomiast reszta z dzielenia zostanie zapisana w Akumulatorze.\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "DIV_4_2": {
     "detail": "Podziel czterobajtow\u0105 liczb\u0119 przez dwubajtow\u0105 liczb\u0119",
     "description": "Dzieli czterobajtow\u0105 liczb\u0119 przechowywan\u0105 pod adresem wskazywanym przez rejestr @R0\r\nprzez dwubajtow\u0105 liczb\u0105 przechowywan\u0105 w rejestrze B (starszy bajt) oraz Akumulatorze (m\u0142odszy bajt).\r\n\r\nWynik zostanie zapisany jako czterobajtowa liczba w miejscu wskazanym przez rejestr @R0,\r\na reszta z dzielenia b\u0119dzie przechowana jako dwubajtowa liczba w cztery bajty po adresie wskazanym przez rejestr @R0 ( @(R0\u002B4) )\r\n\r\n**Rejestr @R0 wskazuje na najmniej znacz\u0105cy bajt**",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   }
 }

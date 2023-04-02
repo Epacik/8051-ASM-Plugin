@@ -2,327 +2,110 @@
   "ADD": {
     "detail": "Dodaj do Akumulatora",
     "description": "Dodaje bajt do warto\u015Bci przechowywanej w Akumulatorze. \r\n\r\nNast\u0119pnie zapisuje wynik dodawania w Akumulatorze.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "wynik skutkuje w przepe\u0142nieniu warto\u015Bci bajta ze znakiem ( z 127 do -128) ",
         "when_unset": ""
       },
-      {
-        "flag": "auxiliaryCarry",
+      "auxiliaryCarry": {
         "when_set": "wynik skutkuje przeniesieniem mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "immediate",
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "ADDC": {
     "detail": "Dodaj do Akumulatora z Flag\u0105 Przeniesienia",
     "description": "Dodaje bajt i warto\u015B\u0107 flagi przeniesienia do warto\u015Bci przechowywanej w Akumulatorze.\r\n\r\nNast\u0119pnie zapisuje wynik dodawania w Akumulatorze.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "wynik skutkuje przepe\u0142nieniem warto\u015Bci bajta ze znakiem ( z 127 do -128) ",
         "when_unset": ""
       },
-      {
-        "flag": "auxiliaryCarry",
+      "auxiliaryCarry": {
         "when_set": "wynik skutkuje przeniesieniem mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "immediate",
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "SUBB": {
     "detail": "Odejmij od Akumulatora z Po\u017Cyczeniem",
     "description": "Odejmuje warto\u015B\u0107 operandu oraz flagi Przeniesienia (Po\u017Cyczenia) od warto\u015Bci przechowywanej w Akumulatorze.\r\n\r\nNast\u0119pnie zapisuje wynik dzia\u0142ania w Akumulatorze",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "wynik skutkuje przepe\u0142nieniem warto\u015Bci bajta ze znakiem ( z -128 do 127) ",
         "when_unset": ""
       },
-      {
-        "flag": "auxiliaryCarry",
+      "auxiliaryCarry": {
         "when_set": "wynik skutkuje po\u017Cyczk\u0105 mi\u0119dzy bitami 3 i 4",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "warto\u015B\u0107 operandu jest wi\u0119ksza ni\u017C warto\u015B\u0107 przechowywana w Akumulatorze",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "immediate",
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "INC": {
     "detail": "Inkrementuj rejestr",
     "description": "Inkrementuje rejestr albo bajt w wewn\u0119trznej pami\u0119ci RAM o 1\r\n\r\nJe\u015Bli pocz\u0105tkowa warto\u015B\u0107 jest r\u00F3wna 255 (FFh), lub 65535 (FFFFh) w orzpadku DPTR, warto\u015B\u0107 jest ustawiona na 0.\r\n\r\nFlaga przeniesienia **nie jest** wtedy ustawiana.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "DEC": {
     "detail": "Dekrementuj rejestr",
     "description": "Dekrementuje rejestr albo bajt w wewn\u0119trznej pami\u0119ci RAM o 1\r\n\r\nJe\u015Bli pocz\u0105tkowa warto\u015B\u0107 jest r\u00F3wna 0 , warto\u015B\u0107 jest ustawiona na 255 (FFh).\r\n\r\nFlaga przeniesienia **nie jest** wtedy ustawiana.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register",
-        "direct",
-        "registerIndirect"
-      ]
+    "label": null
   },
   "MUL": {
     "detail": "Pomn\u00F3\u017C warto\u015Bci Akumulatora i rejestru B",
     "description": "Mno\u017Cy warto\u015B\u0107 przechowywan\u0105 w Akumulatorze przez warto\u015B\u0107 przechowywan\u0105 w rejestrze B.\r\n\r\nWynik jest z\u0142o\u017Cony z dw\u00F3ch bajt\u00F3w.\r\n\r\nNajbardziej znacz\u0105cy bajt jest umieszczany w rejestrze B.\r\n\r\nNajmniej znacz\u0105cy bajt jest umieszczany w Akumulatorze.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulatorAndB",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "overflow",
+    "affected_flags": {
+      "overflow": {
         "when_set": "wynik jest wi\u0119kszy ni\u017C 255",
         "when_unset": ""
       },
-      {
-        "flag": "carry",
+      "carry": {
         "when_set": "",
         "when_unset": "zawsze"
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register"
-    ]
+    "label": null
   },
   "DIV": {
     "detail": "Podziel warto\u015B\u0107 Akumulatora przez warto\u015B\u0107 rejestru B",
     "description": "Dzieli warto\u015B\u0107 przechowywan\u0105 w Akumulatorze przez warto\u015B\u0107 przechowywan\u0105 w rejestrze B.\r\n\r\nWynik jest z\u0142o\u017Cony z dw\u00F3ch bajt\u00F3w.\r\n\r\nIloraz jest umieszczony w Akumulatorze.\r\n\r\nReszta z dzielenia jest umieszczona w rejestrze B.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulatorAndB",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": []
+    "label": null
   },
   "DA": {
     "detail": "Popraw warto\u015B\u0107 w Akumulatorze (BCD)",
     "description": "Poprawia warto\u015B\u0107 przechowywan\u0105 w akumulatorze do liczby zakodowanej w BCD, po dodaniu 2 zapisanych w ten spos\u00F3b liczb.\r\n - 6h jest dodane je\u015Bli dolny p\u00F3\u0142bajt Akumulatora jest wi\u0119kszy od 9 lub je\u015Bli flaga Pomocniczego Przeniesienia jest ustawiona.\r\n - 60h jest dodane je\u015Bli g\u00F3rny p\u00F3\u0142bajt Akumulatora jest wi\u0119kszy ni\u017C 9 (innymi s\u0142owy je\u015Bli warto\u015B\u0107 Akumulatora by\u0142a wi\u0119ksza ni\u017C 90h) lub je\u015Bli po poprzedniej operacji jest ustawiona flaga przeniesienia\r\n\r\nW skr\u00F3cie, ta operacja dodaje 00h, 06h, 60h, lub 66h w zale\u017Cno\u015Bci od warto\u015Bci Akumulatora oraz PSW\r\n\r\n**Ta instrukcja nie konwertuje warto\u015Bci szesnastkowych do warto\u015Bci zakodowanych w BCD oraz nie dzia\u0142a poprawnie z odejmowaniem liczb BCD**",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [
-      {
-        "flag": "carry",
+    "affected_flags": {
+      "carry": {
         "when_set": "wynik jest wi\u0119kszy ni\u017C 100",
         "when_unset": ""
       }
-    ],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    },
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-        "register"
-    ]
+    "label": null
   }
 }

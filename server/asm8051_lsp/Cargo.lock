@@ -508,11 +508,23 @@ checksum = "21a41fed9d98f27ab1c6d161da622a4fa35e8a54a8adc24bbf3ddd0ef70b0e50"
 name = "load_documentation"
 version = "0.1.0"
 dependencies = [
+ "load_documentation_internal",
  "proc-macro2",
  "quote",
  "serde",
  "serde_json",
  "shared",
+ "syn 2.0.10",
+]
+
+[[package]]
+name = "load_documentation_internal"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "serde",
+ "serde_json",
  "syn 2.0.10",
 ]
 

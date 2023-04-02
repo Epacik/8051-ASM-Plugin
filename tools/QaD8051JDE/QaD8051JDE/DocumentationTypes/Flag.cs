@@ -20,3 +20,12 @@ public class Flag
         whenUnset = WhenUnset;
     }
 }
+
+public class FlagDescription
+{
+    [JsonPropertyName("when_set")]
+    public string? WhenSet { get; set; }
+
+    [JsonPropertyName("when_unset")]
+    public string? WhenUnset { get; set; }
+}

@@ -2,406 +2,50 @@
   "MOV": {
     "detail": "Move ",
     "description": "Move data from second operand to the first one.\r\n\r\nBoth operands have to be in the internal RAM.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dph",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dpl",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "dptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "bitAddress",
-          "when_first_is": "carryFlag"
-        },
-        {
-          "operand": "carryFlag",
-          "when_first_is": "bitAddress"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "data",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "data16",
-          "when_first_is": "dptr"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "helperRegisters"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "registerB",
-          "when_first_is": "dph"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "internalRamAddress"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "registerB"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "dpl"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "dph"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "immediate",
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "MOVC": {
     "detail": "Move from Code",
     "description": "Move a byte from specified address into the Accumulator.\r\n\r\nAddress of code is calculated by adding value stored in the Accumulator and either DPTR or PC.\r\n\r\nPC is incremented before adding.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInAccumulatorPlusDptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInAccumulatorPlusPC",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register",
-      "indexed"
-    ]
+    "label": null
   },
   "MOVX": {
     "detail": "Move between external memory and the accumulator",
     "description": "Move between external memory and the accumulator.\r\n\r\nUses either 8 bit or 16 bit address to external memory.\r\n",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInDptr",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "addressInR0OrR1"
-        },
-        {
-          "operand": "accumulator",
-          "when_first_is": "addressInDptr"
-        },
-        {
-          "operand": "addressInDptr",
-          "when_first_is": "accumulator"
-        },
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "accumulator"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "PUSH": {
     "detail": "Push onto stack",
     "description": "Increments the Stack Pointer and copies value stored under provided internal RAM address to memory pointed by the stack pointer.",
-    "valid_operands": [
-      [
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "direct"
-    ]
+    "label": null
   },
   "POP": {
     "detail": "Pop from stack",
     "description": "Stores value pointed to by the Stack Pointer in under the provided internal RAM address and then decrements the Stack Pointer.",
-    "valid_operands": [
-      [
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "direct"
-    ]
+    "label": null
   },
   "XCH": {
     "detail": "Exchange bytes",
     "description": "Stores a value of the Accumulator in a second operand and stores a value of the second operand in the Accumulator.",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "internalRamAddress",
-          "when_first_is": "any"
-        },
-        {
-          "operand": "helperRegisters",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register",
-      "direct",
-      "registerIndirect"
-    ]
+    "label": null
   },
   "XCHD": {
     "detail": "Exchange digit",
     "description": "Stores a lower nibble (bits 0-3) of the Accumulator in a second operand and stores a lower nibble of the second operand in the Accumulator.\r\n\r\nOperation exchanges lower nibbles of both values (bits 0-3). \r\n\r\nIt does not affect higher nibbles (bit 4-7).",
-    "valid_operands": [
-      [
-        {
-          "operand": "accumulator",
-          "when_first_is": "any"
-        }
-      ],
-      [
-        {
-          "operand": "addressInR0OrR1",
-          "when_first_is": "any"
-        }
-      ]
-    ],
-    "affected_flags": [],
-    "dont_generate_syntax": false,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressing_modes": [
-      "register",
-      "registerIndirect"
-    ]
+    "label": null
   }
 }

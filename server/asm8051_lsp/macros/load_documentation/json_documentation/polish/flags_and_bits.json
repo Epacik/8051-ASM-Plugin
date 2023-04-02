@@ -2,133 +2,78 @@
   "TF0;TF1": {
     "detail": "Timer zosta\u0142 Przepe\u0142niony ",
     "description": "Zostaje ustawiony na 1 gdy Timer zostanie przepe\u0142niony (przej\u015Bcie mi\u0119dzy wszystkimi bitami r\u00F3wnymi 1 do wszystkich bit\u00F3w r\u00F3wnych 0).\r\n\r\nZostaje zresetowany po wykonaniu wektora przerwania zwi\u0105zanego z tym przepe\u0142nieniem (Timer 0: 000Bh, Timer 1: 001Bh).",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "TR0;TR1": {
     "detail": "Uruchom Timer",
     "description": "Gdy ustawiony (1) Timer zostaje uruchomiony,\r\n\r\nGdy zresetowany Timer zostaje zatrzymany\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "IE0;IE1": {
     "detail": "Przerwanie Zewn\u0119trzne",
     "description": "Zostaje ustawiony gdy na porcie (IE0: 3.2, IE1: 3.3) pojawi si\u0119 przej\u015Bcie z wysokiego do niskiego stanu sygna\u0142u. \r\n\r\nZostaje zresetowany po wykonaniu zwi\u0105zanego wektora przerwania (Zewn\u0119trzne przerwanie 0: 0003h, Zewn\u0119trzne przerwanie 1: 0013h)",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "IT0;IT1": {
     "detail": "Rodzaj Przerwania zewn\u0119trznego",
     "description": "Kiedy jest ustawiony (1) przerwanie b\u0119dzie generowane podczas przej\u015Bcia mi\u0119dzy stanem wysokim a niskim na porcie (IE0: 3.2, IE1: 3.3),\r\n\r\nje\u015Bli b\u0119dize zresetowany (0) przerwanie b\u0119dzie generowane gdy sygna\u0142 na porcie (IE0: 3.2, IE1: 3.3) b\u0119dzie niski",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "CY;PSW.7": {
     "detail": "Flaga przeniesienia",
     "description": "Ustawiona kiedy wynik dodawania jest wi\u0119kszy ni\u017C 255 \r\n\r\nlub kiedy podczas odejmowania odjemnik jest wi\u0119kszy ni\u017C odjemna.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": true,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "AC;PSW.6": {
     "detail": "Dodatkowa flaga przeniesienia",
     "description": "U\u017Cywana do operacji na liczbach BCD.\r\n\r\nUstawiona je\u015Bli operacje ADD lub SUBB spowoduj\u0105 przeniesienie/po\u017Cyczk\u0119 pomi\u0119dzy bitami 3 i 4.\r\n\r\nJe\u015Bli to nie nast\u0105pi flaga jest wyczyszczona.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": true,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "F0;PSW.5": {
     "detail": "Flaga og\u00F3lnego przeznaczenia",
     "description": "Programista mo\u017Ce zdecydowa\u0107 do czego jest u\u017Cywana.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": true,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "RS1;PSW.4;RS0;PSW.3": {
     "detail": "Selektor wyboru banku",
     "description": "Bity RS0 i RS1 (odpowiednio PSW.3 i PSW.4) s\u0105 u\u017Cywane do wyboru bank\u00F3w rejestr\u00F3w (gdzie w pami\u0119ci RAM znajduj\u0105 si\u0119 rejestry R0 do R7)\r\n\r\n*Domy\u015Blnie Wska\u017Anik Stosu wskazuje na 08h. Oznacza to, \u017Ce u\u017Cycie stosu bez zmiany jego domy\u015Blnego adresu **zmieni** warto\u015Bci rejestr\u00F3w R0-R7 w bankach 1, 2, i 3*\r\n\r\nAby wybra\u0107 bank nale\u017Cy zmieni\u0107 warto\u015B\u0107 bit\u00F3w RS0 i RS1 na warto\u015Bci pokazane poni\u017Cej\r\n| RS1 | RS0 | Wybrany bank  | Adres banku          |\r\n| --- | --- | ------------- | -------------------- |\r\n| 0   | 0   | Bank 0        | 00h - 07h            |\r\n| 0   | 1   | Bank 1        | 08h - 0Fh            |\r\n| 1   | 0   | Bank 2        | 10h - 17h            |\r\n| 1   | 1   | Bank 3        | 18h - 1Fh            |\r\n",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": true,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "OV;PSW.2": {
     "detail": "Flaga przepe\u0142nienia",
     "description": "Informuje o wyst\u0105pieniu przepe\u0142nienia warto\u015Bci ze znakiem.\r\n\r\nZostaje ustawiona (1) gdy wynik dodawania lub odejmowania ze znakiem przekroczy mi\u0119dzy -128 a 127.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": true,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "PSW.1": {
     "detail": "Bit definiowalny przez u\u017Cytkownika",
     "description": "Programista mo\u017Ce zdecydowa\u0107 do czego jest u\u017Cywany",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   },
   "P;PSW.0": {
     "detail": "Flaga parzysto\u015Bci",
     "description": "Informuje, \u017Ce w Akumulatorze znajduje si\u0119 parzysta ilo\u015B\u0107 ustawionych bit\u00F3w (1).\r\n\r\nAktualizowana przy ka\u017Cdym cyklu zegara.",
-    "valid_operands": [],
-    "affected_flags": [],
-    "dont_generate_syntax": true,
-    "dont_duplicate_in_all_docs": false,
+    "affected_flags": {},
     "prefix": "",
-    "prefix_required": false,
-    "label": null,
-    "addressingModes": []
+    "label": null
   }
 }

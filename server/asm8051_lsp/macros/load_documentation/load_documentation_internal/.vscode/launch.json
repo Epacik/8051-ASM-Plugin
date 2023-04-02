@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'load_documentation_internal'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=load_documentation_internal"
+                ],
+                "filter": {
+                    "name": "load_documentation_internal",
+                    "kind": "lib"
+                },
+                "env": {
+                    "CARGO_MANIFEST_DIR": "${workspaceFolder}/../"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "CARGO_MANIFEST_DIR": "${workspaceFolder}/../"
+            },
+        }
+    ]
+}
