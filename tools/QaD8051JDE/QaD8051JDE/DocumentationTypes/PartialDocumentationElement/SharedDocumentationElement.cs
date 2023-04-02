@@ -26,4 +26,13 @@ internal class SharedDocumentationElement
 
     [JsonPropertyName("addressing_modes")]
     public List<AddressingMode>? AddressingModes { get; set; }
+
+    [JsonPropertyName("stack_space_needed")]
+    public byte? StackSpaceNeeded { get; set; }
+
+    [JsonPropertyName("used_registers")]
+    public List<PossibleRegister>? UsedRegisters { get; set; }
+
+    [JsonPropertyName("changed_registers")]
+    public List<PossibleRegister>? ChangedRegisters { get; set; }
 }

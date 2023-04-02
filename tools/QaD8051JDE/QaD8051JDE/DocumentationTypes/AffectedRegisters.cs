@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QaD8051JDE.DocumentationTypes;
 
-public enum PossibleUsedRegister
+public enum PossibleRegister
 {
     Accumulator = 0,
     B           = 1,

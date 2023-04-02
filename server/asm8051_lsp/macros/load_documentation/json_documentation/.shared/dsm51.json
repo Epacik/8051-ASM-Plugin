@@ -5,7 +5,16 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "dptr",
+      "psw"
+    ]
   },
   "WRITE_DATA": {
     "valid_operands": [],
@@ -13,7 +22,15 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "WRITE_HEX": {
     "valid_operands": [],
@@ -21,7 +38,15 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "WRITE_INSTR": {
     "valid_operands": [],
@@ -29,7 +54,15 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "LCD_INIT": {
     "valid_operands": [],
@@ -37,7 +70,15 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "LCD_OFF": {
     "valid_operands": [],
@@ -45,7 +86,15 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "LCD_CLR": {
     "valid_operands": [],
@@ -53,7 +102,15 @@
     "dont_generate_syntax": false,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "DELAY_US": {
     "valid_operands": [],
@@ -61,7 +118,12 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": null,
+    "used_registers": [],
+    "changed_registers": [
+      "accumulator"
+    ]
   },
   "DELAY_MS": {
     "valid_operands": [],
@@ -69,116 +131,231 @@
     "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [],
+    "changed_registers": [
+      "accumulator"
+    ]
   },
   "DELAY_100MS": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [],
+    "changed_registers": [
+      "accumulator"
+    ]
   },
   "WAIT_ENTER": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 4,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "WAIT_ENTER_NW": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "TEST_ENTER": {
     "valid_operands": [],
     "affected_flags": [
       "carry"
     ],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "WAIT_ENT_ESC": {
     "valid_operands": [],
     "affected_flags": [
       "carry"
     ],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "WAIT_KEY": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 2,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "GET_NUM": {
     "valid_operands": [],
     "affected_flags": [
       "carry"
     ],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 4,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "psw"
+    ]
   },
   "BCD_HEX": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 0,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "b",
+      "psw"
+    ]
   },
   "HEX_BCD": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 4,
+    "used_registers": [
+      "r0",
+      "r2"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "b",
+      "psw"
+    ]
   },
   "MUL_2_2": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [
+      "r0",
+      "r2"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "b",
+      "psw"
+    ]
   },
   "MUL_3_1": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [
+      "r0"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "b",
+      "psw"
+    ]
   },
   "DIV_2_1": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [
+      "r0",
+      "r2"
+    ],
+    "changed_registers": [
+      "accumulator",
+      "b",
+      "psw"
+    ]
   },
   "DIV_4_2": {
     "valid_operands": [],
     "affected_flags": [],
-    "dont_generate_syntax": false,
+    "dont_generate_syntax": true,
     "dont_duplicate_in_all_docs": false,
     "prefix_required": false,
-    "addressing_modes": []
+    "addressing_modes": [],
+    "stack_space_needed": 1,
+    "used_registers": [
+      "accumulator",
+      "r0",
+      "r2"
+    ],
+    "changed_registers": [
+      "psw"
+    ]
   }
 }

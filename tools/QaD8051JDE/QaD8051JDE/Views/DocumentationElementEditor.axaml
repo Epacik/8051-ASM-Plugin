@@ -24,13 +24,13 @@
                 OnContent="Don't generate syntax"
                 OffContent="Generate syntax"
                 IsChecked="{Binding DontGenerateSyntax}"/>
-            <ToggleSwitch 
+            <ToggleSwitch
                 Margin="20,0,0,0"
                 OnContent="Don't duplicate in all documentation"
                 OffContent="Duplicate in all documentation"
                 IsChecked="{Binding DontDuplicate}"/>
         </StackPanel>
-        
+
         <ScrollViewer Grid.Row="1" Margin="5">
             <StackPanel >
                 <TextBlock Text="Detail:"/>
@@ -46,7 +46,7 @@
                             <Button Command="{Binding AddAffectedFlag}">➕</Button>
                             <Button Command="{Binding RemoveAffectedFlag}">➖</Button>
                         </StackPanel>
-                        <ListBox 
+                        <ListBox
                             x:Name="AffectedFlagsPanel"
                             Items="{Binding AffectedFlags}"
                             SelectedItem="{Binding SelectedFlag}"
@@ -97,48 +97,52 @@
                             Items="{Binding AddressingModes}"
                             SelectedItems="{Binding SelectedAddressingModes}"
                             SelectionMode="Toggle,Multiple">
-                            
+
                         </ListBox>
                     </StackPanel>
                 </Expander>
 
                 <Expander Header="Changed Registers">
                     <StackPanel HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal">
-                            <Button >➕</Button>
-                            <Button >➖</Button>
-                        </StackPanel>
-                        <StackPanel x:Name="AffectedRegistersPanel" Orientation="Horizontal" MaxHeight="999999">
+                        <ListBox
+                            Items="{Binding Registers}"
+                            SelectedItems="{Binding SelectedChangedRegisters}"
+                            SelectionMode="Toggle,Multiple">
 
-                        </StackPanel>
+                        </ListBox>
                     </StackPanel>
                 </Expander>
 
                 <Expander Header="Used Registers">
                     <StackPanel HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal">
-                            <Button >➕</Button>
-                            <Button >➖</Button>
-                        </StackPanel>
-                        <StackPanel x:Name="UsedRegistersPanel" Orientation="Horizontal" MaxHeight="999999">
+                        <ListBox
+                            Items="{Binding Registers}"
+                            SelectedItems="{Binding SelectedUsedRegisters}"
+                            SelectionMode="Toggle,Multiple">
 
-                        </StackPanel>
+                        </ListBox>
                     </StackPanel>
                 </Expander>
-              <StackPanel Orientation="Horizontal"
-                          Spacing="5"
-                          Margin="0,20,0,0">
-                <TextBlock VerticalAlignment="Center" Text="Prefix:"/>
-                <CheckBox IsChecked="{Binding PrefixRequired}" Content="Required"/>
-              </StackPanel>
-              <TextBox Text="{Binding Prefix}" FontFamily="Cascadia Code" />
-              <!--<TextBox Text="{Binding ValidOperands}" AcceptsReturn="True" AcceptsTab="True" Height="100"/>-->
+                <TextBlock>Stack space required</TextBlock>
+                <NumericUpDown 
+                    AllowSpin="True"
+                    Width="170"
+                    HorizontalAlignment="Left"
+                    Value="{Binding RequiredStackSpace}"
+                    Minimum="0"
+                    Maximum="255"
+                    FormatString="0"/>
+                <StackPanel Orientation="Horizontal"
+                            Spacing="5"
+                            Margin="0,20,0,0">
+                    <TextBlock VerticalAlignment="Center" Text="Prefix:"/>
+                    <CheckBox IsChecked="{Binding PrefixRequired}" Content="Required"/>
+                </StackPanel>
+                <TextBox Text="{Binding Prefix}" FontFamily="Cascadia Code" />
 
-              <TextBlock>Label: </TextBlock>
-              <TextBox Text="{Binding Label}"></TextBox>
+                <TextBlock>Label: </TextBlock>
+                <TextBox Text="{Binding Label}"></TextBox>
             </StackPanel>
         </ScrollViewer>
-
-        
     </Grid>
 </UserControl>

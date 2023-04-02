@@ -95,6 +95,10 @@ public partial class DocumentationElementListViewModel : BaseViewModel
 
                     if (additionalFlags is not null && additionalFlags.Count > 0)
                         deserialized[key].AffectedFlags!.AddRange(additionalFlags.Select(x => new Flag { FlagType = x }));
+
+                    deserialized[key].UsedRegisters = value.UsedRegisters;
+                    deserialized[key].ChangedRegisters = value.ChangedRegisters;
+                    deserialized[key].StackSpaceNeeded = value.StackSpaceNeeded;
                 }
             }
         }
@@ -151,6 +155,9 @@ public partial class DocumentationElementListViewModel : BaseViewModel
                 DontDuplicate = val.Value.DontDuplicate,
                 PrefixRequired = val.Value.PrefixRequired,
                 AddressingModes = val.Value.AddressingModes,
+                UsedRegisters = val.Value.UsedRegisters,
+                ChangedRegisters = val.Value.ChangedRegisters,
+                StackSpaceNeeded = val.Value.StackSpaceNeeded,
             });
 
         var mainContent = JsonSerializer.Serialize(mainElements, _options);

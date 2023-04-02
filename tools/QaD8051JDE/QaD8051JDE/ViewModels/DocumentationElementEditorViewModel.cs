@@ -20,7 +20,7 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
         List<List<ValidOperand>>? validOperands;
         List<Flag>? affectedFlags;
 
-        (Detail, Description, validOperands, affectedFlags, DontGenerateSyntax, DontDuplicate, Prefix, PrefixRequired, Label) = item;
+        (Detail, Description, validOperands, affectedFlags, DontGenerateSyntax, DontDuplicate, Prefix, PrefixRequired, Label, RequiredStackSpace) = item;
 
         ValidOperands = new(validOperands!.Select((x, p) => new ValidOperandPositionViewModel(x, p)));
         AffectedFlags = new(affectedFlags!.Select(x => new FlagEditorViewModel(x)));
@@ -35,9 +35,31 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
             new("Indexed", AddressingMode.Indexed),
         };
 
+        Registers = new List<NamedItemViewModel<PossibleRegister>>
+        {
+            new ("Accumulator", PossibleRegister.Accumulator),
+            new ("B Register", PossibleRegister.B),
+            new ("DPTR", PossibleRegister.DPTR),
+            new ("PSW", PossibleRegister.PSW),
+            new ("R0", PossibleRegister.R0),
+            new ("R1", PossibleRegister.R1),
+            new ("R2", PossibleRegister.R2),
+        };
+
+
         foreach (var mode in AddressingModes.Where(x => item.AddressingModes?.Contains(x.Item) == true))
         {
             SelectedAddressingModes.Add(mode);
+        }
+
+        foreach (var register in Registers.Where(x => item.UsedRegisters?.Contains(x.Item) == true))
+        {
+            SelectedUsedRegisters.Add(register);
+        }
+        
+        foreach (var register in Registers.Where(x => item.ChangedRegisters?.Contains(x.Item) == true))
+        {
+            SelectedChangedRegisters.Add(register);
         }
     }
 
@@ -80,6 +102,18 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
     [ObservableProperty]
     private ObservableCollection<NamedItemViewModel<AddressingMode>> _selectedAddressingModes = new();
 
+    [ObservableProperty]
+    private byte? _requiredStackSpace;
+
+    [ObservableProperty]
+    private IEnumerable<NamedItemViewModel<PossibleRegister>> _registers;
+
+    [ObservableProperty]
+    private ObservableCollection<NamedItemViewModel<PossibleRegister>> _selectedUsedRegisters = new();
+
+    [ObservableProperty]
+    private ObservableCollection<NamedItemViewModel<PossibleRegister>> _selectedChangedRegisters = new();
+
     public void AddAffectedFlag()
     {
         AffectedFlags?.Add(new FlagEditorViewModel());
@@ -96,7 +130,7 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
 
     public void AddValidOperandPosition()
     {
-        ValidOperands.Add(new(Array.Empty<ValidOperand>(), ValidOperands.Count));
+        ValidOperands!.Add(new(Array.Empty<ValidOperand>(), ValidOperands.Count));
     }
 
     public void RemoveValidOperandPosition()
@@ -130,6 +164,9 @@ public partial class DocumentationElementEditorViewModel : BaseViewModel
                 WhenUnset = flag.WhenUnset,
             })),
             AddressingModes = new(SelectedAddressingModes.Select(x => x.Item)),
+            StackSpaceNeeded = RequiredStackSpace,
+            UsedRegisters = new(SelectedUsedRegisters.Select(x => x.Item)),
+            ChangedRegisters = new(SelectedChangedRegisters.Select(x => x.Item)),
         };
 
         foreach (var position in ValidOperands!)

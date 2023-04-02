@@ -43,6 +43,15 @@ public class DocumentationElement
     [JsonPropertyName("addressing_modes")]
     public List<AddressingMode>? AddressingModes { get; set; }
 
+    [JsonPropertyName("stack_space_needed")]
+    public byte? StackSpaceNeeded { get; set; }
+
+    [JsonPropertyName("used_registers")]
+    public List<PossibleRegister>? UsedRegisters { get; set; }
+
+    [JsonPropertyName("changed_registers")]
+    public List<PossibleRegister>? ChangedRegisters { get; set; }
+
     public void Deconstruct(
         out string? detail,
         out string? description,
@@ -52,7 +61,8 @@ public class DocumentationElement
         out bool dontDuplicate,
         out string prefix,
         out bool prefixRequired,
-        out string? label)
+        out string? label,
+        out byte? stackSpaceNeeded)
     {
         detail = Detail;
         description = Description;
@@ -63,5 +73,6 @@ public class DocumentationElement
         prefix = Prefix ?? "";
         prefixRequired = PrefixRequired;
         label = Label;
+        stackSpaceNeeded = StackSpaceNeeded;
     }
 }
