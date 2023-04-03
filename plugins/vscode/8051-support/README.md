@@ -39,6 +39,11 @@ Opening "8051 Documentation" side panel too soon after launch may result in empt
 
 ## Release Notes
 
+### 0.3.0
+ - Amount of bytes on stack are now showed for DSM-51 subroutines
+ - Used and changed registers are now showed for DSM-51 subroutines
+ - fixed hover for DSM-51 subroutines
+
 ### 0.2.6
 
  - Fixed script a documentation page script
