@@ -60,6 +60,17 @@ pub fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream 
                 None => quote::quote!(std::option::Option::None),
             };
             let addressing_modes = parse_addressing_modes(&item);
+            let stack_space_needed = match item.stack_space_needed {
+                Some(s) => if s == 0 {
+                    quote::quote!(std::option::Option::None)
+                } 
+                else {
+                    quote::quote!(std::option::Option::Some(#s))
+                },
+                None => quote::quote!(std::option::Option::None),
+            };
+            let used_registers = parse_possible_registers(&item.used_registers);
+            let changed_registers = parse_possible_registers(&item.changed_registers);
 
             for partial_key in key.split(";") { 
                 let pkey = partial_key.trim();
@@ -76,6 +87,9 @@ pub fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream 
                     prefix_required: #prefix_required,
                     label: #label,
                     addressing_modes: std::vec::Vec::from([#(#addressing_modes),*]),
+                    stack_space_needed: #stack_space_needed,
+                    used_registers: std::vec::Vec::from([#(#used_registers),*]),
+                    changed_registers: std::vec::Vec::from([#(#changed_registers),*])
                  })});
             }
         }
@@ -83,6 +97,7 @@ pub fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream 
 
     quote::quote! { std::collections::HashMap::from([#(#items),*]) }
 }
+
 
 fn get_files(main_path: &String, shared_path: &String) -> Vec<FileDesctiption> {
     let main_folder = read_documentation_directory(&main_path);
@@ -287,14 +302,14 @@ fn parse_to_documentation(value: &Values, file: &FileDesctiption) -> Documentati
                 doc.description = res.description;
                 doc.label = res.label;
                 doc.prefix = res.prefix;
-                // let affected_flags: Vec<Flag> = res.affected_flags.iter()
-                //     .map(|(flag, desc)| Flag::new(
-                //         flag.clone(), 
-                //         desc.when_set.clone(), 
-                //         desc.when_unset.clone()))
-                //     .collect::<Vec<Flag>>();
+                let affected_flags: Vec<Flag> = res.affected_flags.iter()
+                    .map(|(flag, desc)| Flag::new(
+                        flag.clone(), 
+                        desc.when_set.clone(), 
+                        desc.when_unset.clone()))
+                    .collect::<Vec<Flag>>();
 
-                // doc.affected_flags = affected_flags;
+                doc.affected_flags = affected_flags;
 
             },
             Err(error) => {
@@ -318,6 +333,10 @@ fn parse_to_documentation(value: &Values, file: &FileDesctiption) -> Documentati
                         doc.affected_flags.push(Flag::new(flag, String::new(), String::new()));
                     }
                 }
+
+                doc.stack_space_needed = res.stack_space_needed;
+                doc.used_registers = res.used_registers;
+                doc.changed_registers = res.changed_registers;
 
             },
             Err(error) => {
@@ -405,7 +424,7 @@ fn parse_addressing_modes(item: &Documentation) -> Vec<proc_macro2::TokenStream>
         None => return vec![],
     };
 
-    let mut addressing_modes: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
+    let mut addressing_modes: Vec<proc_macro2::TokenStream> = Vec::new();
 
     for mode in modes {
         let mut m = String::from("crate::hover::AddressingMode::");
@@ -417,6 +436,28 @@ fn parse_addressing_modes(item: &Documentation) -> Vec<proc_macro2::TokenStream>
     }
  
     addressing_modes
+}
+
+
+fn parse_possible_registers(registers: &Option<Vec<String>>) -> Vec<proc_macro2::TokenStream> {
+    let registers = match registers {
+        Some(reg) => reg,
+        None => return vec![],
+    };
+
+    let mut result = Vec::<proc_macro2::TokenStream>::new();
+
+    for register in registers {
+        let mut m = String::from("crate::hover::PossibleRegister::");
+
+        m.push_str(capitalize(&register).as_str());
+
+        let m: proc_macro2::TokenStream = m.parse().unwrap();
+
+        result.push(m);
+    }
+
+    result
 }
 
 fn capitalize<S: AsRef<str>>(s: S) -> String {

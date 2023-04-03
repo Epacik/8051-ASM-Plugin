@@ -21,5 +21,7 @@
   "asm8051.views.documentationPanel.sections.syntax": "Składnia",
   "asm8051.views.documentationPanel.sections.validOperands": "Dozwolone operandy",
   "asm8051.views.documentationPanel.sections.affectedFlags": "Zmodyfikowane flagi",
-  "asm8051.views.documentationPanel.sections.addressingModes": "Tryby adresowania"
+  "asm8051.views.documentationPanel.sections.addressingModes": "Tryby adresowania",
+  "asm8051.views.documentationPanel.sections.usedRegisters": "Użyte rejestry",
+  "asm8051.views.documentationPanel.sections.changedRegisters": "Zmodyfikowane rejestry"
 }

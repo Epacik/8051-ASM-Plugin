@@ -21,5 +21,7 @@
   "asm8051.views.documentationPanel.sections.syntax": "Syntax",
   "asm8051.views.documentationPanel.sections.validOperands": "Valid operands",
   "asm8051.views.documentationPanel.sections.affectedFlags": "Affected flags",
-  "asm8051.views.documentationPanel.sections.addressingModes": "Addressing modes"
+  "asm8051.views.documentationPanel.sections.addressingModes": "Addressing modes",
+  "asm8051.views.documentationPanel.sections.usedRegisters": "Used registers",
+  "asm8051.views.documentationPanel.sections.changedRegisters": "Changed registers"
 }

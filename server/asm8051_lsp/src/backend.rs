@@ -497,6 +497,15 @@ impl Backend {
         let mut map = serde_json::Map::new();
 
         for (key, docs) in docs {
+            let stack_space_needed = match docs.stack_space_needed {
+                Some(space) => Some(format!(
+                    "#### {}: {}",
+                    localize!("hover-StackSpaceNeeded"),
+                    space
+                )),
+                None => None,
+            };
+
             let obj = serde_json::json!({
                 "detail": docs.detail,
                 "description": docs.description,
@@ -506,7 +515,11 @@ impl Backend {
                 "category": docs.category,
                 "label": match docs.label { Some(value) => value, None => key.clone(), },
                 "addressing_modes": hover::generate_addressing_modes(&docs.addressing_modes),
+                "stack_space_needed": stack_space_needed,
+                "used_registers": hover::generate_possible_registers(&docs.used_registers),
+                "changed_registers": hover::generate_possible_registers(&docs.changed_registers),
             });
+
             if !docs.dont_duplicate_in_all_docs {
                 map.insert(key, obj);
             } else if docs.dont_duplicate_in_all_docs && !already_added.contains(&docs.full_key)

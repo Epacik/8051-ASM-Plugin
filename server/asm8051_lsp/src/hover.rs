@@ -258,6 +258,19 @@ pub(crate) fn generate_addressing_modes(addressing_modes: &[AddressingMode]) -> 
     result
 }
 
+pub fn generate_possible_registers(registers: &[PossibleRegister]) -> String {
+    let mut result = String::new();
+
+    for register in registers {
+        result.push_str("- ");
+        result.push_str(register.label().as_str());
+        result.push_str("\n");
+    }
+
+    result
+}
+
+
 //#endregion syntax generation
 
 #[allow(dead_code)]
@@ -297,14 +310,14 @@ pub(crate) fn documentation(
     match token.token {
         Token::Keyword(kw) => documentation_keyword(kw, modifier, &locale),
         Token::Number(num) => documentation_number(num),
-        Token::Label(lb) => documentation_other(lb, token.position, &ast_lines),
-        Token::Other(ot) => documentation_other(ot, token.position, &ast_lines),
+        Token::Label(lb) => documentation_other(lb, token.position, &ast_lines, &locale),
+        Token::Other(ot) => documentation_other(ot, token.position, &ast_lines, &locale),
         _ => Vec::new(),
     }
 
 }
 
-fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>) -> Vec<MarkedString> {
+fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>, locale: &Locale) -> Vec<MarkedString> {
     let (is_macro, line) =  is_symbol_macro(label.as_str(), &ast);
     if is_macro {
         return documentation_label(&label, line, &ast);
@@ -322,7 +335,15 @@ fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast:
         return documentation_label(&label, line, &ast);
     }
 
-    Vec::new()
+    let documentation = match get_documentation(locale, &label) {
+        Some(docs) => docs,
+        None => match get_documentation(&Locale::ENGLISH, &label) {
+            Some(docs) => docs,
+            None => return <Vec<MarkedString>>::new(),
+        },
+    };
+
+    documentation_for_found(label, documentation)
 }
 
 
@@ -549,7 +570,7 @@ fn panic_on_mismatched_lines(line: &[PositionedToken]) {
 }
 
 fn clean_markdown(tmp: &str) -> String {
-    //TODO: remove command links
+    //localize: remove command links
     String::from(tmp)
 }
 
@@ -606,6 +627,10 @@ fn documentation_keyword(mnemonic: Keyword, modifier: AddressingModifier, locale
         },
     };
 
+    documentation_for_found(string_repr, documentation)
+}
+
+fn documentation_for_found(string_repr: String, documentation: Documentation) -> Vec<MarkedString> {
     let mut documentation_vector: Vec<MarkedString> = Vec::new();
 
     let tmp = format!("**{}**", string_repr.as_str());
@@ -630,6 +655,14 @@ fn documentation_keyword(mnemonic: Keyword, modifier: AddressingModifier, locale
     //         value: tmp.to_string(),
     //     }));
     // }
+
+    if let Some(space) = documentation.stack_space_needed {
+        documentation_vector.push(MarkedString::String(format!(
+            "#### {}: {}",
+            localize!("hover-StackSpaceNeeded"),
+            space
+        )));
+    }
 
     let tmp = generate_addressing_modes(&documentation.addressing_modes);
 
@@ -656,6 +689,24 @@ fn documentation_keyword(mnemonic: Keyword, modifier: AddressingModifier, locale
         documentation_vector.push(MarkedString::String(format!(
             "{}:\n\n{}",
             localize!("hover-affectedFlags"),
+            tmp
+        )));
+    }
+
+    let tmp = generate_possible_registers(&documentation.used_registers);
+    if tmp != "" {
+        documentation_vector.push(MarkedString::String(format!(
+            "{}:\n\n{}",
+            localize!("hover-usedRegisters"),
+            tmp
+        )));
+    }
+
+    let tmp = generate_possible_registers(&documentation.changed_registers);
+    if tmp != "" {
+        documentation_vector.push(MarkedString::String(format!(
+            "{}:\n\n{}",
+            localize!("hover-changedRegisters"),
             tmp
         )));
     }
@@ -814,18 +865,21 @@ trait Label {
 #[allow(dead_code)]
 #[derive(Default, Clone, Debug)]
 pub struct Documentation {
-    pub detail: std::string::String,
-    pub description: std::string::String,
-    pub valid_operands: std::vec::Vec<std::vec::Vec<ValidOperand>>,
-    pub affected_flags: std::vec::Vec<Flag>,
+    pub detail: String,
+    pub description: String,
+    pub valid_operands: Vec<Vec<ValidOperand>>,
+    pub affected_flags: Vec<Flag>,
     pub dont_generate_syntax: bool,
     pub dont_duplicate_in_all_docs: bool,
-    pub full_key: std::string::String,
+    pub full_key: String,
     pub category: String,
     pub prefix: String,
     pub prefix_required: bool,
     pub label: Option<String>,
     pub addressing_modes: Vec::<AddressingMode>,
+    pub stack_space_needed: Option<u8>,
+    pub used_registers: Vec<PossibleRegister>,
+    pub changed_registers: Vec<PossibleRegister>,
 }
 
 
@@ -844,6 +898,9 @@ impl Documentation {
         prefix_required: bool,
         label: Option<String>,
         addressing_modes: Vec::<AddressingMode>,
+        stack_space_needed: Option<u8>,
+        used_registers: Vec<PossibleRegister>,
+        changed_registers: Vec<PossibleRegister>,
     ) -> Documentation {
         Documentation {
             detail: String::from(detail),
@@ -858,6 +915,9 @@ impl Documentation {
             prefix_required,
             label,
             addressing_modes,
+            stack_space_needed,
+            used_registers,
+            changed_registers,
         }
     }
 }
@@ -866,8 +926,8 @@ impl Documentation {
 #[derive(Default, Clone, Debug)]
 pub struct Flag {
     pub flag: FlagType,
-    pub when_set: std::string::String,
-    pub when_unset: std::string::String,
+    pub when_set: String,
+    pub when_unset: String,
 }
 
 #[allow(dead_code)]
@@ -1154,6 +1214,37 @@ impl Label for AddressingMode {
             AddressingMode::Direct           => localize!("addressingMode-Direct"),
             AddressingMode::RegisterIndirect => localize!("addressingMode-RegisterIndirect"),
             AddressingMode::Indexed          => localize!("addressingMode-Indexed"),
+        }
+    }
+}
+
+#[derive(PartialEq)]
+#[derive(Clone)]
+#[derive(Copy)]
+#[derive(Default)]
+#[derive(Debug)]
+pub enum PossibleRegister
+{
+    #[default]
+    Accumulator = 0,
+    B           = 1,
+    Dptr        = 2,
+    Psw         = 3,
+    R0          = 4,
+    R1          = 5,
+    R2          = 6,
+} 
+
+impl Label for PossibleRegister{
+    fn label(&self) -> String {
+        match self {
+            PossibleRegister::Accumulator => localize!("operand-A"),
+            PossibleRegister::B => localize!("operand-B"),
+            PossibleRegister::Dptr => localize!("operand-DPTR"),
+            PossibleRegister::Psw => localize!("register-PSW"),
+            PossibleRegister::R0 => localize!("register-R0"),
+            PossibleRegister::R1 => localize!("register-R1"),
+            PossibleRegister::R2 => localize!("register-R2"),
         }
     }
 }

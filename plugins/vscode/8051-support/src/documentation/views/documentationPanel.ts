@@ -158,10 +158,13 @@ export class DocumentationPanel extends DocumentationViewBase {
         let parsed = await this.#parseMarkdown(markdown);
 
         insertSection(null, getSectionFromParsed("desc"));
-        insertSection(localize("asm8051.views.documentationPanel.sections.syntax"),          getSectionFromParsed("syntax"));
-        insertSection(localize("asm8051.views.documentationPanel.sections.addressingModes"), getSectionFromParsed("addressing_modes"));
-        insertSection(localize("asm8051.views.documentationPanel.sections.validOperands"),   getSectionFromParsed("valid_operands"));
-        insertSection(localize("asm8051.views.documentationPanel.sections.affectedFlags"),   getSectionFromParsed("affected_flags"));
+        insertSection(null, getSectionFromParsed("stack_space_needed"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.syntax"),           getSectionFromParsed("syntax"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.addressingModes"),  getSectionFromParsed("addressing_modes"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.validOperands"),    getSectionFromParsed("valid_operands"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.affectedFlags"),    getSectionFromParsed("affected_flags"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.usedRegisters"),    getSectionFromParsed("used_registers"));
+        insertSection(localize("asm8051.views.documentationPanel.sections.changedRegisters"), getSectionFromParsed("changed_registers"));
 
         return result + `<div class="doc-spacer"></div>\n\n`;
     }
@@ -189,9 +192,12 @@ export class DocumentationPanel extends DocumentationViewBase {
 
         insertSection("desc", doc.description);
         insertSection("syntax", doc.syntax, "```asm8051\n", "\n```");
+        insertSection("stack_space_needed", doc.stack_space_needed);
         insertSection("valid_operands", doc.valid_operands);
         insertSection("affected_flags", doc.affected_flags);
         insertSection("addressing_modes", doc.addressing_modes);
+        insertSection("used_registers", doc.used_registers);
+        insertSection("changed_registers", doc.changed_registers);
 
         return result;
     }

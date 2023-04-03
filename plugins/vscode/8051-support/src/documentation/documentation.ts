@@ -11,4 +11,7 @@ export default interface IDocumentation {
     category: string,
     label: string,
     addressing_modes: NullishableString,
+    stack_space_needed: NullishableString,
+    used_registers: NullishableString,
+    changed_registers: NullishableString
 }

@@ -87,3 +87,12 @@ hover-numberBase-label-binary      = Binary
 hover-numberBase-label-octal       = Octal
 hover-numberBase-label-decimal     = Decimal
 hover-numberBase-label-hexadecimal = Hexadecimal
+
+hover-StackSpaceNeeded             = Stack space needed
+hover-usedRegisters                = Used registers
+hover-changedRegisters             = Changed registers
+
+register-PSW                       = Program Status Word (PSW)
+register-R0                        = Helper register R0
+register-R1                        = Helper register R1
+register-R2                        = Helper register R2

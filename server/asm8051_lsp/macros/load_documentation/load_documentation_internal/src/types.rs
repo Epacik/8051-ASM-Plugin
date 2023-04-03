@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 
 
@@ -14,6 +16,9 @@ pub struct Documentation {
     pub prefix_required: bool,
     pub label: Option<String>,
     pub addressing_modes: Option<std::vec::Vec<std::string::String>>,
+    pub stack_space_needed: Option<u8>,
+    pub used_registers: Option<std::vec::Vec<std::string::String>>,
+    pub changed_registers: Option<std::vec::Vec<std::string::String>>,
 }
 
 #[allow(dead_code)]
@@ -23,7 +28,7 @@ pub struct MainDocumentationElement {
     pub description: std::string::String,
     pub prefix: std::string::String,
     pub label: Option<String>,
-    //pub affected_flags: HashMap<std::string::String, FlagDescription>,
+    pub affected_flags: HashMap<std::string::String, FlagDescription>,
 }
 
 #[allow(dead_code)]
@@ -35,6 +40,9 @@ pub struct SharedDocumentationElement {
     pub dont_duplicate_in_all_docs: bool,
     pub prefix_required: bool,
     pub addressing_modes: Option<std::vec::Vec<std::string::String>>,
+    pub stack_space_needed: Option<u8>,
+    pub used_registers: Option<std::vec::Vec<std::string::String>>,
+    pub changed_registers: Option<std::vec::Vec<std::string::String>>,
 }
 
 #[allow(dead_code)]

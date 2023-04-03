@@ -87,7 +87,15 @@ hover-numberBase-label-binary      = Binarnie
 hover-numberBase-label-octal       = Ósemkowo
 hover-numberBase-label-decimal     = Dziesiętnie
 hover-numberBase-label-hexadecimal = Szesnastkowo
+
+hover-StackSpaceNeeded             = Wymagana przestrzeń na stosie
+hover-usedRegisters                = Użyte rejestry
+hover-changedRegisters             = Zmienione rejestry
 ## test
 
 unknown-token = unknown-token
-unknown-token = unknown-token
+
+register-PSW                       = Słowo Stanu Programu (PSW)
+register-R0                        = Rejestr pomocniczy R0
+register-R1                        = Rejestr pomocniczy R1
+register-R2                        = Rejestr pomocniczy R2
