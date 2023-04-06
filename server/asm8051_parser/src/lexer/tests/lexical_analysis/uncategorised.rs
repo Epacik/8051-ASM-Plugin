@@ -22,7 +22,7 @@ STOP:
         PositionedToken::new(token![WhiteSpace("    ")],   position!(16..19, 1, 0..3)),
         PositionedToken::new(token![ORG],                  position!(20..22, 1, 4..6)),
         PositionedToken::new(token![WhiteSpace("  ")],     position!(23..24, 1, 7..8)),
-        PositionedToken::new(token![AddressH("100H")],     position!(25..28, 1, 9..12)),
+        PositionedToken::new(token![AddressH("100")],      position!(25..28, 1, 9..12)),
         PositionedToken::new(token![NewLine("\n")],        position!(29, 1, 13)),
         
         // line 2
@@ -35,7 +35,7 @@ STOP:
         PositionedToken::new(token![CLR],                  position!(41..43, 3, 4..6)),
         PositionedToken::new(token![WhiteSpace("  ")],     position!(44..45, 3, 7..8)),
         PositionedToken::new(token![P1],                   position!(46..47, 3, 9..10)),
-        PositionedToken::new(token![AddressingSeparator], position!(48, 3, 11)),
+        PositionedToken::new(token![AddressingSeparator],  position!(48, 3, 11)),
         PositionedToken::new(token![AddressD("7")],        position!(49, 3, 12)),
         PositionedToken::new(token![NewLine("\n")],        position!(50, 3, 13)),
         
@@ -84,7 +84,7 @@ vec![
     PositionedToken::new(token![WhiteSpace("\t")],  position!(3, 0)),
     PositionedToken::new(token![EQU],               position!(4..6, 0)),
     PositionedToken::new(token![WhiteSpace("\t")],  position!(7, 0)),
-    PositionedToken::new(token![AddressH("30H")],   position!(8..10, 0)),
+    PositionedToken::new(token![AddressH("30")],    position!(8..10, 0)),
     PositionedToken::new(token![NewLine("\n")],     position!(11, 0)),
      
     // line 1 
@@ -98,7 +98,7 @@ vec![
     PositionedToken::new(token![WhiteSpace("\t")],  position!(25, 2, 0)),
     PositionedToken::new(token![ORG],               position!(26..28, 2, 1..3)),
     PositionedToken::new(token![WhiteSpace("  ")],  position!(29..30, 2, 4..5)),
-    PositionedToken::new(token![AddressH("100H")],  position!(31..34, 2, 6..9)),
+    PositionedToken::new(token![AddressH("100")],   position!(31..34, 2, 6..9)),
     PositionedToken::new(token![NewLine("\n")],     position!(35, 2, 10)),
      
     // line 3 

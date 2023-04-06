@@ -312,9 +312,16 @@ pub(crate) fn documentation(
         Token::Number(num) => documentation_number(num),
         Token::Label(lb) => documentation_other(lb, token.position, &ast_lines, &locale),
         Token::Other(ot) => documentation_other(ot, token.position, &ast_lines, &locale),
+        Token::String(st) => documentation_string(st, &locale),
         _ => Vec::new(),
     }
 
+}
+
+fn documentation_string(st: String, locale: &Locale) -> Vec<MarkedString> {
+    vec![
+        MarkedString::String(format!("\"{st}\"")),
+    ]
 }
 
 fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>, locale: &Locale) -> Vec<MarkedString> {
@@ -575,12 +582,12 @@ fn clean_markdown(tmp: &str) -> String {
 }
 
 fn documentation_number(number: Number) -> Vec<MarkedString> {
-    let (label_binary, label_octal, label_decimal, label_hex): (String, String, String, String) = (
-        localize!("hover-numberBase-label-binary"),
-        localize!("hover-numberBase-label-octal"),
-        localize!("hover-numberBase-label-decimal"),
-        localize!("hover-numberBase-label-hexadecimal"),
-    );
+
+    let header = localize!("hover-numberBase-header");
+    let label_binary = localize!("hover-numberBase-label-binary");
+    let label_octal = localize!("hover-numberBase-label-octal");
+    let label_decimal = localize!("hover-numberBase-label-decimal");
+    let label_hex = localize!("hover-numberBase-label-hexadecimal");
 
     let parsed = match number {
         Number::Binary(bin) => i32::from_str_radix(bin.as_str(), 2),
@@ -595,9 +602,16 @@ fn documentation_number(number: Number) -> Vec<MarkedString> {
     };
 
     let string = MarkedString::String(format!(
-        "{}: #{:b}B\n\n{}: #{:o}O\n\n{}: #{}\n\n{}: #{:X}H",
-        label_binary, value, label_octal, value, label_decimal, value, label_hex, value
-    ));
+        r#"#### {header}
+
+{label_binary}: #{value:b}B
+
+{label_octal}: #{value:o}O
+
+{label_decimal}: #{value}
+
+{label_hex}: #{value:X}H"#));
+
     vec![string]
 }
 
@@ -760,6 +774,26 @@ fn get_symbol(document: &Vec<PositionedToken>, position: Position) -> Option<(Po
                 }
                 else {
                     tok = Some((&current_line[i - 1], AddressingModifier::No));
+                    break;
+                }
+            }
+            else if 
+                token.token == Token::ControlCharacter(ControlCharacter::Delimiter(Delimiter::DoubleQuote)) ||
+                token.token == Token::ControlCharacter(ControlCharacter::Delimiter(Delimiter::SingleQuote)) {
+
+                if i > 0 {
+                    let index = i - 1;
+                    if let Token::String(st) = &current_line[index].token {
+                        tok = Some((&current_line[index], AddressingModifier::No));
+                        break;
+                    }
+                }
+                else if i < current_line.len() - 1 {
+                    let index = i + 1;
+                    if let Token::String(st) = &current_line[index].token {
+                        tok = Some((&current_line[index], AddressingModifier::No));
+                        break;
+                    }
                 }
             }
             else {

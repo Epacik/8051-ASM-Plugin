@@ -83,6 +83,7 @@ hover-goToDocs                     = Przejdź do dokumentacji
 hover-setWhen                      = ustawiony gdy
 hover-unsetWhen                    = zresetowany gdy
 
+hover-numberBase-header            = Reprezentacje liczby
 hover-numberBase-label-binary      = Binarnie
 hover-numberBase-label-octal       = Ósemkowo
 hover-numberBase-label-decimal     = Dziesiętnie

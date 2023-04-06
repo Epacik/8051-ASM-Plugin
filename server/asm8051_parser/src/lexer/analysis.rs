@@ -253,7 +253,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 let string_position = Position::new(
                     position_first.range.start..position_last.range.end, 
                     position_first.line,
-                    position_first.range.start..position_last.range.end);
+                    position_first.columns.start..position_last.columns.end);
 
                 if !escaped_content.is_ascii() {
                     let non_ascii_characters = escaped_content

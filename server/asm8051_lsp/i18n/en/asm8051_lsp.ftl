@@ -83,6 +83,7 @@ hover-goToDocs                     = Go to documentation
 hover-setWhen                      = set when
 hover-unsetWhen                    = unset when
 
+hover-numberBase-header            = Number representations
 hover-numberBase-label-binary      = Binary
 hover-numberBase-label-octal       = Octal
 hover-numberBase-label-decimal     = Decimal

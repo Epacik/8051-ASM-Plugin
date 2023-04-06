@@ -2,7 +2,7 @@
     ORG       100H
 
 ; lol it works!
-text EQU "123\x43?565752"
+text EQU "123\x0D\x0A?565752"
 
 ; let's test if that works
 START:
