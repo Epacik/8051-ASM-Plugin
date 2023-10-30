@@ -77,14 +77,18 @@ hover-Operand__cap                 = Operand
 hover-validOperands                = Dozwolone operandy
 hover-affectedFlags                = Zmodyfikowane flagi
 hover-addressingModes              = Tryby adresowania
+
 hover-goToDocs                     = Przejdź do dokumentacji
+
 hover-setWhen                      = ustawiony gdy
 hover-unsetWhen                    = zresetowany gdy
+
 hover-numberBase-header            = Reprezentacje liczby
 hover-numberBase-label-binary      = Binarnie
 hover-numberBase-label-octal       = Ósemkowo
 hover-numberBase-label-decimal     = Dziesiętnie
 hover-numberBase-label-hexadecimal = Szesnastkowo
+
 hover-StackSpaceNeeded             = Wymagana przestrzeń na stosie
 hover-usedRegisters                = Użyte rejestry
 hover-changedRegisters             = Zmienione rejestry

@@ -23,7 +23,7 @@ fn map_severity(sev: &asm8051_parser::issues::IssueType) -> DiagnosticSeverity {
 
 pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem) -> Vec<Diagnostic> {
 
-    let (_, errors) = asm8051_parser::lexer::lexical_analisys(&_text_document.text);
+    let (_, errors) = asm8051_parser::lexer::lexical_analysis(&_text_document.text);
 
     let mut diagnostics : Vec<Diagnostic> = Vec::new();
     for error in errors {

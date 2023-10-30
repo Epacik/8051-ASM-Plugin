@@ -1,0 +1,13 @@
+[package]
+name = "asm8051_shared"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+lazy_static = "1.4.0"
+rust-i18n = "2"
+asm8051_localize = { path = "../asm8051_localize", version = "*" }

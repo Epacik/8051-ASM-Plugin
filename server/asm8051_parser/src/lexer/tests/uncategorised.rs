@@ -4,10 +4,10 @@ use crate::lexer::*;
 
 
 #[test]
-fn analize()
+fn analyze()
 {
     let (_ast, _errors) = 
-        lexical_analisys(
+        lexical_analysis(
 r#"    LJMP #1
     LJMP  START
 STR EQU 'some small text'

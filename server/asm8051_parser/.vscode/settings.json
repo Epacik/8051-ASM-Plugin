@@ -4,5 +4,5 @@
     "lldb.dereferencePointers": true,
     "lldb.consoleMode": "commands",
     "C_Cpp.vcpkg.enabled": false,
-    "cmake.buildBeforeRun": false,
+    "cmake.buildBeforeRun": false
 }

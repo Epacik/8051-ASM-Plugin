@@ -1,13 +1,13 @@
 #![allow(unused_imports, dead_code, unused_variables, unused_mut)]
 //#region imports
 use crate::{client_configuration::ClientConfiguration, flags::Locale};
-use crate::localize;
 use asm8051_parser::lexer::tokens::{Token, Keyword, ControlCharacter, PositionedToken, Register, HelperRegister, Number, Directive, Delimiter, Trivia};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::borrow::Borrow;
 use std::collections::HashMap;
 use tower_lsp::lsp_types::*;
+use asm8051_shared::{*, Documentation};
 //#endregion
 
 pub(crate) fn all_documentation(locale: Locale) -> Option<HashMap<String, Documentation>> {
@@ -51,7 +51,7 @@ pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
 }
 
 fn syntax_one_operand(key: String, operands: &Vec<ValidOperand>, prefix: String) -> String {
-    let mut result = format!("{}{} [{}]\n\n", prefix, key, localize!("hover-operand"));
+    let mut result = format!("{}{} [{}]\n\n", prefix, key, t!("hover.operand"));
 
     for operand in operands {
         result.push_str(format!("{}{} [{}]\n", prefix, key, operand.operand().label()).as_str());
@@ -73,8 +73,8 @@ fn syntax_two_operands(
         "{}{} [{}], [{}]\n\n",
         prefix,
         key,
-        localize!("hover-operand0"),
-        localize!("hover-operand1")
+        t!("hover.operand0"),
+        t!("hover.operand1")
     );
 
     for operand0 in operands0.clone() {
@@ -121,9 +121,9 @@ fn syntax_three_operands(
         "{}{} [{}], [{}], [{}]\n\n",
         prefix,
         key,
-        localize!("hover-operand0"),
-        localize!("hover-operand1"),
-        localize!("hover-operand2")
+        t!("hover.operand0"),
+        t!("hover.operand1"),
+        t!("hover.operand2")
     );
 
     for operand0 in operands0.clone() {
@@ -178,7 +178,7 @@ pub(crate) fn generate_affected_flags(flags: &Vec<Flag>) -> String {
         result.push_str("**: ");
 
         if !flag.when_set.is_empty() {
-            result.push_str(localize!("hover-setWhen").as_str());
+            result.push_str(t!("hover.setWhen").as_str());
             result.push_str(" ");
             result.push_str(flag.when_set.as_str());
         }
@@ -188,7 +188,7 @@ pub(crate) fn generate_affected_flags(flags: &Vec<Flag>) -> String {
         }
 
         if !flag.when_unset.is_empty() {
-            result.push_str(localize!("hover-unsetWhen").as_str());
+            result.push_str(t!("hover.unsetWhen").as_str());
             result.push_str(" ");
             result.push_str(flag.when_set.as_str());
         }
@@ -225,7 +225,7 @@ pub(crate) fn generate_valid_operands(operands: &Vec<Vec<ValidOperand>>) -> Stri
 
         for i in 0..filtered.len() {
             result.push_str("**");
-            result.push_str(localize!("hover-Operand__cap").as_str());
+            result.push_str(t!("hover.Operand__cap").as_str());
             result.push_str(i.to_string().as_str());
             result.push_str("**: \n");
 
@@ -282,7 +282,7 @@ pub(crate) fn documentation(
     locale: Locale,
 ) -> Vec<MarkedString> {
 
-    let (tokens, _) = asm8051_parser::lexer::lexical_analisys(&document.borrow().text);
+    let (tokens, _) = asm8051_parser::lexer::lexical_analysis(&document.borrow().text);
     let ast = match tokens {
         Some(s) => s,
         None => return Vec::new(),
@@ -408,11 +408,11 @@ fn is_symbol_label(label: &str, ast: &HashMap<usize, Vec<PositionedToken>>) -> (
 
 fn is_symbol_constant(label: &str, ast: &HashMap<usize, Vec<PositionedToken>>) -> (bool, i32) {
     let label = if label.starts_with("#") {
-        let chars = label.borrow().chars().collect::<Vec<char>>();
+        let chars = label.chars().collect::<Vec<char>>();
         let chars = chars[1..].borrow();
         String::from_iter(chars)
     } else {
-        String::from(label.borrow())
+        String::from(label)
     };
 
     let label_token = Token::Label(label);
@@ -583,11 +583,11 @@ fn clean_markdown(tmp: &str) -> String {
 
 fn documentation_number(number: Number) -> Vec<MarkedString> {
 
-    let header = localize!("hover-numberBase-header");
-    let label_binary = localize!("hover-numberBase-label-binary");
-    let label_octal = localize!("hover-numberBase-label-octal");
-    let label_decimal = localize!("hover-numberBase-label-decimal");
-    let label_hex = localize!("hover-numberBase-label-hexadecimal");
+    let header = t!("hover.numberBase_header");
+    let label_binary = t!("hover.numberBase-label_binary");
+    let label_octal = t!("hover.numberBase-label_octal");
+    let label_decimal = t!("hover.numberBase-label_decimal");
+    let label_hex = t!("hover.numberBase-label_hexadecimal");
 
     let parsed = match number {
         Number::Binary(bin) => i32::from_str_radix(bin.as_str(), 2),
@@ -673,7 +673,7 @@ fn documentation_for_found(string_repr: String, documentation: Documentation) ->
     if let Some(space) = documentation.stack_space_needed {
         documentation_vector.push(MarkedString::String(format!(
             "#### {}: {}",
-            localize!("hover-StackSpaceNeeded"),
+            t!("hover.StackSpaceNeeded"),
             space
         )));
     }
@@ -683,7 +683,7 @@ fn documentation_for_found(string_repr: String, documentation: Documentation) ->
     if tmp != "" {
         documentation_vector.push(MarkedString::String(format!(
             "{}:\n\n{}",
-            localize!("hover-addressingModes"),
+            t!("hover.addressingModes"),
             tmp
         )));
     }
@@ -693,7 +693,7 @@ fn documentation_for_found(string_repr: String, documentation: Documentation) ->
     if tmp != "" {
         documentation_vector.push(MarkedString::String(format!(
             "{}:\n\n{}",
-            localize!("hover-validOperands"),
+            t!("hover.validOperands"),
             tmp
         )));
     }
@@ -702,7 +702,7 @@ fn documentation_for_found(string_repr: String, documentation: Documentation) ->
     if tmp != "" {
         documentation_vector.push(MarkedString::String(format!(
             "{}:\n\n{}",
-            localize!("hover-affectedFlags"),
+            t!("hover.affectedFlags"),
             tmp
         )));
     }
@@ -711,7 +711,7 @@ fn documentation_for_found(string_repr: String, documentation: Documentation) ->
     if tmp != "" {
         documentation_vector.push(MarkedString::String(format!(
             "{}:\n\n{}",
-            localize!("hover-usedRegisters"),
+            t!("hover.usedRegisters"),
             tmp
         )));
     }
@@ -720,14 +720,14 @@ fn documentation_for_found(string_repr: String, documentation: Documentation) ->
     if tmp != "" {
         documentation_vector.push(MarkedString::String(format!(
             "{}:\n\n{}",
-            localize!("hover-changedRegisters"),
+            t!("hover.changedRegisters"),
             tmp
         )));
     }
 
     documentation_vector.push(MarkedString::String(format!(
         "[{}](command:asm8051.openDocs?%7B%22category%22:%22{}%22,%22item%22:%22{}%22%7D)",
-        localize!("hover-goToDocs"),
+        t!("hover.goToDocs"),
         documentation.category,
         string_repr
     )));
@@ -864,424 +864,6 @@ pub enum Symbol {
     Macro(String, u32),
 }
 
-trait FromI32{
-    fn from_i32(operand: i32, when_first_is: Option<i32>) -> ValidOperand;
-}
-
-impl FromI32 for ValidOperand {
-    fn from_i32(operand: i32, when_first_is: Option<i32>) -> ValidOperand {
-        let when_first_is = when_first_is.unwrap_or(0);
-
-        let operand = match operand.try_into() {
-            Ok(op) => op,
-            Err(_) => panic!("operand was {}", localize!("error-outOfRange")),
-        };
-
-        let when_first_is = match when_first_is.try_into() {
-            Ok(wfi) => wfi,
-            Err(_) => panic!("when_first_is {}", localize!("error-outOfRange")),
-        };
-
-        ValidOperand {
-            operand,
-            when_first_is,
-        }
-    }
-}
-
-trait Label {
-    fn label(&self) -> String;
-    fn example(&self, i: Option<i32>)-> String {
-        String::new()
-    }
-}
-
-#[allow(dead_code)]
-#[derive(Default, Clone, Debug)]
-pub struct Documentation {
-    pub detail: String,
-    pub description: String,
-    pub valid_operands: Vec<Vec<ValidOperand>>,
-    pub affected_flags: Vec<Flag>,
-    pub dont_generate_syntax: bool,
-    pub dont_duplicate_in_all_docs: bool,
-    pub full_key: String,
-    pub category: String,
-    pub prefix: String,
-    pub prefix_required: bool,
-    pub label: Option<String>,
-    pub addressing_modes: Vec::<AddressingMode>,
-    pub stack_space_needed: Option<u8>,
-    pub used_registers: Vec<PossibleRegister>,
-    pub changed_registers: Vec<PossibleRegister>,
-}
-
-
-impl Documentation {
-    #[allow(dead_code)]
-    fn new(
-        detail: &str,
-        description: &str,
-        valid_operands: Vec<Vec<ValidOperand>>,
-        affected_flags: Vec<Flag>,
-        dont_generate_syntax: bool,
-        dont_duplicate_in_all_docs: bool,
-        full_key: &str,
-        category: &str,
-        prefix: &str,
-        prefix_required: bool,
-        label: Option<String>,
-        addressing_modes: Vec::<AddressingMode>,
-        stack_space_needed: Option<u8>,
-        used_registers: Vec<PossibleRegister>,
-        changed_registers: Vec<PossibleRegister>,
-    ) -> Documentation {
-        Documentation {
-            detail: String::from(detail),
-            description: String::from(description),
-            valid_operands,
-            affected_flags,
-            dont_generate_syntax,
-            category: String::from(category),
-            dont_duplicate_in_all_docs,
-            full_key: String::from(full_key),
-            prefix: String::from(prefix),
-            prefix_required,
-            label,
-            addressing_modes,
-            stack_space_needed,
-            used_registers,
-            changed_registers,
-        }
-    }
-}
-
-#[allow(dead_code)]
-#[derive(Default, Clone, Debug)]
-pub struct Flag {
-    pub flag: FlagType,
-    pub when_set: String,
-    pub when_unset: String,
-}
-
-#[allow(dead_code)]
-impl Flag {
-    pub fn flag(&self) -> FlagType {
-        self.flag
-    }
-
-    pub fn new(flag: FlagType) -> Flag {
-        Flag {
-            flag: flag,
-            when_set: String::from(""),
-            when_unset: String::from(""),
-        }
-    }
-
-    pub fn new_with_messages(flag: FlagType, when_set: &str, when_unset: &str) -> Flag {
-        Flag {
-            flag: flag,
-            when_set: String::from(when_set),
-            when_unset: String::from(when_unset),
-        }
-    }
-
-    pub fn from_i32(flag: i32) -> Flag {
-        Flag {
-            flag: flag.try_into().unwrap(),
-            when_set: String::from(""),
-            when_unset: String::from(""),
-        }
-    }
-
-    pub fn from_i32_with_messages(flag: i32, when_set: &str, when_unset: &str) -> Flag {
-        Flag {
-            flag: flag.try_into().unwrap(),
-            when_set: String::from(when_set),
-            when_unset: String::from(when_unset),
-        }
-    }
-}
-
-#[allow(dead_code)]
-#[derive(Default, Clone, Copy, Debug)]
-pub struct ValidOperand {
-    pub operand: PossibleOperand,
-    pub when_first_is: PossibleOperand,
-}
-
-#[allow(dead_code)]
-impl ValidOperand {
-    pub fn operand(&self) -> PossibleOperand {
-        self.operand
-    }
-
-    pub fn when_first_is(&self) -> PossibleOperand {
-        self.when_first_is
-    }
-
-    pub fn new(operand: PossibleOperand, when_first_is: Option<PossibleOperand>) -> ValidOperand {
-        ValidOperand {
-            operand: operand,
-            when_first_is: when_first_is.unwrap_or(PossibleOperand::Any),
-        }
-    }
-
-    pub fn equals(&self, other: &ValidOperand) -> bool {
-        self.operand == other.operand && self.when_first_is == other.when_first_is
-    }
-}
-
-#[derive(PartialEq)]
-#[derive(Clone)]
-#[derive(Copy)]
-#[derive(Default)]
-#[derive(Debug)]
-pub enum FlagType {
-    #[default]
-    Parity              = 0,
-    UserDefined         = 1,
-    Overflow            = 2,
-    RegisterBankSelect0 = 3,
-    RegisterBankSelect1 = 4,
-    Flag0               = 5,
-    AuxiliaryCarry      = 6,
-    Carry               = 7
-}
-
-impl Label for FlagType {
-    fn label(&self) -> String {
-        match self {
-            FlagType::Parity => format!("{} [P]", localize!("flag-parity")),
-            FlagType::UserDefined => format!("{}", localize!("flag-userDefined")),
-            FlagType::Overflow => format!("{} [OV]", localize!("flag-overflow")),
-            FlagType::RegisterBankSelect0 => format!("{} 0 [RS0]", localize!("flag-registerBankSelect")),
-            FlagType::RegisterBankSelect1 => format!("{} 1 [RS1]", localize!("flag-registerBankSelect")),
-            FlagType::Flag0 => format!("{} [F0]", localize!("flag-flag0")),
-            FlagType::AuxiliaryCarry => format!("{} [AC]", localize!("flag-auxiliaryCarry")),
-            FlagType::Carry => format!("{} [CY]", localize!("flag-carry")),
-        }
-    }
-}
-
-impl TryFrom<i32> for FlagType {
-    type Error = ();
-
-    fn try_from(value: i32) -> Result<Self, Self::Error> {
-        match value {
-            x if x == FlagType::Parity              as i32 => Ok(FlagType::Parity              ),
-            x if x == FlagType::UserDefined         as i32 => Ok(FlagType::UserDefined         ),
-            x if x == FlagType::Overflow            as i32 => Ok(FlagType::Overflow            ),
-            x if x == FlagType::RegisterBankSelect0 as i32 => Ok(FlagType::RegisterBankSelect0 ),
-            x if x == FlagType::RegisterBankSelect1 as i32 => Ok(FlagType::RegisterBankSelect1 ),
-            x if x == FlagType::Flag0               as i32 => Ok(FlagType::Flag0               ),
-            x if x == FlagType::AuxiliaryCarry      as i32 => Ok(FlagType::AuxiliaryCarry      ),
-            x if x == FlagType::Carry               as i32 => Ok(FlagType::Carry               ),
-            _ => Err(()),
-        }
-    }
-}
-
-#[derive(PartialEq)]
-#[derive(Clone)]
-#[derive(Copy)]
-#[derive(Default)]
-#[derive(Debug)]
-pub enum PossibleOperand {
-    #[default]
-    Any                          = 0,
-    CodeAddress                  = 1,
-    Label                        = 2,
-    Data                         = 3,
-    Data16                       = 4,
-    InternalRamAddress           = 5,
-    AddressInR0OrR1              = 6,
-    HelperRegisters              = 7,
-    CarryFlag                    = 8,
-    BitAddress                   = 9,
-    NegatedBitAddress            = 10,
-    RelativeAddress              = 11,
-    Accumulator                  = 12,
-    AccumulatorAndB              = 13,
-    AddressInAccumulatorPlusDptr = 14,
-    Dptr                         = 15,
-    AddressInDptr                = 16,
-    AddressInAccumulatorPlusPC   = 17,
-    AbsoluteAddress              = 18,
-    RegisterB                    = 19,
-    Dpl                          = 20,
-    Dph                          = 21,
-
-    HexNumber                    = 100,
-    BinaryNumber                 = 101,
-    DecimalNumber                = 102,
-    AsciiCharacters              = 103,
-}
-
-impl Label for PossibleOperand {
-    fn label(&self) -> String {
-        match self {
-            PossibleOperand::Any => localize!("operand-any"),
-            PossibleOperand::CodeAddress => localize!("operand-codeAddress"),
-            PossibleOperand::Label => localize!("operand-label"),
-            PossibleOperand::Data => localize!("operand-byte"),
-            PossibleOperand::Data16 => localize!("operand-twoBytes"),
-            PossibleOperand::InternalRamAddress => localize!("operand-internalRamAddress"),
-            PossibleOperand::AddressInR0OrR1 => localize!("operand-indirectR0OrR1"),
-            PossibleOperand::HelperRegisters => localize!("operand-helperRegister"),
-            PossibleOperand::CarryFlag => localize!("operand-carryFlag"),
-            PossibleOperand::BitAddress => localize!("operand-bitAddress"),
-            PossibleOperand::NegatedBitAddress => localize!("operand-negatedBitAddress"),
-            PossibleOperand::RelativeAddress => localize!("operand-relativeAddress"),
-            PossibleOperand::Accumulator => localize!("operand-A"),
-            PossibleOperand::AccumulatorAndB => localize!("operand-AB"),
-            PossibleOperand::AddressInAccumulatorPlusDptr => localize!("operand-A_DPTR"),
-            PossibleOperand::Dptr => localize!("operand-DPTR"),
-            PossibleOperand::AddressInDptr => localize!("operand-indirectDPTR"),
-            PossibleOperand::AddressInAccumulatorPlusPC => localize!("operand-indirectA_PC"),
-            PossibleOperand::AbsoluteAddress => localize!("operand-absoluteAddress"),
-            PossibleOperand::RegisterB => localize!("operand-B"),
-            PossibleOperand::Dpl => localize!("operand-DPL"),
-            PossibleOperand::Dph => localize!("operand-DPH"),
-
-            PossibleOperand::HexNumber => localize!("operand-hex"),
-            PossibleOperand::BinaryNumber => localize!("operand-bin"),
-            PossibleOperand::DecimalNumber => localize!("operand-dec"),
-            PossibleOperand::AsciiCharacters => localize!("operand-ascii"),
-        }
-    }
-
-    fn example(&self, i: Option<i32>) -> String {
-        let r_address = format!("@R{}", i.unwrap_or(0));
-        let r = format!("R{}", i.unwrap_or(0));
-        let label = localize!("operand-example-label");
-
-        (match self {
-            PossibleOperand::CodeAddress => "23H",
-            PossibleOperand::Label => label.as_str(),
-            PossibleOperand::Data => "#32H",
-            PossibleOperand::Data16 => "#5C6H",
-            PossibleOperand::InternalRamAddress => "23H",
-            PossibleOperand::AddressInR0OrR1 => r_address.as_str(),
-            PossibleOperand::HelperRegisters => r.as_str(),
-            PossibleOperand::CarryFlag => "C",
-            PossibleOperand::BitAddress => "23H",
-            PossibleOperand::NegatedBitAddress => "/23H",
-            PossibleOperand::RelativeAddress => "23H",
-            PossibleOperand::Accumulator => "A",
-            PossibleOperand::AccumulatorAndB => "AB",
-            PossibleOperand::AddressInAccumulatorPlusDptr => "@A+DPTR",
-            PossibleOperand::Dptr => "DPTR",
-            PossibleOperand::AddressInDptr => "@DPTR",
-            PossibleOperand::AddressInAccumulatorPlusPC => "@A+PC",
-            PossibleOperand::AbsoluteAddress => "100h",
-            PossibleOperand::RegisterB => "B",
-            PossibleOperand::Dpl => "DPL",
-            PossibleOperand::Dph => "DPH",
-
-            PossibleOperand::HexNumber => "56h",
-            PossibleOperand::BinaryNumber => "010101011b",
-            PossibleOperand::DecimalNumber => "63",
-            PossibleOperand::AsciiCharacters => "'Lorem ipsum'",
-            _ => "",
-        })
-        .to_string()
-    }
-}
-
-impl TryFrom<i32> for PossibleOperand {
-    type Error = ();
-    fn try_from(value: i32) -> Result<Self, Self::Error> {
-        match value {
-            x if x == PossibleOperand::Any                          as i32 => Ok(PossibleOperand::Any                         ),
-            x if x == PossibleOperand::CodeAddress                  as i32 => Ok(PossibleOperand::CodeAddress                 ),
-            x if x == PossibleOperand::Label                        as i32 => Ok(PossibleOperand::Label                       ),
-            x if x == PossibleOperand::Data                         as i32 => Ok(PossibleOperand::Data                        ),
-            x if x == PossibleOperand::Data16                       as i32 => Ok(PossibleOperand::Data16                      ),
-            x if x == PossibleOperand::InternalRamAddress           as i32 => Ok(PossibleOperand::InternalRamAddress          ),
-            x if x == PossibleOperand::AddressInR0OrR1              as i32 => Ok(PossibleOperand::AddressInR0OrR1             ),
-            x if x == PossibleOperand::HelperRegisters              as i32 => Ok(PossibleOperand::HelperRegisters             ),
-            x if x == PossibleOperand::CarryFlag                    as i32 => Ok(PossibleOperand::CarryFlag                   ),
-            x if x == PossibleOperand::BitAddress                   as i32 => Ok(PossibleOperand::BitAddress                  ),
-            x if x == PossibleOperand::NegatedBitAddress            as i32 => Ok(PossibleOperand::NegatedBitAddress           ),
-            x if x == PossibleOperand::RelativeAddress              as i32 => Ok(PossibleOperand::RelativeAddress             ),
-            x if x == PossibleOperand::Accumulator                  as i32 => Ok(PossibleOperand::Accumulator                 ),
-            x if x == PossibleOperand::AccumulatorAndB              as i32 => Ok(PossibleOperand::AccumulatorAndB             ),
-            x if x == PossibleOperand::AddressInAccumulatorPlusDptr as i32 => Ok(PossibleOperand::AddressInAccumulatorPlusDptr),
-            x if x == PossibleOperand::Dptr                         as i32 => Ok(PossibleOperand::Dptr                        ),
-            x if x == PossibleOperand::AddressInDptr                as i32 => Ok(PossibleOperand::AddressInDptr               ),
-            x if x == PossibleOperand::AddressInAccumulatorPlusPC   as i32 => Ok(PossibleOperand::AddressInAccumulatorPlusPC  ),
-            x if x == PossibleOperand::AbsoluteAddress              as i32 => Ok(PossibleOperand::AbsoluteAddress             ),
-            x if x == PossibleOperand::RegisterB                    as i32 => Ok(PossibleOperand::RegisterB                   ),
-            x if x == PossibleOperand::Dpl                          as i32 => Ok(PossibleOperand::Dpl                         ),
-            x if x == PossibleOperand::Dph                          as i32 => Ok(PossibleOperand::Dph                         ),
-            x if x == PossibleOperand::HexNumber                    as i32 => Ok(PossibleOperand::HexNumber                   ),
-            x if x == PossibleOperand::BinaryNumber                 as i32 => Ok(PossibleOperand::BinaryNumber                ),
-            x if x == PossibleOperand::DecimalNumber                as i32 => Ok(PossibleOperand::DecimalNumber               ),
-            x if x == PossibleOperand::AsciiCharacters              as i32 => Ok(PossibleOperand::AsciiCharacters             ),
-            _ => Err(()),
-        }
-    }
-}
-
-#[derive(PartialEq)]
-#[derive(Clone)]
-#[derive(Copy)]
-#[derive(Default)]
-#[derive(Debug)]
-pub enum AddressingMode {
-    #[default]
-    Implied          = 0,
-    Immediate        = 1,
-    Register         = 2,
-    Direct           = 3,
-    RegisterIndirect = 4,
-    Indexed          = 5,
-}
-
-impl Label for AddressingMode {
-    fn label(&self) -> String {
-        match self {
-            AddressingMode::Implied          => localize!("addressingMode-Implied"),
-            AddressingMode::Immediate        => localize!("addressingMode-Immediate"),
-            AddressingMode::Register         => localize!("addressingMode-Register"),
-            AddressingMode::Direct           => localize!("addressingMode-Direct"),
-            AddressingMode::RegisterIndirect => localize!("addressingMode-RegisterIndirect"),
-            AddressingMode::Indexed          => localize!("addressingMode-Indexed"),
-        }
-    }
-}
-
-#[derive(PartialEq)]
-#[derive(Clone)]
-#[derive(Copy)]
-#[derive(Default)]
-#[derive(Debug)]
-pub enum PossibleRegister
-{
-    #[default]
-    Accumulator = 0,
-    B           = 1,
-    Dptr        = 2,
-    Psw         = 3,
-    R0          = 4,
-    R1          = 5,
-    R2          = 6,
-} 
-
-impl Label for PossibleRegister{
-    fn label(&self) -> String {
-        match self {
-            PossibleRegister::Accumulator => localize!("operand-A"),
-            PossibleRegister::B => localize!("operand-B"),
-            PossibleRegister::Dptr => localize!("operand-DPTR"),
-            PossibleRegister::Psw => localize!("register-PSW"),
-            PossibleRegister::R0 => localize!("register-R0"),
-            PossibleRegister::R1 => localize!("register-R1"),
-            PossibleRegister::R2 => localize!("register-R2"),
-        }
-    }
-}
 
 
 // // #region tests
@@ -1363,7 +945,7 @@ impl Label for PossibleRegister{
 //                 "category", 
 //                 "", 
 //                 false,
-//                 Option::None) ; "lenght of valid_operands vector is greater than 3")]
+//                 Option::None) ; "length of valid_operands vector is greater than 3")]
 //             fn is_empty_when(mnemonic: &str, doc: Documentation) {
 //                 let mnemonic = String::from(mnemonic);
 //                 let syntax = syntax((mnemonic, doc));
@@ -1373,7 +955,7 @@ impl Label for PossibleRegister{
 //             // #[test_case(
 //             //     Documentation::new(
 //             //         "some detail",
-//             //         "some quick desctiption",
+//             //         "some quick description",
 //             //         vec!(vec!(ValidOperand::from_i32(1, None), ValidOperand::from_i32(2, None))),
 //             //         vec!(Fla)
 //             //     ))]

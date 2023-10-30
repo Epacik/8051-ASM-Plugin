@@ -1,0 +1,309 @@
+_version: 2
+
+## LSP
+
+#hello
+hello_world:
+    en: Hello, World!
+    pl: Witaj, Świecie!
+hello_arg:
+    en: Hello, %{name}!
+    pl: Witaj, %{name}!
+hello_arg2:
+    en: Hello %{name1} and %{name2}!
+    pl: Witajcie %{name1} i %{name2}!
+
+
+# server
+status.initialized:
+    en: Server initialized!
+    pl: Serwer języka został zainicjowny!
+status.config_changed:
+    en: Configuration has changed
+    pl: Konfiguracja została zmieniona
+status.shutdown:
+    en: Server shutdown
+    pl: Wyłączanie serwera
+status.completion:
+    en: Completion requested
+    pl: Żądanie auto_uzupełnienia
+status.hover:
+    en: Hover requested
+    pl: Żądanie hovera
+
+# flags
+flag.parity:
+    en: Parity
+    pl: Parzystości
+flag.user_defined:
+    en: User defined
+    pl: Definiowana przez użytkownika
+flag.overflow:
+    en: Overflow
+    pl: Przepełnienia
+flag.register_bank_select:
+    en: Register Bank Select
+flag.flag0:
+    en: Flag0
+    pl: Flaga0
+flag.auxiliary_carry:
+    en: Auxiliary Carry
+    pl: Przeniesienia pomocniczego
+flag.carry:
+    en: Carry
+    pl: Przeniesienia
+flag.unknown:
+    en: [UNKNOWN]
+    pl: [NIEZNANA]
+
+#operands
+operand.any:
+    en: any
+    pl: dowolny
+operand.codeAddress:
+    en: code address
+    pl: adres kodu
+operand.label:
+    en: label
+    pl: etykieta
+operand.byte:
+    en: byte
+    pl: bajt
+operand.twoBytes:
+    en: two bytes
+    pl: dwa bajty
+operand.internalRamAddress:
+    en: internal RAM address
+    pl: wewnętrzny adres RAM
+operand.indirectR0OrR1:
+    en: \@R0 or \@R1
+    pl: \@R0 lub \@R1
+operand.helperRegister:
+    en: R0 trough R7
+    pl: od R0 do R7
+operand.carryFlag:
+    en: carry flag
+    pl: flaga przeniesienia
+operand.bitAddress:
+    en: bit address
+    pl: adres bitu
+operand.negatedBitAddress:
+    en: address of negated bit
+    pl: adres zanegowanego bitu
+operand.relativeAddress:
+    en: relative address
+    pl: relatywny adres
+operand.A:
+    en: the Accumulator
+    pl: akumulator
+operand.AB:
+    en: the Accumulator and B register
+    pl: akumulator i rejestr B
+operand.A_DPTR:
+    en: address in the Accumulator + DPTR
+    pl: adres w akumulatorze + DPTR
+operand.DPTR:
+    en: DPTR
+    pl: DPTR
+operand.indirectDPTR:
+    en: address in the DPTR
+    pl: adres w DPTR
+operand.indirectA_PC:
+    en: address in the Accumulator + PC
+    pl: adres w akumulatorze + PC
+operand.absoluteAddress:
+    en: absolute address
+    pl: adres absolutny
+operand.B:
+    en: register B
+    pl: rejestr B
+operand.DPL:
+    en: Data Pointer Low
+    pl: Młodszy Bajt Wskaźnika Danych
+operand.DPH:
+    en: Data Pointer High
+    pl: Starszy Bajt Wskaźnika Danych
+operand.hex:
+    en: hexadecimal number
+    pl: liczba szesnastkowa
+operand.bin:
+    en: binary number
+    pl: liczba binarna
+operand.dec:
+    en: decimal number
+    pl: liczba dziesiętna
+operand.ascii:
+    en: ASCII characters
+    pl: znaki ASCII
+operand.unknown:
+    en: [UNKNOWN]
+    pl: [NIEZNANY]
+operand.example_label:
+    en: LABEL
+    pl: ETYKIETA
+
+addressingMode.Implied:
+    en: Implied
+    pl: Domniemany
+addressingMode.Immediate:
+    en: Immediate
+    pl: Natychmiastowy
+addressingMode.Register:
+    en: Register
+    pl: Rejestrowy
+addressingMode.Direct:
+    en: Direct
+    pl: Bezpośredni
+addressingMode.RegisterIndirect:
+    en: RegisterIndirect
+    pl: Rejestrowy Pośredni
+addressingMode.Indexed:
+    en: Indexed
+    pl: Indeksowy
+
+#categories
+category.registers:
+    en: Registers
+    pl: Rejestry
+category.program_control:
+    en: Program control instructions
+    pl: Instrukcje kontroli programu
+category.arithmetic:
+    en: Arithmetic instructions
+    pl: Instrukcje arytmetyczne
+category.logical:
+    en: Logical instructions
+    pl: Instrukcje logiczne
+category.data_transfer:
+    en: Data transfer instructions
+    pl: Instrukcje transferu danych
+
+#errors
+error.document_read:
+    en: An error occurred while reading document
+    pl: Wystąpił błąd podczas odczytywania dokumentu
+error.out_of_range:
+    en: out of range
+    pl: Poza zakresem
+error.invalid_lang_id:
+    en: Invalid language ID
+    pl: Błędny identyfikator języka
+error.lexical_analysis_failed:
+    en: Lexical analysis error
+    pl: Błąd analizy leksykalnej
+
+#hover
+hover.operand:
+    en: operand
+    pl: operand
+hover.operand0:
+    en: operand0
+    pl: operand0
+hover.operand1:
+    en: operand1
+    pl: operand1
+hover.operand2:
+    en: operand2
+    pl: operand2
+hover.Operand__cap:
+    en: Operand
+    pl: Operand
+hover.validOperands:
+    en: Valid operands
+    pl: Dozwolone operandy
+hover.affectedFlags:
+    en: Affected flags
+    pl: Zmodyfikowane flagi
+hover.addressingModes:
+    en: Addressing modes
+    pl: Tryby adresowania
+hover.goToDocs:
+    en: Go to documentation
+    pl: Przejdź do dokumentacji
+hover.setWhen:
+    en: set when
+    pl: ustawiony gdy
+hover.unsetWhen:
+    en: unset when
+    pl: zresetowany gdy
+hover.numberBase_header:
+    en: Number representations
+    pl: Reprezentacje liczby
+hover.numberBase_label_binary:
+    en: Binary
+    pl: Binarnie
+hover.numberBase_label_octal:
+    en: Octal
+    pl: Ósemkowo
+hover.numberBase_label_decimal:
+    en: Decimal
+    pl: Dziesiętnie
+hover.numberBase_label_hexadecimal:
+    en: Hexadecimal
+    pl: Szesnastkowo
+hover.StackSpaceNeeded:
+    en: Stack space needed
+    pl: Wymagana przestrzeń na stosie
+hover.usedRegisters:
+    en: Used registers
+    pl: Użyte rejestry
+hover.changedRegisters:
+    en: Changed registers
+    pl: Zmienione rejestry
+
+#registers
+register_PSW:
+    en: Program Status Word (PSW)
+    pl: Słowo Stanu Programu (PSW)
+register_R0:
+    en: Helper register R0
+    pl: Rejestr pomocniczy R0
+register_R1:
+    en: Helper register R1
+    pl: Rejestr pomocniczy R1
+register_R2:
+    en: Helper register R2
+    pl: Rejestr pomocniczy R2
+
+##! LSP
+
+## Parser
+
+#errors
+parser.error.unknown_error:
+    en: Unknown error
+    pl: Nieznany błąd
+parser.error.unknown_token:
+    en: Unknown token
+    pl: Nieznany token
+parser.error.unclosed_string:
+    en: The string is not properly closed
+    pl: Ciąg znaków nie został poprawnie zakończony
+parser.error.non_ascii_string:
+    en: The string contains non_ASCII characters
+    pl: Ciąg znaków zawiera znaki spoza zakresu ASCII
+parser.error.empty_escape_sequence:
+    en: Escape sequence is empty
+    pl: Sekwencja ucieczki jest pusta
+parser.error.invalid_digit_hex_escape_sequence:
+    en: Invalid digit in an escape sequence
+    pl: Niepoprawna liczba wewnątrz sekwencji ucieczki
+parser.error.positive_overflow_hex_escape_sequence:
+    en: Hexadecimal escape sequence is greater than 0xFF
+    pl: Heksadecymalna sekwencja ucieczki ma wartość większą niż 0xFF
+parser.error.negative_overflow_hex_escape_sequence:
+    en: Hexadecimal escape sequence is less than 0x00
+    pl: Heksadecymalna sekwencja ucieczki ma wartość mniejszą niż 0x00
+parser.error.invalid_escape_sequence:
+    en: Invalid escape sequence [%{sequence}]
+    pl: Niepoprawna sekwencja ucieczki [%{sequence}]
+parser.error.empty_string:
+    en: The string is empty
+    pl: Ciąg znaków jest pusty
+
+#warnings
+parser.warning.empty_comment:
+    en: The comment is empty
+    pl: Komentarz jest pusty
+
+##! Parser

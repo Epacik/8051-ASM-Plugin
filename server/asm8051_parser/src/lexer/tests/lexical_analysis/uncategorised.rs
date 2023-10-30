@@ -250,15 +250,15 @@ vec![
 ]
 ; "t2")]
 fn a_valid_code(src: &str, expected_ast: Vec<PositionedToken>) {
-    let (ast, errors) = lexical_analisys(src);
+    let (ast, errors) = lexical_analysis(src);
     
     if errors.len() > 0 {
-        println!("Errors occured!");
+        println!("Errors occurred!");
         for err in &errors[0..] {
             println!("{err}");
         }
     }
-    assert!(errors.len() == 0, "errors occured!");
+    assert!(errors.len() == 0, "errors occurred!");
 
     assert!(ast.is_some(), "ast was None");
 

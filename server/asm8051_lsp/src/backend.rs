@@ -3,7 +3,6 @@ use crate::{
     client_configuration::ClientConfiguration, diagnostics, flags::Locale, hover, LANG_ID,
 };
 
-use crate::localize;
 use crate::i18n::change_language;
 
 use asm8051_parser::lexer::tokens::{ControlCharacter, Delimiter};
@@ -138,20 +137,20 @@ impl LanguageServer for Backend {
         }
 
         self.client
-            .log_message(MessageType::INFO, localize!("server-initialized"))
+            .log_message(MessageType::INFO, t!("server_initialized"))
             .await;
     }
 
     async fn shutdown(&self) -> Result<()> {
         self.client
-            .log_message(MessageType::INFO, "server shutdown!")
+            .log_message(MessageType::INFO, t!("status.shutdown"))
             .await;
         Ok(())
     }
 
     async fn did_change_configuration(&self, _params: DidChangeConfigurationParams) {
         self.client
-            .log_message(MessageType::INFO, localize!("configuration-changed"))
+            .log_message(MessageType::INFO, t!("status.config_changed"))
             .await;
 
         self.update_configuration().await;
@@ -160,7 +159,7 @@ impl LanguageServer for Backend {
 
     async fn completion(&self, _params: CompletionParams) -> Result<Option<CompletionResponse>> {
         self.client
-            .log_message(MessageType::INFO, "completion!")
+            .log_message(MessageType::INFO, t!("status.completion"))
             .await;
 
         let _locale = self.client_locale().await;
@@ -179,7 +178,7 @@ impl LanguageServer for Backend {
     }
 
     async fn hover(&self, _params: HoverParams) -> Result<Option<Hover>> {
-        self.client.log_message(MessageType::INFO, "hover!").await;
+        self.client.log_message(MessageType::INFO, t!("status.hover")).await;
 
         // get clients configuration
         let config = self.client_configuration.lock().await.clone();
@@ -196,7 +195,7 @@ impl LanguageServer for Backend {
         if document.is_none() {
             return Err(Error {
                 code: ErrorCode::ServerError(2),
-                message: localize!("error-document-read"),
+                message: t!("error.document_read"),
                 data: None,
             });
         }
@@ -244,7 +243,7 @@ impl LanguageServer for Backend {
             .await;
         let file_uri = _params.text_document.uri.as_str();
 
-        if self.documents.contains_key(file_uri.borrow()) {
+        if self.documents.contains_key(file_uri) {
             self.documents.remove(file_uri);
         }
     }
@@ -281,7 +280,7 @@ impl LanguageServer for Backend {
             Some(d) => d.value().clone(),
             None => return Err(Error {
                 code: ErrorCode::ServerError(2),
-                message: localize!("error-document-read"),
+                message: t!("error.document_read"),
                 data: None,
             }),
         };
@@ -289,19 +288,19 @@ impl LanguageServer for Backend {
         if document.language_id != LANG_ID {
             return Err(Error {
                 code: ErrorCode::ServerError(3),
-                message: localize!("error-invalid-lang-id"),
+                message: t!("error.invalid-lang_id"),
                 data: None,
             });
         }
 
         let src = document.text;
-        let (tokens_opt, _errors) = asm8051_parser::lexer::lexical_analisys(src);
+        let (tokens_opt, _errors) = asm8051_parser::lexer::lexical_analysis(src);
 
         let tokens = match tokens_opt {
             Some(t) => t,
             None => return Err(Error {
                 code: ErrorCode::ServerError(4),
-                message: localize!("error-lexical-analysis-failed"),
+                message: t!("error.lexical-analysis_failed"),
                 data: None,
             }),
         };
@@ -500,7 +499,7 @@ impl Backend {
             let stack_space_needed = match docs.stack_space_needed {
                 Some(space) => Some(format!(
                     "#### {}: {}",
-                    localize!("hover-StackSpaceNeeded"),
+                    t!("hover_StackSpaceNeeded"),
                     space
                 )),
                 None => None,

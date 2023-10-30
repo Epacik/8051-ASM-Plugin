@@ -70,7 +70,7 @@ impl Position {
 
 //#endregion
 
-pub fn lexical_analisys<S: AsRef<str>>(s: S)-> (Option<Vec<PositionedToken>>, Vec<Issue>) {
+pub fn lexical_analysis<S: AsRef<str>>(s: S)-> (Option<Vec<PositionedToken>>, Vec<Issue>) {
     let source = s.as_ref();
 
     let rope = Rope::from_str(source);

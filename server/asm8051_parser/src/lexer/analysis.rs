@@ -196,7 +196,6 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 // let's find an end of it
                 let mut string_end_index = find_closing_deliminer(the_rest, delimiter);
 
-
                 // string was empty
                 // add an error and skip to the end delimiter
                 if string_end_index == 1 {
@@ -246,6 +245,7 @@ pub(super) fn perform_analysis(lines: Vec<Vec<SpannedString>>) -> (Option<Vec<Po
                 // grab the content of the string, as well as start and end positions
                 let string = &the_rest[1..string_end_index];
                 let content = string.iter().map(|x| x.content.as_str()).collect::<String>();
+
 
                 let (escaped_content, escape_issues) = escape_characters(content, item.position.clone());
                 let position_first = &string.first().unwrap().position;

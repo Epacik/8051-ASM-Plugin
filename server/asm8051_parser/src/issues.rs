@@ -3,7 +3,6 @@ use std::fmt::Display;
 use chumsky::Error as ChErr;
 use IssueType::{Error, Info, Warning, Hint};
 
-use crate::localize;
 use crate::lexer::{
     tokens::Token,
     Position,
@@ -121,7 +120,7 @@ impl chumsky::Error<Token> for Issue {
             span,
             expected: expected.into_iter().collect::<Vec<Option<Token>>>(),
             found,
-            label: issue_info(u32::MAX, Info, String::from("")), //localize!("empty-info")),
+            label: issue_info(u32::MAX, Info, String::from("")), //t!("parser.error.empty_info")),
             invalid_characters: vec![],
         }
     }
@@ -185,7 +184,7 @@ validate_issue_codes::validate_issuecode_uniqueness!(
     pub(crate) fn unknown_token(position: Position, found: Token) -> Issue {
         Issue::new(
             position,
-            issue_info(1000, Error, localize!("unknown-token")),
+            issue_info(1000, Error, t!("parser.error.unknown_token")),
             None,
             Some(found),
             None,
@@ -193,7 +192,7 @@ validate_issue_codes::validate_issuecode_uniqueness!(
     }
 
     fn unclosed_delimiter_info() -> IssueInfo {
-        issue_info(1001, Error, localize!("unclosed-string"))
+        issue_info(1001, Error, t!("parser.error.unclosed_string"))
     }
 
     pub(crate) fn unclosed_string(
@@ -214,7 +213,7 @@ validate_issue_codes::validate_issuecode_uniqueness!(
     pub(crate) fn empty_string(position: Position) -> Issue {
         Issue::new(
             position,
-            issue_info(1002, Error, localize!("empty-string")),
+            issue_info(1002, Error, t!("parser.error.empty_string")),
             None,
             None,
             None,
@@ -228,7 +227,7 @@ validate_issue_codes::validate_issuecode_uniqueness!(
         let non_ascii_characters = non_ascii_characters.into_iter().map(|x| Some(x));
         Issue::new(
             position,
-            issue_info(1003, Error, localize!("non-ascii-string")),
+            issue_info(1003, Error, t!("parser.error.non-ascii_string")),
             None,
             None,
             non_ascii_characters,
@@ -238,7 +237,7 @@ validate_issue_codes::validate_issuecode_uniqueness!(
     pub(crate) fn empty_escape_sequence(position: Position) -> Issue {
         Issue::new(
             position,
-            issue_info(1004, Error, localize!("empty-escape-sequence")),
+            issue_info(1004, Error, t!("parser.error.empty-escape_sequence")),
             None,
             None,
             None,
@@ -250,12 +249,12 @@ validate_issue_codes::validate_issuecode_uniqueness!(
         err: std::num::IntErrorKind,
     ) -> Issue {
         let err = match err {
-            std::num::IntErrorKind::Empty => localize!("empty-escape-sequence"),
-            std::num::IntErrorKind::InvalidDigit => localize!("invalid-digit-hex-escape-sequence"),
-            std::num::IntErrorKind::PosOverflow => localize!("positive-overflow-hex-escape-sequence"),
-            std::num::IntErrorKind::NegOverflow => localize!("negative-overflow-hex-escape-sequence"),
-            //std::num::IntErrorKind::Zero => localize!("zero-hex-escape-sequence"),
-            _ => localize!("unknown-error"),
+            std::num::IntErrorKind::Empty => t!("parser.error.empty-escape_sequence"),
+            std::num::IntErrorKind::InvalidDigit => t!("parser.error.invalid-digit-hex-escape_sequence"),
+            std::num::IntErrorKind::PosOverflow => t!("parser.error.positive-overflow-hex-escape_sequence"),
+            std::num::IntErrorKind::NegOverflow => t!("parser.error.negative-overflow-hex-escape_sequence"),
+            //std::num::IntErrorKind::Zero => t!("parser.error.zero-hex-escape_sequence"),
+            _ => t!("parser.error.unknown_error"),
         };
 
         Issue::new(
@@ -271,7 +270,7 @@ validate_issue_codes::validate_issuecode_uniqueness!(
         let seq = seq.to_string();
         Issue::new(
             position,
-            issue_info(1006, Error, localize!("invalid-escape-sequence", sequence = seq)),
+            issue_info(1006, Error, t!("parser.error.invalid-escape-sequence", sequence = seq)),
             None,
             None,
             None,
@@ -285,7 +284,7 @@ validate_issue_codes::validate_issuecode_uniqueness!(
     pub(crate) fn empty_comment(position: Position) -> Issue {
         Issue::new(
             position,
-            issue_info(2000, Warning, localize!("empty-comment")),
+            issue_info(2000, Warning, t!("parser.warning.empty_comment")),
             None,
             None,
             None,

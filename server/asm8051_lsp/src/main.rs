@@ -11,17 +11,19 @@ use std::borrow::Borrow;
 use tower_lsp::{LspService, Server};
 //#endregion imports
 
+asm8051_localize::init!();
+
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = std::env::args().collect();
-    
+
     i18n::change_language("en");
 
     if args.contains(String::from("--use-stdio").borrow()) {
         let stdin = tokio::io::stdin();
         let stdout = tokio::io::stdout();
         serve(stdin, stdout).await;
-    } 
+    }
     else {
         //let stream = TcpStream::connect("127.0.0.1:8050").await.unwrap();
         let listener = tokio::net::TcpListener::bind("127.0.0.1:8050")

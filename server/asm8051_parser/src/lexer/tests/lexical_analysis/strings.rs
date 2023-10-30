@@ -35,15 +35,15 @@ use test_case::test_case;
     ] 
 ; "is a string with some ascii characters inside with double quotes with escaped hex" )]
 fn a_valid_string(src: &str, expected_ast: Vec<PositionedToken>) {
-    let (ast, errors) = lexical_analisys(src);
+    let (ast, errors) = lexical_analysis(src);
     
     if errors.len() > 0 {
-        println!("Errors occured!");
+        println!("Errors occurred!");
         for err in &errors[0..] {
             println!("{err}");
         }
     }
-    assert!(errors.len() == 0, "errors occured!");
+    assert!(errors.len() == 0, "errors occurred!");
 
     assert!(ast.is_some(), "ast was None");
 
@@ -80,7 +80,7 @@ fn a_valid_string(src: &str, expected_ast: Vec<PositionedToken>) {
     ]
 ; "is a string with some ascii characters without a closing apostrophe" )]
 fn an_invalid_string(src: &str, expected_ast: Vec<PositionedToken>, expected_issues: Vec<Issue>) {
-    let (ast, actual_issues) = lexical_analisys(src);
+    let (ast, actual_issues) = lexical_analysis(src);
     assert!(ast.is_some(), "ast was None");
 
     let actual_ast = ast.unwrap();

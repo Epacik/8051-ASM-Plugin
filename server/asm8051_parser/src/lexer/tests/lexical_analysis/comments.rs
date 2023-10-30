@@ -7,7 +7,7 @@ use test_case::test_case;
         PositionedToken::new(token![Semicolon], position!(0, 0)),
         PositionedToken::new(token![Comment("some comment")], position!(1..12, 0)),
     ] 
-; "is a string of characters starting with a semicolon, endinf with an end of the line of code" )]
+; "is a string of characters starting with a semicolon, ending with an end of the line of code" )]
 #[test_case(
     ";some 😀😎",
     vec![
@@ -16,15 +16,15 @@ use test_case::test_case;
     ] 
 ; "can even contain some unicode characters" )]
 fn a_valid_comment(src: &str, expected_ast: Vec<PositionedToken>) {
-    let (ast, errors) = lexical_analisys(src);
+    let (ast, errors) = lexical_analysis(src);
     
     if errors.len() > 0 {
-        println!("Errors occured!");
+        println!("Errors occurred!");
         for err in &errors[0..] {
             println!("{err}");
         }
     }
-    assert!(errors.len() == 0, "errors occured!");
+    assert!(errors.len() == 0, "errors occurred!");
 
     assert!(ast.is_some(), "ast was None");
 
@@ -68,15 +68,15 @@ fn a_valid_comment(src: &str, expected_ast: Vec<PositionedToken>) {
     ] 
 ; "can it parse a simple line of code with some comment at the end?" )]
 fn t1(src: &str, expected_ast: Vec<PositionedToken>) {
-    let (ast, errors) = lexical_analisys(src);
+    let (ast, errors) = lexical_analysis(src);
     
     if errors.len() > 0 {
-        println!("Errors occured!");
+        println!("Errors occurred!");
         for err in &errors[0..] {
             println!("{err}");
         }
     }
-    assert!(errors.len() == 0, "errors occured!");
+    assert!(errors.len() == 0, "errors occurred!");
 
     assert!(ast.is_some(), "ast was None");
 
