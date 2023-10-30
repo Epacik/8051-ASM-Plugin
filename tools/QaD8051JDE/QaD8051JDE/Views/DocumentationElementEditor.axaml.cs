@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using DocumentationTypes;
 using MessageBox.Avalonia.Enums;
 using QaD8051JDE.ViewModels;
 using System;

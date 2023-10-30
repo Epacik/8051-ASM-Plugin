@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
-namespace QaD8051JDE.DocumentationTypes.PartialDocumentationElement;
+namespace DocumentationTypes.PartialDocumentationElement;
 
-internal class MainDocumentationElement
+public class MainDocumentationElement
 {
     [JsonPropertyName("detail")]
     public string? Detail { get; set; }

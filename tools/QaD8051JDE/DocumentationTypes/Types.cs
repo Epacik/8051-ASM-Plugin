@@ -1,4 +1,4 @@
-﻿namespace QaD8051JDE;
+﻿namespace DocumentationTypes;
 
 public enum Types
 {

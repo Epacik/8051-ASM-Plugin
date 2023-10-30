@@ -1,8 +1,6 @@
-﻿using QaD8051JDE.DocumentationTypes;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace QaD8051JDE;
+namespace DocumentationTypes;
 
 public class DocumentationElement
 {

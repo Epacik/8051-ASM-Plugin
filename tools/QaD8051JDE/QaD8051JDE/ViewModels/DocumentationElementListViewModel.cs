@@ -2,7 +2,7 @@
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Mapster;
-using QaD8051JDE.DocumentationTypes.PartialDocumentationElement;
+using DocumentationTypes.PartialDocumentationElement;
 using QaD8051JDE.Models;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using DocumentationTypes;
 
 namespace QaD8051JDE.ViewModels;
 public partial class DocumentationElementListViewModel : BaseViewModel

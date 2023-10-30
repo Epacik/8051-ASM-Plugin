@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using QaD8051JDE.DocumentationTypes;
+using DocumentationTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

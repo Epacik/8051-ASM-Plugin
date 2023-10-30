@@ -1,10 +1,12 @@
     LJMP       START             
     ORG       100H
 
-; lol it works!
+; Jeśli linijkę przed etykietą umieścimy komentarz, to będzie on wyświetlony po najechaniu na etykietę
 text EQU "123\x0D\x0A?565752"
 
-; let's test if that works
+; Taki komentarz
+; może się rozciągać
+; pomiędzy wieloma linijkami
 START:
     MOV    R0,#31H             ;adres bufora wyboru wskaźnika        
     MOV    R1,#38h             ;adres bufora danych wskaźnika        
@@ -19,11 +21,14 @@ START:
     CALL TEST
     JMP START
 
-; ### is that working?
-;please tell me it is
+; ## A gdyby tego było mało:
 ; ---
+; ***Takie komentarze mają wsparcie dla języka Markdown***
+; a co za tym idzie: *można dodać takiemu komentarzowi nieco stylu* 😎
+; ---
+; Można tutaj też umieszczać przykłady
 ; ```asm8051
-; MOV A, 32
+; CALL TEST
 ; ```
 TEST:
     MOV @A+DPTR, #43H
