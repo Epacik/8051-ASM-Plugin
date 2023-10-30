@@ -3,6 +3,57 @@ mod debugging;
 use types::*;
 use std::{borrow::Borrow, collections::HashMap};
 
+// pub fn load_operand_combinations(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
+//     let path = get_project_path();
+//     let shared_path = add_relative_path_to_language_dir(&path, ".shared".to_string());
+//     let files: Vec::<FileDescription> = get_files(&path, &shared_path);
+
+//     let mut items: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
+
+//     for file in files {
+//         let content = if let Some(path) = file.shared_path() {
+//             read_file_content(&path)
+//         } 
+//         else { continue; };
+
+//         let content = match content {
+//             Some(val) => val,
+//             None => continue,
+//         };
+
+//         let result: JsonResult = serde_json::from_str(content.as_str());
+//         let values = match result {
+//             Ok(val) => val,
+//             Err(err) => {
+//                 eprintln!(
+//                     "Error loading documentation file: {}\nError: {}",
+//                     file.main_path().unwrap_or_default(),
+//                     err
+//                 );
+//                 continue;
+//             }
+//         };
+
+//         for (key, value) in values {
+//             let values = Values {
+//                 main: None,
+//                 shared: Some(value),
+//             };
+
+//             let item = parse_to_documentation(&values, &file);
+
+//             if let None = item.shared {
+//                 continue;
+//             }
+
+//             let valid_operands = parse_valid_operands(item.valid_operands.borrow());
+
+//         }
+//     }
+
+//     quote::quote! { std::collections::HashMap::from([#(#items),*]) }
+// }
+
 pub fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream {
     let lang = _stream.to_string();
 
@@ -10,7 +61,7 @@ pub fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream 
     let shared_path = add_relative_path_to_language_dir(&path, ".shared".to_string());
     let path = add_relative_path_to_language_dir(&path, lang);
 
-    let files: Vec::<FileDesctiption> = get_files(&path, &shared_path);
+    let files: Vec::<FileDescription> = get_files(&path, &shared_path);
 
     let mut items: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
 
@@ -74,7 +125,7 @@ pub fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream 
 
             for partial_key in key.split(";") { 
                 let pkey = partial_key.trim();
-                items.push(quote::quote!{ ( std::string::String::from(#pkey), crate::hover::Documentation {
+                items.push(quote::quote!{ ( std::string::String::from(#pkey), asm8051_shared::Documentation {
                     detail: std::string::String::from(#detail),
                     description: std::string::String::from(#description),
                     affected_flags: std::vec::Vec::from([#(#affected_flags),*]),
@@ -99,7 +150,7 @@ pub fn load_docs(_stream: proc_macro2::TokenStream) -> proc_macro2::TokenStream 
 }
 
 
-fn get_files(main_path: &String, shared_path: &String) -> Vec<FileDesctiption> {
+fn get_files(main_path: &String, shared_path: &String) -> Vec<FileDescription> {
     let main_folder = read_documentation_directory(&main_path);
     let shared_folder = read_documentation_directory(&shared_path);
 
@@ -139,10 +190,10 @@ fn get_files(main_path: &String, shared_path: &String) -> Vec<FileDesctiption> {
         }
     }
 
-    let mut result = Vec::<FileDesctiption>::new();
+    let mut result = Vec::<FileDescription>::new();
 
     for (name, in_main, in_shared) in files {
-        result.push(FileDesctiption::new(
+        result.push(FileDescription::new(
             name,
             if in_shared { Some(shared_path.clone())} else { None },
             if in_main { Some(main_path.clone())} else { None }));
@@ -176,7 +227,7 @@ fn get_project_path() -> String {
 fn add_relative_path_to_language_dir(path: &String, lang: String) -> String {
     let mut path = path.clone();
     if path.ends_with("asm8051_lsp") {
-        path.push_str("/macros/load_documentation");
+        path.push_str("/../asm8051_docs");
     }
     if path.ends_with("load_documentation_internal"){
     }
@@ -221,7 +272,7 @@ fn read_file_content<P: AsRef<std::path::Path>>(path: P) -> Option<String> {
 
 type JsonResult = Result<serde_json::Map<std::string::String, serde_json::Value>, serde_json::Error>;
 #[inline(always)]
-fn load_map_from_json(main_content: &Option<String>, shared_content: &Option<String>,  file: &FileDesctiption) 
+fn load_map_from_json(main_content: &Option<String>, shared_content: &Option<String>,  file: &FileDescription) 
     -> HashMap<String, Values> {
 
     let main_values = if let Some(content) = main_content {
@@ -292,7 +343,7 @@ fn load_map_from_json(main_content: &Option<String>, shared_content: &Option<Str
 }
 
 #[inline(always)]
-fn parse_to_documentation(value: &Values, file: &FileDesctiption) -> Documentation {
+fn parse_to_documentation(value: &Values, file: &FileDescription) -> Documentation {
     let mut doc = Documentation::default();
 
     if let Some(value) = &value.main {
@@ -369,7 +420,7 @@ fn parse_affected_flags(flags: &std::vec::Vec<Flag>) -> Vec<proc_macro2::TokenSt
     let mut affected_flags: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
     for flag in flags {
 
-        let mut fl = String::from("crate::hover::FlagType::");
+        let mut fl = String::from("asm8051_shared::FlagType::");
         fl.push_str(capitalize(&flag.flag).as_str());
         
         let fl: proc_macro2::TokenStream = fl.parse().unwrap();
@@ -377,7 +428,7 @@ fn parse_affected_flags(flags: &std::vec::Vec<Flag>) -> Vec<proc_macro2::TokenSt
         let when_unset = flag.when_unset.clone();
 
         affected_flags.push(quote::quote! {(
-            crate::hover::Flag {
+            asm8051_shared::Flag {
                 flag: #fl,
                 when_set: std::string::String::from(#when_set),
                 when_unset: std::string::String::from(#when_unset),
@@ -394,17 +445,17 @@ fn parse_valid_operands(vo: &Vec<Vec<ValidOperand>>) -> Vec<proc_macro2::TokenSt
         let mut op: std::vec::Vec<proc_macro2::TokenStream> = std::vec::Vec::new();
         for operand in operands {
 
-            let mut o = String::from("crate::hover::PossibleOperand::");
+            let mut o = String::from("asm8051_shared::PossibleOperand::");
             o.push_str(capitalize(&operand.operand).as_str());
 
             let o: proc_macro2::TokenStream  = o.parse().unwrap();
 
-            let mut when = String::from("crate::hover::PossibleOperand::");
+            let mut when = String::from("asm8051_shared::PossibleOperand::");
             when.push_str(capitalize(&operand.when_first_is).as_str());
             let when: proc_macro2::TokenStream  = when.parse().unwrap();
 
             op.push(quote::quote! {(
-                crate::hover::ValidOperand {
+                asm8051_shared::ValidOperand {
                     operand: #o,
                     when_first_is: #when,
                 }
@@ -427,7 +478,7 @@ fn parse_addressing_modes(item: &Documentation) -> Vec<proc_macro2::TokenStream>
     let mut addressing_modes: Vec<proc_macro2::TokenStream> = Vec::new();
 
     for mode in modes {
-        let mut m = String::from("crate::hover::AddressingMode::");
+        let mut m = String::from("asm8051_shared::AddressingMode::");
         m.push_str(capitalize(&mode).as_str());
 
         let m: proc_macro2::TokenStream = m.parse().unwrap();
@@ -448,7 +499,7 @@ fn parse_possible_registers(registers: &Option<Vec<String>>) -> Vec<proc_macro2:
     let mut result = Vec::<proc_macro2::TokenStream>::new();
 
     for register in registers {
-        let mut m = String::from("crate::hover::PossibleRegister::");
+        let mut m = String::from("asm8051_shared::PossibleRegister::");
 
         m.push_str(capitalize(&register).as_str());
 

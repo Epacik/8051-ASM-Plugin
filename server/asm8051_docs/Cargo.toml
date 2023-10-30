@@ -13,4 +13,3 @@ quote = "1.0"
 proc-macro2 = "1.0"
 serde = { version = "*", features = ["derive"] }
 serde_json = "*"
-shared = { path = "../shared", version = "*" }

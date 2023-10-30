@@ -79,15 +79,15 @@ pub struct ValidOperand {
 }
 
 
-pub struct FileDesctiption {
+pub struct FileDescription {
     pub filename: String,
     shared_path: Option<String>,
     main_path: Option<String>,
 }
 
-impl FileDesctiption{
-    pub fn new(filename: String, shared_path: Option<String>, main_path: Option<String>) -> FileDesctiption {
-        FileDesctiption { filename, shared_path, main_path }
+impl FileDescription{
+    pub fn new(filename: String, shared_path: Option<String>, main_path: Option<String>) -> FileDescription {
+        FileDescription { filename, shared_path, main_path }
     }
 
     pub fn shared_path(&self) -> Option<String> {
