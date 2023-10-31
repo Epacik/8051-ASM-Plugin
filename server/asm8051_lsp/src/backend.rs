@@ -162,12 +162,37 @@ impl LanguageServer for Backend {
             .log_message(MessageType::INFO, t!("status.completion"))
             .await;
 
-        let _locale = self.client_locale().await;
-        let documentation = hover::all_documentation(_locale);
+        let locale = self.client_locale().await;
+        let documentation = hover::all_documentation(locale);
 
         if documentation.is_none() {
             return Ok(None);
         }
+        
+        let doc_id = _params.text_document_position.text_document.uri.as_ref();
+        let document = self.documents.get(doc_id);
+
+        let document = match document {
+            Some(doc) => doc,
+            None => return Ok(None),
+        };
+
+        let document = document.value().text.clone();
+
+        let (tokens, issues) = asm8051_parser::lexer::lexical_analysis(document);
+
+        if issues.len() > 0 || tokens.is_none()
+        {
+            return Ok(None);
+        }
+
+        let tokens = tokens.unwrap();
+        let labels = tokens
+            .iter()
+            .filter(|x| x.token as Token::Label(s) )
+            .map(|x| if let Token::Label(s) = x.token { s } else { String::new() })
+            .collect();
+
 
         let mut completion = Vec::<CompletionItem>::new();
         for kvp in documentation.unwrap() {
