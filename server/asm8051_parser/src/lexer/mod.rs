@@ -9,7 +9,7 @@ mod tests;
 
 mod analysis;
 mod initial;
-mod keywords;
+pub mod keywords;
 mod extensions;
 pub mod tokens;
 
@@ -77,4 +77,20 @@ pub fn lexical_analysis<S: AsRef<str>>(s: S)-> (Option<Vec<PositionedToken>>, Ve
     let spans = initial::get_spanned_strings(rope);
     let lines = initial::split_spanned_strings_into_lines(spans);
     analysis::perform_analysis(lines)
+}
+
+pub fn get_labels(tokens: &Vec<PositionedToken>) -> Vec<String> {
+    tokens
+        .iter()
+        .filter(|x| x.token.is_label())
+        .map(|x| x.token.unwrap_label())
+        .collect::<Vec<String>>()
+}
+
+pub fn get_line(tokens: &Vec<PositionedToken>, line: usize) -> Vec<PositionedToken> {
+    tokens
+        .iter()
+        .filter(|x| x.position.line == line)
+        .map(|x| x.clone())
+        .collect::<Vec<PositionedToken>>()
 }

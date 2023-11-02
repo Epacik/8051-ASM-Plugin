@@ -1,6 +1,6 @@
 #![allow(unused_imports, dead_code, unused_variables, unused_mut)]
 //#region imports
-use crate::{client_configuration::ClientConfiguration, flags::Locale};
+use crate::{client_configuration::ClientConfiguration, flags::Locale, docs};
 use asm8051_parser::lexer::tokens::{Token, Keyword, ControlCharacter, PositionedToken, Register, HelperRegister, Number, Directive, Delimiter, Trivia};
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -10,14 +10,7 @@ use tower_lsp::lsp_types::*;
 use asm8051_shared::{*, Documentation};
 //#endregion
 
-pub(crate) fn all_documentation(locale: Locale) -> Option<HashMap<String, Documentation>> {
-    let docs = DOCUMENTATION.get(locale.borrow());
 
-    match docs {
-        Some(some_docs) => Option::Some(some_docs.clone()),
-        None => Option::None,
-    }
-}
 
 //#region syntax generation
 pub(crate) fn syntax(key_docs: (String, Documentation)) -> String {
@@ -277,25 +270,18 @@ pub fn generate_possible_registers(registers: &[PossibleRegister]) -> String {
 /// Finds what user is hovering their cursor over and then tries to match documentation for specified locale
 pub(crate) fn documentation(
     position: Position,
-    document: &TextDocumentItem,
-    _configuration: &ClientConfiguration,
+    tokens: &Vec::<PositionedToken>,
     locale: Locale,
 ) -> Vec<MarkedString> {
 
-    let (tokens, _) = asm8051_parser::lexer::lexical_analysis(&document.borrow().text);
-    let ast = match tokens {
-        Some(s) => s,
-        None => return Vec::new(),
-    };
-
-    let (token, modifier) = match get_symbol(&ast, position) {
+    let (token, modifier) = match get_symbol(&tokens, position) {
         Some(sym) => sym,
         None => return Vec::new(),
     };
 
     let mut ast_lines: HashMap<usize, Vec<PositionedToken>> = HashMap::new();
 
-    for token in ast {
+    for token in tokens {
         let line = token.position.line;
 
         if !ast_lines.contains_key(&line) {
@@ -342,9 +328,9 @@ fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast:
         return documentation_label(&label, line, &ast);
     }
 
-    let documentation = match get_documentation(locale, &label) {
+    let documentation = match docs::get_documentation(locale, &label) {
         Some(docs) => docs,
-        None => match get_documentation(&Locale::ENGLISH, &label) {
+        None => match docs::get_documentation(&Locale::ENGLISH, &label) {
             Some(docs) => docs,
             None => return <Vec<MarkedString>>::new(),
         },
@@ -584,10 +570,10 @@ fn clean_markdown(tmp: &str) -> String {
 fn documentation_number(number: Number) -> Vec<MarkedString> {
 
     let header = t!("hover.numberBase_header");
-    let label_binary = t!("hover.numberBase-label_binary");
-    let label_octal = t!("hover.numberBase-label_octal");
-    let label_decimal = t!("hover.numberBase-label_decimal");
-    let label_hex = t!("hover.numberBase-label_hexadecimal");
+    let label_binary = t!("hover.numberBase_label_binary");
+    let label_octal = t!("hover.numberBase_label_octal");
+    let label_decimal = t!("hover.numberBase_label_decimal");
+    let label_hex = t!("hover.numberBase_label_hexadecimal");
 
     let parsed = match number {
         Number::Binary(bin) => i32::from_str_radix(bin.as_str(), 2),
@@ -633,9 +619,9 @@ fn documentation_keyword(mnemonic: Keyword, modifier: AddressingModifier, locale
         },
     };
 
-    let documentation = match get_documentation(locale, &string_repr) {
+    let documentation = match docs::get_documentation(locale, &string_repr) {
         Some(docs) => docs,
-        None => match get_documentation(&Locale::ENGLISH, &string_repr) {
+        None => match docs::get_documentation(&Locale::ENGLISH, &string_repr) {
             Some(docs) => docs,
             None => return <Vec<MarkedString>>::new(),
         },
@@ -829,42 +815,10 @@ fn is_valid_character(character: char) -> bool {
     IS_VALID_CHARACTER_REGEX.is_match(text.as_str())
 }
 
-fn get_documentation(_locale: &Locale, _mnemonic: &String) -> Option<Documentation> {
-    let docs = match DOCUMENTATION.get(_locale.borrow()) {
-        Some(doc) => doc,
-        None => return None,
-    };
-
-    let doc = match docs.get(_mnemonic) {
-        Some(d) => d,
-        None => return None,
-    };
-
-    Option::Some(doc.clone())
-}
-
 lazy_static! {
     /// I don't want to create regex each time I want to use it
-    static ref IS_VALID_CHARACTER_REGEX: Regex = Regex::new(r"[a-zA-Z0-9_.#@]").unwrap();//[\p{L}\p{N}_.#@]
-
-    static ref DOCUMENTATION: HashMap<Locale, HashMap<String, Documentation>> = HashMap::from([
-        (Locale::ENGLISH, load_documentation::load_documentation!(english)),
-        (Locale::POLISH, load_documentation::load_documentation!(polish)),
-    ]);
+    pub static ref IS_VALID_CHARACTER_REGEX: Regex = Regex::new(r"[a-zA-Z0-9_.#@]").unwrap();//[\p{L}\p{N}_.#@]
 }
-use bitflags::bitflags;
-use serde::{Deserialize, Serialize};
-
-pub enum Symbol {
-    None,
-    Number(String),
-    Label(String, u32),
-    Keyword(String),
-    Constant(String, u32),
-    Macro(String, u32),
-}
-
-
 
 // // #region tests
 // #[cfg(test)]

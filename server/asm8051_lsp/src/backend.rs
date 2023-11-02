@@ -1,3 +1,4 @@
+use crate::docs;
 //#region imports hell
 use crate::{
     client_configuration::ClientConfiguration, diagnostics, flags::Locale, hover, LANG_ID,
@@ -58,12 +59,33 @@ impl LanguageServer for Backend {
                     TextDocumentSyncKind::FULL,
                 )),
 
-                // completion_provider: Some(CompletionOptions {
-                //     resolve_provider: Option::from(true),
-                //     trigger_characters: None,
-                //     all_commit_characters: None,
-                //     work_done_progress_options: Default::default(),
-                // }),
+                completion_provider: Some(CompletionOptions {
+                    resolve_provider: Option::from(false),
+                    trigger_characters: {
+                        let capital = (65u8..=90u8).into_iter()
+                            .map(|i| (i as char).to_string())
+                            .collect::<Vec<String>>();
+                        let lower = (97u8..=122u8).into_iter()
+                            .map(|i| (i as char).to_string())
+                            .collect::<Vec<String>>();
+                        let other = vec![" ", "\t", "\n" , "\r" , "\x0B" , "\x0C" , "\u{0085}" , "\u{2028}" , "\u{2029}" ]
+                            .iter()
+                            .map(|x| x.to_string())
+                            .collect::<Vec<String>>();
+
+                        let all = capital
+                            .iter()
+                            .chain(lower.iter())
+                            .chain(other.iter())
+                            .map(|x| x.clone())
+                            .collect::<Vec<String>>();
+
+                        Some(all)
+                    },
+                    all_commit_characters: None,
+                    work_done_progress_options: Default::default(),
+                    completion_item: Some(CompletionOptionsCompletionItem { label_details_support: Some(true) })
+                }),
                 hover_provider: Some(HoverProviderCapability::Options(HoverOptions {
                     work_done_progress_options: WorkDoneProgressOptions {
                         work_done_progress: Some(true),
@@ -157,19 +179,21 @@ impl LanguageServer for Backend {
         self.validate_all_documents().await;
     }
 
-    async fn completion(&self, _params: CompletionParams) -> Result<Option<CompletionResponse>> {
+    async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
         self.client
             .log_message(MessageType::INFO, t!("status.completion"))
             .await;
 
         let locale = self.client_locale().await;
-        let documentation = hover::all_documentation(locale);
+        let documentation = docs::all_documentation(&locale);
 
         if documentation.is_none() {
             return Ok(None);
         }
+
+        let documentation = documentation.unwrap();
         
-        let doc_id = _params.text_document_position.text_document.uri.as_ref();
+        let doc_id = params.text_document_position.text_document.uri.as_ref();
         let document = self.documents.get(doc_id);
 
         let document = match document {
@@ -187,26 +211,89 @@ impl LanguageServer for Backend {
         }
 
         let tokens = tokens.unwrap();
-        let labels = tokens
-            .iter()
-            .filter(|x| x.token as Token::Label(s) )
-            .map(|x| if let Token::Label(s) = x.token { s } else { String::new() })
-            .collect();
+        let _labels = asm8051_parser::lexer::get_labels(&tokens);
+        let current_line = asm8051_parser::lexer::get_line(
+            &tokens, 
+            params.text_document_position.position.line as usize);
+
+        let char_num = params.text_document_position.position.character as usize;
 
 
-        let mut completion = Vec::<CompletionItem>::new();
-        for kvp in documentation.unwrap() {
-            completion.push(CompletionItem::new_simple(kvp.0, kvp.1.detail));
+        if char_num == 1 {
+            return Ok(None);
         }
 
-        Ok(Some(CompletionResponse::Array(completion)))
+        let instructions = asm8051_parser::lexer::keywords::get_instruction_strings();
+        let directives = asm8051_parser::lexer::keywords::get_directive_strings();
+        let keywords = instructions
+            .iter()
+            .chain(directives.iter())
+            .collect::<Vec<&String>>();
+
+        let details = documentation
+            .iter()
+            .filter(|(key, _)| keywords.contains(&key))
+            .map(|(key, value)| 
+                CompletionItem {
+                    label: key.clone(),
+                    detail: Some(value.detail.clone()),
+                    documentation: {
+                        let doc = hover::documentation(
+                            params.text_document_position.position.clone(),
+                            &tokens,
+                            locale)
+                            .iter()
+                            .map(|x| match x {
+                                MarkedString::String(s) => s.clone(),
+                                MarkedString::LanguageString(ls) => ls.value.clone()
+                            })
+                            .collect::<Vec<String>>()
+                            .join("\n\n");
+
+                        Some(
+                            lsp_types::Documentation::MarkupContent(
+                                MarkupContent {
+                                    kind: MarkupKind::Markdown,
+                                    value: doc,
+                                }
+                            )
+                        )
+                    },
+                    kind: {
+                        if instructions.contains(&key) {
+                            Some(CompletionItemKind::FUNCTION)
+                        }
+                        else if directives.contains(&key) {
+                            Some(CompletionItemKind::EVENT)
+                        }
+                        else {
+                            None
+                        }
+                    },
+                    ..CompletionItem::default()
+                })
+            .collect::<Vec<CompletionItem>>();
+
+        if current_line.len() == 1 {
+            return Ok(Some(CompletionResponse::Array(details)));
+        }
+
+        let first_item = &current_line[1];
+        let column = (char_num - 1) as usize;
+        let first_columns = &first_item.position.columns;
+
+        if first_columns.start <= column && first_columns.end >= column {
+            return Ok(Some(CompletionResponse::Array(details)));
+        }
+
+        Ok(None)
     }
 
     async fn hover(&self, _params: HoverParams) -> Result<Option<Hover>> {
         self.client.log_message(MessageType::INFO, t!("status.hover")).await;
 
         // get clients configuration
-        let config = self.client_configuration.lock().await.clone();
+        //let config = self.client_configuration.lock().await.clone();
 
         //load text of a document user id hovering over
         let uri = _params
@@ -227,11 +314,16 @@ impl LanguageServer for Backend {
 
         let document = document.unwrap();
 
+        let (tokens, _) = asm8051_parser::lexer::lexical_analysis(&document.borrow().text);
+        let ast = match tokens {
+            Some(s) => s,
+            None => return Ok(None),
+        };
+
         //get documentation for whatever user is hovering over
         let doc = hover::documentation(
             _params.text_document_position_params.position,
-            document.borrow(),
-            config.borrow(),
+            &ast,
             self.client_locale().await,
         );
 
@@ -442,7 +534,7 @@ impl Backend {
         }
 
         for res in self.documents.iter() {
-            self.validate_document(res.pair().1.borrow()).await;
+            self.validate_document(res.pair().1).await;
         }
     }
 
@@ -452,7 +544,7 @@ impl Backend {
         self.client
             .publish_diagnostics(
                 document.clone().uri,
-                diagnostics::get_diagnostics(document.borrow()),
+                diagnostics::get_diagnostics(document),
                 None,
             )
             .await;
@@ -510,8 +602,8 @@ impl Backend {
     }
 
     pub async fn get_all_documentation(&self) -> Result<Option<Value>> {
-        let _locale = self.client_locale().await;
-        let docs_option = hover::all_documentation(_locale);
+        let locale = self.client_locale().await;
+        let docs_option = docs::all_documentation(&locale);
         if docs_option.is_none() {
             return Ok(Option::None);
         }

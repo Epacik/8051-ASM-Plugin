@@ -48,6 +48,24 @@ impl Display for Token {
     }
 }
 
+impl Token {
+    pub fn is_label(&self) -> bool
+    {
+        match self {
+            Self::Label(_) => true,
+            _ => false,
+        }
+    }
+
+    pub fn unwrap_label(&self) -> String 
+    {
+        match self {
+            Self::Label(s) => s.clone(),
+            _ => panic!("Token is not a label"),
+        }
+    }
+}
+
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Keyword {
@@ -432,7 +450,7 @@ impl Default for PositionedToken {
     fn default() -> Self {
         Self { 
             token: Token::Unknown(String::new()),
-            position: Position::new(0..0, 0, 0..0)
+            position: Position::new(0..0, 0, 0..0),
         }
     }
 }

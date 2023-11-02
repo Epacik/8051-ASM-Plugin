@@ -6,6 +6,7 @@ mod diagnostics;
 mod flags;
 mod i18n;
 mod hover;
+mod docs;
 
 use std::borrow::Borrow;
 use tower_lsp::{LspService, Server};
