@@ -89,6 +89,7 @@ version = "0.2.0"
 dependencies = [
  "ahash",
  "asm8051_localize",
+ "asm8051_shared",
  "chumsky",
  "lazy_static",
  "once_cell",

@@ -310,7 +310,7 @@ fn documentation_string(st: String, locale: &Locale) -> Vec<MarkedString> {
     ]
 }
 
-fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>, locale: &Locale) -> Vec<MarkedString> {
+pub fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>, locale: &Locale) -> Vec<MarkedString> {
     let (is_macro, line) =  is_symbol_macro(label.as_str(), &ast);
     if is_macro {
         return documentation_label(&label, line, &ast);

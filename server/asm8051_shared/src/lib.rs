@@ -28,7 +28,7 @@ impl FromI32 for ValidOperand {
 
 pub trait Label {
     fn label(&self) -> String;
-    fn example(&self, i: Option<i32>)-> String {
+    fn example(&self, _i: Option<i32>)-> String {
         String::new()
     }
 }
@@ -168,6 +168,7 @@ impl ValidOperand {
         self.operand == other.operand && self.when_first_is == other.when_first_is
     }
 }
+
 
 #[derive(PartialEq)]
 #[derive(Clone)]

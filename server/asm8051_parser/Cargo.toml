@@ -23,6 +23,8 @@ validate_issue_codes = { path = "macros/validate_issue_codes" }
 
 rust-i18n = "2"
 asm8051_localize = { path = "../asm8051_localize", version = "*" }
+asm8051_shared = { path = "../asm8051_shared", version = "*" }
+
 
 
 [dev-dependencies]

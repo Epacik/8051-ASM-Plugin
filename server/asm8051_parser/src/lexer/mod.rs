@@ -66,6 +66,11 @@ impl Position {
     pub fn new(range: Range<usize>, line: usize, columns: Range<usize>) -> Position {
         Position { range, line, columns }
     }
+
+    pub fn contains_column(&self, col: usize) -> bool {
+        let range = &self.columns;
+        range.start <= col && range.end >= col
+    }
 }
 
 //#endregion
