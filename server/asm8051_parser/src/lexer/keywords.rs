@@ -12,10 +12,18 @@ const DIRECTIVES: [&str; 16] = [
     "MACRO", "MACEND", "ORG", "REG", "SET",
 ];
 
-pub(super) fn is_directive<S: AsRef<str>>(s: S) -> bool {
+pub fn is_directive<S: AsRef<str>>(s: S) -> bool {
     let s = s.as_ref();
     DIRECTIVES.contains(&s)
 }
+
+pub fn get_directive_strings() -> Vec<String> {
+    DIRECTIVES
+        .iter()
+        .map(|x| String::from(*x))
+        .collect::<Vec<String>>()
+}
+
 //#endregion
 
 //#region Instructions
@@ -32,10 +40,18 @@ const INSTRUCTIONS: [&str; 45] = [
     "SWAP",  "XCH",   "XCHD", "XRL",  "CALL",
 ];
 
-pub(super) fn is_instruction<S: AsRef<str>>(s: S) -> bool {
+pub fn is_instruction<S: AsRef<str>>(s: S) -> bool {
     let s = s.as_ref();
     INSTRUCTIONS.contains(&s)
 }
+
+pub fn get_instruction_strings() -> Vec<String> {
+    INSTRUCTIONS
+        .iter()
+        .map(|x| String::from(*x))
+        .collect::<Vec<String>>()
+}
+
 //#endregion
 
 //#region Registers
@@ -197,7 +213,7 @@ pub(super) fn is_flag_or_bit<S: AsRef<str>>(s: S) -> bool {
     PSW_FLAGS.contains(&s) || ADDRESSABLE_BITS.contains(&s)
 }
 
-pub(super) fn is_keyword<S: AsRef<str>>(s: S) -> bool {
+pub fn is_keyword<S: AsRef<str>>(s: S) -> bool {
     is_register(&s) || is_instruction(&s) || is_directive(&s) || is_flag_or_bit(&s)
 }
 

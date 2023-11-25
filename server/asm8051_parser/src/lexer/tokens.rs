@@ -1,7 +1,7 @@
 //#region Tokens
 use std::{borrow::Borrow, fmt::{Display, self}};
 use super::Position;
-
+use asm8051_shared::PossibleOperand;
 
 #[derive(PartialEq, Clone)]
 pub enum Token {
@@ -48,6 +48,70 @@ impl Display for Token {
     }
 }
 
+impl Token {
+    pub fn is_label(&self) -> bool
+    {
+        match self {
+            Self::Label(_) => true,
+            _ => false,
+        }
+    }
+
+    pub fn unwrap_label(&self) -> String 
+    {
+        match self {
+            Self::Label(s) => s.clone(),
+            _ => panic!("Token is not a label"),
+        }
+    }
+
+    pub fn string_repr(&self) -> String {
+        match self {
+            Token::Keyword(kw) => kw.string_repr(),
+            Token::Label(_) => todo!(),
+            Token::Address(_) => todo!(),
+            Token::String(_) => todo!(),
+            Token::Number(_) => todo!(),
+            Token::ControlCharacter(_) => todo!(),
+            Token::Trivia(_) => todo!(),
+            Token::Other(_) => todo!(),
+            Token::Unknown(_) => todo!(),
+        }
+    }
+
+    pub fn to_possible_operand(&self) -> PossibleOperand {
+        match self {
+            Token::Keyword(kw) => match kw {
+                Keyword::Register(reg) => match reg {
+                    Register::Main(m) => match m {
+                        MainRegister::A => PossibleOperand::Accumulator,
+                        MainRegister::B => PossibleOperand::RegisterB,
+                        MainRegister::AB => PossibleOperand::AccumulatorAndB ,
+                    },
+                    Register::Special(s) => match s {
+                        SpecialRegister::DPL => PossibleOperand::Dpl,
+                        SpecialRegister::DPH => PossibleOperand::Dph,
+                        SpecialRegister::DPTR => PossibleOperand::Dptr,
+                        _ => PossibleOperand::CodeAddress,
+                    },
+                    Register::Helper(_) => PossibleOperand::HelperRegisters,
+                    Register::Port(_) => PossibleOperand::CodeAddress,
+                },
+                Keyword::FlagOrBit(_) => PossibleOperand::BitAddress,
+                _ => PossibleOperand::Any,
+            },
+            Token::Label(_) => PossibleOperand::Label,
+            Token::Address(_) => PossibleOperand::CodeAddress,
+            Token::String(_) => PossibleOperand::AsciiCharacters,
+            Token::Number(n) => {
+                if n.to_i32() > 255 { PossibleOperand::Data16 } else { PossibleOperand::Data }
+            },
+            _ => PossibleOperand::Any,
+        }
+    }
+
+}
+
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Keyword {
@@ -57,16 +121,28 @@ pub enum Keyword {
     FlagOrBit(String),
 }
 
+impl Keyword {
+    pub fn string_repr(&self) -> String {
+        match self {
+            Keyword::Instruction(instr) => instr.string_repr(),
+            Keyword::Register(reg) => reg.string_repr(),
+            Keyword::Directive(_) => todo!(),
+            Keyword::FlagOrBit(_) => todo!(),
+        }
+    }
+}
+
 impl Display for Keyword {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Keyword::Instruction(inst) => write!(f, "Keyword::Instruction({})", inst),
-            Keyword::Register(regi)       => write!(f, "Keyword::Register({})", regi),
-            Keyword::Directive(dire)     => write!(f, "Keyword::Directive({})", dire),
-            Keyword::FlagOrBit(flbt)        => write!(f, "Keyword::FlagOrBit({})", flbt),
+            Keyword::Register(regi)    => write!(f, "Keyword::Register({})", regi),
+            Keyword::Directive(dire)   => write!(f, "Keyword::Directive({})", dire),
+            Keyword::FlagOrBit(flbt)   => write!(f, "Keyword::FlagOrBit({})", flbt),
         }
     }
 }
+
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Instruction {
@@ -76,6 +152,58 @@ pub enum Instruction {
     MOV, MOVC, MOVX, MUL, NOP, ORL, POP, PUSH, 
     RET, RETI, RL, RLC, RR, RRC, SETB, SJMP, 
     SUBB, SWAP, XCH, XCHD, XRL,
+}
+
+impl Instruction {
+    pub fn string_repr(&self) -> String {
+        match self {
+            Instruction::CALL => String::from("CALL"),
+            Instruction::ACALL => String::from("ACALL"),
+            Instruction::ADD => String::from("ADD"),
+            Instruction::ADDC => String::from("ADDC"),
+            Instruction::AJMP => String::from("AJMP"),
+            Instruction::ANL => String::from("ANL"),
+            Instruction::CJNE => String::from("CJNE"),
+            Instruction::CLR => String::from("CLR"),
+            Instruction::CPL => String::from("CPL"),
+            Instruction::DA => String::from("DA"),
+            Instruction::DEC => String::from("DEC"),
+            Instruction::DIV => String::from("DIV"),
+            Instruction::DJNZ => String::from("DJNZ"),
+            Instruction::INC => String::from("INC"),
+            Instruction::JB => String::from("JB"),
+            Instruction::JBC => String::from("JBC"),
+            Instruction::JC => String::from("JC"),
+            Instruction::JMP => String::from("JMP"),
+            Instruction::JNB => String::from("JNB"),
+            Instruction::JNC => String::from("JNC"),
+            Instruction::JNZ => String::from("JNZ"),
+            Instruction::JZ => String::from("JZ"),
+            Instruction::LCALL => String::from("LCALL"),
+            Instruction::LJMP => String::from("LJMP"),
+            Instruction::MOV => String::from("MOV"),
+            Instruction::MOVC => String::from("MOVC"),
+            Instruction::MOVX => String::from("MOVX"),
+            Instruction::MUL => String::from("MUL"),
+            Instruction::NOP => String::from("NOP"),
+            Instruction::ORL => String::from("ORL"),
+            Instruction::POP => String::from("POP"),
+            Instruction::PUSH => String::from("PUSH"),
+            Instruction::RET => String::from("RET"),
+            Instruction::RETI => String::from("RETI"),
+            Instruction::RL => String::from("RL"),
+            Instruction::RLC => String::from("RLC"),
+            Instruction::RR => String::from("RR"),
+            Instruction::RRC => String::from("RRC"),
+            Instruction::SETB => String::from("SETB"),
+            Instruction::SJMP => String::from("SJMP"),
+            Instruction::SUBB => String::from("SUBB"),
+            Instruction::SWAP => String::from("SWAP"),
+            Instruction::XCH => String::from("XCH"),
+            Instruction::XCHD => String::from("XCHD"),
+            Instruction::XRL => String::from("XRL"),
+        }
+    }
 }
 
 impl Display for Instruction {
@@ -171,13 +299,24 @@ pub enum Register {
     //Addressing(AddressingRegister)
 }
 
+impl Register {
+    pub fn string_repr(&self) -> String {
+        match self {
+            Register::Main(m) => m.string_repr(),
+            Register::Special(sp) => sp.string_repr(),
+            Register::Helper(_) => todo!(),
+            Register::Port(_) => todo!(),
+        }
+    }
+}
+
 impl Display for Register {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Register::Main(mr)       => write!(f, "Register::Main({})", mr),
+            Register::Main(mr)    => write!(f, "Register::Main({})", mr),
             Register::Special(sr) => write!(f, "Register::Special({})", sr),
-            Register::Helper(hr)   => write!(f, "Register::Helper({})", hr),
-            Register::Port(pr)       => write!(f, "Register::Port({})", pr),
+            Register::Helper(hr)  => write!(f, "Register::Helper({})", hr),
+            Register::Port(pr)    => write!(f, "Register::Port({})", pr),
             //Register::Addressing(_) => write!(f, "Register::Addressing({})", name),
         }
     }
@@ -186,6 +325,16 @@ impl Display for Register {
 #[derive(Debug, PartialEq, Clone)]
 pub enum MainRegister {
     A, B, AB
+}
+
+impl MainRegister {
+    pub fn string_repr(&self) -> String {
+        match self {
+            MainRegister::A => String::from("A"),
+            MainRegister::B => String::from("B"),
+            MainRegister::AB => String::from("AB"),
+        }
+    }
 }
 impl Display for MainRegister {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -206,6 +355,29 @@ pub enum SpecialRegister {
     PCON, PSW, 
     SBUF, SCON, SP
 }
+
+impl SpecialRegister {
+    pub fn string_repr(&self) -> String {
+        match self {
+            SpecialRegister::TL0 => String::from("TL0"),
+            SpecialRegister::TH0 => String::from("TH0"),
+            SpecialRegister::TL1 => String::from("TL1"),
+            SpecialRegister::TH1 => String::from("TH1"),
+            SpecialRegister::DPL => String::from("DPL"),
+            SpecialRegister::DPH => String::from("DPH"),
+            SpecialRegister::DPTR => String::from("DPTR"),
+            SpecialRegister::IE => String::from("IE"),
+            SpecialRegister::IP => String::from("IP"),
+            SpecialRegister::PC => String::from("PC"),
+            SpecialRegister::PCON => String::from("PCON"),
+            SpecialRegister::PSW => String::from("PSW"),
+            SpecialRegister::SBUF => String::from("SBUF"),
+            SpecialRegister::SCON => String::from("SCON"),
+            SpecialRegister::SP => String::from("SP"),
+        }
+    }
+}
+
 impl Display for SpecialRegister {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let name = match self {
@@ -289,6 +461,18 @@ impl Display for Number {
             Number::Decimal(num)     => write!(f, "Number::Decimal({})", num),
             Number::Hexadecimal(num) => write!(f, "Number::Hexadecimal({})", num),
         }
+    }
+}
+
+impl Number {
+    pub fn to_i32(&self) -> i32 {
+        match self {
+            Number::Binary(bin) => i32::from_str_radix(bin.as_str(), 2),
+            Number::Octal(oct) => i32::from_str_radix(oct.as_str(), 8),
+            Number::Decimal(dec) => i32::from_str_radix(dec.as_str(), 10),
+            Number::Hexadecimal(hex) => i32::from_str_radix(hex.as_str(), 16),
+        }
+        .unwrap_or(0)
     }
 }
 
@@ -405,6 +589,7 @@ pub struct PositionedToken {
     pub position: Position,
 }
 
+
 impl fmt::Debug for PositionedToken {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("PositionedToken")
@@ -432,7 +617,7 @@ impl Default for PositionedToken {
     fn default() -> Self {
         Self { 
             token: Token::Unknown(String::new()),
-            position: Position::new(0..0, 0, 0..0)
+            position: Position::new(0..0, 0, 0..0),
         }
     }
 }

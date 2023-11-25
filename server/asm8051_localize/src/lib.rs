@@ -1,5 +1,3 @@
-use crate as asm8051_localize;
-
 #[allow(unused_macros)]
 #[macro_export]
 macro_rules! init {

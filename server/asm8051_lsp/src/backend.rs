@@ -1,3 +1,4 @@
+use crate::docs;
 //#region imports hell
 use crate::{
     client_configuration::ClientConfiguration, diagnostics, flags::Locale, hover, LANG_ID,
@@ -5,8 +6,18 @@ use crate::{
 
 use crate::i18n::change_language;
 
-use asm8051_parser::lexer::tokens::{ControlCharacter, Delimiter};
-use asm8051_parser::lexer::tokens::{Instruction, Trivia, Token, Keyword};
+use asm8051_parser::lexer::tokens::{
+    ControlCharacter,
+    Register,
+    Instruction,
+    Trivia,
+    Token,
+    Keyword,
+    MainRegister,
+    SpecialRegister,
+    Delimiter
+};
+use asm8051_shared::{PossibleOperand, ValidOperand};
 
 use dashmap::DashMap;
 use tower_lsp::jsonrpc::*;
@@ -58,12 +69,43 @@ impl LanguageServer for Backend {
                     TextDocumentSyncKind::FULL,
                 )),
 
-                // completion_provider: Some(CompletionOptions {
-                //     resolve_provider: Option::from(true),
-                //     trigger_characters: None,
-                //     all_commit_characters: None,
-                //     work_done_progress_options: Default::default(),
-                // }),
+                completion_provider: Some(CompletionOptions {
+                    resolve_provider: Option::from(false),
+                    trigger_characters: {
+                        let capital = (65u8..=90u8).into_iter()
+                            .map(|i| (i as char).to_string())
+                            .collect::<Vec<String>>();
+                        let lower = (97u8..=122u8).into_iter()
+                            .map(|i| (i as char).to_string())
+                            .collect::<Vec<String>>();
+                        let other = vec![
+                                ",",
+                                " ",
+                                "\t",
+                                "\n",
+                                "\r",
+                                "\x0B",
+                                "\x0C",
+                                "\u{0085}",
+                                "\u{2028}",
+                                "\u{2029}"]
+                            .iter()
+                            .map(|x| x.to_string())
+                            .collect::<Vec<String>>();
+
+                        let all = capital
+                            .iter()
+                            .chain(lower.iter())
+                            .chain(other.iter())
+                            .map(|x| x.clone())
+                            .collect::<Vec<String>>();
+
+                        Some(all)
+                    },
+                    all_commit_characters: None,
+                    work_done_progress_options: Default::default(),
+                    completion_item: Some(CompletionOptionsCompletionItem { label_details_support: Some(true) })
+                }),
                 hover_provider: Some(HoverProviderCapability::Options(HoverOptions {
                     work_done_progress_options: WorkDoneProgressOptions {
                         work_done_progress: Some(true),
@@ -157,19 +199,23 @@ impl LanguageServer for Backend {
         self.validate_all_documents().await;
     }
 
-    async fn completion(&self, _params: CompletionParams) -> Result<Option<CompletionResponse>> {
+    async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
+        
+        // TODO: REFACTOR THIS
         self.client
             .log_message(MessageType::INFO, t!("status.completion"))
             .await;
 
         let locale = self.client_locale().await;
-        let documentation = hover::all_documentation(locale);
+        let documentation = docs::all_documentation(&locale);
 
         if documentation.is_none() {
             return Ok(None);
         }
+
+        let documentation = documentation.unwrap();
         
-        let doc_id = _params.text_document_position.text_document.uri.as_ref();
+        let doc_id = params.text_document_position.text_document.uri.as_ref();
         let document = self.documents.get(doc_id);
 
         let document = match document {
@@ -187,26 +233,468 @@ impl LanguageServer for Backend {
         }
 
         let tokens = tokens.unwrap();
-        let labels = tokens
-            .iter()
-            .filter(|x| x.token as Token::Label(s) )
-            .map(|x| if let Token::Label(s) = x.token { s } else { String::new() })
-            .collect();
+        let _labels = asm8051_parser::lexer::get_labels(&tokens);
+        let current_line = asm8051_parser::lexer::get_line(
+            &tokens, 
+            params.text_document_position.position.line as usize);
+
+        let char_num = params.text_document_position.position.character as usize;
 
 
-        let mut completion = Vec::<CompletionItem>::new();
-        for kvp in documentation.unwrap() {
-            completion.push(CompletionItem::new_simple(kvp.0, kvp.1.detail));
+        if char_num == 1 {
+            return Ok(None);
         }
 
-        Ok(Some(CompletionResponse::Array(completion)))
+        let instructions = asm8051_parser::lexer::keywords::get_instruction_strings();
+        let directives = asm8051_parser::lexer::keywords::get_directive_strings();
+        let keywords = instructions
+            .iter()
+            .chain(directives.iter())
+            .collect::<Vec<&String>>();
+
+        let details = documentation
+            .iter()
+            .filter(|(key, _)| keywords.contains(&key))
+            .map(|(key, value)| 
+                CompletionItem {
+                    label: key.clone(),
+                    detail: Some(value.detail.clone()),
+                    documentation: {
+                        let doc = hover::documentation(
+                            params.text_document_position.position.clone(),
+                            &tokens,
+                            locale)
+                            .iter()
+                            .map(|x| match x {
+                                MarkedString::String(s) => s.clone(),
+                                MarkedString::LanguageString(ls) => ls.value.clone()
+                            })
+                            .collect::<Vec<String>>()
+                            .join("\n\n");
+
+                        Some(
+                            lsp_types::Documentation::MarkupContent(
+                                MarkupContent {
+                                    kind: MarkupKind::Markdown,
+                                    value: doc,
+                                }
+                            )
+                        )
+                    },
+                    kind: {
+                        if instructions.contains(&key) {
+                            Some(CompletionItemKind::FUNCTION)
+                        }
+                        else if directives.contains(&key) {
+                            Some(CompletionItemKind::EVENT)
+                        }
+                        else {
+                            None
+                        }
+                    },
+                    ..CompletionItem::default()
+                })
+            .collect::<Vec<CompletionItem>>();
+
+        if current_line.len() == 1 {
+            return Ok(Some(CompletionResponse::Array(details)));
+        }
+
+        let first_item = &current_line[1];
+        let column = (char_num - 1) as usize;
+
+        if first_item.position.contains_column(column) {
+            return Ok(Some(CompletionResponse::Array(details)));
+        }
+
+        if current_line.len() < 3 {
+            return Ok(None);
+        }
+
+        if let Token::Keyword(kw) = first_item.token.clone() {
+            let kw = if let Keyword::Instruction(ins) = kw {
+                Some(ins.to_string())
+            }
+            else if let Keyword::Directive(dir) = kw {
+                Some(dir.to_string())
+            }
+            else {
+                None
+            };
+
+            let kw = match kw {
+                Some(k) => k,
+                None => return Ok(None),
+            };
+
+            let docs = match documentation.get(&kw) {
+                Some(d) => d,
+                None => return Ok(None),
+            };
+
+            // a line should look something like:
+            // 0           1            2           3         4      5                 6
+            // [whitespace][instruction][whitespace][argument]
+            // [whitespace][instruction][whitespace][argument]
+            // [whitespace][instruction][whitespace][argument][comma][(opt) whitespace][argument]
+            // [whitespace][instruction][whitespace][argument][comma][(opt) whitespace][argument][comma][(opt) whitespace][argument]
+            // 0 (l 1)     1 (l 2)      2 (l 3)     3 (l 4)   4(l 5) 5                 6
+
+            let current_args = {
+                let mut args: Vec<Vec<&asm8051_parser::lexer::tokens::PositionedToken>> = Vec::new();
+
+                let mut index = 1_usize;
+                for pt in &current_line[2..] {
+                    if args.len() <= index {
+                        args.push(vec![]);
+                    }
+
+                    if let Token::Trivia(tv) = pt.token.clone() {
+                        if let Trivia::NewLine(_) = tv {
+                            break;
+                        }
+                    }
+
+                    
+                    if let Token::ControlCharacter(cc) = pt.token.clone() {
+                        if let ControlCharacter::ArgumentSeparator = cc {
+                            index = index + 1;
+                            //continue;
+                        }
+                        if let ControlCharacter::Delimiter(del) = cc {
+                            if let Delimiter::CommentStart = del {
+                                break;
+                            }
+                        }
+                    }
+                    
+                    args[index - 1].push(pt);
+                }
+
+                let mut result : Vec<Vec<&asm8051_parser::lexer::tokens::PositionedToken>> = Vec::new();
+
+                for a in args {
+                    if a.len() > 0 {
+                        result.push(a);
+                    }
+                }
+
+                result
+            };
+
+            let first_current_operand = &current_args[0];
+            let first_possible_op = {
+                let mut address = false;
+                let mut helper_r = false;
+                let mut at = false;
+                let mut a = false;
+                let mut b = false;
+                let mut dph = false;
+                let mut dpl = false;
+                let mut c = false;
+                let mut dptr = false;
+
+                for o in first_current_operand {
+                    match o.token.clone() {
+                        Token::Keyword(kw) => match kw {
+                            Keyword::Register(reg) => match reg {
+                                Register::Main(m) => match m {
+                                    MainRegister::A => a = true,
+                                    MainRegister::B => b = true,
+                                    MainRegister::AB => {},
+                                },
+                                Register::Helper(_) => helper_r = true,
+                                Register::Special(sp) => match sp {
+                                    SpecialRegister::DPL => dpl = true,
+                                    SpecialRegister::DPH => dph = true,
+                                    SpecialRegister::DPTR => dptr = true,
+                                    _ => {}
+                                },
+                                _ => {}
+                            },
+                            Keyword::FlagOrBit(fob) => if fob.as_str() == "C" {
+                                c = true;
+                            },
+                            _ => {}
+                        },
+                        Token::Label(_) => address = true,
+                        Token::Address(_) => address = true,
+                        Token::ControlCharacter(cc) => 
+                            if let ControlCharacter::AddressingModifier = cc { at = true; },
+                        _ => {}
+                    }
+
+                }
+
+                if address {
+                    PossibleOperand::CodeAddress
+                }
+                else if at && helper_r {
+                    PossibleOperand::AddressInR0OrR1 
+                }
+                else if helper_r{
+                    PossibleOperand::HelperRegisters
+                }
+                else if a {
+                    PossibleOperand::Accumulator
+                }
+                else if b {
+                    PossibleOperand::RegisterB
+                }
+                else if c {
+                    PossibleOperand::CarryFlag
+                }
+                else if at && dptr {
+                    PossibleOperand::AddressInDptr 
+                }
+                else if dptr {
+                    PossibleOperand::Dptr
+                }
+                else if dph {
+                    PossibleOperand::Dph
+                }
+                else if dpl {
+                    PossibleOperand::Dpl
+                }
+                else {
+                    PossibleOperand::Any
+                }
+            };
+
+            let len = std::cmp::min(docs.valid_operands.len(), current_args.len());
+            
+            if docs.valid_operands.len() == 0 || len == 0 {
+                return Ok(None);
+            }
+
+            for i in 0..len {
+                let args = &current_args[i];
+                let has_column = {
+                    let mut hc = false;
+                    for arg in args {
+                        if arg.position.contains_column(column){
+                            hc = true;
+                        }
+                    }
+                    hc
+                };
+
+                if !has_column {
+                    continue;
+                }
+
+                let ops = if i == 0 || first_possible_op == PossibleOperand::Any {
+                    docs.valid_operands[i]
+                        .iter()
+                        .filter(|_| true)
+                        .collect::<Vec<&ValidOperand>>()
+                }
+                else {
+                    docs.valid_operands[i]
+                        .iter()
+                        .filter(|x| 
+                            x.when_first_is == PossibleOperand::Any || 
+                            x.when_first_is == first_possible_op)
+                        .collect::<Vec<&ValidOperand>>()
+                };
+
+                let ci = ops
+                    .iter()
+                    .map(|x| {
+                    match x.operand {
+                        PossibleOperand::Label |
+                        PossibleOperand::AbsoluteAddress |
+                        PossibleOperand::RelativeAddress |
+                        PossibleOperand::CodeAddress => {
+                            Some(_labels
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.clone(),
+                                        kind: Some(CompletionItemKind::CONSTANT),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::AddressInR0OrR1 => {
+                            Some(vec!["@R0", "@R1"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::REFERENCE),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::HelperRegisters => {
+                            Some(vec!["R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::CarryFlag => {
+                            Some(vec!["C"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::INTERFACE),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::Accumulator => {
+                            Some(vec!["A"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::AccumulatorAndB => {
+                            Some(vec!["AB"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::AddressInAccumulatorPlusDptr => {
+                            Some(vec!["@A+DPTR"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::REFERENCE),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::Dptr => {
+                            Some(vec!["DPTR"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::AddressInDptr => {
+                            Some(vec!["@DPTR"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::REFERENCE),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::AddressInAccumulatorPlusPC => {
+                            Some(vec!["@A+PC"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::REFERENCE),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::RegisterB => {
+                            Some(vec!["B"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::Dpl => {
+                            Some(vec!["DPL"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::Dph => {
+                            Some(vec!["DPH"]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        PossibleOperand::AsciiCharacters => {
+                            Some(vec!["\"\""]
+                                .iter()
+                                .map(|y| {
+                                    CompletionItem {
+                                        label: y.to_string(),
+                                        kind: Some(CompletionItemKind::ENUM),
+                                        ..CompletionItem::default()
+                                    }
+                                })
+                                .collect::<Vec<CompletionItem>>())
+                        },
+                        _ => None,
+                    }
+                })
+                .filter(|x| x.is_some())
+                .map(|x| x.unwrap())
+                .flatten()
+                .collect::<Vec<CompletionItem>>();
+
+                return Ok(Some(CompletionResponse::Array(ci)));
+            }
+
+        }
+
+
+        Ok(None)
     }
 
     async fn hover(&self, _params: HoverParams) -> Result<Option<Hover>> {
         self.client.log_message(MessageType::INFO, t!("status.hover")).await;
 
         // get clients configuration
-        let config = self.client_configuration.lock().await.clone();
+        //let config = self.client_configuration.lock().await.clone();
 
         //load text of a document user id hovering over
         let uri = _params
@@ -227,11 +715,16 @@ impl LanguageServer for Backend {
 
         let document = document.unwrap();
 
+        let (tokens, _) = asm8051_parser::lexer::lexical_analysis(&document.borrow().text);
+        let ast = match tokens {
+            Some(s) => s,
+            None => return Ok(None),
+        };
+
         //get documentation for whatever user is hovering over
         let doc = hover::documentation(
             _params.text_document_position_params.position,
-            document.borrow(),
-            config.borrow(),
+            &ast,
             self.client_locale().await,
         );
 
@@ -442,7 +935,7 @@ impl Backend {
         }
 
         for res in self.documents.iter() {
-            self.validate_document(res.pair().1.borrow()).await;
+            self.validate_document(res.pair().1).await;
         }
     }
 
@@ -452,7 +945,7 @@ impl Backend {
         self.client
             .publish_diagnostics(
                 document.clone().uri,
-                diagnostics::get_diagnostics(document.borrow()),
+                diagnostics::get_diagnostics(document),
                 None,
             )
             .await;
@@ -510,8 +1003,8 @@ impl Backend {
     }
 
     pub async fn get_all_documentation(&self) -> Result<Option<Value>> {
-        let _locale = self.client_locale().await;
-        let docs_option = hover::all_documentation(_locale);
+        let locale = self.client_locale().await;
+        let docs_option = docs::all_documentation(&locale);
         if docs_option.is_none() {
             return Ok(Option::None);
         }

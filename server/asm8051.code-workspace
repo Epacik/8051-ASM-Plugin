@@ -22,16 +22,7 @@
 	"settings": {
 		"powershell.cwd": "d:/source/other_repos/8051-ASM-Plugin2/server/",
 		"rust-analyzer.debug.engineSettings": {
-			"cppdbg": {
-				"miDebuggerPath": "C:/Users/epat/.rustup/toolchains/stable-x86_64-pc-windows-gnu/bin/rust-gdb",
-				"setupCommands": [
-					{
-						"description": "Enable pretty-printing for gdb",
-						"text": "-enable-pretty-printing",
-						"ignoreFailures": false
-					}
-				],
-			}
+			
 		},
 		"rust-analyzer.debug.engine": "vadimcn.vscode-lldb",
 		"cSpell.words": [

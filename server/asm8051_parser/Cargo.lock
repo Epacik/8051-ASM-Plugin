@@ -48,6 +48,7 @@ version = "0.2.0"
 dependencies = [
  "ahash",
  "asm8051_localize",
+ "asm8051_shared",
  "chumsky",
  "lazy_static",
  "once_cell",
@@ -57,6 +58,15 @@ dependencies = [
  "string-join",
  "test-case",
  "validate_issue_codes",
+]
+
+[[package]]
+name = "asm8051_shared"
+version = "0.1.0"
+dependencies = [
+ "asm8051_localize",
+ "lazy_static",
+ "rust-i18n",
 ]
 
 [[package]]

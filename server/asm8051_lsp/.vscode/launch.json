@@ -20,6 +20,7 @@
                 },
                 "problemMatcher": "$rustc",
             },
+            "env": { "RUST_BACKTRACE": "1" },
             "args": [],
             "program": "${cargo:program}",
             "cwd": "${workspaceFolder}",
@@ -41,6 +42,7 @@
                     "kind": "bin"
                 }
             },
+            "env": { "RUST_BACKTRACE": "1" },
             "args": [],
             "cwd": "${workspaceFolder}",
             "sourceLanguages": ["rust"]
