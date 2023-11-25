@@ -136,9 +136,9 @@ impl Display for Keyword {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Keyword::Instruction(inst) => write!(f, "Keyword::Instruction({})", inst),
-            Keyword::Register(regi)       => write!(f, "Keyword::Register({})", regi),
-            Keyword::Directive(dire)     => write!(f, "Keyword::Directive({})", dire),
-            Keyword::FlagOrBit(flbt)        => write!(f, "Keyword::FlagOrBit({})", flbt),
+            Keyword::Register(regi)    => write!(f, "Keyword::Register({})", regi),
+            Keyword::Directive(dire)   => write!(f, "Keyword::Directive({})", dire),
+            Keyword::FlagOrBit(flbt)   => write!(f, "Keyword::FlagOrBit({})", flbt),
         }
     }
 }
@@ -313,10 +313,10 @@ impl Register {
 impl Display for Register {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Register::Main(mr)       => write!(f, "Register::Main({})", mr),
+            Register::Main(mr)    => write!(f, "Register::Main({})", mr),
             Register::Special(sr) => write!(f, "Register::Special({})", sr),
-            Register::Helper(hr)   => write!(f, "Register::Helper({})", hr),
-            Register::Port(pr)       => write!(f, "Register::Port({})", pr),
+            Register::Helper(hr)  => write!(f, "Register::Helper({})", hr),
+            Register::Port(pr)    => write!(f, "Register::Port({})", pr),
             //Register::Addressing(_) => write!(f, "Register::Addressing({})", name),
         }
     }
