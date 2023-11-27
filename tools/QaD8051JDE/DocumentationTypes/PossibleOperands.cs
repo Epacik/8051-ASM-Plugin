@@ -7,7 +7,7 @@ public enum PossibleOperands
     Label                        = 2,
     Data                         = 3,
     Data16                       = 4,
-    publicRamAddress           = 5,
+    InternalRamAddress           = 5,
     AddressInR0OrR1              = 6,
     HelperRegisters              = 7,
     CarryFlag                    = 8,
