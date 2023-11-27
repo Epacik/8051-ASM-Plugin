@@ -1,5 +1,6 @@
 pub mod lexer_old;
 pub mod lexer;
+pub mod parser;
 pub mod issues;
 
 asm8051_localize::init!();
