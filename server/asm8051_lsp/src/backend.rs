@@ -207,6 +207,7 @@ impl LanguageServer for Backend {
         self.client
             .log_message(MessageType::INFO, t!("status.completion"))
             .await;
+        let kit = self.client_configuration.lock().await.kit();
 
         let locale = self.client_locale().await;
         let documentation = docs::all_documentation(&locale);
@@ -265,7 +266,8 @@ impl LanguageServer for Backend {
                         let doc = hover::documentation(
                             params.text_document_position.position.clone(),
                             &tokens,
-                            locale)
+                            locale,
+                            kit)
                             .iter()
                             .map(|x| match x {
                                 MarkedString::String(s) => s.clone(),
@@ -694,6 +696,7 @@ impl LanguageServer for Backend {
 
     async fn hover(&self, _params: HoverParams) -> Result<Option<Hover>> {
         self.client.log_message(MessageType::INFO, t!("status.hover")).await;
+        let kit = self.client_configuration.lock().await.kit();
 
         // get clients configuration
         //let config = self.client_configuration.lock().await.clone();
@@ -728,6 +731,7 @@ impl LanguageServer for Backend {
             _params.text_document_position_params.position,
             &ast,
             self.client_locale().await,
+            kit
         );
 
         Ok(Some(Hover {
@@ -1019,7 +1023,7 @@ impl Backend {
 
         for (key, docs) in docs {
 
-            if kit != Kits::DSM51 && docs.category.as_str() == "dsm51" {
+            if kit != Kits::DSM51 && docs.category.as_str() == Kits::DSM51.category_name() {
                 continue;
             }
 
