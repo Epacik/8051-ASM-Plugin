@@ -197,14 +197,14 @@ hover.operand:
     en: operand
     pl: operand
 hover.operand0:
-    en: operand0
-    pl: operand0
+    en: operand 0
+    pl: operand 0
 hover.operand1:
-    en: operand1
-    pl: operand1
+    en: operand 1
+    pl: operand 1
 hover.operand2:
-    en: operand2
-    pl: operand2
+    en: operand 2
+    pl: operand 2
 hover.Operand__cap:
     en: Operand
     pl: Operand
