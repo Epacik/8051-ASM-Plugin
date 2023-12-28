@@ -24,6 +24,15 @@ export class DocumentationPanel extends DocumentationViewBase {
         this._panel = panel;
 
         this._panel.onDidDispose(this.dispose, null, this._disposables);
+        
+        vscode.workspace.onDidChangeConfiguration(e => {
+            this.getDocumentation().then(docs => {
+                this._getWebviewContent(this._panel.webview, extensionUri, docs, args).then(value => {
+                    this._panel.webview.html = value;
+                });
+            });
+        });
+
 
         this.getDocumentation().then(docs => {
             this._getWebviewContent(this._panel.webview, extensionUri, docs, args).then(value => {
