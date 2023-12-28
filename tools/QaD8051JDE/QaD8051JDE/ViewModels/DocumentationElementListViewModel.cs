@@ -42,12 +42,12 @@ public partial class DocumentationElementListViewModel : BaseViewModel
 
         Dictionary<string, DocumentationElement>? deserialized = null;
 
-        try
-        {
-            deserialized = JsonSerializer.Deserialize<Dictionary<string, DocumentationElement>>(content, _options);
-        }
-        catch (Exception)
-        {
+        //try
+        //{
+        //    deserialized = JsonSerializer.Deserialize<Dictionary<string, DocumentationElement>>(content, _options);
+        //}
+        //catch (Exception)
+        //{
             var main = JsonSerializer.Deserialize<Dictionary<string, MainDocumentationElement>>(content, _options);
             var shared = JsonSerializer.Deserialize<Dictionary<string, SharedDocumentationElement>>(sharedContent, _options);
 
@@ -102,7 +102,7 @@ public partial class DocumentationElementListViewModel : BaseViewModel
                     deserialized[key].StackSpaceNeeded = value.StackSpaceNeeded;
                 }
             }
-        }
+        //}
 
 
         Elements = deserialized?
