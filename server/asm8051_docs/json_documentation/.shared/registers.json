@@ -1,5 +1,5 @@
 {
-  "A": {
+  "A;ACC": {
     "valid_operands": [],
     "affected_flags": [],
     "dont_generate_syntax": true,

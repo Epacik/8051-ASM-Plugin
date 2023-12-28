@@ -1,5 +1,5 @@
 {
-  "A": {
+  "A;ACC": {
     "detail": "The Accumulator",
     "description": "8 bit accumulator used mostly for arithmetic, logical and data transfer operations.\r\n\r\nHolds a result of most of operations performed by ALU.\r\n\r\nThe Accumulator is bit and byte addressable.\r\n\r\nIt is located at 0E0h",
     "affected_flags": {},

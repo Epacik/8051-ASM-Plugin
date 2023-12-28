@@ -1,5 +1,5 @@
 {
-  "A": {
+  "A;ACC": {
     "detail": "Akumulator",
     "description": "8 bitowy rejestr u\u017Cywany g\u0142\u00F3wnie do operacji artymetycznych, logicznych, i przesy\u0142u danych.\r\n\r\nTrafiaj\u0105 do niego wyniki wi\u0119kszo\u015Bci operacji przeprowadzanych przez ALU.\r\n\r\nAkumulator jest adresowany bitowo i bajtowo.\r\n\r\nJego adres to 0E0h",
     "affected_flags": {},
