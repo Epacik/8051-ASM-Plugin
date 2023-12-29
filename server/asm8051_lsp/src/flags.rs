@@ -24,3 +24,12 @@ impl Locale {
         .to_string()
     }
 }
+
+impl Kits {
+    pub fn category_name(&self) -> String {
+        match self.bits {
+            2 => String::from("dsm51"),
+            _ => String::new(),
+        }
+    }
+}

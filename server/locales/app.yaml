@@ -252,18 +252,21 @@ hover.changedRegisters:
     pl: Zmienione rejestry
 
 #registers
-register_PSW:
+register.PSW:
     en: Program Status Word (PSW)
     pl: Słowo Stanu Programu (PSW)
-register_R0:
+register.R0:
     en: Helper register R0
     pl: Rejestr pomocniczy R0
-register_R1:
+register.R1:
     en: Helper register R1
     pl: Rejestr pomocniczy R1
-register_R2:
+register.R2:
     en: Helper register R2
     pl: Rejestr pomocniczy R2
+register.R:
+    en: Helper register R%{num}
+    pl: Rejestr pomocniczy R%{num}
 
 ##! LSP
 

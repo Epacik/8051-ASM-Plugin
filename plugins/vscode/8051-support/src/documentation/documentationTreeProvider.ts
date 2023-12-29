@@ -15,6 +15,10 @@ export class DocumentationTreeProvider extends DocumentationViewBase implements 
         super(client);
         this.#refresh.bind(this);
         vscode.commands.registerCommand("asm8051.refreshDocsTree", () => this.#onDidChangeTreeData.fire());
+        vscode.workspace.onDidChangeConfiguration(e => {
+            this.#data = undefined;
+            this.#onDidChangeTreeData.fire();
+        });
     }
     #onDidChangeTreeData: vscode.EventEmitter<void | TreeItem | null | undefined> = new vscode.EventEmitter<void | TreeItem | null | undefined>();
     onDidChangeTreeData?: vscode.Event<void | TreeItem | null | undefined> | undefined = this.#onDidChangeTreeData.event;
