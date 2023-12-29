@@ -1,4 +1,5 @@
 use crate::docs;
+use crate::flags::Kits;
 //#region imports hell
 use crate::{
     client_configuration::ClientConfiguration, diagnostics, flags::Locale, hover, LANG_ID,
@@ -179,7 +180,7 @@ impl LanguageServer for Backend {
         }
 
         self.client
-            .log_message(MessageType::INFO, t!("server_initialized"))
+            .log_message(MessageType::INFO, t!("status.initialized"))
             .await;
     }
 
@@ -191,6 +192,7 @@ impl LanguageServer for Backend {
     }
 
     async fn did_change_configuration(&self, _params: DidChangeConfigurationParams) {
+
         self.client
             .log_message(MessageType::INFO, t!("status.config_changed"))
             .await;
@@ -205,6 +207,7 @@ impl LanguageServer for Backend {
         self.client
             .log_message(MessageType::INFO, t!("status.completion"))
             .await;
+        let kit = self.client_configuration.lock().await.kit();
 
         let locale = self.client_locale().await;
         let documentation = docs::all_documentation(&locale);
@@ -263,7 +266,8 @@ impl LanguageServer for Backend {
                         let doc = hover::documentation(
                             params.text_document_position.position.clone(),
                             &tokens,
-                            locale)
+                            locale,
+                            kit)
                             .iter()
                             .map(|x| match x {
                                 MarkedString::String(s) => s.clone(),
@@ -692,6 +696,7 @@ impl LanguageServer for Backend {
 
     async fn hover(&self, _params: HoverParams) -> Result<Option<Hover>> {
         self.client.log_message(MessageType::INFO, t!("status.hover")).await;
+        let kit = self.client_configuration.lock().await.kit();
 
         // get clients configuration
         //let config = self.client_configuration.lock().await.clone();
@@ -726,6 +731,7 @@ impl LanguageServer for Backend {
             _params.text_document_position_params.position,
             &ast,
             self.client_locale().await,
+            kit
         );
 
         Ok(Some(Hover {
@@ -1004,16 +1010,23 @@ impl Backend {
 
     pub async fn get_all_documentation(&self) -> Result<Option<Value>> {
         let locale = self.client_locale().await;
+        let kit = self.ask_for_configuration().await.kit();
+
         let docs_option = docs::all_documentation(&locale);
         if docs_option.is_none() {
             return Ok(Option::None);
         }
-        let docs = docs_option.unwrap();
+        let docs: std::collections::HashMap<String, asm8051_shared::Documentation> = docs_option.unwrap();
 
         let mut already_added = Vec::<String>::new();
         let mut map = serde_json::Map::new();
 
         for (key, docs) in docs {
+
+            if kit != Kits::DSM51 && docs.category.as_str() == Kits::DSM51.category_name() {
+                continue;
+            }
+
             let stack_space_needed = match docs.stack_space_needed {
                 Some(space) => Some(format!(
                     "#### {}: {}",

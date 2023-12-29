@@ -1,6 +1,6 @@
 #![allow(unused_imports, dead_code, unused_variables, unused_mut)]
 //#region imports
-use crate::{client_configuration::ClientConfiguration, flags::Locale, docs};
+use crate::{client_configuration::ClientConfiguration, flags::{Locale, Kits}, docs};
 use asm8051_parser::lexer::tokens::{Token, Keyword, ControlCharacter, PositionedToken, Register, HelperRegister, Number, Directive, Delimiter, Trivia};
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -272,6 +272,7 @@ pub(crate) fn documentation(
     position: Position,
     tokens: &Vec::<PositionedToken>,
     locale: Locale,
+    kit: Kits,
 ) -> Vec<MarkedString> {
 
     let (token, modifier) = match get_symbol(&tokens, position) {
@@ -296,8 +297,8 @@ pub(crate) fn documentation(
     match token.token {
         Token::Keyword(kw) => documentation_keyword(kw, modifier, &locale),
         Token::Number(num) => documentation_number(num),
-        Token::Label(lb) => documentation_other(lb, token.position, &ast_lines, &locale),
-        Token::Other(ot) => documentation_other(ot, token.position, &ast_lines, &locale),
+        Token::Label(lb) => documentation_other(lb, token.position, &ast_lines, &locale, kit),
+        Token::Other(ot) => documentation_other(ot, token.position, &ast_lines, &locale, kit),
         Token::String(st) => documentation_string(st, &locale),
         _ => Vec::new(),
     }
@@ -310,7 +311,13 @@ fn documentation_string(st: String, locale: &Locale) -> Vec<MarkedString> {
     ]
 }
 
-pub fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, ast: &HashMap<usize, Vec<PositionedToken>>, locale: &Locale) -> Vec<MarkedString> {
+pub fn documentation_other(
+    label: String,
+    pos: asm8051_parser::lexer::Position, 
+    ast: &HashMap<usize, Vec<PositionedToken>>, 
+    locale: &Locale,
+    kit: Kits) 
+    -> Vec<MarkedString> {
     let (is_macro, line) =  is_symbol_macro(label.as_str(), &ast);
     if is_macro {
         return documentation_label(&label, line, &ast);
@@ -335,6 +342,10 @@ pub fn documentation_other(label: String, pos: asm8051_parser::lexer::Position, 
             None => return <Vec<MarkedString>>::new(),
         },
     };
+
+    if kit != Kits::DSM51 && documentation.category == Kits::DSM51.category_name() {
+        return <Vec<MarkedString>>::new();
+    }
 
     documentation_for_found(label, documentation)
 }
