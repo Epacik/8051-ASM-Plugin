@@ -178,10 +178,14 @@ impl LanguageServer for Backend {
                 }])
                 .await;
         }
+        
+        self.update_configuration().await;
+        self.validate_all_documents().await;
 
         self.client
             .log_message(MessageType::INFO, t!("status.initialized"))
             .await;
+
     }
 
     async fn shutdown(&self) -> Result<()> {
@@ -236,7 +240,7 @@ impl LanguageServer for Backend {
         }
 
         let tokens = tokens.unwrap();
-        let _labels = asm8051_parser::lexer::get_labels(&tokens);
+        let _labels = asm8051_parser::lexer::get_label_definitions(&tokens);
         let current_line = asm8051_parser::lexer::get_line(
             &tokens, 
             params.text_document_position.position.line as usize);
@@ -947,11 +951,12 @@ impl Backend {
 
     /// This will be later used to sending diagnostics informations to the client
     async fn validate_document(&self, document: &TextDocumentItem) {
+        let kit = self.client_configuration.lock().await.kit();
         //self.get_client_configuration(document.borrow()).await;
         self.client
             .publish_diagnostics(
                 document.clone().uri,
-                diagnostics::get_diagnostics(document),
+                diagnostics::get_diagnostics(document, kit),
                 None,
             )
             .await;
