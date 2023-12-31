@@ -54,14 +54,14 @@ checksum = "a4668cab20f66d8d020e1fbc0ebe47217433c1b6c8f2040faf858554e394ace6"
 
 [[package]]
 name = "asm8051_localize"
-version = "0.1.0"
+version = "0.4.0"
 dependencies = [
  "rust-i18n",
 ]
 
 [[package]]
 name = "asm8051_lsp"
-version = "0.1.0"
+version = "0.4.0"
 dependencies = [
  "asm8051_localize",
  "asm8051_parser",
@@ -85,7 +85,7 @@ dependencies = [
 
 [[package]]
 name = "asm8051_parser"
-version = "0.2.0"
+version = "0.4.0"
 dependencies = [
  "ahash",
  "asm8051_localize",
@@ -102,7 +102,7 @@ dependencies = [
 
 [[package]]
 name = "asm8051_shared"
-version = "0.1.0"
+version = "0.4.0"
 dependencies = [
  "asm8051_localize",
  "lazy_static",
@@ -501,7 +501,7 @@ checksum = "0717cef1bc8b636c6e1c1bbdefc09e6322da8a9321966e8928ef80d20f7f770f"
 
 [[package]]
 name = "load_documentation"
-version = "0.1.0"
+version = "0.4.0"
 dependencies = [
  "load_documentation_internal",
  "proc-macro2",
