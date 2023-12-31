@@ -951,12 +951,15 @@ impl Backend {
 
     /// This will be later used to sending diagnostics informations to the client
     async fn validate_document(&self, document: &TextDocumentItem) {
-        let kit = self.client_configuration.lock().await.kit();
+        let (kit, number_of_problems) = {
+            let config = self.client_configuration.lock().await;
+            (config.kit(), config.max_number_of_problems)
+        };
         //self.get_client_configuration(document.borrow()).await;
         self.client
             .publish_diagnostics(
                 document.clone().uri,
-                diagnostics::get_diagnostics(document, kit),
+                diagnostics::get_diagnostics(document, kit, number_of_problems),
                 None,
             )
             .await;
