@@ -55,7 +55,7 @@
         "asm8051.maxNumberOfProblems": {
           "scope": "resource",
           "type": "number",
-          "default": 100,
+          "default": 0,
           "description": "%asm8051.config.maxNumberOfProblems%"
         },
         "asm8051.trace.server": {
