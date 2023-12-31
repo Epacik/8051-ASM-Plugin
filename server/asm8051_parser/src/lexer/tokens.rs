@@ -65,6 +65,21 @@ impl Token {
         }
     }
 
+    pub fn is_other(&self) -> bool {
+        match self {
+            Self::Other(_) => true,
+            _ => false,
+        }
+    }
+
+    pub fn unwrap_other(&self) -> String 
+    {
+        match self {
+            Self::Other(s) => s.clone(),
+            _ => panic!("Token is not an other"),
+        }
+    }
+
     pub fn string_repr(&self) -> String {
         match self {
             Token::Keyword(kw) => kw.string_repr(),

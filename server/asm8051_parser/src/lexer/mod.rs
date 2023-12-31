@@ -87,7 +87,7 @@ pub fn lexical_analysis<S: AsRef<str>>(s: S)-> (Option<Vec<PositionedToken>>, Ve
 pub fn get_label_definitions(tokens: &Vec<PositionedToken>) -> Vec<String> {
     tokens
         .iter()
-        .filter(|x| x.token.is_label() && x.position.columns.start == 0)
+        .filter(|x| x.token.is_label())
         .map(|x| x.token.unwrap_label())
         .collect::<Vec<String>>()
 }

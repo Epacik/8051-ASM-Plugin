@@ -178,10 +178,14 @@ impl LanguageServer for Backend {
                 }])
                 .await;
         }
+        
+        self.update_configuration().await;
+        self.validate_all_documents().await;
 
         self.client
             .log_message(MessageType::INFO, t!("status.initialized"))
             .await;
+
     }
 
     async fn shutdown(&self) -> Result<()> {
