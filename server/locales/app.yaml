@@ -303,6 +303,9 @@ parser.error.invalid_escape_sequence:
 parser.error.empty_string:
     en: The string is empty
     pl: Ciąg znaków jest pusty
+parser.error.unknown_mnemonic:
+    en: Unknown mnemonic %{mnemonic}
+    pl: Nieznany mnemonik %{mnemonic}
 
 #warnings
 parser.warning.empty_comment:

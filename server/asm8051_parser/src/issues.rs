@@ -277,6 +277,15 @@ validate_issue_codes::validate_issuecode_uniqueness!(
         )
     }
 
+    pub fn invalid_mnemonic(position: Position, mnemonic: String) -> Issue {
+        Issue::new(
+            position,
+            issue_info(1007, Error, t!("parser.error.unknown_mnemonic", mnemonic = mnemonic)),
+            None,
+            None,
+            None,
+        )
+    }
     //#endregion
 
     //#region warnings
