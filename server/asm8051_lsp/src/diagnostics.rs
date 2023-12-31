@@ -24,8 +24,10 @@ fn map_severity(sev: &asm8051_parser::issues::IssueType) -> DiagnosticSeverity {
     }
 }
 
-pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem, kit: Kits) -> Vec<Diagnostic> {
+pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem, kit: Kits, max_number_of_issues: i64) -> Vec<Diagnostic> {
 
+    let mut issue_limit = if max_number_of_issues == 0 { i64::MAX } else { max_number_of_issues };
+    
     let (tokens, errors) = asm8051_parser::lexer::lexical_analysis(&_text_document.text);
 
     let tokens = match tokens {
@@ -44,22 +46,26 @@ pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem, kit: Kits) -> V
 
     let mut diagnostics : Vec<Diagnostic> = Vec::new();
     for error in errors {
+        if issue_limit <= 0 { break; }
+        issue_limit -= 1;
         diagnostics.push(issue_to_diagnostic(error));
     }
 
     for positioned_token in tokens {
+        if issue_limit <= 0 { break; }
         let token = positioned_token.token;
         let position = positioned_token.position;
         if !token.is_other() {
             continue;
         }
-
+        
         let mnemonic = token.unwrap_other();
-
+        
         if labels.contains(&mnemonic) || mnemonics.contains(&mnemonic) {
             continue;
         }
-
+        
+        issue_limit -= 1;
         diagnostics.push(issue_to_diagnostic(asm8051_parser::issues::invalid_mnemonic(position, mnemonic)));
 
     }

@@ -1,7 +1,7 @@
 {
   "asm8051.commands.openDocs": "8051 Microcontroller Assembly Support: Open documentation",
   "asm8051.commands.refreshDocsTree": "Refresh documentation tree",
-  "asm8051.config.maxNumberOfProblems": "Controls the maximum number of problems produced by the server.",
+  "asm8051.config.maxNumberOfProblems": "Controls the maximum number of problems produced by the server. (0 turns off the limit)",
   "asm8051.config.trace_server": "Traces the communication between VS Code and the language server.",
   "asm8051.config.kit.generic": "Turns on documentation and diagnostics for assembly instructions only",
   "asm8051.config.kit.dsm51": "Turns on documentation and diagnostics for assembly instructions and subroutines available in DSM-51",
