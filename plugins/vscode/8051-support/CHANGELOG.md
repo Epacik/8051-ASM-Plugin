@@ -1,15 +1,24 @@
 ## Release Notes
 
+### 0.4.0
+
+- Respecting "kit" setting
+  - Disabling documentation for DSM-51 if it's not a selected kit
+  - Disabling hovers for DSM-51 subprocedures if DSM-51 is not a selected kit
+- Checking validity of mnemonics
+- Translation updates
+
 ### 0.3.0
- - Amount of bytes on stack are now showed for DSM-51 subroutines
- 
- - Used and changed registers are now showed for DSM-51 subroutines
- 
- - fixed hover for DSM-51 subroutines
+
+- Amount of bytes on stack are now showed for DSM-51 subroutines
+
+- Used and changed registers are now showed for DSM-51 subroutines
+
+- fixed hover for DSM-51 subroutines
 
 ### 0.2.6
 
- - Fixed script a documentation page script
+- Fixed script a documentation page script
 
 ### 0.2.3
 
