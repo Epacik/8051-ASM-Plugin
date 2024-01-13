@@ -95,7 +95,7 @@
     "snippets": [
       {
         "language": "asm8051",
-        "path": "./snippets/arthmetic.code-snippets"
+        "path": "./snippets/arithmetic.code-snippets"
       },
       {
         "language": "asm8051",
