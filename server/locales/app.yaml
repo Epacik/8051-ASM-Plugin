@@ -30,6 +30,12 @@ status.completion:
 status.hover:
     en: Hover requested
     pl: Żądanie hovera
+status.langChange:
+    en: Changing language
+    pl: Zmiana języka
+status.availableLangs:
+    en: Available Languages [%{langs}]
+    pl: Dostępne języki [%{langs}]
 
 # flags
 flag.parity:

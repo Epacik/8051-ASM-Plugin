@@ -153,6 +153,11 @@ impl LanguageServer for Backend {
             _ => "en",
         };
 
+        self.client
+            .log_message(MessageType::INFO, t!("status.config_changed"))
+            .await;
+
+        self.client.log_message(MessageType::INFO, t!("status.langChange")).await;
         change_language(lang_localization);
         
         let locale = match lang.as_str() {
@@ -161,7 +166,12 @@ impl LanguageServer for Backend {
         };
         try_update_mutex_value(self.client_locale.borrow(), locale).await;
 
+        self.client.log_message(MessageType::INFO, t!("status.langChange")).await;
         change_language(locale.lang_name().as_str());
+
+        let locales = available_locales!().join(", ");
+        self.client.log_message(MessageType::INFO, t!("status.availableLangs", langs=locales)).await;
+        self.client.log_message(MessageType::INFO, format!("{}", locales)).await;
 
         Ok(result)
     }
