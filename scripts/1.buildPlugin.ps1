@@ -14,7 +14,7 @@ param (
     [Parameter(HelpMessage="Build release version")]
     [switch]$Release,
 
-    [Parameter(HelpMessage="For which targets to build")]
+    [Parameter(HelpMessage="For which targets to build", ValueFromRemainingArguments = $true)]
     [ValidateSet("Linux64", "Windows32", "Windows64")]
     [string[]]$Targets,
 

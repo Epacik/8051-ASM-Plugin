@@ -1,5 +1,9 @@
 ## Release Notes
 
+### 0.4.1
+
+- fix translations
+
 ### 0.4.0
 
 - Respecting "kit" setting
