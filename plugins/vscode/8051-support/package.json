@@ -2,7 +2,7 @@
   "name": "asm8051",
   "displayName": "8051 Microcontroller Assembly Tools",
   "description": "Language support for 8051 microcontroller assembly, including documentation on hover, syntax highlighting and handy built in documentation.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "MIT",
   "repository": "https://github.com/Epacik/8051-ASM-Plugin",
   "publisher": "Epat",

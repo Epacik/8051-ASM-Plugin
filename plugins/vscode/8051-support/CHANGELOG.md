@@ -1,5 +1,9 @@
 ## Release Notes
 
+### 0.4.2
+
+- Disabled mnemonic validity checks, because of too many false positives
+
 ### 0.4.1
 
 - fix translations

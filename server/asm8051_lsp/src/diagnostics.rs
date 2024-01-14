@@ -35,14 +35,14 @@ pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem, kit: Kits, max_
         None => Vec::<PositionedToken>::new(),
     };
 
-    let labels = asm8051_parser::lexer::get_label_definitions(&tokens);
+    // let _labels = asm8051_parser::lexer::get_label_definitions(&tokens);
 
-    let mnemonics = docs::all_documentation(&Locale::ENGLISH)
-        .unwrap()
-        .iter()
-        .filter(|(_, value)| kit == Kits::DSM51 || value.category != Kits::DSM51.category_name())
-        .map(|(key, _)| key.clone())
-        .collect::<Vec<String>>();
+    // let _mnemonics = docs::all_documentation(&Locale::ENGLISH)
+    //     .unwrap()
+    //     .iter()
+    //     .filter(|(_, value)| kit == Kits::DSM51 || value.category != Kits::DSM51.category_name())
+    //     .map(|(key, _)| key.clone())
+    //     .collect::<Vec<String>>();
 
     let mut diagnostics : Vec<Diagnostic> = Vec::new();
     for error in errors {
@@ -51,24 +51,24 @@ pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem, kit: Kits, max_
         diagnostics.push(issue_to_diagnostic(error));
     }
 
-    for positioned_token in tokens {
-        if issue_limit <= 0 { break; }
-        let token = positioned_token.token;
-        let position = positioned_token.position;
-        if !token.is_other() {
-            continue;
-        }
+    // for positioned_token in tokens {
+    //     if issue_limit <= 0 { break; }
+    //     let token = positioned_token.token;
+    //     let position = positioned_token.position;
+    //     if !token.is_other() {
+    //         continue;
+    //     }
         
-        let mnemonic = token.unwrap_other();
+    //     let mnemonic = token.unwrap_other();
         
-        if labels.contains(&mnemonic) || mnemonics.contains(&mnemonic) {
-            continue;
-        }
+    //     if labels.contains(&mnemonic) || mnemonics.contains(&mnemonic) {
+    //         continue;
+    //     }
         
-        issue_limit -= 1;
-        diagnostics.push(issue_to_diagnostic(asm8051_parser::issues::invalid_mnemonic(position, mnemonic)));
+    //     issue_limit -= 1;
+    //     diagnostics.push(issue_to_diagnostic(asm8051_parser::issues::invalid_mnemonic(position, mnemonic)));
 
-    }
+    // }
 
     diagnostics
 }
