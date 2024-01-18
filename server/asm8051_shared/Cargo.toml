@@ -9,5 +9,4 @@ edition = "2021"
 
 [dependencies]
 lazy_static = "1.4.0"
-rust-i18n = "2"
 asm8051_localize = { path = "../asm8051_localize", version = "*" }

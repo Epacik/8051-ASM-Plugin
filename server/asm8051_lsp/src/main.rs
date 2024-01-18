@@ -1,4 +1,4 @@
-#![deny(warnings)]
+
 //#region imports
 mod backend;
 mod client_configuration;
@@ -13,23 +13,14 @@ use tower_lsp::{LspService, Server};
 //#endregion imports
 
 #[macro_use]
-extern crate rust_i18n;
-
-i18n!("locales", fallback = "en");
-
-pub fn change_language<S: AsRef<str>>(id: S) {
-    let lang = id.as_ref();
-
-    rust_i18n::set_locale(lang);
-}
-        
-//asm8051_localize::init!();
+extern crate asm8051_localize;
 
 #[tokio::main]
 async fn main() {
+
     let args: Vec<String> = std::env::args().collect();
 
-    i18n::change_language("en");
+    asm8051_localize::set_locale("en");
 
     if args.contains(String::from("--use-stdio").borrow()) {
         let stdin = tokio::io::stdin();

@@ -5,8 +5,6 @@ use crate::{
     client_configuration::ClientConfiguration, diagnostics, flags::Locale, hover, LANG_ID,
 };
 
-use crate::i18n::change_language;
-
 use asm8051_parser::lexer::tokens::{
     ControlCharacter,
     Register,
@@ -158,7 +156,7 @@ impl LanguageServer for Backend {
             .await;
 
         self.client.log_message(MessageType::INFO, t!("status.langChange")).await;
-        change_language(lang_localization);
+        asm8051_localize::set_locale(lang_localization);
         
         let locale = match lang.as_str() {
             "pl" => Locale::POLISH,
@@ -167,11 +165,7 @@ impl LanguageServer for Backend {
         try_update_mutex_value(self.client_locale.borrow(), locale).await;
 
         self.client.log_message(MessageType::INFO, t!("status.langChange")).await;
-        change_language(locale.lang_name().as_str());
-
-        let locales = available_locales!().join(", ");
-        self.client.log_message(MessageType::INFO, t!("status.availableLangs", langs=locales)).await;
-        self.client.log_message(MessageType::INFO, format!("{}", locales)).await;
+        asm8051_localize::set_locale(locale.lang_name().as_str());
 
         Ok(result)
     }

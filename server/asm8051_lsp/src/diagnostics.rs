@@ -24,16 +24,16 @@ fn map_severity(sev: &asm8051_parser::issues::IssueType) -> DiagnosticSeverity {
     }
 }
 
-pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem, kit: Kits, max_number_of_issues: i64) -> Vec<Diagnostic> {
+pub(crate) fn get_diagnostics(_text_document: &TextDocumentItem, _kit: Kits, max_number_of_issues: i64) -> Vec<Diagnostic> {
 
     let mut issue_limit = if max_number_of_issues == 0 { i64::MAX } else { max_number_of_issues };
     
-    let (tokens, errors) = asm8051_parser::lexer::lexical_analysis(&_text_document.text);
+    let (_tokens, errors) = asm8051_parser::lexer::lexical_analysis(&_text_document.text);
 
-    let tokens = match tokens {
-        Some(t) => t,
-        None => Vec::<PositionedToken>::new(),
-    };
+    // let tokens = match tokens {
+    //     Some(t) => t,
+    //     None => Vec::<PositionedToken>::new(),
+    // };
 
     // let _labels = asm8051_parser::lexer::get_label_definitions(&tokens);
 

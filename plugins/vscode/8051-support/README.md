@@ -39,6 +39,10 @@ Opening "8051 Documentation" side panel too soon after launch may result in empt
 
 ## Release Notes
 
+### 0.4.3
+
+- Fixed missing translations on server
+
 ### 0.4.2
 
 - Disabled mnemonic validity checks, because of too many false positives

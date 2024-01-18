@@ -210,6 +210,7 @@ fn get_project_path() -> String {
     match project_path_result {
         Ok(path) => path,
         Err(_) => {
+            println!("cargo:warning=CARGO_MANIFEST_DIR is empty");
             match std::env::current_dir() {
                 Ok(dir) => {
                     match dir.as_os_str().to_str() {

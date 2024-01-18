@@ -13,7 +13,6 @@ target
 .vs
 bin
 obj
-server/asm8051_localize/locales/
 server/asm8051_lsp/locales/
 server/asm8051_parser/locales/
 server/asm8051_shared/locales/
