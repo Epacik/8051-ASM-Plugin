@@ -3,8 +3,6 @@
 mod backend;
 mod client_configuration;
 mod diagnostics;
-mod flags;
-mod i18n;
 mod hover;
 mod docs;
 

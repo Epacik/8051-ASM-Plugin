@@ -1,8 +1,8 @@
 use crate::docs;
-use crate::flags::Kits;
+use crate::client_configuration::Kits;
 //#region imports hell
 use crate::{
-    client_configuration::ClientConfiguration, diagnostics, flags::Locale, hover, LANG_ID,
+    client_configuration::ClientConfiguration, diagnostics, client_configuration::Locale, hover, LANG_ID,
 };
 
 use asm8051_parser::lexer::tokens::{

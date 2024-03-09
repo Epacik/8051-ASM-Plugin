@@ -1,6 +1,6 @@
 #![allow(unused_imports, dead_code, unused_variables, unused_mut)]
 //#region imports
-use crate::{client_configuration::ClientConfiguration, flags::{Locale, Kits}, docs};
+use crate::{client_configuration::ClientConfiguration, client_configuration::{Locale, Kits}, docs};
 use asm8051_parser::lexer::tokens::{Token, Keyword, ControlCharacter, PositionedToken, Register, HelperRegister, Number, Directive, Delimiter, Trivia};
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -162,10 +162,10 @@ fn syntax_three_operands(
     result
 }
 
-pub(crate) fn generate_affected_flags(flags: &Vec<Flag>) -> String {
+pub(crate) fn generate_affected_flags(client_configuration: &Vec<Flag>) -> String {
     let mut result = String::new();
 
-    for flag in flags {
+    for flag in client_configuration {
         result.push_str("- **");
         result.push_str(flag.flag().label().as_str());
         result.push_str("**: ");
@@ -574,7 +574,7 @@ fn panic_on_mismatched_lines(line: &[PositionedToken]) {
 }
 
 fn clean_markdown(tmp: &str) -> String {
-    //localize: remove command links
+    //TODO: remove command links
     String::from(tmp)
 }
 
@@ -835,7 +835,7 @@ lazy_static! {
 // #[cfg(test)]
 // mod tests {
 //     mod all_documentation {
-//         use crate::{flags::Locale, hover::all_documentation};
+//         use crate::{client_configuration::Locale, hover::all_documentation};
 //         use test_case::test_case;
 
 //         #[test_case(Locale::POLISH,  true  ; "some for POLISH locale")]
@@ -932,7 +932,7 @@ lazy_static! {
 // }
 // #[cfg(test)]
 // mod test_all_documentation {
-//     use crate::{flags::Locale, hover::all_documentation};
+//     use crate::{client_configuration::Locale, hover::all_documentation};
 
 //     #[test]
 //     fn while_locale_is_polish() {

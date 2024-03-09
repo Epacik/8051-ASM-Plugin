@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::flags::Locale;
+use crate::client_configuration::Locale;
 use asm8051_shared::Documentation;
 use lazy_static::lazy_static;
 

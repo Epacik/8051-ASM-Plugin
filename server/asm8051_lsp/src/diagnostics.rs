@@ -1,7 +1,7 @@
 use asm8051_parser::lexer::tokens::PositionedToken;
 use tower_lsp::lsp_types::{Diagnostic, TextDocumentItem, Range, Position, DiagnosticSeverity, NumberOrString};
 
-use crate::{flags::{Kits, Locale}, docs};
+use crate::{client_configuration::{Kits, Locale}, docs};
 
 
 fn map_position(pos: &asm8051_parser::lexer::Position) -> Range {
